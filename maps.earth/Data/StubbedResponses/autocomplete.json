@@ -1,0 +1,526 @@
+{
+    "geocoding": {
+        "version": "0.2",
+        "attribution": "http://pelias-api:4000/attribution",
+        "query": {
+            "text": "coffee seattle",
+            "parser": "pelias",
+            "parsed_text": {
+                "subject": "coffee seattle",
+                "venue": "coffee seattle"
+            },
+            "size": 10,
+            "layers": [
+                "venue",
+                "street",
+                "locality",
+                "postalcode",
+                "neighbourhood",
+                "localadmin",
+                "county",
+                "region",
+                "macrohood",
+                "macrocounty",
+                "borough",
+                "marinearea",
+                "country",
+                "disputed",
+                "macroregion",
+                "dependency",
+                "empire",
+                "continent",
+                "ocean"
+            ],
+            "private": false,
+            "focus.point.lat": 47.07651915987137,
+            "focus.point.lon": -122.7541006676114,
+            "lang": {
+                "name": "English",
+                "iso6391": "en",
+                "iso6393": "eng",
+                "via": "header",
+                "defaulted": false
+            },
+            "querySize": 20
+        },
+        "warnings": [
+            "performance optimization: excluding 'address' layer"
+        ],
+        "engine": {
+            "name": "Pelias",
+            "author": "Mapzen",
+            "version": "1.0"
+        },
+        "timestamp": 1707173355489
+    },
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.754113,
+                    47.079458
+                ]
+            },
+            "properties": {
+                "id": "node/4516541233",
+                "gid": "openstreetmap:venue:node/4516541233",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/4516541233",
+                "country_code": "US",
+                "name": "Schoolhouse Coffee",
+                "housenumber": "3205",
+                "street": "Willamette Dr NE",
+                "postalcode": "98516",
+                "distance": 0.327,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "Thurston County",
+                "county_gid": "whosonfirst:county:102085357",
+                "county_a": "TH",
+                "locality": "Lacey",
+                "locality_gid": "whosonfirst:locality:101730337",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Schoolhouse Coffee, Lacey, WA, USA"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.331856,
+                    47.599091
+                ]
+            },
+            "properties": {
+                "id": "node/663911505",
+                "gid": "openstreetmap:venue:node/663911505",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/663911505",
+                "country_code": "US",
+                "name": "Zeitgeist Coffee",
+                "housenumber": "171",
+                "street": "South Jackson Street",
+                "postalcode": "98104",
+                "distance": 66.322,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Seattle",
+                "locality_gid": "whosonfirst:locality:101730401",
+                "neighbourhood": "Pioneer Square",
+                "neighbourhood_gid": "whosonfirst:neighbourhood:85866047",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Zeitgeist Coffee, Seattle, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "wheelchair": "yes",
+                        "wikidata": "Q115815878",
+                        "website": "https://www.zeitgeistcoffee.com/",
+                        "phone": "+1-206-583-0497",
+                        "opening_hours": "Mo-Sa 07:00-14:00; Su 08:00-14:00",
+                        "opening_hours:covid19": "Mo-Fr 07:00-13:00"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.345077,
+                    47.51455
+                ]
+            },
+            "properties": {
+                "id": "node/1771065210",
+                "gid": "openstreetmap:venue:node/1771065210",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/1771065210",
+                "country_code": "US",
+                "name": "Dubsea Coffee",
+                "housenumber": "9910",
+                "street": "8th Avenue SW",
+                "postalcode": "98106",
+                "distance": 57.717,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Seattle",
+                "locality_gid": "whosonfirst:locality:101730401",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Dubsea Coffee, Seattle, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "website": "http://www.dubseacoffee.com",
+                        "opening_hours": "Mo-Su 07:00-14:00"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.378248,
+                    47.563412
+                ]
+            },
+            "properties": {
+                "id": "node/5726741321",
+                "gid": "openstreetmap:venue:node/5726741321",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/5726741321",
+                "country_code": "US",
+                "name": "Realfine Coffee",
+                "housenumber": "4480",
+                "street": "Fauntleroy Way SW",
+                "distance": 61.173,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Seattle",
+                "locality_gid": "whosonfirst:locality:101730401",
+                "neighbourhood": "Genesee",
+                "neighbourhood_gid": "whosonfirst:neighbourhood:85869275",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Realfine Coffee, Seattle, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "website": "http://realfinecoffee.com",
+                        "phone": "+1-206-395-6808",
+                        "opening_hours": "Mo-Fr 06:00-19:00; Sa-Su 07:00-18:00"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.954376,
+                    46.715019
+                ]
+            },
+            "properties": {
+                "id": "node/4771939391",
+                "gid": "openstreetmap:venue:node/4771939391",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/4771939391",
+                "country_code": "US",
+                "name": "Santa Lucia Coffee Roasters",
+                "housenumber": "202",
+                "street": "South Tower Avenue",
+                "postalcode": "98531",
+                "distance": 43.029,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "Lewis County",
+                "county_gid": "whosonfirst:county:102085359",
+                "county_a": "LE",
+                "locality": "Centralia",
+                "locality_gid": "whosonfirst:locality:101730179",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Santa Lucia Coffee Roasters, Centralia, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "wheelchair": "yes",
+                        "website": "http://justindustries.com",
+                        "phone": "+1-360-807-9600",
+                        "opening_hours": "Mo-Fr 07:00-17:00, Sa 08:00-15:00, Su 09:00 - 15:00"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.391438,
+                    47.668849
+                ]
+            },
+            "properties": {
+                "id": "node/7590282294",
+                "gid": "openstreetmap:venue:node/7590282294",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/7590282294",
+                "country_code": "US",
+                "name": "Firehouse Coffee",
+                "housenumber": "2622",
+                "street": "NW Market Street",
+                "postalcode": "98107",
+                "distance": 71.381,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Seattle",
+                "locality_gid": "whosonfirst:locality:101730401",
+                "neighbourhood": "Ballard",
+                "neighbourhood_gid": "whosonfirst:neighbourhood:85804333",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Firehouse Coffee, Seattle, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "website": "http://www.ballardfirehousecoffee.com",
+                        "opening_hours": "Mo-Fr 07:00-14:30; Sa,Su 07:00-14:30"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.300134,
+                    47.374769
+                ]
+            },
+            "properties": {
+                "id": "way/274472488",
+                "gid": "openstreetmap:venue:way/274472488",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "way/274472488",
+                "country_code": "US",
+                "name": "Cutters Point Coffee",
+                "housenumber": "25246",
+                "street": "Pacific Highway South",
+                "postalcode": "98032",
+                "distance": 47.75,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Kent",
+                "locality_gid": "whosonfirst:locality:101730431",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Cutters Point Coffee, Kent, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "website": "https://www.cutterspoint.com/",
+                        "phone": "+1 253 941 2174"
+                    }
+                }
+            },
+            "bbox": [
+                -122.3002387,
+                47.374712,
+                -122.3000299,
+                47.3748257
+            ]
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.37643,
+                    47.531821
+                ]
+            },
+            "properties": {
+                "id": "node/2447287137",
+                "gid": "openstreetmap:venue:node/2447287137",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/2447287137",
+                "country_code": "US",
+                "name": "Realfine Coffee",
+                "housenumber": "7900",
+                "street": "35th Avenue SW",
+                "postalcode": "98126",
+                "distance": 58.152,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Seattle",
+                "locality_gid": "whosonfirst:locality:101730401",
+                "neighbourhood": "Roxhill",
+                "neighbourhood_gid": "whosonfirst:neighbourhood:85869633",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Realfine Coffee, Seattle, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "website": "http://realfinecoffee.com/",
+                        "phone": "+1-206-395-6808"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.285298,
+                    47.558771
+                ]
+            },
+            "properties": {
+                "id": "node/2338546760",
+                "gid": "openstreetmap:venue:node/2338546760",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/2338546760",
+                "country_code": "US",
+                "name": "Olympia Coffee",
+                "housenumber": "4824",
+                "street": "Rainier Avenue South",
+                "postalcode": "98118",
+                "distance": 64.293,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Seattle",
+                "locality_gid": "whosonfirst:locality:101730401",
+                "neighbourhood": "Columbia City",
+                "neighbourhood_gid": "whosonfirst:neighbourhood:85811963",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Olympia Coffee, Seattle, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "website": "https://www.olympiacoffee.com/pages/columbia-city",
+                        "phone": "+1-206-906-9543",
+                        "opening_hours": "07:00-17:00"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.340602,
+                    47.608974
+                ]
+            },
+            "properties": {
+                "id": "node/4331174953",
+                "gid": "openstreetmap:venue:node/4331174953",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/4331174953",
+                "country_code": "US",
+                "name": "Storyville Coffee",
+                "housenumber": "94",
+                "street": "Pike Street",
+                "postalcode": "98101",
+                "distance": 66.978,
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Seattle",
+                "locality_gid": "whosonfirst:locality:101730401",
+                "neighbourhood": "Pike Place Market",
+                "neighbourhood_gid": "whosonfirst:neighbourhood:85867285",
+                "continent": "North America",
+                "continent_gid": "whosonfirst:continent:102191575",
+                "label": "Storyville Coffee, Seattle, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "wheelchair": "yes",
+                        "website": "https://www.storyville.com",
+                        "phone": "+1-206-780-5777",
+                        "opening_hours": "07:00-18:00"
+                    }
+                }
+            }
+        }
+    ],
+    "bbox": [
+        -122.954376,
+        46.715019,
+        -122.285298,
+        47.668849
+    ]
+}

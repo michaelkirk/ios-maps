@@ -9,9 +9,9 @@ import SwiftUI
 
 @main
 struct maps_earthApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  var body: some Scene {
+    WindowGroup {
+      ContentView(searchResults: FixtureData.places)
     }
+  }
 }
