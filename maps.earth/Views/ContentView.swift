@@ -27,34 +27,57 @@ import SwiftUI
 //  }
 //}
 
-struct Searcher {
+class SearchQueue: ObservableObject {
+  @Published var searchText: String
+  @Published var mostRecentResults: [Place]
 
+  init(searchText: String = "", mostRecentResults: [Place] = []) {
+    self.searchText = searchText
+    self.mostRecentResults = mostRecentResults
+  }
+
+  // TODO debounce, handle out of order
+  func textDidChange(oldValue: String, newValue: String) {
+    Task {
+      do {
+        // TODO: don't hardcode focus
+        self.mostRecentResults = try await GeocodeClient().autocomplete(
+          text: newValue, focus: LngLat(lng: -118.0, lat: 34.0))
+      } catch {
+        print("TODO: handle error in SearchQueue.textDidChange: \(error)")
+      }
+    }
+  }
 }
 
 struct ContentView: View {
-  @State private var searchText: String = "Coffee"
-  @State var searchResults: [Place]
+  @StateObject internal var searchQueue = SearchQueue()
+  //  @State var searchResults: [Place]
   @State var selectedPlace: Place?
 
   //  let coordinator = Coordinator()
 
   var body: some View {
     VStack {
-      TextField("Where to?", text: $searchText)
+      TextField("Where to?", text: $searchQueue.searchText)
         .padding()
         .border(.gray)
         .padding()
+        .onChange(of: searchQueue.searchText) { oldValue, newValue in
+          self.searchQueue.textDidChange(oldValue: oldValue, newValue: newValue)
+        }
       Text(selectedPlace?.label ?? "none selected")
-      MapView(places: $searchResults, selectedPlace: $selectedPlace).edgesIgnoringSafeArea(.all)
+      MapView(places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace)
+        .edgesIgnoringSafeArea(.all)
       VStack {
-        PlaceList(places: $searchResults, selectedPlace: $selectedPlace)
+        PlaceList(places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace)
       }
     }.onAppear(perform: {
       print("searching on load")
       Task {
         do {
           // TODO: don't hardcode focus
-          searchResults = try await GeocodeClient().autocomplete(text: self.searchText, focus: LngLat(lng: -118.0, lat: 34.0))
+          //          self.searchQueue.mostRecentResults = try await GeocodeClient().autocomplete(text: self.searchQueue.searchText, focus: LngLat(lng: -118.0, lat: 34.0))
         } catch {
           print("error when fetching: \(error)")
         }
@@ -64,5 +87,7 @@ struct ContentView: View {
 }
 
 #Preview {
-  ContentView(searchResults: FixtureData.places)
+  let cv = ContentView()
+  cv.searchQueue.mostRecentResults = FixtureData.places
+  return cv
 }

@@ -49,6 +49,7 @@ struct GeocodeClient {
         throw URLError(.badURL)
       }
 
+      print("GET \(url)")
       let response = try await fetchData(from: url)
       return response.places
     }
