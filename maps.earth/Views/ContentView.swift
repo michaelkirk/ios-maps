@@ -6,6 +6,7 @@
 //
 
 import MapLibre
+import OSLog
 import SwiftUI
 
 //class MapViewDelegate: NSObject, MLNMapViewDelegate {
@@ -27,30 +28,56 @@ import SwiftUI
 //  }
 //}
 
-import OSLog
-
 private let logger = Logger(
   subsystem: Bundle.main.bundleIdentifier!,
   category: String(describing: #file)
 )
 
-
 class SearchQueue: ObservableObject {
   @Published var searchText: String
   @Published var mostRecentResults: [Place]
+
+  struct Query {
+    let queryId: UInt64
+  }
+  var pendingQueries: [Query] = []
+  var mostRecentlyCompletedQuery: Query?
 
   init(searchText: String = "", mostRecentResults: [Place] = []) {
     self.searchText = searchText
     self.mostRecentResults = mostRecentResults
   }
 
-  // TODO debounce, handle out of order
+  // TODO debounce
   func textDidChange(oldValue: String, newValue: String) {
+    let nextId = (pendingQueries.last?.queryId ?? 0) + 1
+    let query = Query(queryId: nextId)
+    pendingQueries.append(query)
+
+    guard !newValue.isEmpty else {
+      logger.info("Clearing results for empty search field #\(query.queryId)")
+      self.mostRecentResults = []
+      return
+    }
+
     Task {
       do {
+        logger.info("making query #\(query.queryId)")
         // TODO: don't hardcode focus
-        self.mostRecentResults = try await GeocodeClient().autocomplete(
+        let results = try await GeocodeClient().autocomplete(
           text: newValue, focus: LngLat(lng: -118.0, lat: 34.0))
+
+        await MainActor.run {
+          if let mostRecentlyCompletedQuery = self.mostRecentlyCompletedQuery,
+            query.queryId <= mostRecentlyCompletedQuery.queryId
+          {
+            logger.info("Ignoring stale results for query #\(query.queryId)")
+          } else {
+            logger.info("Updating results from query #\(query.queryId)")
+            self.mostRecentlyCompletedQuery = query
+            self.mostRecentResults = results
+          }
+        }
       } catch {
         logger.info("TODO: handle error in SearchQueue.textDidChange: \(error)")
       }
