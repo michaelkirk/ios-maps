@@ -87,6 +87,8 @@ class SearchQueue: ObservableObject {
 struct ContentView: View {
   @StateObject internal var searchQueue = SearchQueue()
   @State var selectedPlace: Place?
+
+  // I'm not currently using this... but I might
   @State var mapView: MLNMapView?
 
   var body: some View {

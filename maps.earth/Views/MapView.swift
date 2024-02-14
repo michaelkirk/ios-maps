@@ -42,17 +42,11 @@ struct MapView: UIViewRepresentable {
       }
     }
 
-    // TODO: It seems like this should be some delegate/coordinate thing,
-    // rather than in the initializer.
-    for place in places {
-      let addedMarker = self.addMarker(to: mapView, at: place.location)
-      context.coordinator.markers[place] = addedMarker
-    }
-
     return mapView
   }
 
   func updateUIView(_ mapView: MLNMapView, context: Context) {
+    context.coordinator.ensureMarkers(in: mapView, for: self.places)
     print("in updateUIView MapView")
     // TODO: this is overzealous. We only want to do this when the selection changes
     // not whenever the view gets updated. Perhaps other thing scould cause the view to update,
@@ -62,13 +56,6 @@ struct MapView: UIViewRepresentable {
     } else {
       // TODO: zoom out
     }
-  }
-
-  func addMarker(to mapView: MLNMapView, at lngLat: LngLat) -> MLNAnnotation {
-    let marker = MLNPointAnnotation()
-    marker.coordinate = CLLocationCoordinate2D(latitude: lngLat.lat, longitude: lngLat.lng)
-    mapView.addAnnotation(marker)
-    return marker
   }
 
   typealias UIViewType = MLNMapView
@@ -85,6 +72,33 @@ struct MapView: UIViewRepresentable {
       let minZoom = 12.0
       let zoom = max(mapView.zoomLevel, minZoom)
       mapView.setCenter(place.location.asCoordinate, zoomLevel: zoom, animated: isAnimated)
+    }
+
+    func ensureMarkers(in mapView: MLNMapView, for places: [Place]) {
+      for place in places {
+        if markers[place] == nil {
+          self.markers[place] = Self.addMarker(to: mapView, at: place.location)
+        }
+      }
+
+      let stale = Set(markers.keys).subtracting(places)
+      for place in stale {
+        guard let marker = self.markers[place] else {
+          print("unexpectely missing stale marker")
+          continue
+        }
+        print("removing stale marker for \(place)")
+        // PERF: more efficient to do this all at once?
+        mapView.removeAnnotation(marker)
+      }
+      // TODO: remove any stale markersjk
+    }
+
+    static func addMarker(to mapView: MLNMapView, at lngLat: LngLat) -> MLNAnnotation {
+      let marker = MLNPointAnnotation()
+      marker.coordinate = CLLocationCoordinate2D(latitude: lngLat.lat, longitude: lngLat.lng)
+      mapView.addAnnotation(marker)
+      return marker
     }
   }
 }
