@@ -27,6 +27,14 @@ import SwiftUI
 //  }
 //}
 
+import OSLog
+
+private let logger = Logger(
+  subsystem: Bundle.main.bundleIdentifier!,
+  category: String(describing: #file)
+)
+
+
 class SearchQueue: ObservableObject {
   @Published var searchText: String
   @Published var mostRecentResults: [Place]
@@ -44,7 +52,7 @@ class SearchQueue: ObservableObject {
         self.mostRecentResults = try await GeocodeClient().autocomplete(
           text: newValue, focus: LngLat(lng: -118.0, lat: 34.0))
       } catch {
-        print("TODO: handle error in SearchQueue.textDidChange: \(error)")
+        logger.info("TODO: handle error in SearchQueue.textDidChange: \(error)")
       }
     }
   }
@@ -73,7 +81,7 @@ struct ContentView: View {
         PlaceList(places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace)
       }
     }.onAppear(perform: {
-      print("searching on load")
+      logger.info("searching on load")
       Task {
         do {
           // TODO: don't hardcode focus
