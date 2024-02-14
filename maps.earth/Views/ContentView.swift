@@ -6,6 +6,7 @@
 //
 
 import MapLibre
+import OSLog
 import SwiftUI
 
 //class MapViewDelegate: NSObject, MLNMapViewDelegate {
@@ -27,37 +28,101 @@ import SwiftUI
 //  }
 //}
 
+private let logger = Logger(
+  subsystem: Bundle.main.bundleIdentifier!,
+  category: String(describing: #file)
+)
+
+class SearchQueue: ObservableObject {
+  @Published var searchText: String
+  @Published var mostRecentResults: [Place]
+
+  struct Query {
+    let queryId: UInt64
+  }
+  var pendingQueries: [Query] = []
+  var mostRecentlyCompletedQuery: Query?
+
+  init(searchText: String = "", mostRecentResults: [Place] = []) {
+    self.searchText = searchText
+    self.mostRecentResults = mostRecentResults
+  }
+
+  // TODO debounce
+  func textDidChange(oldValue: String, newValue: String) {
+    let nextId = (pendingQueries.last?.queryId ?? 0) + 1
+    let query = Query(queryId: nextId)
+    pendingQueries.append(query)
+
+    guard !newValue.isEmpty else {
+      logger.info("Clearing results for empty search field #\(query.queryId)")
+      self.mostRecentResults = []
+      return
+    }
+
+    Task {
+      do {
+        logger.info("making query #\(query.queryId)")
+        // TODO: don't hardcode focus
+        let results = try await GeocodeClient().autocomplete(
+          text: newValue, focus: LngLat(lng: -118.0, lat: 34.0))
+
+        await MainActor.run {
+          if let mostRecentlyCompletedQuery = self.mostRecentlyCompletedQuery,
+            query.queryId <= mostRecentlyCompletedQuery.queryId
+          {
+            logger.info("Ignoring stale results for query #\(query.queryId)")
+          } else {
+            logger.info("Updating results from query #\(query.queryId)")
+            self.mostRecentlyCompletedQuery = query
+            self.mostRecentResults = results
+          }
+        }
+      } catch {
+        logger.info("TODO: handle error in SearchQueue.textDidChange: \(error)")
+      }
+    }
+  }
+}
+
 struct ContentView: View {
-  @State private var searchText: String = "Coffee"
-  @State var searchResults: [Place]
+  @StateObject internal var searchQueue = SearchQueue()
+  //  @State var searchResults: [Place]
   @State var selectedPlace: Place?
 
   //  let coordinator = Coordinator()
 
   var body: some View {
     VStack {
-      TextField("Where to?", text: $searchText)
+      TextField("Where to?", text: $searchQueue.searchText)
         .padding()
         .border(.gray)
         .padding()
+        .onChange(of: searchQueue.searchText) { oldValue, newValue in
+          self.searchQueue.textDidChange(oldValue: oldValue, newValue: newValue)
+        }
       Text(selectedPlace?.label ?? "none selected")
-      MapView(places: searchResults, selectedPlace: $selectedPlace).edgesIgnoringSafeArea(.all)
+      MapView(places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace)
+        .edgesIgnoringSafeArea(.all)
       VStack {
-        PlaceList(places: searchResults, selectedPlace: $selectedPlace)
+        PlaceList(places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace)
       }
-    }
+    }.onAppear(perform: {
+      logger.info("searching on load")
+      Task {
+        do {
+          // TODO: don't hardcode focus
+          //          self.searchQueue.mostRecentResults = try await GeocodeClient().autocomplete(text: self.searchQueue.searchText, focus: LngLat(lng: -118.0, lat: 34.0))
+        } catch {
+          print("error when fetching: \(error)")
+        }
+      }
+    })
   }
-
-  //  class Coordinator: NSObject, MapViewDelegate, PlaceListDelegate {
-  //    func mapView(mapView: MLNMapView, didSelect place: Place) {
-  //      // TODO: minZoom
-  //      print("selected \(place)")
-  //      mapView.setCenter(place.location.asCoordinate, animated: true)
-  //      self.selectedPlace = place
-  //    }
-  //  }
 }
 
 #Preview {
-  ContentView(searchResults: FixtureData.places)
+  let cv = ContentView()
+  cv.searchQueue.mostRecentResults = FixtureData.places
+  return cv
 }

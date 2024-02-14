@@ -13,7 +13,7 @@ protocol PlaceListDelegate {
 }
 
 struct PlaceList: View {
-  @State var places: [Place]
+  @Binding var places: [Place]
   @Binding var selectedPlace: Place?
 
   var body: some View {
@@ -30,9 +30,9 @@ struct PlaceList: View {
 }
 
 #Preview("inital") {
-  PlaceList(places: FixtureData.places, selectedPlace: .constant(nil))
+  PlaceList(places: .constant(FixtureData.places), selectedPlace: .constant(nil))
 }
 
 #Preview("selected") {
-  PlaceList(places: FixtureData.places, selectedPlace: .constant(FixtureData.places[0]))
+  PlaceList(places: .constant(FixtureData.places), selectedPlace: .constant(FixtureData.places[0]))
 }

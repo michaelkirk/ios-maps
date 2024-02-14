@@ -14,7 +14,7 @@ protocol MapViewDelegate: NSObject {
 
 struct MapView: UIViewRepresentable {
 
-  var places: [Place]
+  @Binding var places: [Place]
   @Binding var selectedPlace: Place?
 
   func makeCoordinator() -> Coordinator {
