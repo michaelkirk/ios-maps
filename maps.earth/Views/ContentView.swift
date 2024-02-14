@@ -27,6 +27,10 @@ import SwiftUI
 //  }
 //}
 
+struct Searcher {
+
+}
+
 struct ContentView: View {
   @State private var searchText: String = "Coffee"
   @State var searchResults: [Place]
@@ -41,21 +45,22 @@ struct ContentView: View {
         .border(.gray)
         .padding()
       Text(selectedPlace?.label ?? "none selected")
-      MapView(places: searchResults, selectedPlace: $selectedPlace).edgesIgnoringSafeArea(.all)
+      MapView(places: $searchResults, selectedPlace: $selectedPlace).edgesIgnoringSafeArea(.all)
       VStack {
-        PlaceList(places: searchResults, selectedPlace: $selectedPlace)
+        PlaceList(places: $searchResults, selectedPlace: $selectedPlace)
       }
-    }
+    }.onAppear(perform: {
+      print("searching on load")
+      Task {
+        do {
+          // TODO: don't hardcode focus
+          searchResults = try await GeocodeClient().autocomplete(text: self.searchText, focus: LngLat(lng: -118.0, lat: 34.0))
+        } catch {
+          print("error when fetching: \(error)")
+        }
+      }
+    })
   }
-
-  //  class Coordinator: NSObject, MapViewDelegate, PlaceListDelegate {
-  //    func mapView(mapView: MLNMapView, didSelect place: Place) {
-  //      // TODO: minZoom
-  //      print("selected \(place)")
-  //      mapView.setCenter(place.location.asCoordinate, animated: true)
-  //      self.selectedPlace = place
-  //    }
-  //  }
 }
 
 #Preview {

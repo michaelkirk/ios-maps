@@ -8,7 +8,6 @@
 import Foundation
 import OSLog
 
-//
 //struct GeoJson {
 //    private enum RootCodingKeys: String, CodingKey {
 //         case features
@@ -35,8 +34,45 @@ import OSLog
 //}
 
 struct GeocodeClient {
-  func autocomplete(text: String) throws -> [Place] {
-    fatalError("todo")
+  func autocomplete(text: String, focus: LngLat? = nil) async throws -> [Place] {
+    let test = false
+    if test {
+      return FixtureData.places
+    } else {
+      let endpoint = "https://maps.earth/pelias/v1/autocomplete"
+      var queryParams = ["text": text]
+      if let focus = focus {
+        queryParams["focus.point.lon"] = String(focus.lng)
+        queryParams["focus.point.lat"] = String(focus.lat)
+      }
+      guard let url = buildURL(baseURL: endpoint, queryParams: queryParams) else {
+        throw URLError(.badURL)
+      }
+
+      let response = try await fetchData(from: url)
+      return response.places
+    }
+  }
+
+  private func fetchData(from url: URL) async throws -> AutocompleteResponse {
+    let (data, response) = try await URLSession.shared.data(from: url)
+
+    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+      throw URLError(.badServerResponse)
+    }
+
+    let decodedResponse = try JSONDecoder().decode(AutocompleteResponse.self, from: data)
+    return decodedResponse
+  }
+
+  private func buildURL(baseURL: String, queryParams: [String: String]) -> URL? {
+    var components = URLComponents(string: baseURL)
+
+    components?.queryItems = queryParams.map { key, value in
+      URLQueryItem(name: key, value: value)
+    }
+
+    return components?.url
   }
 }
 
