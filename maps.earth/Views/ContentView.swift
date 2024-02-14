@@ -49,7 +49,7 @@ class SearchQueue: ObservableObject {
   }
 
   // TODO debounce
-  func textDidChange(oldValue: String, newValue: String) {
+  func textDidChange(newValue: String, focus: LngLat?) {
     let nextId = (pendingQueries.last?.queryId ?? 0) + 1
     let query = Query(queryId: nextId)
     pendingQueries.append(query)
@@ -63,9 +63,8 @@ class SearchQueue: ObservableObject {
     Task {
       do {
         logger.info("making query #\(query.queryId)")
-        // TODO: don't hardcode focus
         let results = try await GeocodeClient().autocomplete(
-          text: newValue, focus: LngLat(lng: -118.0, lat: 34.0))
+          text: newValue, focus: focus)
 
         await MainActor.run {
           if let mostRecentlyCompletedQuery = self.mostRecentlyCompletedQuery,
@@ -87,10 +86,8 @@ class SearchQueue: ObservableObject {
 
 struct ContentView: View {
   @StateObject internal var searchQueue = SearchQueue()
-  //  @State var searchResults: [Place]
   @State var selectedPlace: Place?
-
-  //  let coordinator = Coordinator()
+  @State var mapView: MLNMapView?
 
   var body: some View {
     VStack {
@@ -98,26 +95,19 @@ struct ContentView: View {
         .padding()
         .border(.gray)
         .padding()
-        .onChange(of: searchQueue.searchText) { oldValue, newValue in
-          self.searchQueue.textDidChange(oldValue: oldValue, newValue: newValue)
+        .onChange(of: searchQueue.searchText) { _, newValue in
+          let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
+          self.searchQueue.textDidChange(newValue: newValue, focus: focus)
         }
       Text(selectedPlace?.label ?? "none selected")
-      MapView(places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace)
-        .edgesIgnoringSafeArea(.all)
+      MapView(
+        places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
+      )
+      .edgesIgnoringSafeArea(.all)
       VStack {
         PlaceList(places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace)
       }
-    }.onAppear(perform: {
-      logger.info("searching on load")
-      Task {
-        do {
-          // TODO: don't hardcode focus
-          //          self.searchQueue.mostRecentResults = try await GeocodeClient().autocomplete(text: self.searchQueue.searchText, focus: LngLat(lng: -118.0, lat: 34.0))
-        } catch {
-          print("error when fetching: \(error)")
-        }
-      }
-    })
+    }
   }
 }
 

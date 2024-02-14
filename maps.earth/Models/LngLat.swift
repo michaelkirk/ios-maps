@@ -26,6 +26,10 @@ extension LngLat: Decodable {
     case point = "Point"
   }
 
+  init(coord: CLLocationCoordinate2D) {
+    self.init(lng: coord.longitude, lat: coord.latitude)
+  }
+
   init(from decoder: Decoder) throws {
     let geometryContainer = try decoder.container(keyedBy: GeometryKeys.self)
     // TODO: handle non point geometries - for now we're just verifying it's

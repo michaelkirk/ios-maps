@@ -16,6 +16,7 @@ struct MapView: UIViewRepresentable {
 
   @Binding var places: [Place]
   @Binding var selectedPlace: Place?
+  @Binding var mapView: MLNMapView?
 
   func makeCoordinator() -> Coordinator {
     Coordinator(self)
@@ -34,6 +35,12 @@ struct MapView: UIViewRepresentable {
       animated: false)
 
     mapView.delegate = context.coordinator
+    Task {
+      await MainActor.run {
+        print("setting mapView")
+        self.mapView = mapView
+      }
+    }
 
     // TODO: It seems like this should be some delegate/coordinate thing,
     // rather than in the initializer.
