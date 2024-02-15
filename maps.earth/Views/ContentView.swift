@@ -85,42 +85,68 @@ class SearchQueue: ObservableObject {
 }
 
 struct ContentView: View {
-  @StateObject internal var searchQueue = SearchQueue()
+  @StateObject internal var toSearchQueue = SearchQueue()
   @State var selectedPlace: Place?
+
+  @State var toPlace: Place?
+
+  @StateObject internal var fromSearchQueue = SearchQueue()
+  @State var fromPlace: Place?
 
   // I'm not currently using this... but I might
   @State var mapView: MLNMapView?
 
   var body: some View {
     VStack {
-      TextField("Where to?", text: $searchQueue.searchText)
+      if toPlace != nil {
+        TextField("From", text: $fromSearchQueue.searchText)
+          .padding()
+          .border(.gray)
+          .padding()
+          .onChange(of: fromSearchQueue.searchText) { _, newValue in
+            let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
+            self.fromSearchQueue.textDidChange(newValue: newValue, focus: focus)
+          }
+      }
+
+      TextField("Where to?", text: $toSearchQueue.searchText)
         .padding()
         .border(.gray)
         .padding()
-        .onChange(of: searchQueue.searchText) { _, newValue in
+        .onChange(of: toSearchQueue.searchText) { _, newValue in
           let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
-          self.searchQueue.textDidChange(newValue: newValue, focus: focus)
+          self.toSearchQueue.textDidChange(newValue: newValue, focus: focus)
         }
-      Text(selectedPlace?.label ?? "none selected")
+
       MapView(
-        places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
+        places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
       )
       .edgesIgnoringSafeArea(.all)
       VStack {
-        PlaceList(places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace)
+        PlaceList(places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace)
       }
     }
   }
 }
 
-#Preview("coffee search") {
-  ContentView(searchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
-}
-
-#Preview("coffee detail") {
-  ContentView(searchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places), selectedPlace: FixtureData.places[0])
-}
-
 #Preview("blank") {
   ContentView()
+}
+
+#Preview("search") {
+  ContentView(
+    toSearchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
+}
+
+#Preview("show detail") {
+  ContentView(
+    toSearchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places),
+    selectedPlace: FixtureData.places[0])
+}
+
+#Preview("nav from") {
+  ContentView(
+    toSearchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places),
+    selectedPlace: FixtureData.places[0],
+    toPlace: FixtureData.places[0])
 }
