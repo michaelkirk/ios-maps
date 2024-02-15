@@ -97,6 +97,10 @@ struct ContentView: View {
   @State var mapView: MLNMapView?
 
   var body: some View {
+    MapView(
+      places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
+    )
+    .edgesIgnoringSafeArea(.all)
     VStack(spacing: 0) {
       if toPlace != nil {
         TextField("From", text: $fromSearchQueue.searchText)
@@ -109,21 +113,21 @@ struct ContentView: View {
           }
       }
 
-      TextField("Where to?", text: $toSearchQueue.searchText)
-        .padding()
-        .border(.gray)
-        .padding()
-        .onChange(of: toSearchQueue.searchText) { _, newValue in
-          let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
-          self.toSearchQueue.textDidChange(newValue: newValue, focus: focus)
-        }
+      if let selectedPlace = selectedPlace {
+        PlaceDetail(place: selectedPlace)
+      } else {
+        TextField("Where to?", text: $toSearchQueue.searchText)
+          .padding()
+          .border(.gray)
+          .padding()
+          .onChange(of: toSearchQueue.searchText) { _, newValue in
+            let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
+            self.toSearchQueue.textDidChange(newValue: newValue, focus: focus)
+          }
 
-      MapView(
-        places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
-      )
-      .edgesIgnoringSafeArea(.all)
-      if !toSearchQueue.searchText.isEmpty && toPlace == nil {
-        PlaceList(places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace)
+        if !toSearchQueue.searchText.isEmpty && toPlace == nil {
+          PlaceList(places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace)
+        }
       }
     }
   }
