@@ -113,8 +113,14 @@ struct ContentView: View {
   }
 }
 
-#Preview {
-  let cv = ContentView()
-  cv.searchQueue.mostRecentResults = FixtureData.places
-  return cv
+#Preview("coffee search") {
+  ContentView(searchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
+}
+
+#Preview("coffee detail") {
+  ContentView(searchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places), selectedPlace: FixtureData.places[0])
+}
+
+#Preview("blank") {
+  ContentView()
 }
