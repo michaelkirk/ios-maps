@@ -12,9 +12,16 @@ struct PlaceDetail: View {
   var place: Place
   var body: some View {
     VStack(alignment: .leading) {
-      Text("Details")
-      Text(place.name)
-      Text(place.label)
+      Text(place.name).font(.largeTitle)
+
+      Button(action: { print("clicked") }) {
+        Text("Navigate")
+      }
+      .padding()
+      .background(.blue)
+      .foregroundColor(.white)
+      .cornerRadius(3)
+      Text(place.label).padding(.top, 16)
     }
   }
 }
