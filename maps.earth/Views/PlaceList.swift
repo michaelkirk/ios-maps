@@ -28,7 +28,7 @@ struct PlaceList: View {
         Text("Loading...")
       }
     } detail: {
-      selectedPlace.map { PlaceDetail(place: $0) }
+      selectedPlace.map { PlaceDetail(place: $0, navigateTo: .constant(nil), showingSheet: false) }
     }.padding(0)
   }
 }

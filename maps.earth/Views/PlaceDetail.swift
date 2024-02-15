@@ -10,22 +10,55 @@ import SwiftUI
 
 struct PlaceDetail: View {
   var place: Place
+
+  // eventually this should include mode choice
+  @Binding var navigateTo: Place?
+
+  @State var showingSheet: Bool
+
   var body: some View {
     VStack(alignment: .leading) {
       Text(place.name).font(.largeTitle)
 
-      Button(action: { print("clicked") }) {
+      Button(action: { showingSheet = true }) {
         Text("Navigate")
       }
       .padding()
       .background(.blue)
       .foregroundColor(.white)
       .cornerRadius(3)
+      .sheet(
+        isPresented: $showingSheet,
+        content: {
+          NavigationView {
+            ScrollView {
+              TripPlanner(navigateTo: place)
+            }
+            .background(Color.yellow)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .topLeading)
+            .navigationTitle("Direction")
+            // FIXME: For some reason this is on a different line, pushing the nav title down
+            .navigationBarItems(
+              trailing: Button(action: { showingSheet = false }) {
+                Image(systemName: "x.circle.fill").tint(.gray)
+              })
+          }
+          .presentationDetents([.large, .medium, .height(50)], selection: .constant(.medium))
+          .presentationBackgroundInteraction(
+            .enabled(upThrough: .medium)
+          )
+        })
+
       Text(place.label).padding(.top, 16)
     }
   }
 }
 
 #Preview {
-  PlaceDetail(place: FixtureData.places[0])
+  PlaceDetail(place: FixtureData.places[0], navigateTo: .constant(nil), showingSheet: false)
+}
+
+#Preview("showing sheet") {
+  PlaceDetail(place: FixtureData.places[0], navigateTo: .constant(nil), showingSheet: true)
 }

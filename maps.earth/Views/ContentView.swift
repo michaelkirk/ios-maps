@@ -131,10 +131,6 @@ struct ContentView: View {
   }
 }
 
-#Preview("blank") {
-  ContentView()
-}
-
 #Preview("search") {
   ContentView(
     toSearchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
@@ -146,9 +142,6 @@ struct ContentView: View {
     selectedPlace: FixtureData.places[0])
 }
 
-#Preview("nav from") {
-  ContentView(
-    toSearchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places),
-    selectedPlace: FixtureData.places[0],
-    toPlace: FixtureData.places[0])
+#Preview("blank") {
+  ContentView()
 }
