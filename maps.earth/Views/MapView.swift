@@ -14,7 +14,7 @@ protocol MapViewDelegate: NSObject {
 
 struct MapView: UIViewRepresentable {
 
-  @Binding var places: [Place]
+  @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var mapView: MLNMapView?
 
@@ -46,8 +46,10 @@ struct MapView: UIViewRepresentable {
   }
 
   func updateUIView(_ mapView: MLNMapView, context: Context) {
-    context.coordinator.ensureMarkers(in: mapView, for: self.places)
     print("in updateUIView MapView")
+    if let places = self.places {
+      context.coordinator.ensureMarkers(in: mapView, for: places)
+    }
     // TODO: this is overzealous. We only want to do this when the selection changes
     // not whenever the view gets updated. Perhaps other thing scould cause the view to update,
     // and we don't necessarily want to move the users map around.

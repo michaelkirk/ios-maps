@@ -35,7 +35,7 @@ private let logger = Logger(
 
 class SearchQueue: ObservableObject {
   @Published var searchText: String
-  @Published var mostRecentResults: [Place]
+  @Published var mostRecentResults: [Place]?
 
   struct Query {
     let queryId: UInt64
@@ -43,7 +43,7 @@ class SearchQueue: ObservableObject {
   var pendingQueries: [Query] = []
   var mostRecentlyCompletedQuery: Query?
 
-  init(searchText: String = "", mostRecentResults: [Place] = []) {
+  init(searchText: String = "", mostRecentResults: [Place]? = nil) {
     self.searchText = searchText
     self.mostRecentResults = mostRecentResults
   }
@@ -97,7 +97,7 @@ struct ContentView: View {
   @State var mapView: MLNMapView?
 
   var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       if toPlace != nil {
         TextField("From", text: $fromSearchQueue.searchText)
           .padding()
@@ -122,7 +122,7 @@ struct ContentView: View {
         places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
       )
       .edgesIgnoringSafeArea(.all)
-      VStack {
+      if !toSearchQueue.searchText.isEmpty && toPlace == nil {
         PlaceList(places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace)
       }
     }
