@@ -27,6 +27,7 @@
 		45971ACA2B71AB500050BECE /* FixtureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971AC92B71AB500050BECE /* FixtureData.swift */; };
 		45971ACE2B71AC320050BECE /* autocomplete.json in Resources */ = {isa = PBXBuildFile; fileRef = 45971ACD2B71AC320050BECE /* autocomplete.json */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanner.swift */; };
+		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		45971AC92B71AB500050BECE /* FixtureData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureData.swift; sourceTree = "<group>"; };
 		45971ACD2B71AC320050BECE /* autocomplete.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = autocomplete.json; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanner.swift; sourceTree = "<group>"; };
+		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 				456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */,
 				456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */,
 				45CA4C6D2B7ECB6400DB08BF /* TripPlanner.swift */,
+				45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				455363F02B687EF0006DF291 /* MapView.swift in Sources */,
 				45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */,
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
+				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
 				45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */,

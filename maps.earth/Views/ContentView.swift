@@ -33,7 +33,7 @@ private let logger = Logger(
   category: String(describing: #file)
 )
 
-class SearchQueue: ObservableObject {
+class LegacySearchQueue: ObservableObject {
   @Published var searchText: String
   @Published var mostRecentResults: [Place]?
 
@@ -85,12 +85,12 @@ class SearchQueue: ObservableObject {
 }
 
 struct ContentView: View {
-  @StateObject internal var toSearchQueue = SearchQueue()
+  @StateObject internal var toSearchQueue = LegacySearchQueue()
   @State var selectedPlace: Place?
 
   @State var toPlace: Place?
 
-  @StateObject internal var fromSearchQueue = SearchQueue()
+  @StateObject internal var fromSearchQueue = LegacySearchQueue()
   @State var fromPlace: Place?
 
   // I'm not currently using this... but I might
@@ -134,12 +134,12 @@ struct ContentView: View {
 
 #Preview("search") {
   ContentView(
-    toSearchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
+    toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
 }
 
 #Preview("show detail") {
   ContentView(
-    toSearchQueue: SearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places),
+    toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places),
     selectedPlace: FixtureData.places[0])
 }
 
