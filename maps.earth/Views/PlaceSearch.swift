@@ -42,14 +42,12 @@ struct PlaceSearch: View {
   }
 
   var body: some View {
-    if !showEditor, let selectedPlace = selectedPlace {
-      HStack {
-        // i18n review
-        Text("\(placeholder): \(selectedPlace.name)")
-        Spacer()
-        Button("Edit", action: { showEditor = true })
-      }.padding()
-    } else {
+    HStack {
+      // i18n review
+      Text("\(placeholder): \(selectedPlace?.name ?? "None")").searchable(text: $searchQueue.searchText)
+      Spacer()
+      Button("Edit", action: { showEditor = true })
+    }.padding().sheet(isPresented: $showEditor) {
       VStack {
         HStack {
           TextField(placeholder, text: $searchQueue.searchText)
