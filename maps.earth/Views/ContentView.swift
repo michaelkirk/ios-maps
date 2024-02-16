@@ -113,6 +113,7 @@ struct ContentView: View {
           }
       }
 
+      // FIX: bad animation as this becomes visible upon "back" from details
       if selectedPlace == nil {
         TextField("Where to?", text: $toSearchQueue.searchText)
           .padding()

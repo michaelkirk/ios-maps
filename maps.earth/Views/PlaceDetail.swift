@@ -34,14 +34,13 @@ struct PlaceDetail: View {
             ScrollView {
               TripPlanner(navigateTo: place)
             }
-            .background(Color.yellow)
             .padding()
             .frame(maxWidth: .infinity, alignment: .topLeading)
-            .navigationTitle("Direction")
+            .navigationTitle("Directions")
             // FIXME: For some reason this is on a different line, pushing the nav title down
             .navigationBarItems(
               trailing: Button(action: { showingSheet = false }) {
-                Image(systemName: "x.circle.fill").tint(.gray)
+                Image(systemName: "xmark")
               })
           }
           .presentationDetents([.large, .medium, .height(50)], selection: .constant(.medium))
