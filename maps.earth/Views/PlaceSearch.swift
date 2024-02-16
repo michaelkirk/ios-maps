@@ -17,55 +17,76 @@ private let logger = Logger(
 struct PlaceSearch: View {
   var placeholder: String
   var getFocus: () -> LngLat?
-  @Binding var place: Place?
+  @Binding var selectedPlace: Place?
+
   @StateObject private var searchQueue: SearchQueue = SearchQueue()
   @State private var showEditor: Bool
 
   init(
-    placeholder: String, place: Binding<Place?>, showEditor: Bool = false,
-    getFocus: @escaping () -> LngLat?
+    placeholder: String, selectedPlace: Binding<Place?>, showEditor: Bool = false,
+    getFocus: @escaping () -> LngLat?, existingResults: [Place]? = nil
   ) {
     self.placeholder = placeholder
-    self._place = place
+    self._selectedPlace = selectedPlace
     self.showEditor = showEditor
     self.getFocus = getFocus
-    if let place = place.wrappedValue {
-      // Need to do something like this to set initial search text
-      self._searchQueue = StateObject(wrappedValue: SearchQueue(searchText: place.name))
+
+    let searchQueue = SearchQueue()
+    if let place = selectedPlace.wrappedValue {
+      searchQueue.searchText = place.name
     }
+    if let existingResults = existingResults {
+      searchQueue.mostRecentResults = existingResults
+    }
+    self._searchQueue = StateObject(wrappedValue: searchQueue)
   }
 
   var body: some View {
-    if !showEditor, let place = place {
+    if !showEditor, let selectedPlace = selectedPlace {
       HStack {
         // i18n review
-        Text("\(placeholder): \(place.name)")
+        Text("\(placeholder): \(selectedPlace.name)")
         Spacer()
         Button("Edit", action: { showEditor = true })
       }.padding()
     } else {
-      HStack {
-        TextField(placeholder, text: $searchQueue.searchText)
-          .onChange(of: searchQueue.searchText) {
-            // invalidate the place selection if the user changes the input text
-            // note: this is also called due to the "clear" button
-            place = nil
+      VStack {
+        HStack {
+          TextField(placeholder, text: $searchQueue.searchText)
+            .onChange(of: searchQueue.searchText) {
+              // invalidate the place selection if the user changes the input text
+              // note: this is also called due to the "clear" button
+              selectedPlace = nil
 
-            searchQueue.textDidChange(newValue: searchQueue.searchText, focus: getFocus())
-          }
-        Spacer()
-        if !searchQueue.searchText.isEmpty {
-          // FIXME: clear no longer works now that property lives on searchQueue
-          Button(action: {
-            print("clearing: \(String(describing: searchQueue.searchText))")
-            searchQueue.searchText = ""
-          }) {
-            Image(systemName: "x.circle.fill").tint(.black)
+              searchQueue.textDidChange(newValue: searchQueue.searchText, focus: getFocus())
+            }
+          Spacer()
+          if !searchQueue.searchText.isEmpty {
+            // FIXME: clear no longer works now that property lives on searchQueue
+            Button(action: {
+              print("clearing: \(String(describing: searchQueue.searchText))")
+              searchQueue.searchText = ""
+            }) {
+              Image(systemName: "x.circle.fill").tint(.black)
+            }
           }
         }
+        .padding(8)
+        .border(.black)
+        if searchQueue.hasPendingQuery {
+          Text("Loading...")
+        } else if let places = searchQueue.mostRecentResults {
+          List(places, selection: $selectedPlace) { place in
+            PlaceRow(place: place).onTapGesture {
+              selectedPlace = place
+              showEditor = false
+            }
+          }.frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
+          Text("After list")
+        } else {
+          Text("No search has started.")
+        }
       }
-      .padding(8)
-      .border(.black)
     }
   }
 }
@@ -74,11 +95,25 @@ class SearchQueue: ObservableObject {
   @Published var searchText: String
   @Published var mostRecentResults: [Place]?
 
-  struct Query {
+  struct Query: Equatable {
     let queryId: UInt64
   }
-  var pendingQueries: [Query] = []
+  // perf: we could prune this as queries complete, but we'd need to update `hasPendingQuery`
+  // to ignore "stale" queries in pendingQueries.
+  private var pendingQueries: [Query] = []
   var mostRecentlyCompletedQuery: Query?
+
+  var hasPendingQuery: Bool {
+    guard let mostRecentlyMadeQuery = pendingQueries.last else {
+      return false
+    }
+
+    guard let mostRecentlyCompletedQuery = mostRecentlyCompletedQuery else {
+      return true
+    }
+
+    return mostRecentlyMadeQuery.queryId > mostRecentlyCompletedQuery.queryId
+  }
 
   init(searchText: String = "", mostRecentResults: [Place]? = nil) {
     self.searchText = searchText
@@ -123,7 +158,26 @@ class SearchQueue: ObservableObject {
   }
 }
 
-#Preview {
+#Preview("blank") {
   PlaceSearch(
-    placeholder: "my placeholder", place: .constant(nil), showEditor: false, getFocus: fakeFocus)
+    placeholder: "my placeholder", selectedPlace: .constant(nil), showEditor: false,
+    getFocus: fakeFocus)
+}
+
+#Preview("selected") {
+  PlaceSearch(
+    placeholder: "my placeholder", selectedPlace: .constant(FixtureData.places[0]),
+    showEditor: false, getFocus: fakeFocus)
+}
+
+#Preview("searching with none selected") {
+  PlaceSearch(
+    placeholder: "my placeholder", selectedPlace: .constant(nil), showEditor: true,
+    getFocus: fakeFocus, existingResults: FixtureData.places)
+}
+
+#Preview("searching with previous selection") {
+  PlaceSearch(
+    placeholder: "my placeholder", selectedPlace: .constant(FixtureData.places[0]),
+    showEditor: true, getFocus: fakeFocus, existingResults: FixtureData.places)
 }
