@@ -14,83 +14,95 @@ private let logger = Logger(
   category: String(describing: #file)
 )
 
-struct PlaceSearch: View {
-  var placeholder: String
+struct PlaceField: View {
+  var header: String
+  @Binding var place: Place?
+  @State var isSearching: Bool = false
+  @State var queryText: String = ""
   var getFocus: () -> LngLat?
-  @Binding var selectedPlace: Place?
-
   @StateObject private var searchQueue: SearchQueue = SearchQueue()
-  @State private var showEditor: Bool
-
-  init(
-    placeholder: String, selectedPlace: Binding<Place?>, showEditor: Bool = false,
-    getFocus: @escaping () -> LngLat?, existingResults: [Place]? = nil
-  ) {
-    self.placeholder = placeholder
-    self._selectedPlace = selectedPlace
-    self.showEditor = showEditor
-    self.getFocus = getFocus
-
-    let searchQueue = SearchQueue()
-    if let place = selectedPlace.wrappedValue {
-      searchQueue.searchText = place.name
-    }
-    if let existingResults = existingResults {
-      searchQueue.mostRecentResults = existingResults
-    }
-    self._searchQueue = StateObject(wrappedValue: searchQueue)
-  }
 
   var body: some View {
-    HStack {
-      // i18n review
-      Text("\(placeholder): \(selectedPlace?.name ?? "None")").searchable(text: $searchQueue.searchText)
-      Spacer()
-      Button("Edit", action: { showEditor = true })
-    }.padding().sheet(isPresented: $showEditor) {
-      VStack {
-        HStack {
-          TextField(placeholder, text: $searchQueue.searchText)
-            .onChange(of: searchQueue.searchText) {
-              // invalidate the place selection if the user changes the input text
-              // note: this is also called due to the "clear" button
-              selectedPlace = nil
+    Button(action: { isSearching = true }) {
+      HStack {
+        Text("\(header): \(place?.name ?? "None")")
+        Spacer()
+        Text("Edit")
+      }.padding()
+    }.onChange(of: queryText) { oldValue, newValue in
+      searchQueue.textDidChange(newValue: newValue, focus: getFocus())
+    }
+    .sheet(isPresented: $isSearching) {
+      PlaceSearch(
+        placeholder: header, hasPendingQuery: searchQueue.hasPendingQuery,
+        places: searchQueue.mostRecentResults,
+        selectedPlace: $place, getFocus: getFocus
+      ).searchable(text: $queryText)
+    }
+  }
+}
 
-              searchQueue.textDidChange(newValue: searchQueue.searchText, focus: getFocus())
-            }
-          Spacer()
-          if !searchQueue.searchText.isEmpty {
-            // FIXME: clear no longer works now that property lives on searchQueue
-            Button(action: {
-              print("clearing: \(String(describing: searchQueue.searchText))")
-              searchQueue.searchText = ""
-            }) {
-              Image(systemName: "x.circle.fill").tint(.black)
-            }
-          }
+#Preview("place field") {
+  PlaceField(header: "From", place: .constant(FixtureData.places[0]), getFocus: fakeFocus)
+}
+
+#Preview("empty place field") {
+  PlaceField(header: "From", place: .constant(nil), getFocus: fakeFocus)
+}
+
+#Preview("searching place field") {
+  PlaceField(header: "From", place: .constant(nil), isSearching: true, getFocus: fakeFocus)
+}
+
+struct PlaceSearch: View {
+  var placeholder: String
+  var hasPendingQuery: Bool
+  var places: [Place]?
+  @Binding var selectedPlace: Place?
+  var getFocus: () -> LngLat?
+
+  @Environment(\.isSearching) private var isSearching
+  @Environment(\.dismissSearch) private var dismissSearch
+  @Environment(\.dismiss) private var dismiss
+
+  var body: some View {
+    NavigationView {
+      VStack {
+        if hasPendingQuery {
+          Text("Looking... 😓")
         }
-        .padding(8)
-        .border(.black)
-        if searchQueue.hasPendingQuery {
-          Text("Loading...")
-        } else if let places = searchQueue.mostRecentResults {
+        if let places = places {
+          if places.isEmpty && !hasPendingQuery {
+            Text("No results. 😢")
+          }
           List(places, selection: $selectedPlace) { place in
             PlaceRow(place: place).onTapGesture {
+              print("selected a place, dismissing search")
               selectedPlace = place
-              showEditor = false
+              dismissSearch()
+              dismiss()
             }
           }.frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
-          Text("After list")
-        } else {
-          Text("No search has started.")
         }
+        Spacer()
+      }.navigationTitle("Change Stop")
+        .toolbar {
+          Button(action: { dismiss() }) {
+            Image(systemName: "xmark")
+          }
+        }
+    }
+    .onChange(of: isSearching) { oldValue, newValue in
+      print("isSearching changed: \(oldValue) -> \(newValue)")
+      if oldValue && !newValue {
+        dismissSearch()
+        dismiss()
       }
     }
   }
 }
 
 class SearchQueue: ObservableObject {
-  @Published var searchText: String
   @Published var mostRecentResults: [Place]?
 
   struct Query: Equatable {
@@ -113,8 +125,7 @@ class SearchQueue: ObservableObject {
     return mostRecentlyMadeQuery.queryId > mostRecentlyCompletedQuery.queryId
   }
 
-  init(searchText: String = "", mostRecentResults: [Place]? = nil) {
-    self.searchText = searchText
+  init(mostRecentResults: [Place]? = nil) {
     self.mostRecentResults = mostRecentResults
   }
 
@@ -128,7 +139,9 @@ class SearchQueue: ObservableObject {
 
     guard !newValue.isEmpty else {
       logger.info("Clearing results for empty search field #\(query.queryId)")
-      self.mostRecentResults = []
+      self.mostRecentResults = nil
+      self.mostRecentlyCompletedQuery = nil
+      self.pendingQueries = []
       return
     }
 
@@ -157,25 +170,32 @@ class SearchQueue: ObservableObject {
 }
 
 #Preview("blank") {
-  PlaceSearch(
-    placeholder: "my placeholder", selectedPlace: .constant(nil), showEditor: false,
-    getFocus: fakeFocus)
+  NavigationView {
+    PlaceSearch(
+      placeholder: "To", hasPendingQuery: false, selectedPlace: .constant(nil),
+      getFocus: fakeFocus)
+  }.searchable(text: .constant(""))
 }
 
-#Preview("selected") {
+#Preview("pending") {
   PlaceSearch(
-    placeholder: "my placeholder", selectedPlace: .constant(FixtureData.places[0]),
-    showEditor: false, getFocus: fakeFocus)
+    placeholder: "To", hasPendingQuery: true, selectedPlace: .constant(nil), getFocus: fakeFocus)
 }
 
-#Preview("searching with none selected") {
-  PlaceSearch(
-    placeholder: "my placeholder", selectedPlace: .constant(nil), showEditor: true,
-    getFocus: fakeFocus, existingResults: FixtureData.places)
-}
-
-#Preview("searching with previous selection") {
-  PlaceSearch(
-    placeholder: "my placeholder", selectedPlace: .constant(FixtureData.places[0]),
-    showEditor: true, getFocus: fakeFocus, existingResults: FixtureData.places)
-}
+//#Preview("selected") {
+//  PlaceSearch(
+//    placeholder: "my placeholder", selectedPlace: .constant(FixtureData.places[0]),
+//    showEditor: false, getFocus: fakeFocus)
+//}
+//
+//#Preview("searching with none selected") {
+//  PlaceSearch(
+//    placeholder: "my placeholder", selectedPlace: .constant(nil), showEditor: true,
+//    getFocus: fakeFocus, existingResults: FixtureData.places)
+//}
+//
+//#Preview("searching with previous selection") {
+//  PlaceSearch(
+//    placeholder: "my placeholder", selectedPlace: .constant(FixtureData.places[0]),
+//    showEditor: true, getFocus: fakeFocus, existingResults: FixtureData.places)
+//}

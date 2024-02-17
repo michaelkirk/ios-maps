@@ -15,8 +15,10 @@ struct TripPlanner: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      PlaceSearch(placeholder: "From", selectedPlace: $navigateFrom, getFocus: getFocus)
-      PlaceSearch(placeholder: "To", selectedPlace: $navigateTo, getFocus: getFocus)
+      PlaceField(header: "From", place: $navigateFrom, getFocus: getFocus)
+      Divider()
+      PlaceField(header: "To", place: $navigateTo, getFocus: getFocus)
+      Divider()
     }
   }
 }
