@@ -5,6 +5,7 @@
 //  Created by Michael Kirk on 1/29/24.
 //
 
+import Foundation
 import MapLibre
 import SwiftUI
 
@@ -17,6 +18,7 @@ struct MapView: UIViewRepresentable {
   @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var mapView: MLNMapView?
+  @Binding var selectedTrip: Trip?
 
   func makeCoordinator() -> Coordinator {
     Coordinator(self)
@@ -49,6 +51,11 @@ struct MapView: UIViewRepresentable {
     print("in updateUIView MapView")
     if let places = self.places {
       context.coordinator.ensureMarkers(in: mapView, for: places)
+      if let selectedTrip = self.selectedTrip {
+        context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip])
+      } else {
+        context.coordinator.ensureRoutes(in: mapView, for: [])
+      }
     }
     // TODO: this is overzealous. We only want to do this when the selection changes
     // not whenever the view gets updated. Perhaps other thing scould cause the view to update,
@@ -65,6 +72,7 @@ struct MapView: UIViewRepresentable {
   class Coordinator: NSObject {
     let mapView: MapView
     var markers: [Place: MLNAnnotation] = [:]
+    var trips: [Trip: MLNOverlay] = [:]
 
     init(_ mapView: MapView) {
       self.mapView = mapView
@@ -78,12 +86,12 @@ struct MapView: UIViewRepresentable {
 
     func ensureMarkers(in mapView: MLNMapView, for places: [Place]) {
       for place in places {
-        if markers[place] == nil {
+        if self.markers[place] == nil {
           self.markers[place] = Self.addMarker(to: mapView, at: place.location)
         }
       }
 
-      let stale = Set(markers.keys).subtracting(places)
+      let stale = Set(self.markers.keys).subtracting(places)
       for place in stale {
         guard let marker = self.markers[place] else {
           print("unexpectely missing stale marker")
@@ -93,7 +101,26 @@ struct MapView: UIViewRepresentable {
         // PERF: more efficient to do this all at once?
         mapView.removeAnnotation(marker)
       }
-      // TODO: remove any stale markersjk
+    }
+
+    func ensureRoutes(in mapView: MLNMapView, for trips: [Trip]) {
+      for trip in trips {
+        if self.trips[trip] == nil {
+          self.trips[trip] = Self.addRoute(
+            to: mapView, along: polyline(coordinates: trip.decodedGeometry))
+        }
+      }
+
+      let stale = Set(self.trips.keys).subtracting(trips)
+      for trip in stale {
+        guard let trip = self.trips[trip] else {
+          print("unexpectely missing stale marker")
+          continue
+        }
+        print("removing stale marker for \(trip)")
+        // TODO is this the right method?
+        mapView.remove(trip)
+      }
     }
 
     static func addMarker(to mapView: MLNMapView, at lngLat: LngLat) -> MLNAnnotation {
@@ -101,6 +128,10 @@ struct MapView: UIViewRepresentable {
       marker.coordinate = CLLocationCoordinate2D(latitude: lngLat.lat, longitude: lngLat.lng)
       mapView.addAnnotation(marker)
       return marker
+    }
+
+    static func addRoute(to mapView: MLNMapView, along geometry: MLNPolyline) -> MLNOverlay {
+      fatalError("TODO")
     }
   }
 }
@@ -123,4 +154,8 @@ extension MapView.Coordinator: MLNMapViewDelegate {
     self.zoom(mapView: mapView, toPlace: place, animated: true)
     self.mapView.selectedPlace = place
   }
+}
+
+func polyline(coordinates: [CLLocationCoordinate2D]) -> MLNPolyline {
+  MLNPolyline(coordinates: coordinates, count: UInt(coordinates.count))
 }

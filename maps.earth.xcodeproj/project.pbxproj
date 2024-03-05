@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450C5F1D2B961DFC00394697 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1C2B961DFC00394697 /* Trip.swift */; };
+		450C5F1F2B963B5700394697 /* TripTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1E2B963B5700394697 /* TripTest.swift */; };
 		455363EE2B687D90006DF291 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 455363ED2B687D90006DF291 /* MapLibre */; };
 		455363F02B687EF0006DF291 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455363EF2B687EF0006DF291 /* MapView.swift */; };
 		4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F22B687AA4005A677A /* maps_earthApp.swift */; };
@@ -48,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		450C5F1C2B961DFC00394697 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		450C5F1E2B963B5700394697 /* TripTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTest.swift; sourceTree = "<group>"; };
 		455363EF2B687EF0006DF291 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4563B9EF2B687AA4005A677A /* maps.earth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = maps.earth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B9F22B687AA4005A677A /* maps_earthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthApp.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 			children = (
 				4563BA032B687AA5005A677A /* maps_earthTests.swift */,
 				456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */,
+				450C5F1E2B963B5700394697 /* TripTest.swift */,
 			);
 			path = maps.earthTests;
 			sourceTree = "<group>";
@@ -187,6 +192,7 @@
 			children = (
 				45971ABA2B71995D0050BECE /* Place.swift */,
 				45971ABE2B719C620050BECE /* LngLat.swift */,
+				450C5F1C2B961DFC00394697 /* Trip.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -365,6 +371,7 @@
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
 				45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */,
+				450C5F1D2B961DFC00394697 /* Trip.swift in Sources */,
 				45CA4C6E2B7ECB6400DB08BF /* TripPlanner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,6 +380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				450C5F1F2B963B5700394697 /* TripTest.swift in Sources */,
 				4563BA042B687AA5005A677A /* maps_earthTests.swift in Sources */,
 				456C6CF32B7306D000AAFBE6 /* PlaceTest.swift in Sources */,
 			);

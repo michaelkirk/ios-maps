@@ -93,12 +93,16 @@ struct ContentView: View {
   @StateObject internal var fromSearchQueue = LegacySearchQueue()
   @State var fromPlace: Place?
 
+  // TODO: trip list
+  @State var trip: Trip?
+
   // I'm not currently using this... but I might
   @State var mapView: MLNMapView?
 
   var body: some View {
     MapView(
-      places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
+      places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
+      selectedTrip: $trip
     )
     .edgesIgnoringSafeArea(.all)
     VStack(spacing: 0) {
