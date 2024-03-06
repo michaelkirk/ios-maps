@@ -9,25 +9,6 @@ import MapLibre
 import OSLog
 import SwiftUI
 
-//class MapViewDelegate: NSObject, MLNMapViewDelegate {
-//  func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
-//    print("did select annotation \(annotation)")
-//  }
-//}
-
-//class MapViewDelegate {
-//  func mapView(_ mapView: MLNMapView, didSelectPlace place: Place) {
-//    print("mapView did select place: \(place)")
-//
-//  }
-//}
-//
-//class PlaceListDelegate {
-//  func placeList(_ placeList: PlaceList, didSelectPlace place: Place) {
-//    print("place list did select place: \(place)")
-//  }
-//}
-
 private let logger = Logger(
   subsystem: Bundle.main.bundleIdentifier!,
   category: String(describing: #file)
@@ -103,9 +84,6 @@ class TripPlan: ObservableObject {
 struct ContentView: View {
   @State var selectedPlace: Place?
 
-  @StateObject internal var fromSearchQueue = LegacySearchQueue()
-  @State var fromPlace: Place?
-
   @StateObject internal var toSearchQueue = LegacySearchQueue()
   @State var toPlace: Place?
 
@@ -118,17 +96,6 @@ struct ContentView: View {
     )
     .edgesIgnoringSafeArea(.all)
     VStack(spacing: 0) {
-      if toPlace != nil {
-        TextField("From", text: $fromSearchQueue.searchText)
-          .padding()
-          .border(.gray)
-          .padding()
-          .onChange(of: fromSearchQueue.searchText) { _, newValue in
-            let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
-            self.fromSearchQueue.textDidChange(newValue: newValue, focus: focus)
-          }
-      }
-
       // FIX: bad animation as this becomes visible upon "back" from details
       if selectedPlace == nil {
         TextField("Where to?", text: $toSearchQueue.searchText)

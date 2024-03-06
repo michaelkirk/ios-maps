@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 struct TripPlanView: View {
   @StateObject var tripPlan: TripPlan
   var getFocus: () -> LngLat?
