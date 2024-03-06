@@ -8,14 +8,37 @@
 import CoreLocation
 import Foundation
 
-struct Trip: Hashable {
-  var from: Place
-  var to: Place
-  var encodedGeometry: String
-  var decodedGeometry: [CLLocationCoordinate2D] {
-    decodePolyline(encodedGeometry, precision: 6)
+struct TripLeg {
+  var geometry: [CLLocationCoordinate2D]
+//  var decodedGeometry:
+//    decodePolyline(encodedGeometry, precision: 6)
+//  }
+}
+
+struct Trip {
+
+//  var from: Place
+//  var to: Place
+  // really this is just to be Hashable. I'm not sure if we need it.
+  var id: UUID
+  var legs: [TripLeg]
+  init(itinerary: Itinerary) {
+    id = UUID()
+    legs = itinerary.legs.map { itineraryLeg in
+      TripLeg(geometry: decodePolyline(itineraryLeg.geometry, precision: 6))
+    }
   }
 }
+
+extension Trip: Hashable {
+  static func == (lhs: Trip, rhs: Trip) -> Bool {
+    lhs.id == rhs.id
+  }
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(self.id)
+  }
+}
+
 
 func decodePolyline(_ str: String, precision: Int) -> [CLLocationCoordinate2D] {
   var lat = 0

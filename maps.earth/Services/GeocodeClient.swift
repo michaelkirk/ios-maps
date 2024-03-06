@@ -8,31 +8,6 @@
 import Foundation
 import OSLog
 
-//struct GeoJson {
-//    private enum RootCodingKeys: String, CodingKey {
-//         case features
-//     }
-//
-//     private enum FeatureCodingKeys: String, CodingKey {
-//         case properties
-//     }
-//
-//    private(set) var places: [Place] = []
-//
-//    init(from decoder: Decoder) throws {
-//      let rootContainer = try decoder.container(keyedBy: RootCodingKeys.self)
-//        var featuresContainer = try rootContainer.nestedUnkeyedContainer(forKey: .features)
-//
-//        while !featuresContainer.isAtEnd {
-//            let propertiesContainer = try featuresContainer.nestedContainer(keyedBy: FeatureCodingKeys.self)
-//
-//            if let properties = try? propertiesContainer.decode(Place.self, forKey: .properties) {
-//                places.append(properties)
-//            }
-//        }
-//    }
-//}
-
 struct GeocodeClient {
   func autocomplete(text: String, focus: LngLat? = nil) async throws -> [Place] {
     let test = false

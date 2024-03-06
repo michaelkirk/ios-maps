@@ -106,8 +106,7 @@ struct MapView: UIViewRepresentable {
     func ensureRoutes(in mapView: MLNMapView, for trips: [Trip]) {
       for trip in trips {
         if self.trips[trip] == nil {
-          self.trips[trip] = Self.addRoute(
-            to: mapView, along: polyline(coordinates: trip.decodedGeometry))
+          self.trips[trip] = Self.addRoute(to: mapView, trip: trip)
         }
       }
 
@@ -130,7 +129,11 @@ struct MapView: UIViewRepresentable {
       return marker
     }
 
-    static func addRoute(to mapView: MLNMapView, along geometry: MLNPolyline) -> MLNOverlay {
+    static func addRoute(to mapView: MLNMapView, trip: Trip) -> MLNOverlay {
+      for leg in trip.legs {
+        let polyline: MLNPolyline = polyline(coordinates: leg.geometry)
+        fatalError("TODO: add polyline to map \(polyline)")
+      }
       fatalError("TODO")
     }
   }

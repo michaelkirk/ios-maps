@@ -28,6 +28,9 @@
 		45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971AC42B71A6FF0050BECE /* PlaceRow.swift */; };
 		45971ACA2B71AB500050BECE /* FixtureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971AC92B71AB500050BECE /* FixtureData.swift */; };
 		45971ACE2B71AC320050BECE /* autocomplete.json in Resources */ = {isa = PBXBuildFile; fileRef = 45971ACD2B71AC320050BECE /* autocomplete.json */; };
+		45992B482B97E56000A64AEE /* transit_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 45992B462B97E55F00A64AEE /* transit_plan.json */; };
+		45992B492B97E56000A64AEE /* bike_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 45992B472B97E56000A64AEE /* bike_plan.json */; };
+		45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanner.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
 /* End PBXBuildFile section */
@@ -73,6 +76,9 @@
 		45971AC42B71A6FF0050BECE /* PlaceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRow.swift; sourceTree = "<group>"; };
 		45971AC92B71AB500050BECE /* FixtureData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureData.swift; sourceTree = "<group>"; };
 		45971ACD2B71AC320050BECE /* autocomplete.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = autocomplete.json; sourceTree = "<group>"; };
+		45992B462B97E55F00A64AEE /* transit_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transit_plan.json; sourceTree = "<group>"; };
+		45992B472B97E56000A64AEE /* bike_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bike_plan.json; sourceTree = "<group>"; };
+		45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanClient.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanner.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -201,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				45971AC22B719DD90050BECE /* GeocodeClient.swift */,
+				45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -217,6 +224,8 @@
 		45971ACC2B71AC090050BECE /* StubbedResponses */ = {
 			isa = PBXGroup;
 			children = (
+				45992B472B97E56000A64AEE /* bike_plan.json */,
+				45992B462B97E55F00A64AEE /* transit_plan.json */,
 				45971ACD2B71AC320050BECE /* autocomplete.json */,
 			);
 			path = StubbedResponses;
@@ -332,8 +341,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45992B482B97E56000A64AEE /* transit_plan.json in Resources */,
 				4563B9FA2B687AA5005A677A /* Preview Assets.xcassets in Resources */,
 				45971ACE2B71AC320050BECE /* autocomplete.json in Resources */,
+				45992B492B97E56000A64AEE /* bike_plan.json in Resources */,
 				4563B9F72B687AA5005A677A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,6 +378,7 @@
 				455363F02B687EF0006DF291 /* MapView.swift in Sources */,
 				45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */,
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
+				45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
