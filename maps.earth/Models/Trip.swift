@@ -10,21 +10,55 @@ import Foundation
 
 struct TripLeg {
   var geometry: [CLLocationCoordinate2D]
-//  var decodedGeometry:
-//    decodePolyline(encodedGeometry, precision: 6)
-//  }
 }
 
-struct Trip {
+struct Trip: Identifiable {
+  var raw: Itinerary
 
-//  var from: Place
-//  var to: Place
-  // really this is just to be Hashable. I'm not sure if we need it.
+  //  var from: Place
+  //  var to: Place
+
+  // this is just to be Hashable. I'm not sure if we need it.
   var id: UUID
+
   var legs: [TripLeg]
+  var duration: Float64 {
+    self.raw.duration
+  }
+  var distance: Float64 {
+    self.raw.distance
+  }
+  var distanceFormatUnit: LengthFormatter.Unit {
+    switch self.raw.distanceUnits {
+    case .miles:
+        .mile
+    case .meters:
+        .meter
+    case .kilometers:
+        .kilometer
+    }
+  }
+
+  var durationFormatted: String {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.hour, .minute]
+    formatter.unitsStyle = .short
+    formatter.zeroFormattingBehavior = .dropAll
+
+    return formatter.string(from: self.duration) ?? "\(self.duration)s"
+  }
+
+  var distanceFormatted: String {
+    let formatter = LengthFormatter()
+    formatter.unitStyle = .long
+    formatter.numberFormatter.roundingIncrement = 0.1
+    return formatter.string(fromValue: distance, unit: self.distanceFormatUnit)
+  }
+
   init(itinerary: Itinerary) {
-    id = UUID()
-    legs = itinerary.legs.map { itineraryLeg in
+    self.id = UUID()
+    self.raw = itinerary;
+    self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(geometry: decodePolyline(itineraryLeg.geometry, precision: 6))
     }
   }
@@ -38,7 +72,6 @@ extension Trip: Hashable {
     hasher.combine(self.id)
   }
 }
-
 
 func decodePolyline(_ str: String, precision: Int) -> [CLLocationCoordinate2D] {
   var lat = 0

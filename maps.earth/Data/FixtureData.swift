@@ -14,7 +14,7 @@ struct FixtureData {
     return places
   }()
 
-  static var bike_trips: [Trip] = {
+  static var bikeTrips: [Trip] = {
     let response: TripPlanResponse = load("bike_plan.json")
     let trips = response.plan.itineraries.map { Trip(itinerary: $0) }
     return trips

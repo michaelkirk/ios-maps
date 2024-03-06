@@ -1,5 +1,5 @@
 //
-//  TripPlanner.swift
+//  TripPlanClient.swift
 //  maps.earth
 //
 //  Created by Michael Kirk on 3/5/24.
@@ -11,11 +11,29 @@ struct ItineraryLeg: Decodable {
   var geometry: String
 }
 
+enum DistanceUnit: String, Decodable {
+  case miles
+  case meters
+  case kilometers
+
+  func toUnit() -> UnitLength {
+    switch self {
+
+    case .miles:
+        .miles
+    case .meters:
+        .meters
+    case .kilometers:
+        .kilometers
+    }
+  }
+}
+
 struct Itinerary: Decodable {
   var mode: String
   var duration: Float64
   var distance: Float64
-  var distanceUnits: String
+  var distanceUnits: DistanceUnit
   var legs: [ItineraryLeg]
 }
 
