@@ -31,11 +31,11 @@ struct Trip: Identifiable {
   var distanceFormatUnit: LengthFormatter.Unit {
     switch self.raw.distanceUnits {
     case .miles:
-        .mile
+      .mile
     case .meters:
-        .meter
+      .meter
     case .kilometers:
-        .kilometer
+      .kilometer
     }
   }
 
@@ -57,7 +57,7 @@ struct Trip: Identifiable {
 
   init(itinerary: Itinerary) {
     self.id = UUID()
-    self.raw = itinerary;
+    self.raw = itinerary
     self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(geometry: decodePolyline(itineraryLeg.geometry, precision: 6))
     }

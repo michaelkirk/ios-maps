@@ -33,7 +33,7 @@ struct PlaceDetail: View {
           NavigationView {
             ScrollView {
               // TODO: plumb focus from higher, or put in environment
-              TripPlanner(navigateTo: place, getFocus: fakeFocus)
+              TripPlanView(to: place, getFocus: fakeFocus)
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .topLeading)

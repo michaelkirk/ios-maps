@@ -18,7 +18,7 @@ struct MapView: UIViewRepresentable {
   @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var mapView: MLNMapView?
-  @Binding var selectedTrip: Trip?
+  //  @Binding var selectedTrip: Trip?
 
   func makeCoordinator() -> Coordinator {
     Coordinator(self)
@@ -51,11 +51,11 @@ struct MapView: UIViewRepresentable {
     print("in updateUIView MapView")
     if let places = self.places {
       context.coordinator.ensureMarkers(in: mapView, for: places)
-      if let selectedTrip = self.selectedTrip {
-        context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip])
-      } else {
-        context.coordinator.ensureRoutes(in: mapView, for: [])
-      }
+      //      if let selectedTrip = self.selectedTrip {
+      //        context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip])
+      //      } else {
+      //        context.coordinator.ensureRoutes(in: mapView, for: [])
+      //      }
     }
     // TODO: this is overzealous. We only want to do this when the selection changes
     // not whenever the view gets updated. Perhaps other thing scould cause the view to update,

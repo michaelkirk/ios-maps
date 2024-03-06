@@ -84,25 +84,37 @@ class LegacySearchQueue: ObservableObject {
   }
 }
 
-struct ContentView: View {
-  @StateObject internal var toSearchQueue = LegacySearchQueue()
-  @State var selectedPlace: Place?
+class TripPlan: ObservableObject {
+  var navigateFrom: Place?
+  var navigateTo: Place?
+  var trips: [Trip] = []
+  var selectedTrip: Trip?
+  init(
+    from fromPlace: Place? = nil, to toPlace: Place? = nil, trips: [Trip] = [],
+    selectedTrip: Trip? = nil
+  ) {
+    self.navigateFrom = fromPlace
+    self.navigateTo = toPlace
+    self.trips = trips
+    self.selectedTrip = selectedTrip
+  }
+}
 
-  @State var toPlace: Place?
+struct ContentView: View {
+  @State var selectedPlace: Place?
 
   @StateObject internal var fromSearchQueue = LegacySearchQueue()
   @State var fromPlace: Place?
 
-  // TODO: trip list
-  @State var trip: Trip?
+  @StateObject internal var toSearchQueue = LegacySearchQueue()
+  @State var toPlace: Place?
 
   // I'm not currently using this... but I might
   @State var mapView: MLNMapView?
 
   var body: some View {
     MapView(
-      places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
-      selectedTrip: $trip
+      places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
     )
     .edgesIgnoringSafeArea(.all)
     VStack(spacing: 0) {
@@ -143,8 +155,8 @@ struct ContentView: View {
 
 #Preview("show detail") {
   ContentView(
-    toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places),
-    selectedPlace: FixtureData.places[0])
+    selectedPlace: FixtureData.places[0],
+    toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
 }
 
 #Preview("blank") {

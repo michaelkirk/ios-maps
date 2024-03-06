@@ -20,11 +20,11 @@ enum DistanceUnit: String, Decodable {
     switch self {
 
     case .miles:
-        .miles
+      .miles
     case .meters:
-        .meters
+      .meters
     case .kilometers:
-        .kilometers
+      .kilometers
     }
   }
 }
