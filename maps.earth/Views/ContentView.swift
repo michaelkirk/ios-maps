@@ -68,7 +68,7 @@ class LegacySearchQueue: ObservableObject {
 class TripPlan: ObservableObject {
   @Published var navigateFrom: Place?
   @Published var navigateTo: Place?
-  @Published var trips: [Trip] = []
+  @Published var trips: [Trip]
   @Published var selectedTrip: Trip?
   init(
     from fromPlace: Place? = nil, to toPlace: Place? = nil, trips: [Trip] = [],
@@ -133,10 +133,10 @@ struct ContentView: View {
   ContentView()
 }
 
-#Preview("with sheet") {
+#Preview("with directions") {
   ContentView(
     selectedPlace: FixtureData.places[0],
-    tripPlan: TripPlan(to: FixtureData.places[0]),
+    tripPlan: FixtureData.tripPlan,
     toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places)
   )
 }

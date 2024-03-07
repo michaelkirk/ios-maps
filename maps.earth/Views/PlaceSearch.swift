@@ -82,7 +82,7 @@ struct PlaceSearch: View {
               dismissSearch()
               dismiss()
             }
-          }.frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
+          }
         }
         Spacer()
       }.navigationTitle("Change Stop")

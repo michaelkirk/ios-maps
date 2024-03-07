@@ -19,6 +19,8 @@ struct FixtureData {
     let trips = response.plan.itineraries.map { Trip(itinerary: $0) }
     return trips
   }()
+
+  static var tripPlan: TripPlan = TripPlan(from: Self.places[0], to: Self.places[1], trips: Self.bikeTrips)
 }
 
 func load<T: Decodable>(_ filename: String) -> T {

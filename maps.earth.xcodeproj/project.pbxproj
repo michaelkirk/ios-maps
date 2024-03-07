@@ -31,6 +31,7 @@
 		45992B482B97E56000A64AEE /* transit_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 45992B462B97E55F00A64AEE /* transit_plan.json */; };
 		45992B492B97E56000A64AEE /* bike_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 45992B472B97E56000A64AEE /* bike_plan.json */; };
 		45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */; };
+		45992B4D2B9A71D100A64AEE /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4C2B9A71D100A64AEE /* Style.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
 /* End PBXBuildFile section */
@@ -79,6 +80,7 @@
 		45992B462B97E55F00A64AEE /* transit_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transit_plan.json; sourceTree = "<group>"; };
 		45992B472B97E56000A64AEE /* bike_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bike_plan.json; sourceTree = "<group>"; };
 		45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanClient.swift; sourceTree = "<group>"; };
+		45992B4C2B9A71D100A64AEE /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */,
+				45992B4C2B9A71D100A64AEE /* Style.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */,
 				455363F02B687EF0006DF291 /* MapView.swift in Sources */,
 				45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */,
+				45992B4D2B9A71D100A64AEE /* Style.swift in Sources */,
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
 				45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,

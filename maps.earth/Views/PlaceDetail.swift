@@ -16,7 +16,6 @@ struct PlaceDetail: View {
   var body: some View {
     VStack(alignment: .leading) {
       Text(place.name).font(.largeTitle)
-
       Button(action: {
         print("navigateTo: \(place))")
         tripPlan.navigateTo = place
@@ -24,9 +23,9 @@ struct PlaceDetail: View {
         Text("Navigate")
       }
       .padding()
-      .background(.blue)
       .foregroundColor(.white)
-      .cornerRadius(3)
+      .background(.blue)
+      .cornerRadius(4)
       .sheet(
         isPresented: Binding(
           get: {
@@ -39,20 +38,22 @@ struct PlaceDetail: View {
           }
         ),
         content: {
-          NavigationView {
+          VStack(spacing: 0) {
+            HStack {
+              Text("Directions").font(.largeTitle)
+              Spacer()
+              Button(action: { tripPlan.navigateTo = nil }) {
+                Image(systemName: "xmark")
+              }.tint(.black)
+            }.padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
             ScrollView {
               // TODO: plumb focus from higher, or put in environment
-              TripPlanView(tripPlan: ObservedObject(wrappedValue: tripPlan), getFocus: fakeFocus)
+              TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
+                .containerRelativeFrame(.vertical)
+                .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
             }
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .topLeading)
-            .navigationTitle("Directions")
-            // FIXME: For some reason this is on a different line, pushing the nav title down
-            .navigationBarItems(
-              trailing: Button(action: { tripPlan.navigateTo = nil }) {
-                Image(systemName: "xmark")
-              })
           }
+          .background(Color.hw_offWhite)
           .presentationDetents([.large, .medium, .height(50)], selection: .constant(.medium))
           .presentationBackgroundInteraction(
             .enabled(upThrough: .medium)
@@ -60,7 +61,7 @@ struct PlaceDetail: View {
         })
 
       Text(place.label).padding(.top, 16)
-    }
+    }.padding()
   }
 }
 
