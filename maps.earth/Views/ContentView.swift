@@ -66,10 +66,10 @@ class LegacySearchQueue: ObservableObject {
 }
 
 class TripPlan: ObservableObject {
-  var navigateFrom: Place?
-  var navigateTo: Place?
-  var trips: [Trip] = []
-  var selectedTrip: Trip?
+  @Published var navigateFrom: Place?
+  @Published var navigateTo: Place?
+  @Published var trips: [Trip] = []
+  @Published var selectedTrip: Trip?
   init(
     from fromPlace: Place? = nil, to toPlace: Place? = nil, trips: [Trip] = [],
     selectedTrip: Trip? = nil
@@ -83,9 +83,9 @@ class TripPlan: ObservableObject {
 
 struct ContentView: View {
   @State var selectedPlace: Place?
+  @StateObject var tripPlan: TripPlan = TripPlan()
 
   @StateObject internal var toSearchQueue = LegacySearchQueue()
-  @State var toPlace: Place?
 
   // I'm not currently using this... but I might
   @State var mapView: MLNMapView?
@@ -95,6 +95,7 @@ struct ContentView: View {
       places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
     )
     .edgesIgnoringSafeArea(.all)
+
     VStack(spacing: 0) {
       // FIX: bad animation as this becomes visible upon "back" from details
       if selectedPlace == nil {
@@ -108,8 +109,10 @@ struct ContentView: View {
           }
       }
 
-      if !toSearchQueue.searchText.isEmpty && toPlace == nil {
-        PlaceList(places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace)
+      if !toSearchQueue.searchText.isEmpty {
+        PlaceList(
+          places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace,
+          navigateTo: $tripPlan.navigateTo)
       }
     }
   }
@@ -128,4 +131,12 @@ struct ContentView: View {
 
 #Preview("blank") {
   ContentView()
+}
+
+#Preview("with sheet") {
+  ContentView(
+    selectedPlace: FixtureData.places[0],
+    tripPlan: TripPlan(to: FixtureData.places[0]),
+    toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places)
+  )
 }

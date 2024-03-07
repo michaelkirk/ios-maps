@@ -11,16 +11,16 @@ import SwiftUI
 struct PlaceDetail: View {
   var place: Place
 
-  // eventually this should include mode choice
   @Binding var navigateTo: Place?
-
-  @State var showingSheet: Bool
 
   var body: some View {
     VStack(alignment: .leading) {
       Text(place.name).font(.largeTitle)
 
-      Button(action: { showingSheet = true }) {
+      Button(action: {
+        print("navigateTo: \(place))")
+        navigateTo = place
+      }) {
         Text("Navigate")
       }
       .padding()
@@ -28,19 +28,28 @@ struct PlaceDetail: View {
       .foregroundColor(.white)
       .cornerRadius(3)
       .sheet(
-        isPresented: $showingSheet,
+        isPresented: Binding(
+          get: {
+            let value = navigateTo != nil
+            print("get presentSheet \(value)")
+            return value
+          },
+          set: { newValue in
+            print("set presentSheet \(newValue)")
+          }
+        ),
         content: {
           NavigationView {
             ScrollView {
               // TODO: plumb focus from higher, or put in environment
-              TripPlanView(to: place, getFocus: fakeFocus)
+              TripPlanView(to: navigateTo, getFocus: fakeFocus)
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .topLeading)
             .navigationTitle("Directions")
             // FIXME: For some reason this is on a different line, pushing the nav title down
             .navigationBarItems(
-              trailing: Button(action: { showingSheet = false }) {
+              trailing: Button(action: { navigateTo = nil }) {
                 Image(systemName: "xmark")
               })
           }
@@ -56,9 +65,9 @@ struct PlaceDetail: View {
 }
 
 #Preview {
-  PlaceDetail(place: FixtureData.places[0], navigateTo: .constant(nil), showingSheet: false)
+  PlaceDetail(place: FixtureData.places[0], navigateTo: .constant(nil))
 }
 
 #Preview("showing sheet") {
-  PlaceDetail(place: FixtureData.places[0], navigateTo: .constant(nil), showingSheet: true)
+  PlaceDetail(place: FixtureData.places[0], navigateTo: .constant(nil))
 }
