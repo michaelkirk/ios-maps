@@ -9,16 +9,16 @@ import Foundation
 import SwiftUI
 
 struct TripPlanView: View {
-  @StateObject var tripPlan: TripPlan
+  @ObservedObject var tripPlan: TripPlan
   var getFocus: () -> LngLat?
 
   init(to place: Place? = nil, getFocus: @escaping () -> LngLat?) {
     let tripPlan = TripPlan(to: place)
-    self.init(tripPlan: tripPlan, getFocus: getFocus)
+    self.init(tripPlan: ObservedObject(initialValue: tripPlan), getFocus: getFocus)
   }
 
-  init(tripPlan: TripPlan, getFocus: @escaping () -> LngLat?) {
-    self._tripPlan = StateObject(wrappedValue: tripPlan)
+  init(tripPlan: ObservedObject<TripPlan>, getFocus: @escaping () -> LngLat?) {
+    self._tripPlan = tripPlan
     self.getFocus = getFocus
   }
 
@@ -59,15 +59,15 @@ func fakeFocus() -> LngLat? {
 #Preview("Showing trips") {
   let tripPlan = TripPlan(
     from: FixtureData.places[0], to: FixtureData.places[1], trips: FixtureData.bikeTrips)
-  return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
+  return TripPlanView(tripPlan: .init(initialValue: tripPlan), getFocus: fakeFocus)
 }
 
 #Preview("Only 'to' selected") {
   let tripPlan = TripPlan(to: FixtureData.places[1])
-  return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
+  return TripPlanView(tripPlan: .init(initialValue: tripPlan), getFocus: fakeFocus)
 }
 
 #Preview("Only 'from' selected") {
   let tripPlan = TripPlan(from: FixtureData.places[0])
-  return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
+  return TripPlanView(tripPlan: .init(initialValue: tripPlan), getFocus: fakeFocus)
 }

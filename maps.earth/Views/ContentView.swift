@@ -112,7 +112,7 @@ struct ContentView: View {
       if !toSearchQueue.searchText.isEmpty {
         PlaceList(
           places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace,
-          navigateTo: $tripPlan.navigateTo)
+          tripPlan: tripPlan)
       }
     }
   }

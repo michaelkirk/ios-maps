@@ -11,7 +11,7 @@ import SwiftUI
 struct PlaceDetail: View {
   var place: Place
 
-  @Binding var navigateTo: Place?
+  @ObservedObject var tripPlan: TripPlan
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -19,7 +19,7 @@ struct PlaceDetail: View {
 
       Button(action: {
         print("navigateTo: \(place))")
-        navigateTo = place
+        tripPlan.navigateTo = place
       }) {
         Text("Navigate")
       }
@@ -30,7 +30,7 @@ struct PlaceDetail: View {
       .sheet(
         isPresented: Binding(
           get: {
-            let value = navigateTo != nil
+            let value = tripPlan.navigateTo != nil
             print("get presentSheet \(value)")
             return value
           },
@@ -42,14 +42,14 @@ struct PlaceDetail: View {
           NavigationView {
             ScrollView {
               // TODO: plumb focus from higher, or put in environment
-              TripPlanView(to: navigateTo, getFocus: fakeFocus)
+              TripPlanView(tripPlan: ObservedObject(wrappedValue: tripPlan), getFocus: fakeFocus)
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .topLeading)
             .navigationTitle("Directions")
             // FIXME: For some reason this is on a different line, pushing the nav title down
             .navigationBarItems(
-              trailing: Button(action: { navigateTo = nil }) {
+              trailing: Button(action: { tripPlan.navigateTo = nil }) {
                 Image(systemName: "xmark")
               })
           }
@@ -65,9 +65,9 @@ struct PlaceDetail: View {
 }
 
 #Preview {
-  PlaceDetail(place: FixtureData.places[0], navigateTo: .constant(nil))
+  PlaceDetail(place: FixtureData.places[0], tripPlan: TripPlan())
 }
 
 #Preview("showing sheet") {
-  PlaceDetail(place: FixtureData.places[0], navigateTo: .constant(nil))
+  PlaceDetail(place: FixtureData.places[0], tripPlan: TripPlan())
 }

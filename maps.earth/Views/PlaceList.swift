@@ -15,7 +15,7 @@ protocol PlaceListDelegate {
 struct PlaceList: View {
   @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
-  @Binding var navigateTo: Place?
+  @ObservedObject var tripPlan: TripPlan
 
   var body: some View {
     NavigationSplitView {
@@ -29,19 +29,19 @@ struct PlaceList: View {
         Text("Loading...")
       }
     } detail: {
-      selectedPlace.map { PlaceDetail(place: $0, navigateTo: $navigateTo) }
+      selectedPlace.map { PlaceDetail(place: $0, tripPlan: tripPlan) }
     }.padding(0)
   }
 }
 
 #Preview("inital") {
   PlaceList(
-    places: .constant(FixtureData.places), selectedPlace: .constant(nil), navigateTo: .constant(nil)
+    places: .constant(FixtureData.places), selectedPlace: .constant(nil), tripPlan: TripPlan()
   )
 }
 
 #Preview("selected") {
   PlaceList(
     places: .constant(FixtureData.places), selectedPlace: .constant(FixtureData.places[0]),
-    navigateTo: .constant(nil))
+    tripPlan: TripPlan())
 }
