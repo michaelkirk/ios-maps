@@ -3,45 +3,24 @@
     "itineraries": [
       {
         "mode": "BICYCLE",
-        "duration": 2220.392,
-        "distance": 6.178,
+        "duration": 1575.005,
+        "distance": 4.375,
         "distanceUnits": "miles",
         "bounds": {
           "min": [
-            -122.349926,
-            47.575601
+            -122.378442,
+            47.563526
           ],
           "max": [
-            -122.336014,
-            47.652747
+            -122.331855,
+            47.599253
           ]
         },
         "legs": [
           {
-            "geometry": "omk{yAnrnjhFkHBmIoB{JiD{DwBiEuBaDoBqC{BuDyC}FwEwDu@kCW{MDwC@[j[[xSgAvHOnFLxR?tBCf@QrFi@pFeAfHCnHMb`@Mna@AjFri@Cbg@EhD?nDOxFUbKa@rQs@xESnGY`I[jJ_@tLg@TA`GO~E[bDExF@fA?zAAfPCtJ?pJ?nK?xD?nE?lN@fr@@dQBzYg@vDI~ACfCExHYvFo@dASfAi@pC{At@g@v@k@vAsAxEcGtKyObB}BrUef@dOib@lGsUzFaT|IqZvBwGvEqJfCaErBeDfDaEzBkCpBcCzBmCtKwIh`Akv@jDsBbFwA`AMxEk@dIy@`q@_EhPcA~B[xImAbNmCvMwChb@mJbB_@b`AiTjN_FfKeFrQ_JbEsBzCwAxLaGfb@mSrHuDr@]`UuKdGwCjFiCdD}AhCmAlC_AlCm@fAOfAOnCQnCA~PDx@?pF@f`ALdEBlb@FtEAhHAzDAzB?|E@nL@hF?`E@tC?~B?jA?~KDne@LpA@hA?~ND|WH`F@dE@pe@LhD?dB@hS@dVBvz@L`j@HrA@~G?pC@rC@lQFzXHtE@fDBxi@XvCBlD?~A@tE@dG@`C@~B@nOPjA?hC?|FEpD?rC@dHAX?xD?`UCrF?hLAvD@xCAf\\?vO?|NC|C?zD@rF@xD@z@?rI@zb@DxD@rC@le@JtWHvCB~D?vFDpF@lIDpQFdQFbD@dE@lMBbA?nBCnBYjBo@dBeA~AyAtAmBhA{BhYml@f@cA~@oBzA{Cjh@wdAvBiEhBsDhSka@`JwQ~GgNjCkFdCjDt@bAfNxRjOdTxCfEjD|EfNvRBD|IbMhDzEfAzAjCtD|AvBbNrRnLlPzAvB|ClEbAtAtAlBbFhHzChEpBrCtNdSbDtEhDzEjN|RnOlTr@dAnBpCdChD~NrSt@dA`MrQrCbEtCdEjHhKrExG~OhUvAhCfAeC~Wah@jAyBnCsCvMiKnCwBjC_C|BoB~KwSzScb@fGwLbBkDzKcU~DqExAuAp@m@zBsBxLcL~NaN~FoFvCqCZ[xEeEhl@oh@rEeEnAgAnC}Bvu@{o@xBkB|BdHz@nC|HpVj@jBvBxG~CsCnFuElCwB`CsBvIqH~E_EjEyDnDwCrFuE~NsMhHmGdD_DvDcD|YuW`EqDbCsBfA}@|DmD~^e\\`EsDbFoEv_@_]xBmBxFsFp_@{Y|BuADlU\\Y`CyBd@e@b@_@hD{CzEiEx@}AtBuAxGaDlFqBxEcAnAS`Dg@rC]xAMhFOvFCtAEhIM`Bt@jAf@~z@@pBClAArMGzRa@xHIzA}@tIKvA?hB@pADIbDFxBXl@`AJ`~@e@lIHbU?l_AjApXKbh@FpSd@dT~AxDDdHZ|RbDxB`@vPnDzT|HzJlExXdQnIlFpCfApI~B|Al@nDxCfGzFlAbA|@Z~@Np@Cr@e@`BeBb@c@~I|ArEv@Lp@l@u@h@QpEDrB\\jE@dSrCxLtDvcAh_@|I`E`GhDpIdFnYbVpNfPbAjA~BlDhIzKvMbQpG|EtE`CbG|AhKp@je@`@nxF@jNEj~DoAnrD^nI@AuDB_B@}M@wTBeC{BIyIE",
-            "routeColor": null
-          }
-        ]
-      },
-      {
-        "mode": "BICYCLE",
-        "duration": 2177.345,
-        "distance": 6.275,
-        "distanceUnits": "miles",
-        "bounds": {
-          "min": [
-            -122.356985,
-            47.575601
-          ],
-          "max": [
-            -122.336014,
-            47.651047
-          ]
-        },
-        "legs": [
-          {
-            "geometry": "omk{yAnrnjhF|kBa@dNElbIAdHQbH[dHc@`Hk@bHs@tBBrBpGJfH_AvRWdJKr]RnKjBt`@NpGZdNv@xDR`A`Olr@`E`X\\zBnDbU~Nt_AdHlo@rBfSnD|[hCnXb@nELlb@?jHEvDB~BVbDZjBl@|ApA~ArBdAh@DzCVlCl@hA`Bz@vDZdCLdAl@zI?xHBrb@?jErA?|_BVbI@lD@pC?dE@lH@bp@JvD@lC@|SB~\\FxF@vF?|C@vB@fQNto@d@`DDfC?lbA\\fC@|B?nF@~b@DjL@zD@xC?rC@|AAd^CpUAzFIbDGpDS`AoEb@oBbAmC~AwBxBmAbC]fDM`G@xRBlMB~B?zp@Rnf@R~EBvC?xABfB?xg@VbEXzANtBLzCVhF@jFBfQDrSHrDCvZFjC?b@@bNB~A?~G@pRFbFEz`@NnD?pA?jGB`OAt^BdE?nDArTGzH@tI?rJ?fCArJ@pE?vD@lLBxTDxDBrSJjD@|C@tCBn^JvZH~B@|C@b_@PfPFfNDdB?|CA~XGpEAbCA|FArPIfFA@cG@sT?cIPch@@gEvCkFnByDrL}V~@iBdIkPnHcOxE}Jp@wAjB{DtAoClL{U~MmXrC}FbHqNp@qAhA}BlCvD`NrRlPpUnBrCjCrDxJhN`T|ZrCfExDkFpYql@|AaDvBmEnZum@vBkExAyCzUof@zCmGxBoEhAcC~Rcb@zFyLrBkEzA{Ch[un@zBsEtAsCdg@gdAtBkEbBcElAsD|@cGbGk^tG{a@f@wEvAkMlCoQ`Hcg@dA{G|BkMdDiRl@yEfAeC~Wah@jAyBnCsCvMiKnCwBjC_C|BoB~KwSzScb@fGwLbBkDzKcU~DqExAuAp@m@zBsBxLcL~NaN~FoFvCqCZ[xEeEhl@oh@rEeEnAgAnC}Bvu@{o@xBkB|BdHz@nC|HpVj@jBvBxG~CsCnFuElCwB`CsBvIqH~E_EjEyDnDwCrFuE~NsMhHmGdD_DvDcD|YuW`EqDbCsBfA}@|DmD~^e\\`EsDbFoEv_@_]xBmBxFsFp_@{Y|BuADlU\\Y`CyBd@e@b@_@hD{CzEiEx@}AtBuAxGaDlFqBxEcAnAS`Dg@rC]xAMhFOvFCtAEhIM`Bt@jAf@~z@@pBClAArMGzRa@xHIzA}@tIKvA?hB@pADIbDFxBXl@`AJ`~@e@lIHbU?l_AjApXKbh@FpSd@dT~AxDDdHZ|RbDxB`@vPnDzT|HzJlExXdQnIlFpCfApI~B|Al@nDxCfGzFlAbA|@Z~@Np@Cr@e@`BeBb@c@~I|ArEv@Lp@l@u@h@QpEDrB\\jE@dSrCxLtDvcAh_@|I`E`GhDpIdFnYbVpNfPbAjA~BlDhIzKvMbQpG|EtE`CbG|AhKp@je@`@nxF@jNEj~DoAnrD^nI@AuDB_B@}M@wTBeC{BIyIE",
-            "routeColor": null
+            "geometry": "wefxyA|kpihFAxL?xHOn@u@hCClP?~DApE?jD?vDAZCja@F|IT~C@zLPzATvBCdF?`CCna@Dzd@B`L@bL?pG?jBlAArMGzRa@xHIzA}@tIKvA?hB@pADIbDFxBXl@`AJ`~@e@lIHbU?l_AjApXKbh@FpSd@dT~AxDDdHZ|RbDxB`@vPnDzT|HzJlExXdQnIlFpCfApI~B|Al@nDxCfGzFlAbA|@Z~@Np@Cr@e@`BeBb@c@~I|ArEv@Lp@l@u@h@QpEDrB\\jE@dSrCxLtDvcAh_@|I`E`GhDpIdFnYbVpNfPbAjA~BlDhIzKvMbQpG|EtE`CbG|AhKp@je@`@nxF@jNEj~DoAnrD^nI@|HCfOCbNe@fNsA|JmB`Ho@|h@A`NC~^XrRNli@`@~CxApBvDq@xAq@xAtAfIR~ZA|RcG~[vPdpBXdEPvED`EA`UAxL?v~@?dw@DvAFdAJjC?~AA`C?l@ExEa@|KOnEOnEKhCoB`[B`AJ`@V\\XVd@Fd@Df@Fd@FPHB\\i@jPLbEC|BbAF^Dr@Hf@HPNB\\o@|J@|HT`Bt@Nd@AnBw@zB}@V?AhDDpAHfBZl@Nf@h@~Dh@zDNpAm@Ni@^a@t@S|@K|BSb`@Jpv@XrlA@jNGfk@?fz@F`bANbe@@|C`@tzALbPP|E`@|B~@zD`@rEAlLIvDI`CAxFy@~b@w@zi@i@jRc@bTr@fQ\\|C`A`DhK~XbBpAnKlLfBxAh@^n@NnG@?dB?hAh@?pJJhBBj@@pHFpTRp@?hKJ~LJnWT~]Zf@?jDD?jEFvu@?vC@~DDtq@?xFBpJ@bKBzY@xS?nMNzn@?`lB?to@l@|ErBfBb@Av_@EvD?@rFRdkAFvc@Hhi@@lF~Af@`@LbIfDtOrHzyBxgAjHpD|J`F`Ad@hCpA|B~AdFnD\\\\pDnDlHtNfBzErBdIHd@pAtJdAjLDbLOfkACjQApGCpWAvD?jFCpFCpOAjEAbHAdCC~KAtFGtP@tBBtH`JzMnBnCxFlI`L|O",
+            "routeColor": null,
+            "mode": "BICYCLE"
           }
         ]
       }
@@ -52,277 +31,84 @@
     "trip": {
       "locations": [
         {
-          "lat": 47.651048,
-          "lon": -122.347234
+          "lat": 47.599091,
+          "lon": -122.331856
         },
         {
-          "lat": 47.575837,
-          "lon": -122.339414
+          "lat": 47.563412,
+          "lon": -122.378248
         }
       ],
       "summary": {
-        "length": 6.178,
-        "time": 2220.392,
-        "min_lat": 47.575601,
-        "min_lon": -122.349926,
-        "max_lat": 47.652747,
-        "max_lon": -122.336014,
-        "has_highway": false,
-        "has_ferry": false,
-        "cost": 4158.786,
+        "length": 4.375,
+        "time": 1575.005,
+        "min_lat": 47.563526,
+        "min_lon": -122.378442,
+        "max_lat": 47.599253,
+        "max_lon": -122.331855,
         "has_toll": false,
-        "has_time_restrictions": false
+        "has_ferry": false,
+        "cost": 2794.07,
+        "has_time_restrictions": false,
+        "has_highway": false
       },
       "units": "miles",
       "legs": [
         {
           "summary": {
-            "length": 6.178,
-            "time": 2220.392,
-            "min_lat": 47.575601,
-            "min_lon": -122.349926,
-            "max_lat": 47.652747,
-            "max_lon": -122.336014,
-            "has_ferry": false,
-            "cost": 4158.786,
+            "length": 4.375,
+            "time": 1575.005,
+            "min_lat": 47.563526,
+            "min_lon": -122.378442,
+            "max_lat": 47.599253,
+            "max_lon": -122.331855,
             "has_time_restrictions": false,
-            "has_toll": false,
-            "has_highway": false
+            "has_highway": false,
+            "cost": 2794.07,
+            "has_ferry": false,
+            "has_toll": false
           },
-          "shape": "omk{yAnrnjhFkHBmIoB{JiD{DwBiEuBaDoBqC{BuDyC}FwEwDu@kCW{MDwC@[j[[xSgAvHOnFLxR?tBCf@QrFi@pFeAfHCnHMb`@Mna@AjFri@Cbg@EhD?nDOxFUbKa@rQs@xESnGY`I[jJ_@tLg@TA`GO~E[bDExF@fA?zAAfPCtJ?pJ?nK?xD?nE?lN@fr@@dQBzYg@vDI~ACfCExHYvFo@dASfAi@pC{At@g@v@k@vAsAxEcGtKyObB}BrUef@dOib@lGsUzFaT|IqZvBwGvEqJfCaErBeDfDaEzBkCpBcCzBmCtKwIh`Akv@jDsBbFwA`AMxEk@dIy@`q@_EhPcA~B[xImAbNmCvMwChb@mJbB_@b`AiTjN_FfKeFrQ_JbEsBzCwAxLaGfb@mSrHuDr@]`UuKdGwCjFiCdD}AhCmAlC_AlCm@fAOfAOnCQnCA~PDx@?pF@f`ALdEBlb@FtEAhHAzDAzB?|E@nL@hF?`E@tC?~B?jA?~KDne@LpA@hA?~ND|WH`F@dE@pe@LhD?dB@hS@dVBvz@L`j@HrA@~G?pC@rC@lQFzXHtE@fDBxi@XvCBlD?~A@tE@dG@`C@~B@nOPjA?hC?|FEpD?rC@dHAX?xD?`UCrF?hLAvD@xCAf\\?vO?|NC|C?zD@rF@xD@z@?rI@zb@DxD@rC@le@JtWHvCB~D?vFDpF@lIDpQFdQFbD@dE@lMBbA?nBCnBYjBo@dBeA~AyAtAmBhA{BhYml@f@cA~@oBzA{Cjh@wdAvBiEhBsDhSka@`JwQ~GgNjCkFdCjDt@bAfNxRjOdTxCfEjD|EfNvRBD|IbMhDzEfAzAjCtD|AvBbNrRnLlPzAvB|ClEbAtAtAlBbFhHzChEpBrCtNdSbDtEhDzEjN|RnOlTr@dAnBpCdChD~NrSt@dA`MrQrCbEtCdEjHhKrExG~OhUvAhCfAeC~Wah@jAyBnCsCvMiKnCwBjC_C|BoB~KwSzScb@fGwLbBkDzKcU~DqExAuAp@m@zBsBxLcL~NaN~FoFvCqCZ[xEeEhl@oh@rEeEnAgAnC}Bvu@{o@xBkB|BdHz@nC|HpVj@jBvBxG~CsCnFuElCwB`CsBvIqH~E_EjEyDnDwCrFuE~NsMhHmGdD_DvDcD|YuW`EqDbCsBfA}@|DmD~^e\\`EsDbFoEv_@_]xBmBxFsFp_@{Y|BuADlU\\Y`CyBd@e@b@_@hD{CzEiEx@}AtBuAxGaDlFqBxEcAnAS`Dg@rC]xAMhFOvFCtAEhIM`Bt@jAf@~z@@pBClAArMGzRa@xHIzA}@tIKvA?hB@pADIbDFxBXl@`AJ`~@e@lIHbU?l_AjApXKbh@FpSd@dT~AxDDdHZ|RbDxB`@vPnDzT|HzJlExXdQnIlFpCfApI~B|Al@nDxCfGzFlAbA|@Z~@Np@Cr@e@`BeBb@c@~I|ArEv@Lp@l@u@h@QpEDrB\\jE@dSrCxLtDvcAh_@|I`E`GhDpIdFnYbVpNfPbAjA~BlDhIzKvMbQpG|EtE`CbG|AhKp@je@`@nxF@jNEj~DoAnrD^nI@AuDB_B@}M@wTBeC{BIyIE",
+          "shape": "wefxyA|kpihFAxL?xHOn@u@hCClP?~DApE?jD?vDAZCja@F|IT~C@zLPzATvBCdF?`CCna@Dzd@B`L@bL?pG?jBlAArMGzRa@xHIzA}@tIKvA?hB@pADIbDFxBXl@`AJ`~@e@lIHbU?l_AjApXKbh@FpSd@dT~AxDDdHZ|RbDxB`@vPnDzT|HzJlExXdQnIlFpCfApI~B|Al@nDxCfGzFlAbA|@Z~@Np@Cr@e@`BeBb@c@~I|ArEv@Lp@l@u@h@QpEDrB\\jE@dSrCxLtDvcAh_@|I`E`GhDpIdFnYbVpNfPbAjA~BlDhIzKvMbQpG|EtE`CbG|AhKp@je@`@nxF@jNEj~DoAnrD^nI@|HCfOCbNe@fNsA|JmB`Ho@|h@A`NC~^XrRNli@`@~CxApBvDq@xAq@xAtAfIR~ZA|RcG~[vPdpBXdEPvED`EA`UAxL?v~@?dw@DvAFdAJjC?~AA`C?l@ExEa@|KOnEOnEKhCoB`[B`AJ`@V\\XVd@Fd@Df@Fd@FPHB\\i@jPLbEC|BbAF^Dr@Hf@HPNB\\o@|J@|HT`Bt@Nd@AnBw@zB}@V?AhDDpAHfBZl@Nf@h@~Dh@zDNpAm@Ni@^a@t@S|@K|BSb`@Jpv@XrlA@jNGfk@?fz@F`bANbe@@|C`@tzALbPP|E`@|B~@zD`@rEAlLIvDI`CAxFy@~b@w@zi@i@jRc@bTr@fQ\\|C`A`DhK~XbBpAnKlLfBxAh@^n@NnG@?dB?hAh@?pJJhBBj@@pHFpTRp@?hKJ~LJnWT~]Zf@?jDD?jEFvu@?vC@~DDtq@?xFBpJ@bKBzY@xS?nMNzn@?`lB?to@l@|ErBfBb@Av_@EvD?@rFRdkAFvc@Hhi@@lF~Af@`@LbIfDtOrHzyBxgAjHpD|J`F`Ad@hCpA|B~AdFnD\\\\pDnDlHtNfBzErBdIHd@pAtJdAjLDbLOfkACjQApGCpWAvD?jFCpFCpOAjEAbHAdCC~KAtFGtP@tBBtH`JzMnBnCxFlI`L|O",
           "maneuvers": [
             {
               "begin_shape_index": 0,
-              "cost": 34.138,
-              "end_shape_index": 2,
-              "instruction": "Bike north on WA 99/Aurora Avenue North.",
-              "length": 0.022,
+              "cost": 216.798,
+              "end_shape_index": 24,
+              "instruction": "Bike west on South Jackson Street.",
+              "length": 0.197,
               "street_names": [
-                "WA 99",
-                "Aurora Avenue North"
+                "South Jackson Street"
               ],
-              "time": 8.348,
+              "time": 88.863,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
-              "type": 2,
-              "verbal_multi_cue": true,
-              "verbal_post_transition_instruction": "Continue for 100 feet.",
-              "verbal_pre_transition_instruction": "Bike north on WA 99, Aurora Avenue North. Then Take the exit on the right.",
-              "verbal_succinct_transition_instruction": "Bike north. Then Take the exit on the right."
-            },
-            {
-              "begin_shape_index": 2,
-              "cost": 76.239,
-              "end_shape_index": 13,
-              "instruction": "Take the exit on the right.",
-              "length": 0.09,
-              "street_names": [
-                "Bridge Way North"
-              ],
-              "time": 29.949,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 20,
-              "verbal_pre_transition_instruction": "Take the exit on the right.",
-              "verbal_transition_alert_instruction": "Take the exit on the right."
-            },
-            {
-              "begin_shape_index": 13,
-              "cost": 40.782,
-              "end_shape_index": 15,
-              "instruction": "Turn left onto North 38th Street.",
-              "length": 0.036,
-              "street_names": [
-                "North 38th Street"
-              ],
-              "time": 13.45,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 15,
-              "verbal_multi_cue": true,
-              "verbal_post_transition_instruction": "Continue for 200 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto North 38th Street. Then Keep right to stay on North 38th Street.",
-              "verbal_succinct_transition_instruction": "Turn left. Then Keep right to stay on North 38th Street.",
-              "verbal_transition_alert_instruction": "Turn left onto North 38th Street."
-            },
-            {
-              "begin_shape_index": 15,
-              "cost": 96.639,
-              "end_shape_index": 27,
-              "instruction": "Keep right to stay on North 38th Street.",
-              "length": 0.113,
-              "street_names": [
-                "North 38th Street"
-              ],
-              "time": 46.25,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 23,
-              "verbal_post_transition_instruction": "Continue for 600 feet.",
-              "verbal_pre_transition_instruction": "Keep right to stay on North 38th Street.",
-              "verbal_transition_alert_instruction": "Keep right to stay on North 38th Street."
-            },
-            {
-              "begin_shape_index": 27,
-              "cost": 1697.819,
-              "end_shape_index": 224,
-              "instruction": "Turn left onto Fremont Avenue North.",
-              "length": 2.74,
-              "street_names": [
-                "Fremont Avenue North"
-              ],
-              "time": 965.799,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 3 miles.",
-              "verbal_pre_transition_instruction": "Turn left onto Fremont Avenue North.",
-              "verbal_succinct_transition_instruction": "Turn left.",
-              "verbal_transition_alert_instruction": "Turn left onto Fremont Avenue North."
-            },
-            {
-              "begin_shape_index": 224,
-              "cost": 459.218,
-              "end_shape_index": 263,
-              "instruction": "Turn right onto Lenora Street.",
-              "length": 0.426,
-              "street_names": [
-                "Lenora Street"
-              ],
-              "time": 198.999,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for a half mile.",
-              "verbal_pre_transition_instruction": "Turn right onto Lenora Street.",
-              "verbal_succinct_transition_instruction": "Turn right.",
-              "verbal_transition_alert_instruction": "Turn right onto Lenora Street."
-            },
-            {
-              "begin_shape_index": 263,
-              "cost": 233.411,
-              "end_shape_index": 292,
-              "instruction": "Turn left onto Western Avenue.",
-              "length": 0.423,
-              "street_names": [
-                "Western Avenue"
-              ],
-              "time": 145.299,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for a half mile.",
-              "verbal_pre_transition_instruction": "Turn left onto Western Avenue.",
-              "verbal_succinct_transition_instruction": "Turn left.",
-              "verbal_transition_alert_instruction": "Turn left onto Western Avenue."
-            },
-            {
-              "begin_shape_index": 292,
-              "cost": 56.168,
-              "end_shape_index": 297,
-              "instruction": "Turn right onto University Street.",
-              "length": 0.044,
-              "street_names": [
-                "University Street"
-              ],
-              "time": 20.5,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 10,
-              "verbal_multi_cue": true,
-              "verbal_post_transition_instruction": "Continue for 200 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto University Street. Then Turn left onto Alaskan Way.",
-              "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto Alaskan Way.",
-              "verbal_transition_alert_instruction": "Turn right onto University Street."
-            },
-            {
-              "begin_shape_index": 297,
-              "cost": 300.93,
-              "end_shape_index": 323,
-              "instruction": "Turn left onto Alaskan Way.",
-              "length": 0.344,
-              "street_names": [
-                "Alaskan Way"
-              ],
-              "time": 116.949,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 15,
+              "type": 3,
               "verbal_post_transition_instruction": "Continue for a quarter mile.",
-              "verbal_pre_transition_instruction": "Turn left onto Alaskan Way.",
-              "verbal_succinct_transition_instruction": "Turn left.",
-              "verbal_transition_alert_instruction": "Turn left onto Alaskan Way."
+              "verbal_pre_transition_instruction": "Bike west on South Jackson Street.",
+              "verbal_succinct_transition_instruction": "Bike west."
             },
             {
-              "begin_shape_index": 323,
-              "cost": 30.257,
-              "end_shape_index": 324,
-              "instruction": "Turn right onto the cycleway.",
-              "length": 0.016,
-              "time": 9.4,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 10,
-              "verbal_multi_cue": true,
-              "verbal_post_transition_instruction": "Continue for 90 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the cycleway. Then Turn left onto Elliott Bay Trail.",
-              "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto Elliott Bay Trail.",
-              "verbal_transition_alert_instruction": "Turn right onto the cycleway."
-            },
-            {
-              "begin_shape_index": 324,
-              "cost": 8.581,
-              "end_shape_index": 325,
-              "instruction": "Turn left onto Elliott Bay Trail.",
-              "length": 0.001,
-              "street_names": [
-                "Elliott Bay Trail"
-              ],
-              "time": 1.3,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 15,
-              "verbal_multi_cue": true,
-              "verbal_post_transition_instruction": "Continue for less than 10 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto Elliott Bay Trail. Then Continue on the cycleway.",
-              "verbal_succinct_transition_instruction": "Turn left. Then Continue on the cycleway.",
-              "verbal_transition_alert_instruction": "Turn left onto Elliott Bay Trail."
-            },
-            {
-              "begin_shape_index": 325,
-              "cost": 125.992,
-              "end_shape_index": 346,
-              "instruction": "Continue on the cycleway.",
-              "length": 0.178,
-              "time": 76.15,
-              "travel_mode": "bicycle",
-              "travel_type": "hybrid",
-              "type": 8,
-              "verbal_post_transition_instruction": "Continue for 900 feet.",
-              "verbal_pre_transition_instruction": "Continue on the cycleway.",
-              "verbal_transition_alert_instruction": "Continue on the cycleway."
-            },
-            {
-              "begin_shape_index": 346,
-              "cost": 254.958,
-              "end_shape_index": 375,
-              "instruction": "Continue on Portside Trail.",
-              "length": 0.49,
+              "begin_shape_index": 24,
+              "cost": 250.195,
+              "end_shape_index": 52,
+              "instruction": "Turn left onto Portside Trail.",
+              "length": 0.487,
               "street_names": [
                 "Portside Trail"
               ],
-              "time": 169.499,
+              "time": 166.499,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
-              "type": 8,
+              "type": 15,
               "verbal_post_transition_instruction": "Continue for a half mile.",
-              "verbal_pre_transition_instruction": "Continue on Portside Trail.",
-              "verbal_transition_alert_instruction": "Continue on Portside Trail."
+              "verbal_pre_transition_instruction": "Turn left onto Portside Trail.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto Portside Trail."
             },
             {
-              "begin_shape_index": 375,
+              "begin_shape_index": 52,
               "cost": 45.441,
-              "end_shape_index": 389,
+              "end_shape_index": 66,
               "instruction": "Keep right to stay on Portside Trail.",
               "length": 0.1,
               "street_names": [
@@ -337,15 +123,15 @@
               "verbal_transition_alert_instruction": "Keep right to stay on Portside Trail."
             },
             {
-              "begin_shape_index": 389,
+              "begin_shape_index": 66,
               "cost": 13.358,
-              "end_shape_index": 391,
+              "end_shape_index": 68,
               "instruction": "Bear right to stay on Portside Trail.",
               "length": 0.019,
               "street_names": [
                 "Portside Trail"
               ],
-              "time": 7.599,
+              "time": 7.6,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
               "type": 9,
@@ -356,12 +142,12 @@
               "verbal_transition_alert_instruction": "Bear right to stay on Portside Trail."
             },
             {
-              "begin_shape_index": 391,
+              "begin_shape_index": 68,
               "cost": 45.069,
-              "end_shape_index": 396,
+              "end_shape_index": 73,
               "instruction": "Turn right.",
               "length": 0.015,
-              "time": 11.1,
+              "time": 11.099,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
               "type": 10,
@@ -372,12 +158,12 @@
               "verbal_transition_alert_instruction": "Turn right."
             },
             {
-              "begin_shape_index": 396,
+              "begin_shape_index": 73,
               "cost": 12.83,
-              "end_shape_index": 398,
+              "end_shape_index": 75,
               "instruction": "Continue on the cycleway.",
               "length": 0.029,
-              "time": 10.05,
+              "time": 10.049,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
               "type": 8,
@@ -387,67 +173,226 @@
               "verbal_transition_alert_instruction": "Continue on the cycleway."
             },
             {
-              "begin_shape_index": 398,
-              "cost": 566.736,
-              "end_shape_index": 419,
+              "begin_shape_index": 75,
+              "cost": 705.076,
+              "end_shape_index": 107,
               "instruction": "Continue on Alaskan Way South.",
-              "length": 1.03,
+              "length": 1.284,
               "street_names": [
                 "Alaskan Way South"
               ],
-              "time": 333.75,
+              "time": 418.849,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
               "type": 8,
-              "verbal_post_transition_instruction": "Continue for 1 mile.",
+              "verbal_post_transition_instruction": "Continue for 1.5 miles.",
               "verbal_pre_transition_instruction": "Continue on Alaskan Way South.",
               "verbal_transition_alert_instruction": "Continue on Alaskan Way South."
             },
             {
-              "begin_shape_index": 419,
-              "cost": 36.973,
-              "end_shape_index": 424,
-              "instruction": "Turn left onto South Hanford Street.",
-              "length": 0.036,
+              "begin_shape_index": 107,
+              "cost": 9.472,
+              "end_shape_index": 109,
+              "instruction": "Bear right toward South Spokane Street.",
+              "length": 0.011,
+              "sign": {},
+              "time": 4.2,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 9,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 60 feet.",
+              "verbal_pre_transition_instruction": "Bear right toward South Spokane Street. Then Turn right onto West Seattle Bridge Trail.",
+              "verbal_succinct_transition_instruction": "Bear right toward South Spokane Street. Then Turn right onto West Seattle Bridge Trail.",
+              "verbal_transition_alert_instruction": "Bear right toward South Spokane Street."
+            },
+            {
+              "begin_shape_index": 109,
+              "cost": 286.868,
+              "end_shape_index": 157,
+              "instruction": "Turn right onto West Seattle Bridge Trail.",
+              "length": 0.411,
               "street_names": [
-                "South Hanford Street"
+                "West Seattle Bridge Trail"
               ],
-              "time": 14.5,
+              "time": 160.099,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for a half mile.",
+              "verbal_pre_transition_instruction": "Turn right onto West Seattle Bridge Trail.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto West Seattle Bridge Trail."
+            },
+            {
+              "begin_shape_index": 157,
+              "cost": 68.209,
+              "end_shape_index": 170,
+              "instruction": "Turn left to stay on West Seattle Bridge Trail.",
+              "length": 0.034,
+              "street_names": [
+                "West Seattle Bridge Trail"
+              ],
+              "time": 27.75,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
               "type": 15,
               "verbal_multi_cue": true,
               "verbal_post_transition_instruction": "Continue for 200 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto South Hanford Street. Then Turn left onto East Marginal Way South.",
-              "verbal_succinct_transition_instruction": "Turn left. Then Turn left onto East Marginal Way South.",
-              "verbal_transition_alert_instruction": "Turn left onto South Hanford Street."
+              "verbal_pre_transition_instruction": "Turn left to stay on West Seattle Bridge Trail. Then, in 200 feet, Turn right to stay on West Seattle Bridge Trail.",
+              "verbal_succinct_transition_instruction": "Turn left. Then, in 200 feet, Turn right to stay on West Seattle Bridge Trail.",
+              "verbal_transition_alert_instruction": "Turn left to stay on West Seattle Bridge Trail."
             },
             {
-              "begin_shape_index": 424,
-              "cost": 23.236,
-              "end_shape_index": 426,
-              "instruction": "Turn left onto East Marginal Way South.",
-              "length": 0.016,
+              "begin_shape_index": 170,
+              "cost": 229.829,
+              "end_shape_index": 194,
+              "instruction": "Turn right to stay on West Seattle Bridge Trail.",
+              "length": 0.426,
               "street_names": [
-                "East Marginal Way South"
+                "West Seattle Bridge Trail"
               ],
-              "time": 8.394,
+              "time": 145.6,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for a half mile.",
+              "verbal_pre_transition_instruction": "Turn right to stay on West Seattle Bridge Trail.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right to stay on West Seattle Bridge Trail."
+            },
+            {
+              "begin_shape_index": 194,
+              "cost": 64.627,
+              "end_shape_index": 202,
+              "instruction": "Keep left to stay on West Seattle Bridge Trail.",
+              "length": 0.134,
+              "street_names": [
+                "West Seattle Bridge Trail"
+              ],
+              "time": 43.849,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 24,
+              "verbal_post_transition_instruction": "Continue for 700 feet.",
+              "verbal_pre_transition_instruction": "Keep left to stay on West Seattle Bridge Trail.",
+              "verbal_transition_alert_instruction": "Keep left to stay on West Seattle Bridge Trail."
+            },
+            {
+              "begin_shape_index": 202,
+              "cost": 159.146,
+              "end_shape_index": 223,
+              "instruction": "Bear left onto 22nd Avenue Southwest.",
+              "length": 0.195,
+              "street_names": [
+                "22nd Avenue Southwest"
+              ],
+              "time": 75.85,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 16,
+              "verbal_post_transition_instruction": "Continue for a quarter mile.",
+              "verbal_pre_transition_instruction": "Bear left onto 22nd Avenue Southwest.",
+              "verbal_succinct_transition_instruction": "Bear left.",
+              "verbal_transition_alert_instruction": "Bear left onto 22nd Avenue Southwest."
+            },
+            {
+              "begin_shape_index": 223,
+              "cost": 219.305,
+              "end_shape_index": 238,
+              "instruction": "Turn right onto Southwest Andover Street.",
+              "length": 0.32,
+              "street_names": [
+                "Southwest Andover Street"
+              ],
+              "time": 126.149,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for a quarter mile.",
+              "verbal_pre_transition_instruction": "Turn right onto Southwest Andover Street.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto Southwest Andover Street."
+            },
+            {
+              "begin_shape_index": 238,
+              "cost": 38.543,
+              "end_shape_index": 242,
+              "instruction": "Turn left onto 28th Avenue Southwest.",
+              "length": 0.047,
+              "street_names": [
+                "28th Avenue Southwest"
+              ],
+              "time": 20.799,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
               "type": 15,
-              "verbal_multi_cue": true,
-              "verbal_post_transition_instruction": "Continue for 90 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto East Marginal Way South. Then Your destination will be on the left.",
-              "verbal_succinct_transition_instruction": "Turn left. Then Your destination will be on the left.",
-              "verbal_transition_alert_instruction": "Turn left onto East Marginal Way South."
+              "verbal_post_transition_instruction": "Continue for 300 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto 28th Avenue Southwest.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto 28th Avenue Southwest."
             },
             {
-              "begin_shape_index": 426,
-              "cost": 0.0,
-              "end_shape_index": 426,
+              "begin_shape_index": 242,
+              "cost": 104.333,
+              "end_shape_index": 247,
+              "instruction": "Turn right onto Southwest Yancy Street.",
+              "length": 0.127,
+              "street_names": [
+                "Southwest Yancy Street"
+              ],
+              "time": 49.4,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 700 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto Southwest Yancy Street.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto Southwest Yancy Street."
+            },
+            {
+              "begin_shape_index": 247,
+              "cost": 264.004,
+              "end_shape_index": 283,
+              "instruction": "Turn left onto Southwest Avalon Way.",
+              "length": 0.476,
+              "street_names": [
+                "Southwest Avalon Way"
+              ],
+              "time": 167.05,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for a half mile.",
+              "verbal_pre_transition_instruction": "Turn left onto Southwest Avalon Way.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto Southwest Avalon Way."
+            },
+            {
+              "begin_shape_index": 283,
+              "cost": 60.959,
+              "end_shape_index": 287,
+              "instruction": "Turn left onto Fauntleroy Way Southwest.",
+              "length": 0.052,
+              "street_names": [
+                "Fauntleroy Way Southwest"
+              ],
+              "time": 18.192,
+              "travel_mode": "bicycle",
+              "travel_type": "hybrid",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 300 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto Fauntleroy Way Southwest.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto Fauntleroy Way Southwest."
+            },
+            {
+              "begin_shape_index": 287,
+              "cost": 0,
+              "end_shape_index": 287,
               "instruction": "Your destination is on the left.",
-              "length": 0.0,
-              "time": 0.0,
+              "length": 0,
+              "time": 0,
               "travel_mode": "bicycle",
               "travel_type": "hybrid",
               "type": 6,
@@ -457,462 +402,10 @@
           ]
         }
       ],
-      "status": 0,
+      "status_message": "Found route between points",
       "language": "en-US",
-      "status_message": "Found route between points"
+      "status": 0
     },
-    "alternates": [
-      {
-        "trip": {
-          "locations": [
-            {
-              "lat": 47.651048,
-              "lon": -122.347234
-            },
-            {
-              "lat": 47.575837,
-              "lon": -122.339414
-            }
-          ],
-          "summary": {
-            "length": 6.275,
-            "time": 2177.345,
-            "min_lat": 47.575601,
-            "min_lon": -122.356985,
-            "max_lat": 47.651047,
-            "max_lon": -122.336014,
-            "has_highway": false,
-            "cost": 4769.447,
-            "has_time_restrictions": false,
-            "has_toll": false,
-            "has_ferry": false
-          },
-          "units": "miles",
-          "legs": [
-            {
-              "summary": {
-                "length": 6.275,
-                "time": 2177.345,
-                "min_lat": 47.575601,
-                "min_lon": -122.356985,
-                "max_lat": 47.651047,
-                "max_lon": -122.336014,
-                "has_time_restrictions": false,
-                "has_toll": false,
-                "has_highway": false,
-                "has_ferry": false,
-                "cost": 4769.447
-              },
-              "shape": "omk{yAnrnjhF|kBa@dNElbIAdHQbH[dHc@`Hk@bHs@tBBrBpGJfH_AvRWdJKr]RnKjBt`@NpGZdNv@xDR`A`Olr@`E`X\\zBnDbU~Nt_AdHlo@rBfSnD|[hCnXb@nELlb@?jHEvDB~BVbDZjBl@|ApA~ArBdAh@DzCVlCl@hA`Bz@vDZdCLdAl@zI?xHBrb@?jErA?|_BVbI@lD@pC?dE@lH@bp@JvD@lC@|SB~\\FxF@vF?|C@vB@fQNto@d@`DDfC?lbA\\fC@|B?nF@~b@DjL@zD@xC?rC@|AAd^CpUAzFIbDGpDS`AoEb@oBbAmC~AwBxBmAbC]fDM`G@xRBlMB~B?zp@Rnf@R~EBvC?xABfB?xg@VbEXzANtBLzCVhF@jFBfQDrSHrDCvZFjC?b@@bNB~A?~G@pRFbFEz`@NnD?pA?jGB`OAt^BdE?nDArTGzH@tI?rJ?fCArJ@pE?vD@lLBxTDxDBrSJjD@|C@tCBn^JvZH~B@|C@b_@PfPFfNDdB?|CA~XGpEAbCA|FArPIfFA@cG@sT?cIPch@@gEvCkFnByDrL}V~@iBdIkPnHcOxE}Jp@wAjB{DtAoClL{U~MmXrC}FbHqNp@qAhA}BlCvD`NrRlPpUnBrCjCrDxJhN`T|ZrCfExDkFpYql@|AaDvBmEnZum@vBkExAyCzUof@zCmGxBoEhAcC~Rcb@zFyLrBkEzA{Ch[un@zBsEtAsCdg@gdAtBkEbBcElAsD|@cGbGk^tG{a@f@wEvAkMlCoQ`Hcg@dA{G|BkMdDiRl@yEfAeC~Wah@jAyBnCsCvMiKnCwBjC_C|BoB~KwSzScb@fGwLbBkDzKcU~DqExAuAp@m@zBsBxLcL~NaN~FoFvCqCZ[xEeEhl@oh@rEeEnAgAnC}Bvu@{o@xBkB|BdHz@nC|HpVj@jBvBxG~CsCnFuElCwB`CsBvIqH~E_EjEyDnDwCrFuE~NsMhHmGdD_DvDcD|YuW`EqDbCsBfA}@|DmD~^e\\`EsDbFoEv_@_]xBmBxFsFp_@{Y|BuADlU\\Y`CyBd@e@b@_@hD{CzEiEx@}AtBuAxGaDlFqBxEcAnAS`Dg@rC]xAMhFOvFCtAEhIM`Bt@jAf@~z@@pBClAArMGzRa@xHIzA}@tIKvA?hB@pADIbDFxBXl@`AJ`~@e@lIHbU?l_AjApXKbh@FpSd@dT~AxDDdHZ|RbDxB`@vPnDzT|HzJlExXdQnIlFpCfApI~B|Al@nDxCfGzFlAbA|@Z~@Np@Cr@e@`BeBb@c@~I|ArEv@Lp@l@u@h@QpEDrB\\jE@dSrCxLtDvcAh_@|I`E`GhDpIdFnYbVpNfPbAjA~BlDhIzKvMbQpG|EtE`CbG|AhKp@je@`@nxF@jNEj~DoAnrD^nI@AuDB_B@}M@wTBeC{BIyIE",
-              "maneuvers": [
-                {
-                  "begin_shape_index": 0,
-                  "cost": 737.184,
-                  "end_shape_index": 9,
-                  "instruction": "Bike south on WA 99/Aurora Avenue North.",
-                  "length": 0.55,
-                  "street_names": [
-                    "WA 99",
-                    "Aurora Avenue North"
-                  ],
-                  "time": 177.701,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 3,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Bike south on WA 99, Aurora Avenue North.",
-                  "verbal_succinct_transition_instruction": "Bike south."
-                },
-                {
-                  "begin_shape_index": 9,
-                  "cost": 325.658,
-                  "end_shape_index": 38,
-                  "instruction": "Turn right onto Raye Street.",
-                  "length": 0.406,
-                  "street_names": [
-                    "Raye Street"
-                  ],
-                  "time": 139.25,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Turn right onto Raye Street.",
-                  "verbal_succinct_transition_instruction": "Turn right.",
-                  "verbal_transition_alert_instruction": "Turn right onto Raye Street."
-                },
-                {
-                  "begin_shape_index": 38,
-                  "cost": 68.391,
-                  "end_shape_index": 50,
-                  "instruction": "Turn left onto Smith Street.",
-                  "length": 0.076,
-                  "street_names": [
-                    "Smith Street"
-                  ],
-                  "time": 28.2,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 400 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto Smith Street.",
-                  "verbal_succinct_transition_instruction": "Turn left.",
-                  "verbal_transition_alert_instruction": "Turn left onto Smith Street."
-                },
-                {
-                  "begin_shape_index": 50,
-                  "cost": 427.056,
-                  "end_shape_index": 85,
-                  "instruction": "Turn left onto Queen Anne Avenue North.",
-                  "length": 0.63,
-                  "street_names": [
-                    "Queen Anne Avenue North"
-                  ],
-                  "time": 220.8,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Turn left onto Queen Anne Avenue North.",
-                  "verbal_succinct_transition_instruction": "Turn left.",
-                  "verbal_transition_alert_instruction": "Turn left onto Queen Anne Avenue North."
-                },
-                {
-                  "begin_shape_index": 85,
-                  "cost": 759.495,
-                  "end_shape_index": 158,
-                  "instruction": "Turn left to stay on Queen Anne Avenue North.",
-                  "length": 0.96,
-                  "street_names": [
-                    "Queen Anne Avenue North"
-                  ],
-                  "time": 337.799,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 1 mile.",
-                  "verbal_pre_transition_instruction": "Turn left to stay on Queen Anne Avenue North.",
-                  "verbal_succinct_transition_instruction": "Turn left.",
-                  "verbal_transition_alert_instruction": "Turn left to stay on Queen Anne Avenue North."
-                },
-                {
-                  "begin_shape_index": 158,
-                  "cost": 69.8,
-                  "end_shape_index": 163,
-                  "instruction": "Turn left onto Denny Way.",
-                  "length": 0.064,
-                  "street_names": [
-                    "Denny Way"
-                  ],
-                  "time": 22.0,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto Denny Way.",
-                  "verbal_succinct_transition_instruction": "Turn left.",
-                  "verbal_transition_alert_instruction": "Turn left onto Denny Way."
-                },
-                {
-                  "begin_shape_index": 163,
-                  "cost": 146.364,
-                  "end_shape_index": 179,
-                  "instruction": "Bear right onto 1st Avenue.",
-                  "length": 0.174,
-                  "street_names": [
-                    "1st Avenue"
-                  ],
-                  "time": 62.799,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 9,
-                  "verbal_post_transition_instruction": "Continue for 900 feet.",
-                  "verbal_pre_transition_instruction": "Bear right onto 1st Avenue.",
-                  "verbal_succinct_transition_instruction": "Bear right.",
-                  "verbal_transition_alert_instruction": "Bear right onto 1st Avenue."
-                },
-                {
-                  "begin_shape_index": 179,
-                  "cost": 138.9,
-                  "end_shape_index": 187,
-                  "instruction": "Turn right onto Broad Street.",
-                  "length": 0.121,
-                  "street_names": [
-                    "Broad Street"
-                  ],
-                  "time": 47.249,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 600 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto Broad Street.",
-                  "verbal_succinct_transition_instruction": "Turn right.",
-                  "verbal_transition_alert_instruction": "Turn right onto Broad Street."
-                },
-                {
-                  "begin_shape_index": 187,
-                  "cost": 576.059,
-                  "end_shape_index": 249,
-                  "instruction": "Turn left onto Elliott Avenue.",
-                  "length": 0.966,
-                  "street_names": [
-                    "Elliott Avenue"
-                  ],
-                  "time": 329.249,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 1 mile.",
-                  "verbal_pre_transition_instruction": "Turn left onto Elliott Avenue.",
-                  "verbal_succinct_transition_instruction": "Turn left.",
-                  "verbal_transition_alert_instruction": "Turn left onto Elliott Avenue."
-                },
-                {
-                  "begin_shape_index": 249,
-                  "cost": 56.168,
-                  "end_shape_index": 254,
-                  "instruction": "Turn right onto University Street.",
-                  "length": 0.044,
-                  "street_names": [
-                    "University Street"
-                  ],
-                  "time": 20.5,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 10,
-                  "verbal_multi_cue": true,
-                  "verbal_post_transition_instruction": "Continue for 200 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto University Street. Then Turn left onto Alaskan Way.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto Alaskan Way.",
-                  "verbal_transition_alert_instruction": "Turn right onto University Street."
-                },
-                {
-                  "begin_shape_index": 254,
-                  "cost": 300.93,
-                  "end_shape_index": 280,
-                  "instruction": "Turn left onto Alaskan Way.",
-                  "length": 0.344,
-                  "street_names": [
-                    "Alaskan Way"
-                  ],
-                  "time": 116.949,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
-                  "verbal_pre_transition_instruction": "Turn left onto Alaskan Way.",
-                  "verbal_succinct_transition_instruction": "Turn left.",
-                  "verbal_transition_alert_instruction": "Turn left onto Alaskan Way."
-                },
-                {
-                  "begin_shape_index": 280,
-                  "cost": 30.257,
-                  "end_shape_index": 281,
-                  "instruction": "Turn right onto the cycleway.",
-                  "length": 0.016,
-                  "time": 9.4,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 10,
-                  "verbal_multi_cue": true,
-                  "verbal_post_transition_instruction": "Continue for 90 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the cycleway. Then Turn left onto Elliott Bay Trail.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto Elliott Bay Trail.",
-                  "verbal_transition_alert_instruction": "Turn right onto the cycleway."
-                },
-                {
-                  "begin_shape_index": 281,
-                  "cost": 8.581,
-                  "end_shape_index": 282,
-                  "instruction": "Turn left onto Elliott Bay Trail.",
-                  "length": 0.001,
-                  "street_names": [
-                    "Elliott Bay Trail"
-                  ],
-                  "time": 1.3,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_multi_cue": true,
-                  "verbal_post_transition_instruction": "Continue for less than 10 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto Elliott Bay Trail. Then Continue on the cycleway.",
-                  "verbal_succinct_transition_instruction": "Turn left. Then Continue on the cycleway.",
-                  "verbal_transition_alert_instruction": "Turn left onto Elliott Bay Trail."
-                },
-                {
-                  "begin_shape_index": 282,
-                  "cost": 125.992,
-                  "end_shape_index": 303,
-                  "instruction": "Continue on the cycleway.",
-                  "length": 0.178,
-                  "time": 76.15,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 8,
-                  "verbal_post_transition_instruction": "Continue for 900 feet.",
-                  "verbal_pre_transition_instruction": "Continue on the cycleway.",
-                  "verbal_transition_alert_instruction": "Continue on the cycleway."
-                },
-                {
-                  "begin_shape_index": 303,
-                  "cost": 254.958,
-                  "end_shape_index": 332,
-                  "instruction": "Continue on Portside Trail.",
-                  "length": 0.49,
-                  "street_names": [
-                    "Portside Trail"
-                  ],
-                  "time": 169.499,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 8,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Continue on Portside Trail.",
-                  "verbal_transition_alert_instruction": "Continue on Portside Trail."
-                },
-                {
-                  "begin_shape_index": 332,
-                  "cost": 45.441,
-                  "end_shape_index": 346,
-                  "instruction": "Keep right to stay on Portside Trail.",
-                  "length": 0.1,
-                  "street_names": [
-                    "Portside Trail"
-                  ],
-                  "time": 33.099,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 23,
-                  "verbal_post_transition_instruction": "Continue for 500 feet.",
-                  "verbal_pre_transition_instruction": "Keep right to stay on Portside Trail.",
-                  "verbal_transition_alert_instruction": "Keep right to stay on Portside Trail."
-                },
-                {
-                  "begin_shape_index": 346,
-                  "cost": 13.358,
-                  "end_shape_index": 348,
-                  "instruction": "Bear right to stay on Portside Trail.",
-                  "length": 0.019,
-                  "street_names": [
-                    "Portside Trail"
-                  ],
-                  "time": 7.599,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 9,
-                  "verbal_multi_cue": true,
-                  "verbal_post_transition_instruction": "Continue for 100 feet.",
-                  "verbal_pre_transition_instruction": "Bear right to stay on Portside Trail. Then Turn right.",
-                  "verbal_succinct_transition_instruction": "Bear right. Then Turn right.",
-                  "verbal_transition_alert_instruction": "Bear right to stay on Portside Trail."
-                },
-                {
-                  "begin_shape_index": 348,
-                  "cost": 45.07,
-                  "end_shape_index": 353,
-                  "instruction": "Turn right.",
-                  "length": 0.015,
-                  "time": 11.1,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 10,
-                  "verbal_multi_cue": true,
-                  "verbal_post_transition_instruction": "Continue for 80 feet.",
-                  "verbal_pre_transition_instruction": "Turn right. Then Continue on the cycleway.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then Continue on the cycleway.",
-                  "verbal_transition_alert_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 353,
-                  "cost": 12.83,
-                  "end_shape_index": 355,
-                  "instruction": "Continue on the cycleway.",
-                  "length": 0.029,
-                  "time": 10.05,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 8,
-                  "verbal_multi_cue": true,
-                  "verbal_post_transition_instruction": "Continue for 200 feet.",
-                  "verbal_pre_transition_instruction": "Continue on the cycleway. Then Continue on Alaskan Way South.",
-                  "verbal_transition_alert_instruction": "Continue on the cycleway."
-                },
-                {
-                  "begin_shape_index": 355,
-                  "cost": 566.736,
-                  "end_shape_index": 376,
-                  "instruction": "Continue on Alaskan Way South.",
-                  "length": 1.03,
-                  "street_names": [
-                    "Alaskan Way South"
-                  ],
-                  "time": 333.75,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 8,
-                  "verbal_post_transition_instruction": "Continue for 1 mile.",
-                  "verbal_pre_transition_instruction": "Continue on Alaskan Way South.",
-                  "verbal_transition_alert_instruction": "Continue on Alaskan Way South."
-                },
-                {
-                  "begin_shape_index": 376,
-                  "cost": 36.973,
-                  "end_shape_index": 381,
-                  "instruction": "Turn left onto South Hanford Street.",
-                  "length": 0.036,
-                  "street_names": [
-                    "South Hanford Street"
-                  ],
-                  "time": 14.5,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_multi_cue": true,
-                  "verbal_post_transition_instruction": "Continue for 200 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto South Hanford Street. Then Turn left onto East Marginal Way South.",
-                  "verbal_succinct_transition_instruction": "Turn left. Then Turn left onto East Marginal Way South.",
-                  "verbal_transition_alert_instruction": "Turn left onto South Hanford Street."
-                },
-                {
-                  "begin_shape_index": 381,
-                  "cost": 23.236,
-                  "end_shape_index": 383,
-                  "instruction": "Turn left onto East Marginal Way South.",
-                  "length": 0.016,
-                  "street_names": [
-                    "East Marginal Way South"
-                  ],
-                  "time": 8.394,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 15,
-                  "verbal_multi_cue": true,
-                  "verbal_post_transition_instruction": "Continue for 90 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto East Marginal Way South. Then Your destination will be on the left.",
-                  "verbal_succinct_transition_instruction": "Turn left. Then Your destination will be on the left.",
-                  "verbal_transition_alert_instruction": "Turn left onto East Marginal Way South."
-                },
-                {
-                  "begin_shape_index": 383,
-                  "cost": 0.0,
-                  "end_shape_index": 383,
-                  "instruction": "Your destination is on the left.",
-                  "length": 0.0,
-                  "time": 0.0,
-                  "travel_mode": "bicycle",
-                  "travel_type": "hybrid",
-                  "type": 6,
-                  "verbal_pre_transition_instruction": "Your destination is on the left.",
-                  "verbal_transition_alert_instruction": "Your destination will be on the left."
-                }
-              ]
-            }
-          ],
-          "status_message": "Found route between points",
-          "status": 0,
-          "language": "en-US"
-        }
-      }
-    ]
+    "alternates": null
   }
 }

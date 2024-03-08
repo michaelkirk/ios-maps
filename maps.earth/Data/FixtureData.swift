@@ -17,15 +17,17 @@ struct FixtureData {
   }
   static var places: Places = Places()
 
-  static var bikeTrips: [Trip] = {
+  static var bikeTrips: [Trip] {
     let response: TripPlanResponse = load("bike_plan.json")
-    let trips = response.plan.itineraries.map { Trip(itinerary: $0) }
+    let trips = response.plan.itineraries.map { itinerary in
+      Trip(itinerary: itinerary, from: self.places[.realfine], to: self.places[.zeitgeist])
+    }
     return trips
-  }()
+  }
 
   // FIXME: FROM/TO do not match the trips - I need my fixtures to be consistent
   static var tripPlan: TripPlan = TripPlan(
-    from: Self.places[.zeitgeist], to: Self.places[.realfine], trips: Self.bikeTrips)
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike, trips: Self.bikeTrips)
 }
 
 func load<T: Decodable>(_ filename: String) -> T {

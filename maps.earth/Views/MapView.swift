@@ -54,18 +54,20 @@ struct MapView: UIViewRepresentable {
     if let selectedTrip = self.tripPlan.selectedTrip {
       // TODO: draw unselected routes
       context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip], selected: selectedTrip)
-      // don't draw search result markers when looking at a specific route
-      context.coordinator.ensureMarkers(in: mapView, for: [])
+      // TODO: Avoid unwrap - maybe package non-optional query with tripPlan results
+      context.coordinator.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
+      context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
     } else {
       context.coordinator.ensureRoutes(in: mapView, for: [], selected: nil)
-      if let places = self.places {
-        context.coordinator.ensureMarkers(in: mapView, for: places)
-      }
       // TODO: this is overzealous. We only want to do this when the selection changes
       // not whenever the view gets updated. Perhaps other things could cause the view to update,
       // and we don't necessarily want to move the users map around.
-      if let place = selectedPlace {
-        context.coordinator.zoom(mapView: mapView, toPlace: place, animated: true)
+      if let selectedPlace = selectedPlace {
+        context.coordinator.ensureMarkers(in: mapView, places: [selectedPlace])
+        context.coordinator.zoom(mapView: mapView, toPlace: selectedPlace, animated: true)
+      } else if let places = self.places {
+        context.coordinator.ensureMarkers(in: mapView, places: places)
+        // TODO zoom to search results bbox
       }
     }
   }
@@ -74,7 +76,10 @@ struct MapView: UIViewRepresentable {
 
   class Coordinator: NSObject {
     let mapView: MapView
+    // pin markers, like those used in search or at the end of a trip
     var markers: [Place: MLNAnnotation] = [:]
+    // circle markers, like those used at the start of a trip
+    var startMarkers: [Place: MLNAnnotation] = [:]
     var trips: [Trip: [MLNOverlay]] = [:]
 
     init(_ mapView: MapView) {
@@ -87,7 +92,7 @@ struct MapView: UIViewRepresentable {
       mapView.setCenter(place.location.asCoordinate, zoomLevel: zoom, animated: isAnimated)
     }
 
-    func ensureMarkers(in mapView: MLNMapView, for places: [Place]) {
+    func ensureMarkers(in mapView: MLNMapView, places: [Place]) {
       for place in places {
         if self.markers[place] == nil {
           self.markers[place] = Self.addMarker(to: mapView, at: place.location)
@@ -100,8 +105,25 @@ struct MapView: UIViewRepresentable {
           print("unexpectely missing stale marker")
           continue
         }
-        print("removing stale marker for \(place)")
-        // PERF: more efficient to do this all at once?
+        // PERF: more efficient to do this all at once with `removeAnnotations`?
+        mapView.removeAnnotation(marker)
+      }
+    }
+
+    func ensureStartMarkers(in mapView: MLNMapView, places: [Place]) {
+      for place in places {
+        if self.startMarkers[place] == nil {
+          self.startMarkers[place] = Self.addStartMarker(to: mapView, at: place.location)
+        }
+      }
+
+      let stale = Set(self.startMarkers.keys).subtracting(places)
+      for place in stale {
+        guard let marker = self.startMarkers.removeValue(forKey: place) else {
+          print("unexpectely missing stale marker")
+          continue
+        }
+        // PERF: more efficient to do this all at once with `removeAnnotations`?
         mapView.removeAnnotation(marker)
       }
     }
@@ -125,16 +147,23 @@ struct MapView: UIViewRepresentable {
       let stale = Set(self.trips.keys).subtracting(trips)
       for trip in stale {
         guard let tripOverlays = self.trips.removeValue(forKey: trip) else {
-          print("unexpectely missing stale marker")
+          print("unexpectely missing stale tripOverlays")
           continue
         }
-        print("removing stale marker for \(trip)")
-        // TODO is this the right method?
         mapView.removeOverlays(tripOverlays)
       }
     }
 
     static func addMarker(to mapView: MLNMapView, at lngLat: LngLat) -> MLNAnnotation {
+      let marker = MLNPointAnnotation()
+      marker.coordinate = CLLocationCoordinate2D(latitude: lngLat.lat, longitude: lngLat.lng)
+      mapView.addAnnotation(marker)
+      return marker
+    }
+
+    static func addStartMarker(to mapView: MLNMapView, at lngLat: LngLat) -> MLNAnnotation {
+      // this is identical to addMarker... not sure how to indicate a marker's style should
+      // be changed without removing and re-adding it.
       let marker = MLNPointAnnotation()
       marker.coordinate = CLLocationCoordinate2D(latitude: lngLat.lat, longitude: lngLat.lng)
       mapView.addAnnotation(marker)
@@ -153,7 +182,6 @@ struct MapView: UIViewRepresentable {
 
 extension MapView.Coordinator: MLNMapViewDelegate {
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
-
     // PERF: this is dumb, but NSObject doesn't place nice with Swift HashMaps so
     // we do a linear search
     guard
@@ -165,8 +193,28 @@ extension MapView.Coordinator: MLNMapViewDelegate {
       return
     }
 
-    self.zoom(mapView: mapView, toPlace: place, animated: true)
     self.mapView.selectedPlace = place
+  }
+
+  func mapView(_ mapView: MLNMapView, viewForAnnotion annotation: MLNAnnotation)
+    -> MLNAnnotationView?
+  {
+    return nil
+  }
+
+  func mapView(_ mapView: MLNMapView, imageForAnnotion annotation: MLNAnnotation)
+    -> MLNAnnotationImage?
+  {
+    let view = UIView()
+    view.backgroundColor = .yellow
+    view.bounds = CGRect(x: 0, y: 0, width: 40, height: 40)
+    view.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+    let renderer = UIGraphicsImageRenderer(size: view.bounds.size)
+    let image = renderer.image { ctx in
+      view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+    }
+
+    return MLNAnnotationImage(image: image, reuseIdentifier: "image-start-marker")
   }
 }
 

@@ -82,6 +82,9 @@ struct TripPlanView: View {
       queryIfReady()
     }.onChange(of: tripPlan.mode) { oldValue, newValue in
       queryIfReady()
+    }.onDisappear {
+      print(">>> disappeared")
+      self.tripPlan.selectedTrip = nil
     }
   }
   func queryIfReady() {
@@ -121,7 +124,7 @@ struct TripSearchManager {
   func query(from: Place, to: Place, mode: TravelMode) async throws -> [Trip]? {
     // TODO: pass through units
     try await TripPlanClient().query(
-      from: from.location, to: to.location, mode: mode, units: .miles)
+      from: from, to: to, mode: mode, units: .miles)
   }
 }
 

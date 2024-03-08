@@ -109,8 +109,7 @@ enum TravelMode: String {
 
 struct TripPlanClient {
   let config = AppConfig()
-  func query(from: LngLat, to: LngLat, mode: TravelMode, units: DistanceUnit) async throws -> [Trip]
-  {
+  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit) async throws -> [Trip] {
     // URL: https://maps.earth/travelmux/v2/plan?fromPlace=47.575837%2C-122.339414&toPlace=47.622687%2C-122.312892&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
 
     let preferredDistanceUnits =
@@ -121,9 +120,10 @@ struct TripPlanClient {
       }
 
     var url = config.travelmuxEndpoint
+
     let params = [
-      URLQueryItem(name: "fromPlace", value: "\(from.lat),\(from.lng)"),
-      URLQueryItem(name: "toPlace", value: "\(to.lat),\(to.lng)"),
+      URLQueryItem(name: "fromPlace", value: "\(from.location.lat),\(from.location.lng)"),
+      URLQueryItem(name: "toPlace", value: "\(to.location.lat),\(to.location.lng)"),
       URLQueryItem(name: "numItineraries", value: "5"),
       URLQueryItem(name: "mode", value: mode.rawValue),
       URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
@@ -132,7 +132,9 @@ struct TripPlanClient {
     print("travelmux assembled url: \(url)")
 
     let response: TripPlanResponse = try await fetchData(from: url)
-    let trips = response.plan.itineraries.map { Trip(itinerary: $0) }
+    let trips = response.plan.itineraries.map { itinerary in
+      Trip(itinerary: itinerary, from: from, to: to)
+    }
     return trips
   }
 

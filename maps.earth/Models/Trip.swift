@@ -14,6 +14,8 @@ struct TripLeg {
 
 struct Trip: Identifiable {
   var raw: Itinerary
+  let from: Place
+  let to: Place
 
   //  var from: Place
   //  var to: Place
@@ -55,12 +57,14 @@ struct Trip: Identifiable {
     return formatter.string(fromValue: distance, unit: self.distanceFormatUnit)
   }
 
-  init(itinerary: Itinerary) {
+  init(itinerary: Itinerary, from: Place, to: Place) {
     self.id = UUID()
     self.raw = itinerary
     self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(geometry: decodePolyline(itineraryLeg.geometry, precision: 6))
     }
+    self.from = from
+    self.to = from
   }
 }
 
