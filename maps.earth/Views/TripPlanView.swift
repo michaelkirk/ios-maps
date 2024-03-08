@@ -8,6 +8,26 @@
 import Foundation
 import SwiftUI
 
+struct ModeButton: View {
+  let mode: TravelMode
+  @Binding var selectedMode: TravelMode
+  var body: some View {
+    Button(action: { selectedMode = mode }) {
+      let modeText = switch mode {
+      case .walk: "Walk";
+      case .bike: "Bike";
+      case .transit: "Transit";
+      case .car: "Drive";
+      }
+      Text(modeText)
+    }
+    .foregroundColor(mode == selectedMode ? .white : .gray)
+    .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
+    .background(mode == selectedMode ? .blue : .hw_lightGray)
+    .cornerRadius(3.0)
+  }
+}
+
 struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
   var getFocus: () -> LngLat?
@@ -15,6 +35,13 @@ struct TripPlanView: View {
 
   var body: some View {
     VStack(alignment: .leading) {
+      HStack(spacing: 20) {
+        ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
+        ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
+        ModeButton(mode: .car, selectedMode: $tripPlan.mode)
+        ModeButton(mode: .transit, selectedMode: $tripPlan.mode)
+      }
+      .scenePadding(.bottom)
       VStack {
         PlaceField(header: "From", place: $tripPlan.navigateFrom, getFocus: getFocus)
         Divider()
@@ -52,6 +79,8 @@ struct TripPlanView: View {
       queryIfReady()
     }.onChange(of: tripPlan.navigateTo) { oldValue, newValue in
       queryIfReady()
+    }.onChange(of: tripPlan.mode) { oldValue, newValue in
+      queryIfReady()
     }
   }
   func queryIfReady() {
@@ -64,7 +93,7 @@ struct TripPlanView: View {
 
     // TODO: track request_id, discard stale results
     Task {
-      guard let trips = try await searcher.query(from: from, to: to) else {
+      guard let trips = try await searcher.query(from: from, to: to, mode: tripPlan.mode) else {
         // better handling of nil?
         return
       }
@@ -88,10 +117,10 @@ struct TripSearchManager {
   var pendingQueries: [TripQuery] = []
   var completedQueries: [TripQuery] = []
 
-  func query(from: Place, to: Place) async throws -> [Trip]? {
-    // TODO: pass through mode and units
+  func query(from: Place, to: Place, mode: TravelMode) async throws -> [Trip]? {
+    // TODO: pass through units
     try await TripPlanClient().query(
-      from: from.location, to: to.location, mode: .bike, units: .miles)
+      from: from.location, to: to.location, mode: mode, units: .miles)
   }
 }
 

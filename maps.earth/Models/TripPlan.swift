@@ -12,6 +12,7 @@ import Foundation
 class TripPlan: ObservableObject {
   @Published var navigateFrom: Place?
   @Published var navigateTo: Place?
+  @Published var mode: TravelMode = .walk
   @Published var bounds: Bounds?
   @Published var trips: [Trip]
   @Published var selectedTrip: Trip?
