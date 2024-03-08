@@ -64,7 +64,7 @@ struct Trip: Identifiable {
       TripLeg(geometry: decodePolyline(itineraryLeg.geometry, precision: 6))
     }
     self.from = from
-    self.to = from
+    self.to = to
   }
 }
 

@@ -9,10 +9,6 @@ import Foundation
 import MapLibre
 import SwiftUI
 
-protocol MapViewDelegate: NSObject {
-  func mapView(mapView: MLNMapView, didSelect place: Place)
-}
-
 struct MapView: UIViewRepresentable {
 
   @Binding var places: [Place]?
@@ -196,15 +192,48 @@ extension MapView.Coordinator: MLNMapViewDelegate {
     self.mapView.selectedPlace = place
   }
 
-  func mapView(_ mapView: MLNMapView, viewForAnnotion annotation: MLNAnnotation)
+  func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation)
     -> MLNAnnotationView?
   {
-    return nil
+    guard let navigateFrom = self.mapView.tripPlan.selectedTrip?.from else {
+      return nil
+    }
+
+    func equalCoords(_ a: CLLocationCoordinate2D, _ b: CLLocationCoordinate2D) -> Bool {
+      a.latitude == b.latitude && a.longitude == b.longitude
+    }
+
+    // Coords check seems brittle - what if there are multiple markers at this location?
+    // is floating point robustness a concern?
+    guard equalCoords(navigateFrom.location.asCoordinate, annotation.coordinate) else {
+      return nil
+    }
+
+    let view = MLNAnnotationView()
+    view.addSubview(StartMarkerView())
+
+    return view
   }
 
-  func mapView(_ mapView: MLNMapView, imageForAnnotion annotation: MLNAnnotation)
+  func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation)
     -> MLNAnnotationImage?
   {
+    return nil
+
+    guard let navigateFrom = self.mapView.tripPlan.selectedTrip?.from else {
+      return nil
+    }
+
+    func equalCoords(_ a: CLLocationCoordinate2D, _ b: CLLocationCoordinate2D) -> Bool {
+      a.latitude == b.latitude && a.longitude == b.longitude
+    }
+
+    // Coords check seems brittle - what if there are multiple markers at this location?
+    // is floating point robustness a concern?
+    guard equalCoords(navigateFrom.location.asCoordinate, annotation.coordinate) else {
+      return nil
+    }
+
     let view = UIView()
     view.backgroundColor = .yellow
     view.bounds = CGRect(x: 0, y: 0, width: 40, height: 40)
