@@ -72,7 +72,7 @@ struct TripPlanView: View {
               .background(.green)
               .cornerRadius(8)
               .hidden()  // TODO: handle detail view
-          }
+          }.frame(minHeight: 70)
         }
         .listRowInsets(EdgeInsets())
       }.listStyle(.plain)
