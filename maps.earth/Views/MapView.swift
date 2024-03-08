@@ -51,21 +51,22 @@ struct MapView: UIViewRepresentable {
 
   func updateUIView(_ mapView: MLNMapView, context: Context) {
     print("in updateUIView MapView")
-    if let places = self.places {
-      context.coordinator.ensureMarkers(in: mapView, for: places)
-      if let selectedTrip = self.tripPlan.selectedTrip {
-        context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip])
-      } else {
-        context.coordinator.ensureRoutes(in: mapView, for: [])
-      }
-    }
-    // TODO: this is overzealous. We only want to do this when the selection changes
-    // not whenever the view gets updated. Perhaps other thing scould cause the view to update,
-    // and we don't necessarily want to move the users map around.
-    if let place = selectedPlace {
-      context.coordinator.zoom(mapView: mapView, toPlace: place, animated: true)
+    if let selectedTrip = self.tripPlan.selectedTrip {
+      // TODO: draw unselected routes
+      context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip], selected: selectedTrip)
+      // don't draw search result markers when looking at a specific route
+      context.coordinator.ensureMarkers(in: mapView, for: [])
     } else {
-      // TODO: zoom out
+      context.coordinator.ensureRoutes(in: mapView, for: [], selected: nil)
+      if let places = self.places {
+        context.coordinator.ensureMarkers(in: mapView, for: places)
+      }
+      // TODO: this is overzealous. We only want to do this when the selection changes
+      // not whenever the view gets updated. Perhaps other things could cause the view to update,
+      // and we don't necessarily want to move the users map around.
+      if let place = selectedPlace {
+        context.coordinator.zoom(mapView: mapView, toPlace: place, animated: true)
+      }
     }
   }
 
@@ -95,7 +96,7 @@ struct MapView: UIViewRepresentable {
 
       let stale = Set(self.markers.keys).subtracting(places)
       for place in stale {
-        guard let marker = self.markers[place] else {
+        guard let marker = self.markers.removeValue(forKey: place) else {
           print("unexpectely missing stale marker")
           continue
         }
@@ -105,16 +106,25 @@ struct MapView: UIViewRepresentable {
       }
     }
 
-    func ensureRoutes(in mapView: MLNMapView, for trips: [Trip]) {
+    func ensureRoutes(in mapView: MLNMapView, for trips: [Trip], selected selectedTrip: Trip?) {
       for trip in trips {
         if self.trips[trip] == nil {
           self.trips[trip] = Self.addRoute(to: mapView, trip: trip)
         }
       }
 
+      if let selectedTrip = selectedTrip {
+        let bounds = bounds(selectedTrip.raw.bounds)
+        // This padding is brittle. It should depend on how high the sheet is
+        // and maybe whether there is a notch
+        let padding = UIEdgeInsets(top: 70, left: 30, bottom: 70, right: 30)
+        mapView.setVisibleCoordinateBounds(
+          bounds, edgePadding: padding, animated: true, completionHandler: nil)
+      }
+
       let stale = Set(self.trips.keys).subtracting(trips)
       for trip in stale {
-        guard let tripOverlays = self.trips[trip] else {
+        guard let tripOverlays = self.trips.removeValue(forKey: trip) else {
           print("unexpectely missing stale marker")
           continue
         }
@@ -162,4 +172,8 @@ extension MapView.Coordinator: MLNMapViewDelegate {
 
 func polyline(coordinates: [CLLocationCoordinate2D]) -> MLNPolyline {
   MLNPolyline(coordinates: coordinates, count: UInt(coordinates.count))
+}
+
+func bounds(_ bounds: Bounds) -> MLNCoordinateBounds {
+  MLNCoordinateBounds(sw: bounds.min.asCoordinate, ne: bounds.max.asCoordinate)
 }

@@ -27,7 +27,9 @@ struct TripPlanView: View {
           print("selecting \(trip)")
           tripPlan.selectedTrip = trip
         }) {
-          HStack {
+          HStack(spacing: 8) {
+            Spacer().frame(maxWidth: 4, maxHeight:.infinity)
+              .background(trip == tripPlan.selectedTrip ? .blue : .clear)
             VStack(alignment: .leading) {
               Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
               Text(trip.distanceFormatted).font(.subheadline).contrast(50)
@@ -43,7 +45,7 @@ struct TripPlanView: View {
               .cornerRadius(8)
               .hidden()  // TODO: handle detail view
           }
-        }.background(trip == tripPlan.selectedTrip ? .blue : .clear)
+        }
       }.listStyle(.plain)
         .cornerRadius(8)
     }.onChange(of: tripPlan.navigateFrom) { oldValue, newValue in

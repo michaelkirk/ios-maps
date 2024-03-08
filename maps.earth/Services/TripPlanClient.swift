@@ -34,11 +34,42 @@ struct Itinerary: Decodable {
   var duration: Float64
   var distance: Float64
   var distanceUnits: DistanceUnit
+  var bounds: Bounds
   var legs: [ItineraryLeg]
 }
 
 struct TravelmuxPlan: Decodable {
   var itineraries: [Itinerary]
+}
+
+//  "bounds": {
+//    "min": [
+//      -122.349926,
+//      47.575601
+//    ],
+//    "max": [
+//      -122.336014,
+//      47.652747
+//    ]
+//  },
+struct Bounds: Decodable {
+  var min: LngLat
+  var max: LngLat
+
+  private enum CodingKeys: String, CodingKey {
+    case min
+    case max
+  }
+
+  // Decode from an array format
+  init(from decoder: Decoder) throws {
+    var container = try decoder.container(keyedBy: CodingKeys.self)
+    let minCoords = try container.decode([Float64].self, forKey: .min)
+    let maxCoords = try container.decode([Float64].self, forKey: .max)
+
+    self.min = LngLat(lng: minCoords[0], lat: minCoords[1])
+    self.max = LngLat(lng: maxCoords[0], lat: maxCoords[1])
+  }
 }
 
 struct OTPPlan: Decodable {
