@@ -11,8 +11,8 @@ import XCTest
 
 final class PlaceTest: XCTestCase {
   func testParsing() throws {
-    let place = FixtureData.places[0]
-    XCTAssertEqual(place.name, "Schoolhouse Coffee")
-    XCTAssertEqual(place.location, LngLat(lng: -122.754113, lat: 47.079458))
+    let place = FixtureData.places[.zeitgeist]
+    XCTAssertEqual(place.name, "Zeitgeist Coffee")
+    XCTAssertEqual(place.location, LngLat(lng: -122.331856, lat: 47.599091))
   }
 }

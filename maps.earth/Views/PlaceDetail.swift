@@ -66,9 +66,9 @@ struct PlaceDetail: View {
 }
 
 #Preview {
-  PlaceDetail(place: FixtureData.places[0], tripPlan: TripPlan())
+  PlaceDetail(place: FixtureData.places[.zeitgeist], tripPlan: TripPlan())
 }
 
 #Preview("showing sheet") {
-  PlaceDetail(place: FixtureData.places[0], tripPlan: TripPlan())
+  PlaceDetail(place: FixtureData.places[.zeitgeist], tripPlan: TripPlan())
 }

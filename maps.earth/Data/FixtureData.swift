@@ -7,12 +7,37 @@
 
 import Foundation
 
+extension FixtureData.Places: Sequence {
+  typealias Element = Place
+  typealias Iterator = [Place].Iterator
+
+  func makeIterator() -> Array<Place>.Iterator {
+    self.all.makeIterator()
+  }
+}
+
+extension FixtureData.Places {
+  subscript(position: FixtureData.Places.PlaceIdx) -> Place {
+    self.all[position.rawValue]
+  }
+}
+
 struct FixtureData {
-  static var places: [Place] = {
-    let response: AutocompleteResponse = load("autocomplete.json")
-    let places = response.places
-    return places
-  }()
+  struct Places {
+    enum PlaceIdx: Int {
+      case schoolhouse = 0
+      case zeitgeist = 1
+      case dubsea = 2
+      case realfine = 3
+    }
+
+    let all: [Place] = {
+      let response: AutocompleteResponse = load("autocomplete.json")
+      let places = response.places
+      return places
+    }()
+  }
+  static var places: Places = Places()
 
   static var bikeTrips: [Trip] = {
     let response: TripPlanResponse = load("bike_plan.json")
@@ -21,7 +46,7 @@ struct FixtureData {
   }()
 
   static var tripPlan: TripPlan = TripPlan(
-    from: Self.places[0], to: Self.places[1], trips: Self.bikeTrips)
+    from: Self.places[.zeitgeist], to: Self.places[.realfine], trips: Self.bikeTrips)
 }
 
 func load<T: Decodable>(_ filename: String) -> T {

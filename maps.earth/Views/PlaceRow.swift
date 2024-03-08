@@ -24,7 +24,7 @@ struct PlaceRow: View {
 
 #Preview {
   Group {
-    PlaceRow(place: FixtureData.places[0])
-    PlaceRow(place: FixtureData.places[1])
+    PlaceRow(place: FixtureData.places[.zeitgeist])
+    PlaceRow(place: FixtureData.places[.realfine])
   }
 }

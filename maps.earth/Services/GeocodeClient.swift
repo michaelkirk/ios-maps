@@ -13,7 +13,7 @@ struct GeocodeClient {
   func autocomplete(text: String, focus: LngLat? = nil) async throws -> [Place] {
     let test = false
     if test {
-      return FixtureData.places
+      return FixtureData.places.all
     } else {
       var queryParams = ["text": text]
       if let focus = focus {

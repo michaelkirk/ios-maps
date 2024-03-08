@@ -104,13 +104,16 @@ struct ContentView: View {
 
 #Preview("search") {
   ContentView(
-    toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
+    toSearchQueue: LegacySearchQueue(
+      searchText: "coffee", mostRecentResults: FixtureData.places.all))
 }
 
 #Preview("show detail") {
   ContentView(
-    selectedPlace: FixtureData.places[0],
-    toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places))
+    selectedPlace: FixtureData.places[.zeitgeist],
+    toSearchQueue: LegacySearchQueue(
+      searchText: "coffee", mostRecentResults: FixtureData.places.all)
+  )
 }
 
 #Preview("blank") {
@@ -118,9 +121,11 @@ struct ContentView: View {
 }
 
 #Preview("with directions") {
-  ContentView(
-    selectedPlace: FixtureData.places[0],
-    tripPlan: FixtureData.tripPlan,
-    toSearchQueue: LegacySearchQueue(searchText: "coffee", mostRecentResults: FixtureData.places)
+  let tripPlan = FixtureData.tripPlan
+  return ContentView(
+    selectedPlace: tripPlan.navigateTo,
+    tripPlan: tripPlan,
+    toSearchQueue: LegacySearchQueue(
+      searchText: "coffee", mostRecentResults: FixtureData.places.all)
   )
 }

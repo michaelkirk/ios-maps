@@ -43,7 +43,7 @@ struct PlaceField: View {
 }
 
 #Preview("place field") {
-  PlaceField(header: "From", place: .constant(FixtureData.places[0]), getFocus: fakeFocus)
+  PlaceField(header: "From", place: .constant(FixtureData.places[.zeitgeist]), getFocus: fakeFocus)
 }
 
 #Preview("empty place field") {

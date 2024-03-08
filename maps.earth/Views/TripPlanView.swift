@@ -98,17 +98,16 @@ func fakeFocus() -> LngLat? {
 }
 
 #Preview("Showing trips") {
-  let tripPlan = TripPlan(
-    from: FixtureData.places[0], to: FixtureData.places[1], trips: FixtureData.bikeTrips)
+  let tripPlan = FixtureData.tripPlan
   return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
 }
 
 #Preview("Only 'to' selected") {
-  let tripPlan = TripPlan(to: FixtureData.places[1])
+  let tripPlan = TripPlan(to: FixtureData.places[.zeitgeist])
   return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
 }
 
 #Preview("Only 'from' selected") {
-  let tripPlan = TripPlan(from: FixtureData.places[0])
+  let tripPlan = TripPlan(from: FixtureData.places[.dubsea])
   return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
 }

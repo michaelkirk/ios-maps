@@ -36,12 +36,13 @@ struct PlaceList: View {
 
 #Preview("inital") {
   PlaceList(
-    places: .constant(FixtureData.places), selectedPlace: .constant(nil), tripPlan: TripPlan()
+    places: .constant(FixtureData.places.all), selectedPlace: .constant(nil), tripPlan: TripPlan()
   )
 }
 
 #Preview("selected") {
   PlaceList(
-    places: .constant(FixtureData.places), selectedPlace: .constant(FixtureData.places[0]),
+    places: .constant(FixtureData.places.all),
+    selectedPlace: .constant(FixtureData.places[.zeitgeist]),
     tripPlan: TripPlan())
 }
