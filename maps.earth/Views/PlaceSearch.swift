@@ -25,7 +25,8 @@ struct PlaceField: View {
   var body: some View {
     Button(action: { isSearching = true }) {
       HStack {
-        Text("\(header): \(place?.name ?? "None")")
+        Text("\(header):").foregroundColor(.hw_darkGray)
+        Text(place?.name ?? "None").foregroundColor(.black)
         Spacer()
         Text("Edit")
       }.padding()

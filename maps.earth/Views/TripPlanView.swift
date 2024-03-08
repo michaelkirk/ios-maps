@@ -13,15 +13,16 @@ struct ModeButton: View {
   @Binding var selectedMode: TravelMode
   var body: some View {
     Button(action: { selectedMode = mode }) {
-      let modeText = switch mode {
-      case .walk: "Walk";
-      case .bike: "Bike";
-      case .transit: "Transit";
-      case .car: "Drive";
-      }
+      let modeText =
+        switch mode {
+        case .walk: "Walk"
+        case .bike: "Bike"
+        case .transit: "Transit"
+        case .car: "Drive"
+        }
       Text(modeText)
     }
-    .foregroundColor(mode == selectedMode ? .white : .gray)
+    .foregroundColor(mode == selectedMode ? .white : .hw_darkGray)
     .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
     .background(mode == selectedMode ? .blue : .hw_lightGray)
     .cornerRadius(3.0)
@@ -36,10 +37,10 @@ struct TripPlanView: View {
   var body: some View {
     VStack(alignment: .leading) {
       HStack(spacing: 20) {
-        ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
-        ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
-        ModeButton(mode: .car, selectedMode: $tripPlan.mode)
         ModeButton(mode: .transit, selectedMode: $tripPlan.mode)
+        ModeButton(mode: .car, selectedMode: $tripPlan.mode)
+        ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
+        ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
       }
       .scenePadding(.bottom)
       VStack {
@@ -55,7 +56,7 @@ struct TripPlanView: View {
           tripPlan.selectedTrip = trip
         }) {
           HStack(spacing: 8) {
-            Spacer().frame(maxWidth: 4, maxHeight:.infinity)
+            Spacer().frame(maxWidth: 4, maxHeight: .infinity)
               .background(trip == tripPlan.selectedTrip ? .blue : .clear)
             VStack(alignment: .leading) {
               Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)

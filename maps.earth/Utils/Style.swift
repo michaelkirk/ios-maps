@@ -22,6 +22,45 @@ extension Color {
 
 // Color Palette
 extension Color {
+  static let hw_darkGray = Color.gray(0.5)
   static let hw_lightGray = Color.gray(0.90)
   static let hw_offWhite = Color.gray(0.95)
+}
+
+struct Swatch: View {
+  let color: Color
+  var body: some View {
+    Spacer()
+      .frame(width: 20, height: 20)
+      .background(color)
+  }
+}
+
+struct ColorPalette: View {
+  var body: some View {
+    let rows = [Color.white, Color.hw_offWhite, .hw_lightGray, .hw_darkGray, .black].map {
+      background in
+      HStack(spacing: 16) {
+        Swatch(color: .black)
+        Swatch(color: .hw_darkGray)
+        Swatch(color: .hw_lightGray)
+        Swatch(color: .hw_offWhite)
+        Swatch(color: .white)
+      }.padding()
+        .background(background)
+    }
+
+    // This seems like a dumb way to do it, but whatever
+    VStack {
+      rows[0]
+      rows[1]
+      rows[2]
+      rows[3]
+      rows[4]
+    }
+  }
+
+}
+#Preview("Color Pallete") {
+  ColorPalette()
 }
