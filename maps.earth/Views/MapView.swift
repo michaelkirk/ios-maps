@@ -25,7 +25,7 @@ struct MapView: UIViewRepresentable {
   }
 
   func makeUIView(context: Context) -> MLNMapView {
-    let styleURL = URL(string: "https://maps.earth/tileserver/styles/basic/style.json")
+    let styleURL = AppConfig().tileserverStyleUrl
 
     // create the mapview
     let mapView = MLNMapView(frame: .zero, styleURL: styleURL)

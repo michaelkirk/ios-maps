@@ -20,7 +20,7 @@ struct TripPlanView: View {
         Divider()
         PlaceField(header: "To", place: $tripPlan.navigateTo, getFocus: getFocus)
       }.background(Color.hw_lightGray)
-       .cornerRadius(8)
+        .cornerRadius(8)
 
       List(tripPlan.trips, selection: $tripPlan.selectedTrip) { trip in
         Button(action: {
@@ -41,11 +41,11 @@ struct TripPlanView: View {
               .padding()
               .background(.green)
               .cornerRadius(8)
-              .hidden() // TODO: handle detail view
+              .hidden()  // TODO: handle detail view
           }
-        }.background( trip == tripPlan.selectedTrip ? .blue : .clear)
+        }.background(trip == tripPlan.selectedTrip ? .blue : .clear)
       }.listStyle(.plain)
-       .cornerRadius(8)
+        .cornerRadius(8)
     }.onChange(of: tripPlan.navigateFrom) { oldValue, newValue in
       queryIfReady()
     }.onChange(of: tripPlan.navigateTo) { oldValue, newValue in
@@ -78,15 +78,18 @@ struct TripPlanView: View {
 
 struct TripSearchManager {
   struct TripQuery {
+    var queryId: UInt64
     var navigateFrom: Place
     var navigateTo: Place
   }
 
-  var mostRecentlyMadeQuery: TripQuery?
-  var mostRecentlyCompletedQuery: TripQuery?
+  var pendingQueries: [TripQuery] = []
+  var completedQueries: [TripQuery] = []
 
   func query(from: Place, to: Place) async throws -> [Trip]? {
-    return FixtureData.bikeTrips
+    // TODO: pass through mode and units
+    try await TripPlanClient().query(
+      from: from.location, to: to.location, mode: .bike, units: .miles)
   }
 }
 

@@ -9,18 +9,18 @@ import Foundation
 import OSLog
 
 struct GeocodeClient {
+  let config = AppConfig()
   func autocomplete(text: String, focus: LngLat? = nil) async throws -> [Place] {
     let test = false
     if test {
       return FixtureData.places
     } else {
-      let endpoint = "https://maps.earth/pelias/v1/autocomplete"
       var queryParams = ["text": text]
       if let focus = focus {
         queryParams["focus.point.lon"] = String(focus.lng)
         queryParams["focus.point.lat"] = String(focus.lat)
       }
-      guard let url = buildURL(baseURL: endpoint, queryParams: queryParams) else {
+      guard let url = buildURL(baseUrl: config.peliasEndpoint, queryParams: queryParams) else {
         throw URLError(.badURL)
       }
 
@@ -41,8 +41,8 @@ struct GeocodeClient {
     return decodedResponse
   }
 
-  private func buildURL(baseURL: String, queryParams: [String: String]) -> URL? {
-    var components = URLComponents(string: baseURL)
+  private func buildURL(baseUrl: URL, queryParams: [String: String]) -> URL? {
+    var components = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
 
     components?.queryItems = queryParams.map { key, value in
       URLQueryItem(name: key, value: value)
