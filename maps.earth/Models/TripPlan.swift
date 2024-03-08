@@ -19,6 +19,6 @@ class TripPlan: ObservableObject {
     self.navigateFrom = fromPlace
     self.navigateTo = toPlace
     self.trips = trips
-    self.selectedTrip = selectedTrip
+    self.selectedTrip = selectedTrip ?? trips.first
   }
 }

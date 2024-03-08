@@ -76,7 +76,8 @@ struct ContentView: View {
 
   var body: some View {
     MapView(
-      places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView
+      places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
+      tripPlan: tripPlan
     )
     .edgesIgnoringSafeArea(.all)
 

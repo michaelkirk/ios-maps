@@ -18,6 +18,8 @@ struct MapView: UIViewRepresentable {
   @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var mapView: MLNMapView?
+  @ObservedObject var tripPlan: TripPlan
+
   //  @Binding var selectedTrip: Trip?
 
   func makeCoordinator() -> Coordinator {
@@ -51,11 +53,11 @@ struct MapView: UIViewRepresentable {
     print("in updateUIView MapView")
     if let places = self.places {
       context.coordinator.ensureMarkers(in: mapView, for: places)
-      //      if let selectedTrip = self.selectedTrip {
-      //        context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip])
-      //      } else {
-      //        context.coordinator.ensureRoutes(in: mapView, for: [])
-      //      }
+      if let selectedTrip = self.tripPlan.selectedTrip {
+        context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip])
+      } else {
+        context.coordinator.ensureRoutes(in: mapView, for: [])
+      }
     }
     // TODO: this is overzealous. We only want to do this when the selection changes
     // not whenever the view gets updated. Perhaps other thing scould cause the view to update,
@@ -72,7 +74,7 @@ struct MapView: UIViewRepresentable {
   class Coordinator: NSObject {
     let mapView: MapView
     var markers: [Place: MLNAnnotation] = [:]
-    var trips: [Trip: MLNOverlay] = [:]
+    var trips: [Trip: [MLNOverlay]] = [:]
 
     init(_ mapView: MapView) {
       self.mapView = mapView
@@ -112,13 +114,13 @@ struct MapView: UIViewRepresentable {
 
       let stale = Set(self.trips.keys).subtracting(trips)
       for trip in stale {
-        guard let trip = self.trips[trip] else {
+        guard let tripOverlays = self.trips[trip] else {
           print("unexpectely missing stale marker")
           continue
         }
         print("removing stale marker for \(trip)")
         // TODO is this the right method?
-        mapView.remove(trip)
+        mapView.removeOverlays(tripOverlays)
       }
     }
 
@@ -129,12 +131,12 @@ struct MapView: UIViewRepresentable {
       return marker
     }
 
-    static func addRoute(to mapView: MLNMapView, trip: Trip) -> MLNOverlay {
-      for leg in trip.legs {
-        let polyline: MLNPolyline = polyline(coordinates: leg.geometry)
-        fatalError("TODO: add polyline to map \(polyline)")
+    static func addRoute(to mapView: MLNMapView, trip: Trip) -> [MLNOverlay] {
+      let polylines: [MLNPolyline] = trip.legs.map {
+        polyline(coordinates: $0.geometry)
       }
-      fatalError("TODO")
+      mapView.addOverlays(polylines)
+      return polylines
     }
   }
 }
@@ -152,7 +154,6 @@ extension MapView.Coordinator: MLNMapViewDelegate {
       assertionFailure("no place for marker \(annotation)")
       return
     }
-    print("clicked marker for \(place)")
 
     self.zoom(mapView: mapView, toPlace: place, animated: true)
     self.mapView.selectedPlace = place
