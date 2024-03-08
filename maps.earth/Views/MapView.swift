@@ -214,37 +214,6 @@ extension MapView.Coordinator: MLNMapViewDelegate {
 
     return view
   }
-
-  func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation)
-    -> MLNAnnotationImage?
-  {
-    return nil
-
-    guard let navigateFrom = self.mapView.tripPlan.selectedTrip?.from else {
-      return nil
-    }
-
-    func equalCoords(_ a: CLLocationCoordinate2D, _ b: CLLocationCoordinate2D) -> Bool {
-      a.latitude == b.latitude && a.longitude == b.longitude
-    }
-
-    // Coords check seems brittle - what if there are multiple markers at this location?
-    // is floating point robustness a concern?
-    guard equalCoords(navigateFrom.location.asCoordinate, annotation.coordinate) else {
-      return nil
-    }
-
-    let view = UIView()
-    view.backgroundColor = .yellow
-    view.bounds = CGRect(x: 0, y: 0, width: 40, height: 40)
-    view.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-    let renderer = UIGraphicsImageRenderer(size: view.bounds.size)
-    let image = renderer.image { ctx in
-      view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
-    }
-
-    return MLNAnnotationImage(image: image, reuseIdentifier: "image-start-marker")
-  }
 }
 
 func polyline(coordinates: [CLLocationCoordinate2D]) -> MLNPolyline {
