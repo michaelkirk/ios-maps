@@ -52,7 +52,7 @@ struct TripPlanView: View {
 
       List(tripPlan.trips, selection: $tripPlan.selectedTrip) { trip in
         Button(action: {
-          print("selecting \(trip)")
+          print("selecting trip: \(trip.id)")
           tripPlan.selectedTrip = trip
         }) {
           HStack(spacing: 8) {

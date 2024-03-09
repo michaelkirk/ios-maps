@@ -49,12 +49,13 @@ struct MapView: UIViewRepresentable {
     print("in updateUIView MapView")
     if let selectedTrip = self.tripPlan.selectedTrip {
       // TODO: draw unselected routes
-      context.coordinator.ensureRoutes(in: mapView, for: [selectedTrip], selected: selectedTrip)
+      context.coordinator.ensureRoutes(
+        in: mapView, trips: self.tripPlan.trips, selectedTrip: selectedTrip)
       // TODO: Avoid unwrap - maybe package non-optional query with tripPlan results
       context.coordinator.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
       context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
     } else {
-      context.coordinator.ensureRoutes(in: mapView, for: [], selected: nil)
+      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
       // TODO: this is overzealous. We only want to do this when the selection changes
       // not whenever the view gets updated. Perhaps other things could cause the view to update,
       // and we don't necessarily want to move the users map around.
@@ -76,7 +77,8 @@ struct MapView: UIViewRepresentable {
     var markers: [Place: MLNAnnotation] = [:]
     // circle markers, like those used at the start of a trip
     var startMarkers: [Place: MLNAnnotation] = [:]
-    var trips: [Trip: [MLNOverlay]] = [:]
+    var selectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
+    var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
     init(_ mapView: MapView) {
       self.mapView = mapView
@@ -124,10 +126,51 @@ struct MapView: UIViewRepresentable {
       }
     }
 
-    func ensureRoutes(in mapView: MLNMapView, for trips: [Trip], selected selectedTrip: Trip?) {
-      for trip in trips {
-        if self.trips[trip] == nil {
-          self.trips[trip] = Self.addRoute(to: mapView, trip: trip)
+    func ensureRoutes(in mapView: MLNMapView, trips: [Trip], selectedTrip: Trip?) {
+      let stale = Set(self.selectedTrips.keys).union(self.unselectedTrips.keys).subtracting(trips)
+      for trip in stale {
+        guard
+          let (tripSource, tripStyleLayer) = self.selectedTrips.removeValue(forKey: trip)
+            ?? self.unselectedTrips.removeValue(forKey: trip)
+        else {
+          print("unexpectely missing stale tripOverlays")
+          continue
+        }
+
+        // NOTE: style can be nil in SwiftUI previews. I think maybe
+        // because the style.json hasn't been fetched yet (it's async)
+        // Maybe this should be a promise based thing?
+        print("removing source/layer: \(tripSource.identifier)")
+        mapView.style!.removeLayer(tripStyleLayer)
+        try! mapView.style!.removeSource(tripSource, error: ())
+      }
+
+      for trip in (trips.filter { $0 != selectedTrip }) {
+        if let (tripSource, tripStyleLayer) = self.selectedTrips.removeValue(forKey: trip) {
+          // NOTE: style can be nil in SwiftUI previews. I think maybe
+          // because the style.json hasn't been fetched yet (it's async)
+          // Maybe this should be a promise based thing?
+          print("removing source/layer: \(tripSource.identifier)")
+          mapView.style!.removeLayer(tripStyleLayer)
+          try! mapView.style!.removeSource(tripSource, error: ())
+        }
+        if self.unselectedTrips[trip] == nil {
+          self.unselectedTrips[trip] = Self.addRoute(to: mapView, trip: trip, isSelected: false)
+        }
+      }
+
+      // add selected layer last so its on top
+      if let trip = selectedTrip {
+        if let (tripSource, tripStyleLayer) = self.unselectedTrips.removeValue(forKey: trip) {
+          // NOTE: style can be nil in SwiftUI previews. I think maybe
+          // because the style.json hasn't been fetched yet (it's async)
+          // Maybe this should be a promise based thing?
+          print("removing source/layer: \(tripSource.identifier)")
+          mapView.style!.removeLayer(tripStyleLayer)
+          try! mapView.style!.removeSource(tripSource, error: ())
+        }
+        if self.selectedTrips[trip] == nil {
+          self.selectedTrips[trip] = Self.addRoute(to: mapView, trip: trip, isSelected: true)
         }
       }
 
@@ -138,15 +181,6 @@ struct MapView: UIViewRepresentable {
         let padding = UIEdgeInsets(top: 70, left: 30, bottom: 70, right: 30)
         mapView.setVisibleCoordinateBounds(
           bounds, edgePadding: padding, animated: true, completionHandler: nil)
-      }
-
-      let stale = Set(self.trips.keys).subtracting(trips)
-      for trip in stale {
-        guard let tripOverlays = self.trips.removeValue(forKey: trip) else {
-          print("unexpectely missing stale tripOverlays")
-          continue
-        }
-        mapView.removeOverlays(tripOverlays)
       }
     }
 
@@ -166,12 +200,21 @@ struct MapView: UIViewRepresentable {
       return marker
     }
 
-    static func addRoute(to mapView: MLNMapView, trip: Trip) -> [MLNOverlay] {
-      let polylines: [MLNPolyline] = trip.legs.map {
-        polyline(coordinates: $0.geometry)
+    static func addRoute(to mapView: MLNMapView, trip: Trip, isSelected: Bool) -> (
+      MLNShapeSource, MLNLineStyleLayer
+    ) {
+      let polylines = trip.legs.map { leg in
+        polyline(coordinates: leg.geometry)
       }
-      mapView.addOverlays(polylines)
-      return polylines
+      let identifier = "trip-route-\(trip.id)-\(isSelected ? "selected" : "unselected")"
+      let source = MLNShapeSource(identifier: identifier, shapes: polylines, options: nil)
+      let styleLayer = lineStyleLayer(source: source, id: trip.id, isSelected: isSelected)
+
+      print("adding source/layer: \(identifier)")
+      mapView.style!.addSource(source)
+      mapView.style!.addLayer(styleLayer)
+
+      return (source, styleLayer)
     }
   }
 }
@@ -216,10 +259,17 @@ extension MapView.Coordinator: MLNMapViewDelegate {
   }
 }
 
-func polyline(coordinates: [CLLocationCoordinate2D]) -> MLNPolyline {
-  MLNPolyline(coordinates: coordinates, count: UInt(coordinates.count))
+func polyline(coordinates: [CLLocationCoordinate2D]) -> MLNPolylineFeature {
+  MLNPolylineFeature(coordinates: coordinates, count: UInt(coordinates.count))
 }
 
 func bounds(_ bounds: Bounds) -> MLNCoordinateBounds {
   MLNCoordinateBounds(sw: bounds.min.asCoordinate, ne: bounds.max.asCoordinate)
+}
+
+func lineStyleLayer(source: MLNSource, id: UUID, isSelected: Bool) -> MLNLineStyleLayer {
+  let styleLayer = MLNLineStyleLayer(identifier: "trip-route-\(id)", source: source)
+  styleLayer.lineColor = NSExpression(forConstantValue: isSelected ? UIColor.blue : UIColor.gray)
+  styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: 4))
+  return styleLayer
 }
