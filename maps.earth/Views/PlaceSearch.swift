@@ -24,11 +24,13 @@ struct PlaceField: View {
 
   var body: some View {
     Button(action: { isSearching = true }) {
-      HStack {
+      HStack(spacing: 16) {
         Text("\(header):").foregroundColor(.hw_darkGray)
-          .frame(minWidth: 50, alignment: .trailing)
+          // this minWidth is intended to approximately align the To/From heafer
+          // but it's brittle to dynamic type and locale specific
+          .frame(minWidth: 40, alignment: .trailing)
         Text(place?.name ?? "None").foregroundColor(.black)
-        Spacer()
+          .frame(maxWidth: .infinity, alignment: .leading)
         Text("Edit")
       }.padding()
     }.onChange(of: queryText) { oldValue, newValue in
@@ -44,8 +46,11 @@ struct PlaceField: View {
   }
 }
 
-#Preview("place field") {
-  PlaceField(header: "From", place: .constant(FixtureData.places[.zeitgeist]), getFocus: fakeFocus)
+#Preview("long name") {
+  PlaceField(header: "From", place: .constant(FixtureData.places[.santaLucia]), getFocus: fakeFocus)
+}
+#Preview("short name") {
+  PlaceField(header: "To", place: .constant(FixtureData.places[.zeitgeist]), getFocus: fakeFocus)
 }
 
 #Preview("empty place field") {
@@ -184,20 +189,3 @@ class SearchQueue: ObservableObject {
     placeholder: "To", hasPendingQuery: true, selectedPlace: .constant(nil), getFocus: fakeFocus)
 }
 
-//#Preview("selected") {
-//  PlaceSearch(
-//    placeholder: "my placeholder", selectedPlace: .constant(FixtureData.places[0]),
-//    showEditor: false, getFocus: fakeFocus)
-//}
-//
-//#Preview("searching with none selected") {
-//  PlaceSearch(
-//    placeholder: "my placeholder", selectedPlace: .constant(nil), showEditor: true,
-//    getFocus: fakeFocus, existingResults: FixtureData.places)
-//}
-//
-//#Preview("searching with previous selection") {
-//  PlaceSearch(
-//    placeholder: "my placeholder", selectedPlace: .constant(FixtureData.places[0]),
-//    showEditor: true, getFocus: fakeFocus, existingResults: FixtureData.places)
-//}

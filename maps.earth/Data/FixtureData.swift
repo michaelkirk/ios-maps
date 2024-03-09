@@ -60,6 +60,7 @@ extension FixtureData.Places {
     case zeitgeist = 1
     case dubsea = 2
     case realfine = 3
+    case santaLucia = 4
   }
 
   subscript(position: PlaceIdx) -> Place {

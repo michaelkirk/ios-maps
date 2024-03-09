@@ -51,9 +51,12 @@ struct MapView: UIViewRepresentable {
       // TODO: draw unselected routes
       context.coordinator.ensureRoutes(
         in: mapView, trips: self.tripPlan.trips, selectedTrip: selectedTrip)
-      // TODO: Avoid unwrap - maybe package non-optional query with tripPlan results
-      context.coordinator.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
+
+      // remove markers so that we can be sure to put it back on top - there's gotta be a less dumb way, but this is expedient
+
+      context.coordinator.ensureMarkers(in: mapView, places: [])
       context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
+      context.coordinator.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
     } else {
       context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
       // TODO: this is overzealous. We only want to do this when the selection changes
@@ -93,17 +96,20 @@ struct MapView: UIViewRepresentable {
     func ensureMarkers(in mapView: MLNMapView, places: [Place]) {
       for place in places {
         if self.markers[place] == nil {
-          self.markers[place] = Self.addMarker(to: mapView, at: place.location)
+          let marker = Self.addMarker(to: mapView, at: place.location)
+          self.markers[place] = marker
+          print(">>>> adding marker: \(marker.coordinate)")
         }
       }
 
       let stale = Set(self.markers.keys).subtracting(places)
       for place in stale {
         guard let marker = self.markers.removeValue(forKey: place) else {
-          print("unexpectely missing stale marker")
+          print("unexpectedly missing stale marker")
           continue
         }
         // PERF: more efficient to do this all at once with `removeAnnotations`?
+        print(">>>> removing marker: \(marker.coordinate)")
         mapView.removeAnnotation(marker)
       }
     }
@@ -118,7 +124,7 @@ struct MapView: UIViewRepresentable {
       let stale = Set(self.startMarkers.keys).subtracting(places)
       for place in stale {
         guard let marker = self.startMarkers.removeValue(forKey: place) else {
-          print("unexpectely missing stale marker")
+          print("unexpectedly missing stale marker")
           continue
         }
         // PERF: more efficient to do this all at once with `removeAnnotations`?
@@ -133,7 +139,7 @@ struct MapView: UIViewRepresentable {
           let (tripSource, tripStyleLayer) = self.selectedTrips.removeValue(forKey: trip)
             ?? self.unselectedTrips.removeValue(forKey: trip)
         else {
-          print("unexpectely missing stale tripOverlays")
+          print("unexpectedly missing stale tripOverlays")
           continue
         }
 
