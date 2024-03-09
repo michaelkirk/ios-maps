@@ -188,4 +188,3 @@ class SearchQueue: ObservableObject {
   PlaceSearch(
     placeholder: "To", hasPendingQuery: true, selectedPlace: .constant(nil), getFocus: fakeFocus)
 }
-

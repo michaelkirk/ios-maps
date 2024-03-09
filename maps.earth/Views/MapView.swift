@@ -98,7 +98,6 @@ struct MapView: UIViewRepresentable {
         if self.markers[place] == nil {
           let marker = Self.addMarker(to: mapView, at: place.location)
           self.markers[place] = marker
-          print(">>>> adding marker: \(marker.coordinate)")
         }
       }
 
@@ -109,7 +108,6 @@ struct MapView: UIViewRepresentable {
           continue
         }
         // PERF: more efficient to do this all at once with `removeAnnotations`?
-        print(">>>> removing marker: \(marker.coordinate)")
         mapView.removeAnnotation(marker)
       }
     }
@@ -117,7 +115,8 @@ struct MapView: UIViewRepresentable {
     func ensureStartMarkers(in mapView: MLNMapView, places: [Place]) {
       for place in places {
         if self.startMarkers[place] == nil {
-          self.startMarkers[place] = Self.addStartMarker(to: mapView, at: place.location)
+          let marker = Self.addStartMarker(to: mapView, at: place.location)
+          self.startMarkers[place] = marker
         }
       }
 
@@ -217,8 +216,16 @@ struct MapView: UIViewRepresentable {
       let styleLayer = lineStyleLayer(source: source, id: trip.id, isSelected: isSelected)
 
       print("adding source/layer: \(identifier)")
+
       mapView.style!.addSource(source)
-      mapView.style!.addLayer(styleLayer)
+
+      // Insert behind the annotation layer to keep the "end" markers above the routes.
+      //     identifier = com.mapbox.annotations.points; sourceIdentifier = com.mapbox.annotations; sourceLayerIdentifier = com.mapbox.annotations.points
+      let annotationLayer = mapView.style!.layers.first {
+        $0.identifier == "com.mapbox.annotations.points"
+      }
+      // TODO: this unwrap is unsightly, but unlikely to break unless MapLibre changes something fundamental in an update, which should be obvious
+      mapView.style!.insertLayer(styleLayer, below: annotationLayer!)
 
       return (source, styleLayer)
     }

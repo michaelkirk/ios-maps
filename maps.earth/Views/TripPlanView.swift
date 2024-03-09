@@ -84,7 +84,6 @@ struct TripPlanView: View {
     }.onChange(of: tripPlan.mode) { oldValue, newValue in
       queryIfReady()
     }.onDisappear {
-      print(">>> disappeared")
       self.tripPlan.selectedTrip = nil
     }
   }
