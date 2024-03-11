@@ -116,7 +116,6 @@ struct FrontPagePlaceSearch: View {
   var hasPendingQuery: Bool
   @Binding var places: [Place]?
   @Binding var queryText: String
-  var getFocus: () -> LngLat?
   @Binding var selectedPlace: Place?
   @ObservedObject var tripPlan: TripPlan
 
@@ -222,15 +221,14 @@ class SearchQueue: ObservableObject {
   }
 }
 
-#Preview("blank") {
-  NavigationView {
-    PlaceSearch(
-      placeholder: "To", hasPendingQuery: false, selectedPlace: .constant(nil),
-      getFocus: fakeFocus)
-  }.searchable(text: .constant(""))
-}
+//#Preview("blank") {
+//  NavigationView {
+//    PlaceSearch(
+//      placeholder: "To", hasPendingQuery: false, selectedPlace: .constant(nil),
+//  }.searchable(text: .constant(""))
+//}
 
-#Preview("pending") {
-  PlaceSearch(
-    placeholder: "To", hasPendingQuery: true, selectedPlace: .constant(nil), getFocus: fakeFocus)
-}
+//#Preview("pending") {
+//  PlaceSearch(
+//    placeholder: "To", hasPendingQuery: true, selectedPlace: .constant(nil))
+//}
