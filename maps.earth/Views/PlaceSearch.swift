@@ -141,9 +141,6 @@ struct FrontPagePlaceSearch: View {
       }
       Spacer()
     }
-    //      .navigationBarHidden(true)
-    //      .toolbar(.hidden, for: .navigationBar)
-    //      .searchPresentationToolbarBehavior(.avoidHidingContent)
     .onChange(of: isSearching) { oldValue, newValue in
       print("FrontPagePlaceSearch isSearching changed: \(oldValue) -> \(newValue)")
       //      if oldValue && !newValue {

@@ -36,9 +36,7 @@ struct ContentView: View {
       tripPlan: tripPlan
     )
     .edgesIgnoringSafeArea(.all)
-    .sheet(
-      isPresented: $isShowingSearchSheet
-    ) {
+    .sheet(isPresented: .constant(true)) {
       FrontPagePlaceSearch(
         placeholder: "Where to?",
         hasPendingQuery: searchQueue.hasPendingQuery,
@@ -57,6 +55,7 @@ struct ContentView: View {
         .enabled(upThrough: .medium)
       )
       .interactiveDismissDisabled(true)
+      .edgesIgnoringSafeArea(.all)
     }.onChange(of: selectedPlace) { oldValue, newValue in
       if newValue == nil {
         //        isShowingSearchSheet = true
@@ -68,8 +67,6 @@ struct ContentView: View {
         //        isShowingSearchSheet = false
         //        isShowingDetailSheet = true
         searchDetent = .medium
-        UIApplication.shared.sendAction(
-          #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
       }
     }
   }
@@ -83,17 +80,18 @@ enum PresentedSheet {
 #Preview("search results") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   let result = ContentView(searchQueue: searchQueue, queryText: "coffee")
+  //  result.searchQueue.mostRecentResults = FixtureData.places.all
+  result.searchDetent = .large
   return result
 }
 
-//#Preview("show detail") {
-//  ContentView(
-//    selectedPlace: FixtureData.places[.zeitgeist],
-//    toSearchQueue: LegacySearchQueue(
-//      searchText: "coffee", mostRecentResults: FixtureData.places.all)
-//  )
-//}
-//
+#Preview("show detail") {
+  let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
+  let result = ContentView(searchQueue: searchQueue, queryText: "coffee")
+  result.selectedPlace = FixtureData.places[.zeitgeist]
+  return result
+}
+
 #Preview("Initial") {
   ContentView()
 }
