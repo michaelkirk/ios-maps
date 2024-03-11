@@ -14,18 +14,19 @@ private let logger = Logger(
   category: String(describing: #file)
 )
 
-let minDetentHeight: CGFloat = 72
+let minDetentHeight = PresentationDetent.height(72)
 struct ContentView: View {
   @State var selectedPlace: Place?
   @StateObject var tripPlan: TripPlan = TripPlan()
 
   @State var mapView: MLNMapView?
 
-  @State var sheetIsPresented: Bool = true
-  @StateObject private var searchQueue: SearchQueue = SearchQueue()
+  @StateObject var searchQueue: SearchQueue = SearchQueue()
   @State var queryText: String = ""
-  @State var searchDetent: PresentationDetent = .height(minDetentHeight)
-  @Environment(\.isSearching) private var isSearching
+  @State var searchDetent: PresentationDetent = minDetentHeight
+
+  @State var isShowingSearchSheet = true
+  @State var isShowingDetailSheet = false
 
   var presentedSheet: PresentedSheet = .search
 
@@ -36,17 +37,7 @@ struct ContentView: View {
     )
     .edgesIgnoringSafeArea(.all)
     .sheet(
-      isPresented: Binding(
-        get: {
-          switch self.presentedSheet {
-          case .search: true
-          default: false
-          }
-        },
-        set: { value in
-          fatalError("can this be set? \(String(describing: value))")
-        }
-      )
+      isPresented: $isShowingSearchSheet
     ) {
       FrontPagePlaceSearch(
         placeholder: "Where to?",
@@ -61,11 +52,25 @@ struct ContentView: View {
         searchQueue.textDidChange(newValue: newValue, focus: focus)
       }
       .scenePadding(.top)
-      .presentationDetents([.large, .medium, .height(minDetentHeight)], selection: $searchDetent)
+      .presentationDetents([.large, .medium, minDetentHeight], selection: $searchDetent)
       .presentationBackgroundInteraction(
         .enabled(upThrough: .medium)
       )
       .interactiveDismissDisabled(true)
+    }.onChange(of: selectedPlace) { oldValue, newValue in
+      if newValue == nil {
+        //        isShowingSearchSheet = true
+        //        isShowingDetailSheet = false
+        //        searchDetent = .medium
+      } else if oldValue == nil {
+        // Just selected a value for the first time
+
+        //        isShowingSearchSheet = false
+        //        isShowingDetailSheet = true
+        searchDetent = .medium
+        UIApplication.shared.sendAction(
+          #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+      }
     }
   }
 }
@@ -75,9 +80,11 @@ enum PresentedSheet {
   case placeDetail(Binding<Place>)
 }
 
-//#Preview("search") {
-//  ContentView(queryText: "coffee", mostRecentResults: FixtureData.places.all)
-//}
+#Preview("search results") {
+  let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
+  let result = ContentView(searchQueue: searchQueue, queryText: "coffee")
+  return result
+}
 
 //#Preview("show detail") {
 //  ContentView(
