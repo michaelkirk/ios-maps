@@ -115,6 +115,7 @@ struct FrontPagePlaceSearch: View {
   var placeholder: String
   var hasPendingQuery: Bool
   @Binding var places: [Place]?
+  @Binding var queryText: String
   var getFocus: () -> LngLat?
   @Binding var selectedPlace: Place?
   @ObservedObject var tripPlan: TripPlan
@@ -124,29 +125,32 @@ struct FrontPagePlaceSearch: View {
   @Environment(\.dismiss) private var dismiss
 
   var body: some View {
-    NavigationView {
-      VStack {
-        if hasPendingQuery {
-          Text("Looking... 😓")
-        }
-        if let places = places {
-          if places.isEmpty && !hasPendingQuery {
-            Text("No results. 😢")
-          }
-          PlaceList(places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan)
-        }
-        Spacer()
+    VStack {
+      TextField("Where to?", text: $queryText)
+        .padding()
+        .border(.gray)
+        .padding()
+
+      if hasPendingQuery {
+        Text("Looking... 😓")
       }
-      //      .navigationBarHidden(true)
-      .toolbar(.hidden, for: .navigationBar)
-      .searchPresentationToolbarBehavior(.avoidHidingContent)
-      .onChange(of: isSearching) { oldValue, newValue in
-        print("FrontPagePlaceSearch isSearching changed: \(oldValue) -> \(newValue)")
-        //      if oldValue && !newValue {
-        //        dismissSearch()
-        //        dismiss()
-        //      }
+      if let places = places {
+        if places.isEmpty && !hasPendingQuery {
+          Text("No results. 😢")
+        }
+        PlaceList(places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan)
       }
+      Spacer()
+    }
+    //      .navigationBarHidden(true)
+    //      .toolbar(.hidden, for: .navigationBar)
+    //      .searchPresentationToolbarBehavior(.avoidHidingContent)
+    .onChange(of: isSearching) { oldValue, newValue in
+      print("FrontPagePlaceSearch isSearching changed: \(oldValue) -> \(newValue)")
+      //      if oldValue && !newValue {
+      //        dismissSearch()
+      //        dismiss()
+      //      }
     }
   }
 }

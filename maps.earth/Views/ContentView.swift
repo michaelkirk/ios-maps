@@ -92,6 +92,7 @@ struct ContentView: View {
         placeholder: "Where to?",
         hasPendingQuery: searchQueue.hasPendingQuery,
         places: $searchQueue.mostRecentResults,
+        queryText: $queryText,
         getFocus: fakeFocus,
         selectedPlace: $selectedPlace,
         tripPlan: tripPlan
@@ -102,7 +103,7 @@ struct ContentView: View {
       .scenePadding(.top)
       //      .padding(EdgeInsets(top: -40, leading: 0, bottom: 0, trailing: 0))
       //      .ignoresSafeArea()
-      .searchable(text: $queryText)
+      //      .searchable(text: $queryText)
       // BECOME first responder
       //      .searchable(text: $queryText, isPresented: .constant(true))
       //      .searchPresentationToolbarBehavior(.avoidHidingContent)
@@ -151,7 +152,7 @@ struct ContentView: View {
 //  )
 //}
 //
-#Preview("blank") {
+#Preview("Initial") {
   ContentView()
 }
 //
