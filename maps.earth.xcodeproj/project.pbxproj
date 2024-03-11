@@ -37,6 +37,7 @@
 		45992B562B9BC3BC00A64AEE /* StartMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
+		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMarkerView.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
+		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */,
 				45992B4C2B9A71D100A64AEE /* Style.swift */,
 				45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */,
+				45F5ECC52B9FC95C007A4657 /* UIHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				4563B9F52B687AA4005A677A /* ContentView.swift in Sources */,
 				45971ABB2B71995D0050BECE /* Place.swift in Sources */,
 				45971ACA2B71AB500050BECE /* FixtureData.swift in Sources */,
+				45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */,
 				45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */,
 				45971ABF2B719C620050BECE /* LngLat.swift in Sources */,
 				456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */,

@@ -63,7 +63,7 @@ struct Bounds: Decodable {
 
   // Decode from an array format
   init(from decoder: Decoder) throws {
-    var container = try decoder.container(keyedBy: CodingKeys.self)
+    let container = try decoder.container(keyedBy: CodingKeys.self)
     let minCoords = try container.decode([Float64].self, forKey: .min)
     let maxCoords = try container.decode([Float64].self, forKey: .max)
 

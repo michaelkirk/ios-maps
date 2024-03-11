@@ -68,6 +68,8 @@ struct MapView: UIViewRepresentable {
       } else if let places = self.places {
         context.coordinator.ensureMarkers(in: mapView, places: places)
         // TODO zoom to search results bbox
+      } else {
+        context.coordinator.ensureMarkers(in: mapView, places: [])
       }
     }
   }

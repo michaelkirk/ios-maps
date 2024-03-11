@@ -125,10 +125,21 @@ struct FrontPagePlaceSearch: View {
 
   var body: some View {
     VStack {
-      TextField("Where to?", text: $queryText)
-        .padding()
-        .border(.gray)
-        .padding()
+      HStack {
+        Image(systemName: "magnifyingglass").foregroundColor(.hw_searchFieldPlaceholderForeground)
+        TextField("Where to?", text: $queryText).dynamicTypeSize(.xxLarge)
+        if queryText.count > 0 {
+          Button(action: {
+            queryText = ""
+          }) {
+            Image(systemName: "xmark.circle.fill")
+          }.foregroundColor(.hw_searchFieldPlaceholderForeground)
+        }
+      }
+      .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 6))
+      .background(Color.hw_searchFieldBackground)
+      .cornerRadius(10)
+      .padding()
 
       if hasPendingQuery {
         Text("Looking... 😓")
@@ -178,6 +189,12 @@ class SearchQueue: ObservableObject {
     self.mostRecentResults = mostRecentResults
   }
 
+  func cancelInFlightQueries() {
+    self.mostRecentResults = nil
+    self.mostRecentlyCompletedQuery = nil
+    self.pendingQueries = []
+  }
+
   // TODO debounce
   func textDidChange(newValue: String, focus: LngLat?) {
     logger.info("text did change to \(newValue), focus: \(String(describing: focus))")
@@ -188,9 +205,7 @@ class SearchQueue: ObservableObject {
 
     guard !newValue.isEmpty else {
       logger.info("Clearing results for empty search field #\(query.queryId)")
-      self.mostRecentResults = nil
-      self.mostRecentlyCompletedQuery = nil
-      self.pendingQueries = []
+      self.cancelInFlightQueries()
       return
     }
 
@@ -207,6 +222,7 @@ class SearchQueue: ObservableObject {
             logger.info("Ignoring stale results for query #\(query.queryId)")
           } else {
             logger.info("Updating results from query #\(query.queryId)")
+            // FIXME: there is a race here if we've "cleared" pending queries while one is in progress.
             self.mostRecentlyCompletedQuery = query
             self.mostRecentResults = results
           }

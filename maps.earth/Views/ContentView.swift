@@ -56,6 +56,7 @@ struct ContentView: View {
       )
       .interactiveDismissDisabled(true)
       .edgesIgnoringSafeArea(.all)
+      .background(Color.hw_sheetBackground)
     }.onChange(of: selectedPlace) { oldValue, newValue in
       if newValue == nil {
         //        isShowingSearchSheet = true

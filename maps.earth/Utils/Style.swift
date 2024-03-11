@@ -25,6 +25,9 @@ extension Color {
   static let hw_darkGray = Color.gray(0.5)
   static let hw_lightGray = Color.gray(0.90)
   static let hw_offWhite = Color.gray(0.95)
+  static let hw_sheetBackground = Color.rgb(0xE8F0F4)
+  static let hw_searchFieldBackground = Color.rgb(0xD9E1E8)
+  static let hw_searchFieldPlaceholderForeground = Color.rgb(0x7B7E82)
 }
 
 struct Swatch: View {

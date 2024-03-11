@@ -31,12 +31,16 @@ struct PlaceList: View {
     if let places = places {
       List(places, selection: $selectedPlace) { place in
         PlaceRow(place: place).onTapGesture {
-          // hide keyboard
-          UIApplication.shared.sendAction(
-            #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+          hideKeyboard()
           selectedPlace = place
         }
-      }.sheet(isPresented: hasSelectedPlace) {
+      }
+      // FIXME: I'd like to do this, but it dismisses the *entire* sheet
+      // along with the keyboard. Presumably we're really just juggling
+      // first responder here - and it's something that the sheet logic
+      // reacts to, not just the keyboard.
+      // .scrollDismissesKeyboard(.immediately)
+      .sheet(isPresented: hasSelectedPlace) {
         if let selectedPlace = selectedPlace {
           HStack {
             Text(selectedPlace.name).font(.largeTitle)
