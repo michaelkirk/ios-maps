@@ -65,68 +65,102 @@ class LegacySearchQueue: ObservableObject {
   }
 }
 
+let minDetentHeight: CGFloat = 72
 struct ContentView: View {
   @State var selectedPlace: Place?
   @StateObject var tripPlan: TripPlan = TripPlan()
 
-  @StateObject internal var toSearchQueue = LegacySearchQueue()
+  //  @StateObject internal var toSearchQueue = LegacySearchQueue()
 
   // I'm not currently using this... but I might
   @State var mapView: MLNMapView?
 
+  @State var sheetIsPresented: Bool = true
+  @StateObject private var searchQueue: SearchQueue = SearchQueue()
+  @State var queryText: String = ""
+  @State var searchDetent: PresentationDetent = .height(minDetentHeight)
+  @Environment(\.isSearching) private var isSearching
+
   var body: some View {
     MapView(
-      places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
+      places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
       tripPlan: tripPlan
     )
     .edgesIgnoringSafeArea(.all)
-
-    VStack(spacing: 0) {
-      // FIX: bad animation as this becomes visible upon "back" from details
-      if selectedPlace == nil {
-        TextField("Where to?", text: $toSearchQueue.searchText)
-          .padding()
-          .border(.gray)
-          .padding()
-          .onChange(of: toSearchQueue.searchText) { _, newValue in
-            let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
-            self.toSearchQueue.textDidChange(newValue: newValue, focus: focus)
-          }
+    .sheet(isPresented: $sheetIsPresented) {
+      FrontPagePlaceSearch(
+        placeholder: "Where to?",
+        hasPendingQuery: searchQueue.hasPendingQuery,
+        places: $searchQueue.mostRecentResults,
+        getFocus: fakeFocus,
+        selectedPlace: $selectedPlace,
+        tripPlan: tripPlan
+      )
+      .onChange(of: queryText) { oldValue, newValue in
+        searchQueue.textDidChange(newValue: newValue, focus: fakeFocus())
       }
-
-      if !toSearchQueue.searchText.isEmpty {
-        PlaceList(
-          places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace,
-          tripPlan: tripPlan)
+      .scenePadding(.top)
+      //      .padding(EdgeInsets(top: -40, leading: 0, bottom: 0, trailing: 0))
+      //      .ignoresSafeArea()
+      .searchable(text: $queryText)
+      // BECOME first responder
+      //      .searchable(text: $queryText, isPresented: .constant(true))
+      //      .searchPresentationToolbarBehavior(.avoidHidingContent)
+      .presentationDetents([.large, .medium, .height(minDetentHeight)], selection: $searchDetent)
+      .presentationBackgroundInteraction(
+        .enabled(upThrough: .medium)
+      ).onChange(of: isSearching) { oldValue, newValue in
+        print("ContentView isSearching changed: \(oldValue) -> \(newValue)")
       }
+      .interactiveDismissDisabled(true)
     }
+
+    //    VStack(spacing: 0) {
+    //      // FIX: bad animation as this becomes visible upon "back" from details
+    //      if selectedPlace == nil {
+    //        TextField("Where to?", text: $toSearchQueue.searchText)
+    //          .padding()
+    //          .border(.gray)
+    //          .padding()
+    //          .onChange(of: toSearchQueue.searchText) { _, newValue in
+    //            let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
+    //            self.toSearchQueue.textDidChange(newValue: newValue, focus: focus)
+    //          }
+    //      }
+    //
+    //      if !toSearchQueue.searchText.isEmpty {
+    //        PlaceList(
+    //          places: $toSearchQueue.mostRecentResults, selectedPlace: $selectedPlace,
+    //          tripPlan: tripPlan)
+    //      }
+    //    }
   }
 }
 
-#Preview("search") {
-  ContentView(
-    toSearchQueue: LegacySearchQueue(
-      searchText: "coffee", mostRecentResults: FixtureData.places.all))
-}
-
-#Preview("show detail") {
-  ContentView(
-    selectedPlace: FixtureData.places[.zeitgeist],
-    toSearchQueue: LegacySearchQueue(
-      searchText: "coffee", mostRecentResults: FixtureData.places.all)
-  )
-}
-
+//#Preview("search") {
+//  ContentView(
+//    toSearchQueue: LegacySearchQueue(
+//      searchText: "coffee", mostRecentResults: FixtureData.places.all))
+//}
+//
+//#Preview("show detail") {
+//  ContentView(
+//    selectedPlace: FixtureData.places[.zeitgeist],
+//    toSearchQueue: LegacySearchQueue(
+//      searchText: "coffee", mostRecentResults: FixtureData.places.all)
+//  )
+//}
+//
 #Preview("blank") {
   ContentView()
 }
-
-#Preview("with directions") {
-  let tripPlan = FixtureData.tripPlan
-  return ContentView(
-    selectedPlace: tripPlan.navigateTo,
-    tripPlan: tripPlan,
-    toSearchQueue: LegacySearchQueue(
-      searchText: "coffee", mostRecentResults: FixtureData.places.all)
-  )
-}
+//
+//#Preview("with directions") {
+//  let tripPlan = FixtureData.tripPlan
+//  return ContentView(
+//    selectedPlace: tripPlan.navigateTo,
+//    tripPlan: tripPlan,
+//    toSearchQueue: LegacySearchQueue(
+//      searchText: "coffee", mostRecentResults: FixtureData.places.all)
+//  )
+//}

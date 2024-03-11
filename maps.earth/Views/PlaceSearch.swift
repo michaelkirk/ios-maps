@@ -38,9 +38,11 @@ struct PlaceField: View {
     }
     .sheet(isPresented: $isSearching) {
       PlaceSearch(
-        placeholder: header, hasPendingQuery: searchQueue.hasPendingQuery,
+        placeholder: header,
+        hasPendingQuery: searchQueue.hasPendingQuery,
         places: searchQueue.mostRecentResults,
-        selectedPlace: $place, getFocus: getFocus
+        selectedPlace: $place,
+        getFocus: getFocus
       ).searchable(text: $queryText)
     }
   }
@@ -104,6 +106,46 @@ struct PlaceSearch: View {
       if oldValue && !newValue {
         dismissSearch()
         dismiss()
+      }
+    }
+  }
+}
+
+struct FrontPagePlaceSearch: View {
+  var placeholder: String
+  var hasPendingQuery: Bool
+  @Binding var places: [Place]?
+  var getFocus: () -> LngLat?
+  @Binding var selectedPlace: Place?
+  @ObservedObject var tripPlan: TripPlan
+
+  @Environment(\.isSearching) private var isSearching
+  @Environment(\.dismissSearch) private var dismissSearch
+  @Environment(\.dismiss) private var dismiss
+
+  var body: some View {
+    NavigationView {
+      VStack {
+        if hasPendingQuery {
+          Text("Looking... 😓")
+        }
+        if let places = places {
+          if places.isEmpty && !hasPendingQuery {
+            Text("No results. 😢")
+          }
+          PlaceList(places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan)
+        }
+        Spacer()
+      }
+      //      .navigationBarHidden(true)
+      .toolbar(.hidden, for: .navigationBar)
+      .searchPresentationToolbarBehavior(.avoidHidingContent)
+      .onChange(of: isSearching) { oldValue, newValue in
+        print("FrontPagePlaceSearch isSearching changed: \(oldValue) -> \(newValue)")
+        //      if oldValue && !newValue {
+        //        dismissSearch()
+        //        dismiss()
+        //      }
       }
     }
   }
