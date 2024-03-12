@@ -57,18 +57,6 @@ struct ContentView: View {
       .interactiveDismissDisabled(true)
       .edgesIgnoringSafeArea(.all)
       .background(Color.hw_sheetBackground)
-    }.onChange(of: selectedPlace) { oldValue, newValue in
-      if newValue == nil {
-        //        isShowingSearchSheet = true
-        //        isShowingDetailSheet = false
-        //        searchDetent = .medium
-      } else if oldValue == nil {
-        // Just selected a value for the first time
-
-        //        isShowingSearchSheet = false
-        //        isShowingDetailSheet = true
-        searchDetent = .medium
-      }
     }
   }
 }
@@ -88,8 +76,8 @@ enum PresentedSheet {
 
 #Preview("show detail") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
-  let result = ContentView(searchQueue: searchQueue, queryText: "coffee")
-  result.selectedPlace = FixtureData.places[.zeitgeist]
+  let result = ContentView(
+    selectedPlace: FixtureData.places[.santaLucia], searchQueue: searchQueue, queryText: "coffee")
   return result
 }
 

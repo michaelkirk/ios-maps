@@ -42,23 +42,35 @@ struct PlaceList: View {
       // .scrollDismissesKeyboard(.immediately)
       .sheet(isPresented: hasSelectedPlace) {
         if let selectedPlace = selectedPlace {
-          HStack {
-            Text(selectedPlace.name).font(.largeTitle)
-            Spacer()
-            Button(action: { self.selectedPlace = nil }) {
-              Image(systemName: "xmark")
-            }.tint(.black)
-          }.padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
-          ScrollView {
-            PlaceDetail(place: selectedPlace, tripPlan: tripPlan)
-          }
-          .presentationDetents([.large, .medium, minDetentHeight], selection: .constant(.medium))
-          .presentationBackgroundInteraction(
-            .enabled(upThrough: .medium)
-          ).onDisappear {
-            self.selectedPlace = nil
+          VStack {
+            HStack(alignment: .top) {
+              Text(selectedPlace.name).font(.largeTitle)
+              Spacer()
+              // TODO: extract close button
+              Button(action: { self.selectedPlace = nil }) {
+                let width: CGFloat = 30
+                ZStack {
+                  Circle().frame(width: width - 2)
+                  Image(systemName: "xmark.circle.fill").resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: width, height: width)
+                    .tint(.hw_sheetCloseBackground)
+                }
+              }
+              .tint(Color.hw_sheetCloseForeground)
+            }.padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+            ScrollView {
+              PlaceDetail(place: selectedPlace, tripPlan: tripPlan)
+            }
+            .presentationDetents([.large, .medium, minDetentHeight], selection: .constant(.medium))
+            .presentationBackgroundInteraction(
+              .enabled(upThrough: .medium)
+            ).onDisappear {
+              self.selectedPlace = nil
+            }
           }
           .interactiveDismissDisabled(true)
+          .background(Color.hw_sheetBackground)
         }
       }
     } else {

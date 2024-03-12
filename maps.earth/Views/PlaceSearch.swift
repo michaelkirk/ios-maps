@@ -124,7 +124,7 @@ struct FrontPagePlaceSearch: View {
   @Environment(\.dismiss) private var dismiss
 
   var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       HStack {
         Image(systemName: "magnifyingglass").foregroundColor(.hw_searchFieldPlaceholderForeground)
         TextField("Where to?", text: $queryText).dynamicTypeSize(.xxLarge)
@@ -151,13 +151,6 @@ struct FrontPagePlaceSearch: View {
         PlaceList(places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan)
       }
       Spacer()
-    }
-    .onChange(of: isSearching) { oldValue, newValue in
-      print("FrontPagePlaceSearch isSearching changed: \(oldValue) -> \(newValue)")
-      //      if oldValue && !newValue {
-      //        dismissSearch()
-      //        dismiss()
-      //      }
     }
   }
 }
