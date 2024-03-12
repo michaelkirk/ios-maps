@@ -8,12 +8,26 @@
 import Foundation
 
 struct FixtureData {
-  static var places: [Place] = {
-    let response: AutocompleteResponse = load("autocomplete.json")
-    let places = response.places
-    print("There were \(places.count) places")
-    return places
-  }()
+  struct Places {
+    let all: [Place] = {
+      let response: AutocompleteResponse = load("autocomplete.json")
+      let places = response.places
+      return places
+    }()
+  }
+  static var places: Places = Places()
+
+  static var bikeTrips: [Trip] {
+    let response: TripPlanResponse = load("bike_plan.json")
+    let trips = response.plan.itineraries.map { itinerary in
+      Trip(itinerary: itinerary, from: self.places[.realfine], to: self.places[.zeitgeist])
+    }
+    return trips
+  }
+
+  // FIXME: FROM/TO do not match the trips - I need my fixtures to be consistent
+  static var tripPlan: TripPlan = TripPlan(
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike, trips: Self.bikeTrips)
 }
 
 func load<T: Decodable>(_ filename: String) -> T {
@@ -37,5 +51,19 @@ func load<T: Decodable>(_ filename: String) -> T {
     return try decoder.decode(T.self, from: data)
   } catch {
     fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+  }
+}
+
+extension FixtureData.Places {
+  enum PlaceIdx: Int {
+    case schoolhouse = 0
+    case zeitgeist = 1
+    case dubsea = 2
+    case realfine = 3
+    case santaLucia = 4
+  }
+
+  subscript(position: PlaceIdx) -> Place {
+    self.all[position.rawValue]
   }
 }

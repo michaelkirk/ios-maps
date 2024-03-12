@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450C5F1D2B961DFC00394697 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1C2B961DFC00394697 /* Trip.swift */; };
+		450C5F1F2B963B5700394697 /* TripTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1E2B963B5700394697 /* TripTest.swift */; };
 		455363EE2B687D90006DF291 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 455363ED2B687D90006DF291 /* MapLibre */; };
 		455363F02B687EF0006DF291 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455363EF2B687EF0006DF291 /* MapView.swift */; };
 		4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F22B687AA4005A677A /* maps_earthApp.swift */; };
-		4563B9F52B687AA4005A677A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F42B687AA4005A677A /* ContentView.swift */; };
+		4563B9F52B687AA4005A677A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F42B687AA4005A677A /* HomeView.swift */; };
 		4563B9F72B687AA5005A677A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4563B9F62B687AA5005A677A /* Assets.xcassets */; };
 		4563B9FA2B687AA5005A677A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4563B9F92B687AA5005A677A /* Preview Assets.xcassets */; };
 		4563BA042B687AA5005A677A /* maps_earthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563BA032B687AA5005A677A /* maps_earthTests.swift */; };
@@ -26,6 +28,17 @@
 		45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971AC42B71A6FF0050BECE /* PlaceRow.swift */; };
 		45971ACA2B71AB500050BECE /* FixtureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971AC92B71AB500050BECE /* FixtureData.swift */; };
 		45971ACE2B71AC320050BECE /* autocomplete.json in Resources */ = {isa = PBXBuildFile; fileRef = 45971ACD2B71AC320050BECE /* autocomplete.json */; };
+		45992B482B97E56000A64AEE /* transit_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 45992B462B97E55F00A64AEE /* transit_plan.json */; };
+		45992B492B97E56000A64AEE /* bike_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 45992B472B97E56000A64AEE /* bike_plan.json */; };
+		45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */; };
+		45992B4D2B9A71D100A64AEE /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4C2B9A71D100A64AEE /* Style.swift */; };
+		45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */; };
+		45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B502B9B5B4300A64AEE /* TripPlan.swift */; };
+		45992B562B9BC3BC00A64AEE /* StartMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */; };
+		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
+		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
+		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
+		45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC72BA011C9007A4657 /* CloseButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,10 +59,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		450C5F1C2B961DFC00394697 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		450C5F1E2B963B5700394697 /* TripTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTest.swift; sourceTree = "<group>"; };
 		455363EF2B687EF0006DF291 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4563B9EF2B687AA4005A677A /* maps.earth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = maps.earth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B9F22B687AA4005A677A /* maps_earthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthApp.swift; sourceTree = "<group>"; };
-		4563B9F42B687AA4005A677A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4563B9F42B687AA4005A677A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4563B9F62B687AA5005A677A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4563B9F92B687AA5005A677A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4563B9FF2B687AA5005A677A /* maps.earthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = maps.earthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +82,18 @@
 		45971AC42B71A6FF0050BECE /* PlaceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRow.swift; sourceTree = "<group>"; };
 		45971AC92B71AB500050BECE /* FixtureData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureData.swift; sourceTree = "<group>"; };
 		45971ACD2B71AC320050BECE /* autocomplete.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = autocomplete.json; sourceTree = "<group>"; };
+		45992B462B97E55F00A64AEE /* transit_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transit_plan.json; sourceTree = "<group>"; };
+		45992B472B97E56000A64AEE /* bike_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bike_plan.json; sourceTree = "<group>"; };
+		45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanClient.swift; sourceTree = "<group>"; };
+		45992B4C2B9A71D100A64AEE /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		45992B502B9B5B4300A64AEE /* TripPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlan.swift; sourceTree = "<group>"; };
+		45992B542B9B651900A64AEE /* maps-earth-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "maps-earth-Info.plist"; sourceTree = SOURCE_ROOT; };
+		45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMarkerView.swift; sourceTree = "<group>"; };
+		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
+		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
+		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +145,7 @@
 		4563B9F12B687AA4005A677A /* maps.earth */ = {
 			isa = PBXGroup;
 			children = (
+				45992B542B9B651900A64AEE /* maps-earth-Info.plist */,
 				456C6CEF2B71BBC800AAFBE6 /* Utils */,
 				45971ACB2B71AC000050BECE /* Data */,
 				45971AC82B71A78C0050BECE /* Services */,
@@ -143,6 +171,7 @@
 			children = (
 				4563BA032B687AA5005A677A /* maps_earthTests.swift */,
 				456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */,
+				450C5F1E2B963B5700394697 /* TripTest.swift */,
 			);
 			path = maps.earthTests;
 			sourceTree = "<group>";
@@ -160,6 +189,9 @@
 			isa = PBXGroup;
 			children = (
 				456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */,
+				45992B4C2B9A71D100A64AEE /* Style.swift */,
+				45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */,
+				45F5ECC52B9FC95C007A4657 /* UIHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -169,9 +201,13 @@
 			children = (
 				45971AC42B71A6FF0050BECE /* PlaceRow.swift */,
 				455363EF2B687EF0006DF291 /* MapView.swift */,
-				4563B9F42B687AA4005A677A /* ContentView.swift */,
+				4563B9F42B687AA4005A677A /* HomeView.swift */,
 				456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */,
 				456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */,
+				45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */,
+				45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */,
+				45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */,
+				45F5ECC72BA011C9007A4657 /* CloseButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,6 +217,8 @@
 			children = (
 				45971ABA2B71995D0050BECE /* Place.swift */,
 				45971ABE2B719C620050BECE /* LngLat.swift */,
+				450C5F1C2B961DFC00394697 /* Trip.swift */,
+				45992B502B9B5B4300A64AEE /* TripPlan.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -189,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				45971AC22B719DD90050BECE /* GeocodeClient.swift */,
+				45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -205,6 +244,8 @@
 		45971ACC2B71AC090050BECE /* StubbedResponses */ = {
 			isa = PBXGroup;
 			children = (
+				45992B472B97E56000A64AEE /* bike_plan.json */,
+				45992B462B97E55F00A64AEE /* transit_plan.json */,
 				45971ACD2B71AC320050BECE /* autocomplete.json */,
 			);
 			path = StubbedResponses;
@@ -320,8 +361,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45992B482B97E56000A64AEE /* transit_plan.json in Resources */,
 				4563B9FA2B687AA5005A677A /* Preview Assets.xcassets in Resources */,
 				45971ACE2B71AC320050BECE /* autocomplete.json in Resources */,
+				45992B492B97E56000A64AEE /* bike_plan.json in Resources */,
 				4563B9F72B687AA5005A677A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,17 +390,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4563B9F52B687AA4005A677A /* ContentView.swift in Sources */,
+				4563B9F52B687AA4005A677A /* HomeView.swift in Sources */,
 				45971ABB2B71995D0050BECE /* Place.swift in Sources */,
 				45971ACA2B71AB500050BECE /* FixtureData.swift in Sources */,
+				45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */,
+				45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */,
 				45971ABF2B719C620050BECE /* LngLat.swift in Sources */,
 				456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */,
 				455363F02B687EF0006DF291 /* MapView.swift in Sources */,
+				45992B562B9BC3BC00A64AEE /* StartMarkerView.swift in Sources */,
 				45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */,
+				45992B4D2B9A71D100A64AEE /* Style.swift in Sources */,
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
+				45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */,
+				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
+				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
 				45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */,
+				45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */,
+				450C5F1D2B961DFC00394697 /* Trip.swift in Sources */,
+				45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				450C5F1F2B963B5700394697 /* TripTest.swift in Sources */,
 				4563BA042B687AA5005A677A /* maps_earthTests.swift in Sources */,
 				456C6CF32B7306D000AAFBE6 /* PlaceTest.swift in Sources */,
 			);
@@ -525,11 +579,13 @@
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "maps-earth-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -554,11 +610,13 @@
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "maps-earth-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -579,6 +637,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MARKETING_VERSION = 1.0;
@@ -598,6 +657,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MARKETING_VERSION = 1.0;
@@ -616,6 +676,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earthUITests";
@@ -633,6 +694,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earthUITests";
