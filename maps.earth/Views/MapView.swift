@@ -9,19 +9,38 @@ import Foundation
 import MapLibre
 import SwiftUI
 
-struct MapView: UIViewRepresentable {
+enum UserLocationState {
+  case initial
+  case showing
+  //  case following
+  case denied
+}
 
+enum PendingRecenter {
+  case pending
+  case resolved(CLLocation)
+}
+
+struct MapView {
   @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var mapView: MLNMapView?
+  @Binding var userLocationState: UserLocationState
+  @State var pendingRecenter: PendingRecenter? = nil
   @ObservedObject var tripPlan: TripPlan
+}
 
-  //  @Binding var selectedTrip: Trip?
+extension MapView: UIViewRepresentable {
 
   func makeCoordinator() -> Coordinator {
-    Coordinator(self)
+    let locateMeButton = LocateMeButton(
+      state: $userLocationState, pendingRecenter: $pendingRecenter)
+    let locateMeButtonController = UIHostingController(rootView: locateMeButton)
+    return Coordinator(
+      self, locateMeButtonController: locateMeButtonController, pendingRecenter: $pendingRecenter)
   }
 
+  typealias UIViewType = MLNMapView
   func makeUIView(context: Context) -> MLNMapView {
     let styleURL = AppConfig().tileserverStyleUrl
 
@@ -29,6 +48,35 @@ struct MapView: UIViewRepresentable {
     let mapView = MLNMapView(frame: .zero, styleURL: styleURL)
     mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     mapView.logoView.isHidden = true
+
+    let originalLocationManagerDelegate = mapView.locationManager.delegate
+    mapView.locationManager.delegate = context.coordinator
+    context.coordinator.originalLocationManagerDelegate = originalLocationManagerDelegate
+
+    do {
+      let buttonUIView = context.coordinator.locateMeButtonController.view!
+      buttonUIView.translatesAutoresizingMaskIntoConstraints = false
+      buttonUIView.backgroundColor = .clear
+      mapView.addSubview(buttonUIView)
+
+      let controlMargin: CGFloat = 8
+      // Apply constraints or set the frame
+      NSLayoutConstraint.activate([
+        buttonUIView.trailingAnchor.constraint(
+          equalTo: mapView.safeAreaLayoutGuide.trailingAnchor, constant: -controlMargin),
+        buttonUIView.topAnchor.constraint(
+          equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: controlMargin),
+      ])
+
+      // We want the compass to appear below our controls,
+      // so we override constraint from maplibre which pins to the container.
+      // To Debug:
+      //        mapView.compassView.compassVisibility = .visible
+      mapView.compassViewMargins = CGPoint(
+        x: controlMargin, y: LocateMeButton.height + 2 * controlMargin)
+    }
+
+    // FIXME: pull from storage, else start somewhere interesting.
     mapView.setCenter(
       CLLocationCoordinate2D(latitude: 47.6, longitude: -122.3),
       zoomLevel: 10,
@@ -46,14 +94,49 @@ struct MapView: UIViewRepresentable {
   }
 
   func updateUIView(_ mapView: MLNMapView, context: Context) {
-    print("in updateUIView MapView")
+    print("in MapView.updateUIView")
+    switch userLocationState {
+    case .initial:
+      break
+    case .showing:
+      if !mapView.showsUserLocation {
+        mapView.showsUserLocation = true
+        mapView.showsUserHeadingIndicator = true
+      }
+    case .denied:
+      break
+    }
+
+    switch pendingRecenter {
+    case nil:
+      break
+    case .pending:
+      // If we already have a location, don't wait for an update. It's likely
+      // very near by and substantially lags the UI (anecdotally: under a second, so not super long, but enough
+      // to notice)
+      if let mostRecentLocation = context.coordinator.mostRecentLocation {
+        Task {
+          await MainActor.run {
+            self.pendingRecenter = nil
+            mapView.setCenter(mostRecentLocation.coordinate, zoomLevel: 14, animated: true)
+          }
+        }
+      }
+    case .resolved(let pendingRecenter):
+      Task {
+        await MainActor.run {
+          self.pendingRecenter = nil
+          mapView.setCenter(pendingRecenter.coordinate, zoomLevel: 14, animated: true)
+        }
+      }
+    }
+
     if let selectedTrip = self.tripPlan.selectedTrip {
       // TODO: draw unselected routes
       context.coordinator.ensureRoutes(
         in: mapView, trips: self.tripPlan.trips, selectedTrip: selectedTrip)
 
       // remove markers so that we can be sure to put it back on top - there's gotta be a less dumb way, but this is expedient
-
       context.coordinator.ensureMarkers(in: mapView, places: [])
       context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
       context.coordinator.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
@@ -74,10 +157,14 @@ struct MapView: UIViewRepresentable {
     }
   }
 
-  typealias UIViewType = MLNMapView
-
   class Coordinator: NSObject {
+    weak var originalLocationManagerDelegate: MLNLocationManagerDelegate?
+
     let mapView: MapView
+    var mostRecentLocation: CLLocation?
+    @Binding var pendingRecenter: PendingRecenter?
+
+    var locateMeButtonController: UIHostingController<LocateMeButton>
     // pin markers, like those used in search or at the end of a trip
     var markers: [Place: MLNAnnotation] = [:]
     // circle markers, like those used at the start of a trip
@@ -85,8 +172,13 @@ struct MapView: UIViewRepresentable {
     var selectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
-    init(_ mapView: MapView) {
+    init(
+      _ mapView: MapView, locateMeButtonController: UIHostingController<LocateMeButton>,
+      pendingRecenter: Binding<PendingRecenter?>
+    ) {
       self.mapView = mapView
+      self.locateMeButtonController = locateMeButtonController
+      self._pendingRecenter = pendingRecenter
     }
 
     func zoom(mapView: MLNMapView, toPlace place: Place, animated isAnimated: Bool) {
@@ -271,6 +363,54 @@ extension MapView.Coordinator: MLNMapViewDelegate {
     view.addSubview(StartMarkerView())
 
     return view
+  }
+}
+
+// Extend default delegate implementation
+extension MapView.Coordinator: MLNLocationManagerDelegate {
+  func locationManager(_ manager: any MLNLocationManager, didUpdate locations: [CLLocation]) {
+    dispatchPrecondition(condition: .onQueue(.main))
+    self.originalLocationManagerDelegate?.locationManager(manager, didUpdate: locations)
+
+    guard let mostRecentLocation = locations.last else {
+      print("mostRecentLocation was unexpectedly nil in locationManger(_:didUpdate)")
+      return
+    }
+    self.mostRecentLocation = mostRecentLocation
+
+    if let pendingRecenter = self.pendingRecenter {
+      switch pendingRecenter {
+      case .pending:
+        self.pendingRecenter = .resolved(mostRecentLocation)
+      case .resolved(_):
+        self.pendingRecenter = .resolved(mostRecentLocation)
+      }
+    }
+  }
+
+  func locationManager(_ manager: any MLNLocationManager, didUpdate newHeading: CLHeading) {
+    dispatchPrecondition(condition: .onQueue(.main))
+    self.originalLocationManagerDelegate?.locationManager(manager, didUpdate: newHeading)
+  }
+
+  func locationManagerShouldDisplayHeadingCalibration(_ manager: any MLNLocationManager) -> Bool {
+    dispatchPrecondition(condition: .onQueue(.main))
+    return self.originalLocationManagerDelegate?.locationManagerShouldDisplayHeadingCalibration(
+      manager) ?? false
+  }
+
+  func locationManager(_ manager: any MLNLocationManager, didFailWithError error: any Error) {
+    dispatchPrecondition(condition: .onQueue(.main))
+    self.originalLocationManagerDelegate?.locationManager(manager, didFailWithError: error)
+  }
+
+  func locationManagerDidChangeAuthorization(_ manager: any MLNLocationManager) {
+    dispatchPrecondition(condition: .onQueue(.main))
+    self.originalLocationManagerDelegate?.locationManagerDidChangeAuthorization(manager)
+
+    if manager.authorizationStatus == .denied {
+      self.locateMeButtonController.rootView.state = .denied
+    }
   }
 }
 

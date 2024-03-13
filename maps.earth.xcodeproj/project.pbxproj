@@ -39,6 +39,7 @@
 		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
 		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
 		45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC72BA011C9007A4657 /* CloseButton.swift */; };
+		45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC92BA11046007A4657 /* LocateMeButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
+		45F5ECC92BA11046007A4657 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */,
 				45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */,
 				45F5ECC72BA011C9007A4657 /* CloseButton.swift */,
+				45F5ECC92BA11046007A4657 /* LocateMeButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				45992B4D2B9A71D100A64AEE /* Style.swift in Sources */,
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
 				45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */,
+				45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
@@ -580,6 +584,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "maps-earth-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on your map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -611,6 +616,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "maps-earth-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on your map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -24,15 +24,14 @@ struct HomeView: View {
   @StateObject var searchQueue: SearchQueue = SearchQueue()
   @State var queryText: String = ""
   @State var searchDetent: PresentationDetent = minDetentHeight
-
-  @State var isShowingSearchSheet = true
-  @State var isShowingDetailSheet = false
+  @State var userLocationState: UserLocationState = .initial
 
   var presentedSheet: PresentedSheet = .search
 
   var body: some View {
     MapView(
       places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
+      userLocationState: $userLocationState,
       tripPlan: tripPlan
     )
     .edgesIgnoringSafeArea(.all)
