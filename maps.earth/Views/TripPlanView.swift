@@ -77,6 +77,8 @@ struct TripPlanView: View {
         .listRowInsets(EdgeInsets())
       }.listStyle(.plain)
         .cornerRadius(8)
+    }.onAppear {
+      queryIfReady()
     }.onChange(of: tripPlan.navigateFrom) { oldValue, newValue in
       queryIfReady()
     }.onChange(of: tripPlan.navigateTo) { oldValue, newValue in

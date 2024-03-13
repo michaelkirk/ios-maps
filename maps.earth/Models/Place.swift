@@ -5,12 +5,26 @@
 //  Created by Michael Kirk on 2/5/24.
 //
 
+import CoreLocation
 import Foundation
 
 struct Place: Equatable, Hashable {
   var location: LngLat
   var properties: PlaceProperties
+
+  init(location: LngLat, properties: PlaceProperties) {
+    self.location = location
+    self.properties = properties
+  }
+
+  init(currentLocation: CLLocation) {
+    let location = LngLat(coord: currentLocation.coordinate)
+    let properties = PlaceProperties(
+      id: "current-location", name: "Current Location", label: "Current Location")
+    self.init(location: location, properties: properties)
+  }
 }
+
 extension Place: Identifiable {
   var id: String { self.properties.id }
 }

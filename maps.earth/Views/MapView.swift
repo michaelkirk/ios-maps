@@ -26,6 +26,7 @@ struct MapView {
   @Binding var selectedPlace: Place?
   @Binding var mapView: MLNMapView?
   @Binding var userLocationState: UserLocationState
+  @Binding var mostRecentUserLocation: CLLocation?
   @State var pendingRecenter: PendingRecenter? = nil
   @ObservedObject var tripPlan: TripPlan
 }
@@ -37,7 +38,7 @@ extension MapView: UIViewRepresentable {
       state: $userLocationState, pendingRecenter: $pendingRecenter)
     let locateMeButtonController = UIHostingController(rootView: locateMeButton)
     return Coordinator(
-      self, locateMeButtonController: locateMeButtonController, pendingRecenter: $pendingRecenter)
+      self, locateMeButtonController: locateMeButtonController)
   }
 
   typealias UIViewType = MLNMapView
@@ -114,7 +115,7 @@ extension MapView: UIViewRepresentable {
       // If we already have a location, don't wait for an update. It's likely
       // very near by and substantially lags the UI (anecdotally: under a second, so not super long, but enough
       // to notice)
-      if let mostRecentLocation = context.coordinator.mostRecentLocation {
+      if let mostRecentLocation = self.mostRecentUserLocation {
         Task {
           await MainActor.run {
             self.pendingRecenter = nil
@@ -161,8 +162,6 @@ extension MapView: UIViewRepresentable {
     weak var originalLocationManagerDelegate: MLNLocationManagerDelegate?
 
     let mapView: MapView
-    var mostRecentLocation: CLLocation?
-    @Binding var pendingRecenter: PendingRecenter?
 
     var locateMeButtonController: UIHostingController<LocateMeButton>
     // pin markers, like those used in search or at the end of a trip
@@ -173,12 +172,10 @@ extension MapView: UIViewRepresentable {
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
     init(
-      _ mapView: MapView, locateMeButtonController: UIHostingController<LocateMeButton>,
-      pendingRecenter: Binding<PendingRecenter?>
+      _ mapView: MapView, locateMeButtonController: UIHostingController<LocateMeButton>
     ) {
       self.mapView = mapView
       self.locateMeButtonController = locateMeButtonController
-      self._pendingRecenter = pendingRecenter
     }
 
     func zoom(mapView: MLNMapView, toPlace place: Place, animated isAnimated: Bool) {
@@ -376,14 +373,14 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
       print("mostRecentLocation was unexpectedly nil in locationManger(_:didUpdate)")
       return
     }
-    self.mostRecentLocation = mostRecentLocation
+    self.mapView.mostRecentUserLocation = mostRecentLocation
 
-    if let pendingRecenter = self.pendingRecenter {
+    if let pendingRecenter = self.mapView.pendingRecenter {
       switch pendingRecenter {
       case .pending:
-        self.pendingRecenter = .resolved(mostRecentLocation)
+        self.mapView.pendingRecenter = .resolved(mostRecentLocation)
       case .resolved(_):
-        self.pendingRecenter = .resolved(mostRecentLocation)
+        self.mapView.pendingRecenter = .resolved(mostRecentLocation)
       }
     }
   }

@@ -31,4 +31,12 @@ class TripPlan: ObservableObject {
     self.selectedTrip = selectedTrip ?? trips.first
     self.bounds = bounds
   }
+
+  func clear() {
+    self.navigateFrom = nil
+    self.navigateTo = nil
+    self.bounds = nil
+    self.trips = []
+    self.selectedTrip = nil
+  }
 }

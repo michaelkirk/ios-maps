@@ -14,6 +14,10 @@ private let logger = Logger(
   category: String(describing: #file)
 )
 
+class UserLocationManager: ObservableObject {
+  var mostRecentUserLocation: CLLocation?
+}
+
 let minDetentHeight = PresentationDetent.height(68)
 struct HomeView: View {
   @State var selectedPlace: Place?
@@ -25,6 +29,7 @@ struct HomeView: View {
   @State var queryText: String = ""
   @State var searchDetent: PresentationDetent = minDetentHeight
   @State var userLocationState: UserLocationState = .initial
+  @StateObject var userLocationManager = UserLocationManager()
 
   var presentedSheet: PresentedSheet = .search
 
@@ -32,6 +37,7 @@ struct HomeView: View {
     MapView(
       places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
       userLocationState: $userLocationState,
+      mostRecentUserLocation: $userLocationManager.mostRecentUserLocation,
       tripPlan: tripPlan
     )
     .edgesIgnoringSafeArea(.all)
@@ -48,6 +54,7 @@ struct HomeView: View {
           searchDetent = minDetentHeight
         }
       )
+      .environmentObject(userLocationManager)
       .onChange(of: queryText) { oldValue, newValue in
         let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
         searchQueue.textDidChange(newValue: newValue, focus: focus)

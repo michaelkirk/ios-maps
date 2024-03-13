@@ -5,23 +5,25 @@
 //  Created by Michael Kirk on 2/5/24.
 //
 
+import CoreLocation
 import Foundation
 import SwiftUI
 
 struct PlaceDetail: View {
   var place: Place
 
+  @EnvironmentObject var userLocationManager: UserLocationManager
   @ObservedObject var tripPlan: TripPlan
 
   var body: some View {
     let isShowingDirections = Binding(
       get: {
-        let value = tripPlan.navigateTo != nil
-        print("get presentSheet \(value)")
+        let value = tripPlan.navigateTo != nil || tripPlan.navigateFrom != nil
+        print("get isShowingDirections \(value)")
         return value
       },
       set: { newValue in
-        print("set presentSheet \(newValue)")
+        print("set isShowingDirections is no-op: \(newValue)")
       }
     )
     VStack {
@@ -29,6 +31,10 @@ struct PlaceDetail: View {
       Button(action: {
         print("navigateTo: \(place))")
         tripPlan.navigateTo = place
+        if let mostRecentUserLocation = self.userLocationManager.mostRecentUserLocation {
+          print("got mostRecentUserLocation from env: \(mostRecentUserLocation)")
+          tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
+        }
       }) {
         Text("Navigate")
       }
@@ -42,7 +48,7 @@ struct PlaceDetail: View {
             Text("Directions").font(.title).bold()
             Spacer()
             CloseButton {
-              tripPlan.navigateTo = nil
+              tripPlan.clear()
             }
           }.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
           ScrollView {
