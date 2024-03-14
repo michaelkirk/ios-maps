@@ -148,7 +148,7 @@ extension MapView: UIViewRepresentable {
       // and we don't necessarily want to move the users map around.
       if let selectedPlace = selectedPlace {
         context.coordinator.ensureMarkers(in: mapView, places: [selectedPlace])
-        context.coordinator.zoom(mapView: mapView, toPlace: selectedPlace, animated: true)
+        context.coordinator.zoom(mapView: mapView, center: selectedPlace.location, animated: true)
       } else if let places = self.places {
         context.coordinator.ensureMarkers(in: mapView, places: places)
         // TODO zoom to search results bbox
@@ -178,10 +178,41 @@ extension MapView: UIViewRepresentable {
       self.locateMeButtonController = locateMeButtonController
     }
 
-    func zoom(mapView: MLNMapView, toPlace place: Place, animated isAnimated: Bool) {
-      let minZoom = 12.0
-      let zoom = max(mapView.zoomLevel, minZoom)
-      mapView.setCenter(place.location.asCoordinate, zoomLevel: zoom, animated: isAnimated)
+    // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
+    func zoom(mapView: MLNMapView, center: LngLat, animated isAnimated: Bool) {
+      let bounds = MLNCoordinateBounds(sw: center.asCoordinate, ne: center.asCoordinate)
+      self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 1500, animated: isAnimated)
+    }
+
+    // Zooms, with bottom padding so that bottom sheet doesn't cover the bounds
+    func zoom(
+      mapView: MLNMapView, bounds: MLNCoordinateBounds, bufferMeters: Float64,
+      animated isAnimated: Bool
+    ) {
+      func extend(bounds: MLNCoordinateBounds, bufferMeters: Float64) -> MLNCoordinateBounds {
+        let earthRadius = 6378137.0  // Earth's radius in meters
+        let deltaLatitude = bufferMeters / earthRadius
+
+        let deltaMinLongitude = bufferMeters / (earthRadius * cos(.pi * bounds.sw.latitude / 180))
+        let minLatitude = bounds.sw.latitude - deltaLatitude * (180 / .pi)
+        let minLongitude = bounds.sw.longitude - deltaMinLongitude * (180 / .pi)
+
+        let deltaMaxLongitude = bufferMeters / (earthRadius * cos(.pi * bounds.ne.latitude / 180))
+        let maxLongitude = bounds.ne.longitude + deltaMaxLongitude * (180 / .pi)
+        let maxLatitude = bounds.ne.latitude + deltaLatitude * (180 / .pi)
+
+        let sw = CLLocationCoordinate2D(latitude: minLatitude, longitude: minLongitude)
+        let ne = CLLocationCoordinate2D(latitude: maxLatitude, longitude: maxLongitude)
+        return MLNCoordinateBounds(sw: sw, ne: ne)
+      }
+
+      let bufferedBounds = extend(bounds: bounds, bufferMeters: bufferMeters)
+
+      print("safeAreaInsets: \(mapView.safeAreaInsets)")
+      let bottomPadding = UIScreen.main.bounds.height / 2 - mapView.safeAreaInsets.top
+      let padding = UIEdgeInsets(top: 0, left: 0, bottom: bottomPadding, right: 0)
+      mapView.setVisibleCoordinateBounds(
+        bufferedBounds, edgePadding: padding, animated: true, completionHandler: nil)
     }
 
     func ensureMarkers(in mapView: MLNMapView, places: [Place]) {
@@ -272,11 +303,9 @@ extension MapView: UIViewRepresentable {
 
       if let selectedTrip = selectedTrip {
         let bounds = bounds(selectedTrip.raw.bounds)
-        // This padding is brittle. It should depend on how high the sheet is
-        // and maybe whether there is a notch
-        let padding = UIEdgeInsets(top: 70, left: 30, bottom: 70, right: 30)
-        mapView.setVisibleCoordinateBounds(
-          bounds, edgePadding: padding, animated: true, completionHandler: nil)
+        // Maybe this should be a ratio, not fixed meters. e.g. for very far trips (like cross country)
+        // this isnt' enough. It might also partially represent a bug in the bounds calculation code
+        self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 500, animated: true)
       }
     }
 
