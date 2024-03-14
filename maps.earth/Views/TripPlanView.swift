@@ -63,7 +63,7 @@ struct TripPlanView: View {
               .background(trip == tripPlan.selectedTrip ? .blue : .clear)
             VStack(alignment: .leading) {
               Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-              Text(trip.distanceFormatted).font(.subheadline).contrast(50)
+              Text(trip.distanceFormatted).font(.subheadline)
             }
             Spacer()
             Button("Details") {
