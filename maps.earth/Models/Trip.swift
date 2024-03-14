@@ -10,10 +10,13 @@ import Foundation
 
 struct TripLeg {
   var geometry: [CLLocationCoordinate2D]
+  // FIXME: nil for OTP - maybe it'll remain this way?
+  var maneuvers: [Maneuver]?
 }
 
 struct Trip: Identifiable {
-  var raw: Itinerary
+  let raw: Itinerary
+  let id: UUID
   let from: Place
   let to: Place
 
@@ -22,12 +25,6 @@ struct Trip: Identifiable {
   var formatLocale: Locale {
     _formatLocale ?? Locale.current
   }
-
-  //  var from: Place
-  //  var to: Place
-
-  // this is just to be Hashable. I'm not sure if we need it.
-  var id: UUID
 
   var legs: [TripLeg]
   var duration: Float64 {
@@ -71,10 +68,22 @@ struct Trip: Identifiable {
     self.id = UUID()
     self.raw = itinerary
     self.legs = itinerary.legs.map { itineraryLeg in
-      TripLeg(geometry: decodePolyline(itineraryLeg.geometry, precision: 6))
+      TripLeg(
+        geometry: decodePolyline(itineraryLeg.geometry, precision: 6),
+        maneuvers: itineraryLeg.maneuvers)
     }
     self.from = from
     self.to = to
+  }
+
+  var maneuvers: [Maneuver]? {
+    let result = legs.compactMap { $0.maneuvers }.flatMap { $0 }
+    // Should only happen if the leg maneuvers are nil
+    if result.isEmpty {
+      return nil
+    } else {
+      return result
+    }
   }
 }
 

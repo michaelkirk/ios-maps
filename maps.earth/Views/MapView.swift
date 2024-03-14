@@ -303,7 +303,7 @@ extension MapView: UIViewRepresentable {
         let bounds = bounds(selectedTrip.raw.bounds)
         // Maybe this should be a ratio, not fixed meters. e.g. for very far trips (like cross country)
         // this isnt' enough. It might also partially represent a bug in the bounds calculation code
-        self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 500, animated: true)
+        self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 1000, animated: true)
       }
     }
 

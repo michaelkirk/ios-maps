@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "1B7C0A69-C1A9-4C3E-AA7A-548C365534E5",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:maps.earth.xcodeproj",
+      "identifier" : "4563B9EE2B687AA4005A677A",
+      "name" : "maps.earth"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:maps.earth.xcodeproj",
+        "identifier" : "4563B9FE2B687AA5005A677A",
+        "name" : "maps.earthTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:maps.earth.xcodeproj",
+        "identifier" : "4563BA082B687AA5005A677A",
+        "name" : "maps.earthUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -44,6 +44,7 @@ struct PlaceDetail: View {
       .cornerRadius(4)
       .sheet(isPresented: isShowingDirections) {
         TripPlanSheetContents(tripPlan: tripPlan)
+          .interactiveDismissDisabled()
       }
 
       Text(place.label).padding(.top, 16)
