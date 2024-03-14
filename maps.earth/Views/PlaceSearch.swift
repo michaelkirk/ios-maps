@@ -78,7 +78,7 @@ struct PlaceSearch: View {
     NavigationView {
       VStack {
         if hasPendingQuery {
-          Text("Looking... 😓")
+          Text("Looking... 🧐")
         }
         if let places = places {
           if places.isEmpty && !hasPendingQuery {
@@ -148,7 +148,7 @@ struct FrontPagePlaceSearch: View {
       }.padding()
 
       if hasPendingQuery {
-        Text("Looking... 😓")
+        Text("Looking... 🧐")
       }
       if let places = places {
         if places.isEmpty && !hasPendingQuery {
