@@ -8,8 +8,8 @@
 import Foundation
 
 struct AppConfig {
-  let serverBase = "https://maps.earth"
-  //  let serverBase = "http://localhost:8080"
+  // let serverBase = "https://maps.earth"
+  let serverBase = "http://0.0.0.0:9000"
   var peliasEndpoint: URL {
     URL(string: "\(self.serverBase)/pelias/v1/autocomplete")!
   }

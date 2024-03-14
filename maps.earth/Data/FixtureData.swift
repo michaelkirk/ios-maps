@@ -18,7 +18,7 @@ struct FixtureData {
   static var places: Places = Places()
 
   static var bikeTrips: [Trip] {
-    loadTrips(filename: "bike_plan.json")
+    loadTrips(filename: "bicycle_plan.json")
   }
 
   static var walkTrips: [Trip] {
@@ -26,7 +26,7 @@ struct FixtureData {
   }
 
   static var driveTrips: [Trip] {
-    loadTrips(filename: "drive_plan.json")
+    loadTrips(filename: "car_plan.json")
   }
 
   static var transitTrips: [Trip] {
@@ -46,7 +46,8 @@ struct FixtureData {
     from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .car, trips: Self.driveTrips)
 
   static var transitTripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .transit, trips: Self.transitTrips)
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .transit,
+    trips: Self.transitTrips)
 
   static func loadTrips(filename: String) -> [Trip] {
     let response: TripPlanResponse = load(filename)

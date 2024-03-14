@@ -33,6 +33,8 @@ struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
   var searcher = TripSearchManager()
 
+  @Binding var showSteps: Bool
+
   var body: some View {
     VStack(alignment: .leading) {
       HStack(spacing: 20) {
@@ -42,41 +44,52 @@ struct TripPlanView: View {
         ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
       }
       .padding(.bottom, 8)
+
       VStack {
         PlaceField(header: "From", place: $tripPlan.navigateFrom)
         Divider().padding(.bottom, 4)
         PlaceField(header: "To", place: $tripPlan.navigateTo)
       }
-      .padding(.top, 10).padding(.bottom, 10)
-
+      .padding(.top, 10)
+      .padding(.bottom, 10)
       .background(Color.hw_lightGray)
       .cornerRadius(8)
 
       List(tripPlan.trips, selection: $tripPlan.selectedTrip) { trip in
-        Button(action: {
-          print("selecting trip: \(trip.id)")
-          tripPlan.selectedTrip = trip
-        }) {
-          HStack(spacing: 8) {
-            Spacer().frame(maxWidth: 8, maxHeight: .infinity)
-              .background(trip == tripPlan.selectedTrip ? .blue : .clear)
-            VStack(alignment: .leading) {
-              Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-              Text(trip.distanceFormatted).font(.subheadline)  //.foregroundColor(.hw_secondaryTextColor)
-            }
-            Spacer()
-            Button("Details") {
-              print("TODO: handle \"GO\" (detail view) \(trip)")
+        VStack(alignment: .leading) {
+          Button(action: {
+            if tripPlan.selectedTrip == trip && showSteps {
+              print("hiding stpes for trip: \(trip.id)")
+              showSteps = false
+            } else {
+              print("selecting trip: \(trip.id)")
               tripPlan.selectedTrip = trip
-            }.fontWeight(.medium)
-              .foregroundColor(.white)
-              .padding()
-              .background(.green)
-              .cornerRadius(8)
-              .hidden()  // TODO: handle detail view
-          }.frame(minHeight: 70)
-        }
-        .listRowInsets(EdgeInsets())
+              showSteps = true
+            }
+          }) {
+            HStack(spacing: 8) {
+              Spacer().frame(maxWidth: 8, maxHeight: .infinity)
+                .background(trip == tripPlan.selectedTrip ? .blue : .clear)
+              VStack(alignment: .leading) {
+                Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
+                Text(trip.distanceFormatted).font(.subheadline)  //.foregroundColor(.hw_secondaryTextColor)
+              }
+              Spacer()
+              Button("Details") {
+                print("TODO: handle \"GO\" (detail view) \(trip)")
+                tripPlan.selectedTrip = trip
+              }.fontWeight(.medium)
+                .foregroundColor(.white)
+                .padding()
+                .background(.green)
+                .cornerRadius(8)
+                .hidden()  // TODO: handle detail view
+            }.frame(minHeight: 70)
+          }
+          if trip == tripPlan.selectedTrip && showSteps, let maneuvers = trip.maneuvers {
+            ManeuverList(maneuvers: maneuvers)
+          }
+        }.listRowInsets(EdgeInsets())
       }.listStyle(.plain)
         .cornerRadius(8)
     }.onAppear {
@@ -101,13 +114,20 @@ struct TripPlanView: View {
 
     // TODO: track request_id, discard stale results
     Task {
-      guard let trips = try await searcher.query(from: from, to: to, mode: tripPlan.mode) else {
-        // better handling of nil?
-        return
-      }
-      await MainActor.run {
-        self.tripPlan.trips = trips
-        self.tripPlan.selectedTrip = trips.first
+      do {
+        guard let trips = try await searcher.query(from: from, to: to, mode: tripPlan.mode) else {
+          // better handling of nil?
+          print("no trips found")
+          return
+        }
+        await MainActor.run {
+          print("setting trips: \(trips)")
+          self.tripPlan.trips = trips
+          self.tripPlan.selectedTrip = trips.first
+        }
+
+      } catch {
+        print("error in query: \(error)")
       }
     }
   }
@@ -138,6 +158,7 @@ struct TripSearchManager {
 
 struct TripPlanSheetContents: View {
   @ObservedObject var tripPlan: TripPlan
+  @State var showSteps: Bool = false
 
   var body: some View {
     VStack(spacing: 0) {
@@ -149,7 +170,7 @@ struct TripPlanSheetContents: View {
         }
       }.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
       ScrollView {
-        TripPlanView(tripPlan: tripPlan)
+        TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
           .containerRelativeFrame(.vertical)
           .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
       }
@@ -161,23 +182,30 @@ struct TripPlanSheetContents: View {
   }
 }
 
-#Preview("Showing trips") {
+#Preview("Trips") {
   let tripPlan = FixtureData.tripPlan
   return Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan)
   }
 }
 
-#Preview("Only 'to' selected") {
-  let tripPlan = TripPlan(to: FixtureData.places[.zeitgeist])
+#Preview("Steps") {
+  let tripPlan = FixtureData.tripPlan
   return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan)
+    TripPlanSheetContents(tripPlan: tripPlan, showSteps: true)
   }
 }
 
-#Preview("Only 'from' selected") {
-  let tripPlan = TripPlan(from: FixtureData.places[.dubsea])
-  return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan)
-  }
-}
+//#Preview("Only 'to' selected") {
+//  let tripPlan = TripPlan(to: FixtureData.places[.zeitgeist])
+//  return Text("").sheet(isPresented: .constant(true)) {
+//    TripPlanSheetContents(tripPlan: tripPlan)
+//  }
+//}
+//
+//#Preview("Only 'from' selected") {
+//  let tripPlan = TripPlan(from: FixtureData.places[.dubsea])
+//  return Text("").sheet(isPresented: .constant(true)) {
+//    TripPlanSheetContents(tripPlan: tripPlan)
+//  }
+//}
