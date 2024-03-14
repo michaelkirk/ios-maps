@@ -67,6 +67,18 @@ struct HomeView: View {
       .interactiveDismissDisabled(true)
       .edgesIgnoringSafeArea(.all)
       .background(Color.hw_sheetBackground)
+      .onAppear {
+        switch CLLocationManager().authorizationStatus {
+        case .notDetermined:
+          break
+        case .denied, .restricted:
+          self.userLocationState = .denied
+        case .authorizedAlways, .authorizedWhenInUse:
+          self.userLocationState = .showing
+        @unknown default:
+          break
+        }
+      }
     }
   }
 }
