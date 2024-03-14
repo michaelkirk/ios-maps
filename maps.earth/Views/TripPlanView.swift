@@ -62,7 +62,7 @@ struct TripPlanView: View {
               .background(trip == tripPlan.selectedTrip ? .blue : .clear)
             VStack(alignment: .leading) {
               Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-              Text(trip.distanceFormatted).font(.subheadline)
+              Text(trip.distanceFormatted).font(.subheadline)  //.foregroundColor(.hw_secondaryTextColor)
             }
             Spacer()
             Button("Details") {
@@ -106,9 +106,7 @@ struct TripPlanView: View {
         return
       }
       await MainActor.run {
-        print("new trips: \(trips.map { $0.durationFormatted })")
         self.tripPlan.trips = trips
-        // is this working?
         self.tripPlan.selectedTrip = trips.first
       }
     }
@@ -132,21 +130,48 @@ struct TripSearchManager {
   }
 }
 
-func fakeFocus() -> LngLat? {
-  LngLat(lng: -122.754113, lat: 47.079458)
+struct TripPlanSheetContents: View {
+  @ObservedObject var tripPlan: TripPlan
+
+  var body: some View {
+    VStack(spacing: 0) {
+      HStack {
+        Text("Directions").font(.title).bold()
+        Spacer()
+        CloseButton {
+          tripPlan.clear()
+        }
+      }.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
+      ScrollView {
+        TripPlanView(tripPlan: tripPlan)
+          .containerRelativeFrame(.vertical)
+          .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+      }
+    }.background(Color.hw_sheetBackground)
+      .presentationDetents([.large, .medium, minDetentHeight], selection: .constant(.medium))
+      .presentationBackgroundInteraction(
+        .enabled(upThrough: .medium)
+      )
+  }
 }
 
 #Preview("Showing trips") {
   let tripPlan = FixtureData.tripPlan
-  return TripPlanView(tripPlan: tripPlan)
+  return Text("").sheet(isPresented: .constant(true)) {
+    TripPlanSheetContents(tripPlan: tripPlan)
+  }
 }
 
 #Preview("Only 'to' selected") {
   let tripPlan = TripPlan(to: FixtureData.places[.zeitgeist])
-  return TripPlanView(tripPlan: tripPlan)
+  return Text("").sheet(isPresented: .constant(true)) {
+    TripPlanSheetContents(tripPlan: tripPlan)
+  }
 }
 
 #Preview("Only 'from' selected") {
   let tripPlan = TripPlan(from: FixtureData.places[.dubsea])
-  return TripPlanView(tripPlan: tripPlan)
+  return Text("").sheet(isPresented: .constant(true)) {
+    TripPlanSheetContents(tripPlan: tripPlan)
+  }
 }

@@ -18,16 +18,43 @@ struct FixtureData {
   static var places: Places = Places()
 
   static var bikeTrips: [Trip] {
-    let response: TripPlanResponse = load("bike_plan.json")
+    loadTrips(filename: "bike_plan.json")
+  }
+
+  static var walkTrips: [Trip] {
+    loadTrips(filename: "walk_plan.json")
+  }
+
+  static var driveTrips: [Trip] {
+    loadTrips(filename: "drive_plan.json")
+  }
+
+  static var transitTrips: [Trip] {
+    loadTrips(filename: "transit_plan.json")
+  }
+
+  static var tripPlan: TripPlan = TripPlan(
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .walk, trips: Self.walkTrips)
+
+  static var walkTripPlan: TripPlan = TripPlan(
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .walk, trips: Self.walkTrips)
+
+  static var bikeTripPlan: TripPlan = TripPlan(
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike, trips: Self.bikeTrips)
+
+  static var driveTripPlan: TripPlan = TripPlan(
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .car, trips: Self.driveTrips)
+
+  static var transitTripPlan: TripPlan = TripPlan(
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .transit, trips: Self.transitTrips)
+
+  static func loadTrips(filename: String) -> [Trip] {
+    let response: TripPlanResponse = load(filename)
     let trips = response.plan.itineraries.map { itinerary in
       Trip(itinerary: itinerary, from: self.places[.realfine], to: self.places[.zeitgeist])
     }
     return trips
   }
-
-  // FIXME: FROM/TO do not match the trips - I need my fixtures to be consistent
-  static var tripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike, trips: Self.bikeTrips)
 }
 
 func load<T: Decodable>(_ filename: String) -> T {

@@ -43,25 +43,7 @@ struct PlaceDetail: View {
       .background(.blue)
       .cornerRadius(4)
       .sheet(isPresented: isShowingDirections) {
-        VStack(spacing: 0) {
-          HStack {
-            Text("Directions").font(.title).bold()
-            Spacer()
-            CloseButton {
-              tripPlan.clear()
-            }
-          }.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
-          ScrollView {
-            TripPlanView(tripPlan: tripPlan)
-              .containerRelativeFrame(.vertical)
-              .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-          }
-        }
-        .background(Color.hw_sheetBackground)
-        .presentationDetents([.large, .medium, minDetentHeight], selection: .constant(.medium))
-        .presentationBackgroundInteraction(
-          .enabled(upThrough: .medium)
-        )
+        TripPlanSheetContents(tripPlan: tripPlan)
       }
 
       Text(place.label).padding(.top, 16)

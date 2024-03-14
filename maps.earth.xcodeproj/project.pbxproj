@@ -10,6 +10,8 @@
 		450C5F1D2B961DFC00394697 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1C2B961DFC00394697 /* Trip.swift */; };
 		450C5F1F2B963B5700394697 /* TripTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1E2B963B5700394697 /* TripTest.swift */; };
 		4545AA682BA373B500958306 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA672BA373B500958306 /* Env.swift */; };
+		4545AA6B2BA3857500958306 /* walk_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA692BA3857500958306 /* walk_plan.json */; };
+		4545AA6C2BA3857500958306 /* drive_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA6A2BA3857500958306 /* drive_plan.json */; };
 		455363EE2B687D90006DF291 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 455363ED2B687D90006DF291 /* MapLibre */; };
 		455363F02B687EF0006DF291 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455363EF2B687EF0006DF291 /* MapView.swift */; };
 		4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F22B687AA4005A677A /* maps_earthApp.swift */; };
@@ -64,6 +66,8 @@
 		450C5F1C2B961DFC00394697 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		450C5F1E2B963B5700394697 /* TripTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTest.swift; sourceTree = "<group>"; };
 		4545AA672BA373B500958306 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
+		4545AA692BA3857500958306 /* walk_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = walk_plan.json; sourceTree = "<group>"; };
+		4545AA6A2BA3857500958306 /* drive_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = drive_plan.json; sourceTree = "<group>"; };
 		455363EF2B687EF0006DF291 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4563B9EF2B687AA4005A677A /* maps.earth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = maps.earth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B9F22B687AA4005A677A /* maps_earthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthApp.swift; sourceTree = "<group>"; };
@@ -250,6 +254,8 @@
 		45971ACC2B71AC090050BECE /* StubbedResponses */ = {
 			isa = PBXGroup;
 			children = (
+				4545AA6A2BA3857500958306 /* drive_plan.json */,
+				4545AA692BA3857500958306 /* walk_plan.json */,
 				45992B472B97E56000A64AEE /* bike_plan.json */,
 				45992B462B97E55F00A64AEE /* transit_plan.json */,
 				45971ACD2B71AC320050BECE /* autocomplete.json */,
@@ -369,7 +375,9 @@
 			files = (
 				45992B482B97E56000A64AEE /* transit_plan.json in Resources */,
 				4563B9FA2B687AA5005A677A /* Preview Assets.xcassets in Resources */,
+				4545AA6C2BA3857500958306 /* drive_plan.json in Resources */,
 				45971ACE2B71AC320050BECE /* autocomplete.json in Resources */,
+				4545AA6B2BA3857500958306 /* walk_plan.json in Resources */,
 				45992B492B97E56000A64AEE /* bike_plan.json in Resources */,
 				4563B9F72B687AA5005A677A /* Assets.xcassets in Resources */,
 			);

@@ -1,0 +1,1715 @@
+{
+  "plan": {
+    "itineraries": [
+      {
+        "mode": "WALK",
+        "duration": 4013.836,
+        "distance": 4.736,
+        "distanceUnits": "miles",
+        "bounds": {
+          "min": [
+            -122.382628,
+            47.563074
+          ],
+          "max": [
+            -122.331856,
+            47.601552
+          ]
+        },
+        "legs": [
+          {
+            "geometry": "y`fxyA~kpihF?pV?b^Pv@b@ZA|@cAAs@@@pD?xDBfT@rEAjFAzCAz@EnEKrO_@lAu@~BCdF?`CCna@Dzd@B`L@bL?pGoB?mCPme@H}IGeECmAt@gBfAqEGiCCwFAcKf@mCh@eDbAsBl@gCnBqK`GiCb@uJrI?dF?`BAdT?\\z@@EhmAxAAAx@@p@pAvDtHbSvHbVgAbAv|Ux|mAcOtUhJpPnAvBlB~CP_B`@oAf@eAj@u@r@i@~@ExAJtCa@lDOvCn@bAh@t@r@~@hAz@r@hAl@Z}@b[{f@^cAR_BtCRz@C~@i@rv@mmA|GqKn@lAzAjBtBjC`B_C`AX~BSbSjK`Cp@`Dh@bBCjDg@xAGd@?xCl@vm@`Xvb@dRnVtUlXl]jPdXxHfF`j@zb@vJvH`NnKfk@ld@dGrCpG`Bvd@pAnGIlKq@jRo@tQKlGp@rHjCtXbP`GxArF`@pFSjGcAbXeMFqDDuHL}P@kAHsQGcBOoAIWLYrAHvALjm@f@vHJlV\\Nk@bAqB~@iB?yA~D@dgA\\B?fA?rA@~@@Z?l@?~nCh@`A?p@@zA?~@@zoB^C`A?p@xBB`CD?s@GaAjt@LhA@zBArA?dB?@iQFmA^yAn@gAt@u@fs@wb@xCiBz@YbAIxh@DNHRAdA@fA@L?JGfkB@?_C?eD?qC?_Cr@?tABtA@r@?@k_@@{a@hgB??qAJoCfC?vB@pbAZtA_@l@mArCwF|GjJnFjHzBwE}DoF?u@s@?wOaU",
+            "routeColor": null,
+            "mode": "WALK"
+          }
+        ]
+      },
+      {
+        "mode": "WALK",
+        "duration": 4052.761,
+        "distance": 4.788,
+        "distanceUnits": "miles",
+        "bounds": {
+          "min": [
+            -122.3804,
+            47.563462
+          ],
+          "max": [
+            -122.331856,
+            47.601552
+          ]
+        },
+        "legs": [
+          {
+            "geometry": "y`fxyA~kpihF?pV?b^Pv@b@ZA|@cAAs@@@pD?xDBfT@rEAjFAzCAz@EnEKrO_@lAu@~BCdF?`CCna@Dzd@B`L@bL?pGoB?mCPme@H}IGeECmAt@gBfAqEGiCCwFAcKf@mCh@eDbAsBl@gCnBqK`GiCb@uJrI?dF?`BAdT?\\z@@EhmAxAAAx@@p@pAvDtHbSvHbVgAbAv|Ux|mAcOtUhJpPnAvBlB~CP_B`@oAf@eAj@u@r@i@~@ExAJtCa@lDOvCn@bAh@t@r@~@hAz@r@hAl@Z}@b[{f@^cAR_BtCRz@C~@i@rv@mmA|GqK|J_P~EyHhWka@dClEzVs`@r@_AtPcU|@_AxB_CTQpSyP`SiPdEkD~FwElR{OxV{SvPkNtFuEfLeJpb@w\\`L}IrJ}H`IqGlCcBvGcEpIcE`H{B|FkBfH}BdDeApFgB|_AgVpJqC|HMxi@rBjQw@zNuCjn@oYbj@yXbIw@xMoDvBc@jAS`KmB~N}BnBmClIi@v@dAdAM`@c@vAuAvQeBfr@{Gt^eDxIb@hKC|Pk@nX_AtHWvG_@`P{@nD}BxGYtKi@jJg@zCKnAvAlDSpFYTAbP]pHEdHCnTDxDC|EAxB@nAAdA?pJFnKDjIJzBFpGPlFP`EL~@BxKT`CFxCF`P^zV\\pHDvMHxFDrDB|ABvABpDf@n@HtCb@~Af@`@LbIfDtOrHzyBxgAjHpD|J`F`Ad@hCpA|B~AdFnD\\\\pDnDlHtNfBzErBdIHd@pAtJdAjLDbLOfkACjQApGCpWAvD?jFCpFCpOAjEAbHAdCC~K~BhXn@~EhBKZ?Oh@Ej@Bp@T`Af@tAr@pArYbb@",
+            "routeColor": null,
+            "mode": "WALK"
+          }
+        ]
+      },
+      {
+        "mode": "WALK",
+        "duration": 4923.344,
+        "distance": 4.289,
+        "distanceUnits": "miles",
+        "bounds": {
+          "min": [
+            -122.378332,
+            47.563462
+          ],
+          "max": [
+            -122.331856,
+            47.599132
+          ]
+        },
+        "legs": [
+          {
+            "geometry": "y`fxyA~kpihF?pV?b^Pv@b@ZrUBnTB?bCZlB\\xBMf@?xA?r@An^?~\\Kp@IXAx@?v@~C?rEAhN?pjAGvCJj@HdBT|GpBChb@A`_@AjLCrM@tDf@zA~B|BdDpAlETjlBBnU?vVL|ObAbNtD`SnJtAxAjDlDtFjFbEhC|t@t[lSxHxOlD`ELxK`@dY`IbD~@`IdCxLtDvcAh_@|I`E`GhDpIdFnYbVpNfPbAjA~BlDhIzKvMbQpG|EtE`CbG|AhKp@je@`@nxF@jNE?zHfrB[zJ[~SBzhACp]G~]Avt@Br^RlMAfEElDEzKDpD?|EEhCMdD]jSkD`C@dN{BdBe@bv@Kd]b@pHp@nGDhHCnDnA|TJ\\b@r@dBtAfIR~ZA|RcG~[vPdpBXdEPvED`EA`UAxL?v~@?dw@DvAFdAJjC?~AA`C?l@ExEa@|KOnEOnEKhCoB`[B`AJ`@V\\XVd@Fd@Df@Fd@FPHB\\i@jPLbEC|BbAF^Dr@Hf@HPNB\\o@|J@|HT`Bt@Nd@AnBw@zB}@V?AhDDpAHfBZl@Nf@h@~Dh@zDNpAm@Ni@^a@t@S|@K|BSb`@Jpv@XrlA@jNGfk@?fz@F`bANbe@@|C`@tzALbPP|E`@|B~@zD`@rEAlLIvDI`CAxFy@~b@w@zi@i@jRc@bTr@fQ\\|C`A`DhK~X~B|IpAnC`BfCxIhKn@jAjBrHt@vBl@jAx@~@bTdPlDlCfXrQjA`A~@r@^X`@\\dCjBxXjRnGjElEzCzNzJhBnArC`BjAh@lA^z@LZ??r@MfESzHvD~@nBd@\\LOtB@t`@?f@@la@Bhe@@^FXNNV?@x@B`DBpCHbAi@?IBGJG\\C^F|bBDxp@D\\NZPL\\A?|@DzCBdC?l@p_@Rn@@NJJZJ?bBChBEJ@Ip@HnjCDrA@~H?P@PFVLL\\P|DnBPDP?RGNMRv@bB~@rBjAfB|@vtBxdAFPfVxL|GfDZDXGTYN`@tCtBnBzAZa@FZLRbAb@`C~AdCnBbCfCvCxD~CjFfBpD|AvDjAzDz@xDPbAb@lCj@jEd@lFX|EL|CBnC?|qA?ls@Jf@MRSbIMtFTV?bU@dH@p_@?zA`@|E\\tEZ?Oh@Ej@Bp@T`Af@tAr@pArYbb@",
+            "routeColor": null,
+            "mode": "WALK"
+          }
+        ]
+      }
+    ]
+  },
+  "_otp": null,
+  "_valhalla": {
+    "trip": {
+      "locations": [
+        {
+          "lat": 47.599091,
+          "lon": -122.331856
+        },
+        {
+          "lat": 47.563412,
+          "lon": -122.378248
+        }
+      ],
+      "summary": {
+        "length": 4.736,
+        "time": 4013.836,
+        "min_lat": 47.563074,
+        "min_lon": -122.382628,
+        "max_lat": 47.601552,
+        "max_lon": -122.331856,
+        "cost": 3760.92,
+        "has_toll": false,
+        "has_ferry": true,
+        "has_time_restrictions": false,
+        "has_highway": false
+      },
+      "units": "miles",
+      "legs": [
+        {
+          "summary": {
+            "length": 4.736,
+            "time": 4013.836,
+            "min_lat": 47.563074,
+            "min_lon": -122.382628,
+            "max_lat": 47.601552,
+            "max_lon": -122.331856,
+            "has_toll": false,
+            "has_highway": false,
+            "has_time_restrictions": false,
+            "cost": 3760.92,
+            "has_ferry": true
+          },
+          "shape": "y`fxyA~kpihF?pV?b^Pv@b@ZA|@cAAs@@@pD?xDBfT@rEAjFAzCAz@EnEKrO_@lAu@~BCdF?`CCna@Dzd@B`L@bL?pGoB?mCPme@H}IGeECmAt@gBfAqEGiCCwFAcKf@mCh@eDbAsBl@gCnBqK`GiCb@uJrI?dF?`BAdT?\\z@@EhmAxAAAx@@p@pAvDtHbSvHbVgAbAv|Ux|mAcOtUhJpPnAvBlB~CP_B`@oAf@eAj@u@r@i@~@ExAJtCa@lDOvCn@bAh@t@r@~@hAz@r@hAl@Z}@b[{f@^cAR_BtCRz@C~@i@rv@mmA|GqKn@lAzAjBtBjC`B_C`AX~BSbSjK`Cp@`Dh@bBCjDg@xAGd@?xCl@vm@`Xvb@dRnVtUlXl]jPdXxHfF`j@zb@vJvH`NnKfk@ld@dGrCpG`Bvd@pAnGIlKq@jRo@tQKlGp@rHjCtXbP`GxArF`@pFSjGcAbXeMFqDDuHL}P@kAHsQGcBOoAIWLYrAHvALjm@f@vHJlV\\Nk@bAqB~@iB?yA~D@dgA\\B?fA?rA@~@@Z?l@?~nCh@`A?p@@zA?~@@zoB^C`A?p@xBB`CD?s@GaAjt@LhA@zBArA?dB?@iQFmA^yAn@gAt@u@fs@wb@xCiBz@YbAIxh@DNHRAdA@fA@L?JGfkB@?_C?eD?qC?_Cr@?tABtA@r@?@k_@@{a@hgB??qAJoCfC?vB@pbAZtA_@l@mArCwF|GjJnFjHzBwE}DoF?u@s@?wOaU",
+          "maneuvers": [
+            {
+              "begin_shape_index": 0,
+              "cost": 52.292,
+              "end_shape_index": 5,
+              "instruction": "Walk west on the walkway.",
+              "length": 0.045,
+              "time": 52.292,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 1,
+              "verbal_post_transition_instruction": "Continue for 200 feet.",
+              "verbal_pre_transition_instruction": "Walk west on the walkway.",
+              "verbal_succinct_transition_instruction": "Walk west."
+            },
+            {
+              "begin_shape_index": 5,
+              "cost": 4.941,
+              "end_shape_index": 7,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.004,
+              "time": 4.941,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 20 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway. Then Turn left onto South Jackson Street.",
+              "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto South Jackson Street.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 7,
+              "cost": 76.294,
+              "end_shape_index": 18,
+              "instruction": "Turn left onto South Jackson Street.",
+              "length": 0.062,
+              "street_names": [
+                "South Jackson Street"
+              ],
+              "time": 71.294,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 300 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto South Jackson Street.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto South Jackson Street."
+            },
+            {
+              "begin_shape_index": 18,
+              "cost": 117.235,
+              "end_shape_index": 25,
+              "instruction": "Bear left to stay on South Jackson Street.",
+              "length": 0.088,
+              "street_names": [
+                "South Jackson Street"
+              ],
+              "time": 112.235,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 16,
+              "verbal_post_transition_instruction": "Continue for 500 feet.",
+              "verbal_pre_transition_instruction": "Bear left to stay on South Jackson Street.",
+              "verbal_succinct_transition_instruction": "Bear left.",
+              "verbal_transition_alert_instruction": "Bear left to stay on South Jackson Street."
+            },
+            {
+              "begin_shape_index": 25,
+              "cost": 189.47,
+              "end_shape_index": 43,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.165,
+              "time": 189.47,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 900 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 43,
+              "cost": 27.529,
+              "end_shape_index": 47,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.024,
+              "time": 27.529,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 100 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 47,
+              "cost": 68.47,
+              "end_shape_index": 49,
+              "instruction": "Keep left to take the walkway.",
+              "length": 0.06,
+              "time": 68.47,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 24,
+              "verbal_post_transition_instruction": "Continue for 300 feet.",
+              "verbal_pre_transition_instruction": "Keep left to take the walkway.",
+              "verbal_transition_alert_instruction": "Keep left to take the walkway."
+            },
+            {
+              "begin_shape_index": 49,
+              "cost": 59.294,
+              "end_shape_index": 56,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.052,
+              "time": 59.294,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 300 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 56,
+              "cost": 617.915,
+              "end_shape_index": 57,
+              "ferry": true,
+              "instruction": "Take the West Seattle Water Taxi Ferry.",
+              "length": 2.052,
+              "street_names": [
+                "West Seattle Water Taxi"
+              ],
+              "time": 925.831,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 28,
+              "verbal_post_transition_instruction": "Continue for 2 miles.",
+              "verbal_pre_transition_instruction": "Take the West Seattle Water Taxi Ferry.",
+              "verbal_transition_alert_instruction": "Take the West Seattle Water Taxi Ferry."
+            },
+            {
+              "begin_shape_index": 57,
+              "cost": 57.941,
+              "end_shape_index": 60,
+              "instruction": "Walk northwest on the walkway.",
+              "length": 0.046,
+              "rough": true,
+              "time": 52.941,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 29,
+              "verbal_post_transition_instruction": "Continue for 200 feet.",
+              "verbal_pre_transition_instruction": "Walk northwest on the walkway.",
+              "verbal_succinct_transition_instruction": "Walk northwest."
+            },
+            {
+              "begin_shape_index": 60,
+              "cost": 11.352,
+              "end_shape_index": 61,
+              "instruction": "Continue on Alki Trail.",
+              "length": 0.005,
+              "street_names": [
+                "Alki Trail"
+              ],
+              "time": 6.352,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 8,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 30 feet.",
+              "verbal_pre_transition_instruction": "Continue on Alki Trail. Then Turn left to stay on Alki Trail.",
+              "verbal_transition_alert_instruction": "Continue on Alki Trail."
+            },
+            {
+              "begin_shape_index": 61,
+              "cost": 51.529,
+              "end_shape_index": 76,
+              "instruction": "Turn left to stay on Alki Trail.",
+              "length": 0.045,
+              "street_names": [
+                "Alki Trail"
+              ],
+              "time": 51.529,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 200 feet.",
+              "verbal_pre_transition_instruction": "Turn left to stay on Alki Trail.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left to stay on Alki Trail."
+            },
+            {
+              "begin_shape_index": 76,
+              "cost": 55.764,
+              "end_shape_index": 80,
+              "instruction": "Turn left to stay on Alki Trail.",
+              "length": 0.049,
+              "street_names": [
+                "Alki Trail"
+              ],
+              "time": 55.764,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 300 feet.",
+              "verbal_pre_transition_instruction": "Turn left to stay on Alki Trail.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left to stay on Alki Trail."
+            },
+            {
+              "begin_shape_index": 80,
+              "cost": 122.823,
+              "end_shape_index": 85,
+              "instruction": "Turn right to stay on Alki Trail.",
+              "length": 0.108,
+              "street_names": [
+                "Alki Trail"
+              ],
+              "time": 122.823,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 600 feet.",
+              "verbal_pre_transition_instruction": "Turn right to stay on Alki Trail.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right to stay on Alki Trail."
+            },
+            {
+              "begin_shape_index": 85,
+              "cost": 21.411,
+              "end_shape_index": 88,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.011,
+              "time": 16.411,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 60 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 88,
+              "cost": 4.941,
+              "end_shape_index": 89,
+              "instruction": "Turn left onto the crosswalk.",
+              "length": 0.004,
+              "time": 4.941,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 20 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the crosswalk. Then Turn right onto Fairmount Avenue Southwest.",
+              "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto Fairmount Avenue Southwest.",
+              "verbal_transition_alert_instruction": "Turn left onto the crosswalk."
+            },
+            {
+              "begin_shape_index": 89,
+              "cost": 7.823,
+              "end_shape_index": 90,
+              "instruction": "Turn right onto Fairmount Avenue Southwest.",
+              "length": 0.002,
+              "street_names": [
+                "Fairmount Avenue Southwest"
+              ],
+              "time": 2.823,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 10 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto Fairmount Avenue Southwest. Then Keep left to stay on Fairmount Avenue Southwest.",
+              "verbal_succinct_transition_instruction": "Turn right. Then Keep left to stay on Fairmount Avenue Southwest.",
+              "verbal_transition_alert_instruction": "Turn right onto Fairmount Avenue Southwest."
+            },
+            {
+              "begin_shape_index": 90,
+              "cost": 738.352,
+              "end_shape_index": 124,
+              "instruction": "Keep left to stay on Fairmount Avenue Southwest.",
+              "length": 0.649,
+              "street_names": [
+                "Fairmount Avenue Southwest"
+              ],
+              "time": 738.352,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 24,
+              "verbal_post_transition_instruction": "Continue for a half mile.",
+              "verbal_pre_transition_instruction": "Keep left to stay on Fairmount Avenue Southwest.",
+              "verbal_transition_alert_instruction": "Keep left to stay on Fairmount Avenue Southwest."
+            },
+            {
+              "begin_shape_index": 124,
+              "cost": 59.235,
+              "end_shape_index": 132,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.045,
+              "time": 54.235,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 200 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 132,
+              "cost": 108.999,
+              "end_shape_index": 138,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.095,
+              "time": 108.999,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 500 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 138,
+              "cost": 12.294,
+              "end_shape_index": 142,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.009,
+              "time": 12.294,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 50 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then, in 50 feet, Turn right onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left. Then, in 50 feet, Turn right onto the walkway.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 142,
+              "cost": 452.117,
+              "end_shape_index": 156,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.392,
+              "time": 452.117,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for a half mile.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 156,
+              "cost": 2.823,
+              "end_shape_index": 158,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.002,
+              "time": 2.823,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 10 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway. Then Turn left onto the crosswalk.",
+              "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto the crosswalk.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 158,
+              "cost": 10.882,
+              "end_shape_index": 160,
+              "instruction": "Turn left onto the crosswalk.",
+              "length": 0.008,
+              "time": 10.882,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 50 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the crosswalk. Then, in 50 feet, Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left. Then, in 50 feet, Turn left onto the walkway.",
+              "verbal_transition_alert_instruction": "Turn left onto the crosswalk."
+            },
+            {
+              "begin_shape_index": 160,
+              "cost": 3.529,
+              "end_shape_index": 162,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.003,
+              "time": 3.529,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 20 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the walkway.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 162,
+              "cost": 84.588,
+              "end_shape_index": 167,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.072,
+              "time": 84.588,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 400 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 167,
+              "cost": 309.352,
+              "end_shape_index": 184,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.269,
+              "time": 309.352,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for a quarter mile.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 184,
+              "cost": 15.823,
+              "end_shape_index": 188,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.013,
+              "time": 15.823,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 70 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 188,
+              "cost": 12.293,
+              "end_shape_index": 192,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.009,
+              "time": 12.293,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 50 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway. Then, in 50 feet, Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn right. Then, in 50 feet, Turn left onto the walkway.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 192,
+              "cost": 58.176,
+              "end_shape_index": 194,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.05,
+              "time": 58.176,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 300 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 194,
+              "cost": 131.294,
+              "end_shape_index": 195,
+              "instruction": "Turn right onto the walkway.",
+              "length": 0.115,
+              "time": 131.294,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 600 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto the walkway."
+            },
+            {
+              "begin_shape_index": 195,
+              "cost": 5.646,
+              "end_shape_index": 197,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.004,
+              "time": 5.646,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 30 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto 37th Avenue Southwest.",
+              "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto 37th Avenue Southwest.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 197,
+              "cost": 117.411,
+              "end_shape_index": 203,
+              "instruction": "Turn right onto 37th Avenue Southwest.",
+              "length": 0.096,
+              "street_names": [
+                "37th Avenue Southwest"
+              ],
+              "time": 112.411,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 500 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto 37th Avenue Southwest.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto 37th Avenue Southwest."
+            },
+            {
+              "begin_shape_index": 203,
+              "cost": 31.823,
+              "end_shape_index": 205,
+              "instruction": "Turn right onto Fauntleroy Way Southwest.",
+              "length": 0.023,
+              "street_names": [
+                "Fauntleroy Way Southwest"
+              ],
+              "time": 26.823,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 10,
+              "verbal_post_transition_instruction": "Continue for 100 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto Fauntleroy Way Southwest.",
+              "verbal_succinct_transition_instruction": "Turn right.",
+              "verbal_transition_alert_instruction": "Turn right onto Fauntleroy Way Southwest."
+            },
+            {
+              "begin_shape_index": 205,
+              "cost": 12.764,
+              "end_shape_index": 206,
+              "instruction": "Turn left onto 37th Avenue Southwest.",
+              "length": 0.006,
+              "street_names": [
+                "37th Avenue Southwest"
+              ],
+              "time": 7.764,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 40 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto 37th Avenue Southwest. Then Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left. Then Turn left onto the walkway.",
+              "verbal_transition_alert_instruction": "Turn left onto 37th Avenue Southwest."
+            },
+            {
+              "begin_shape_index": 206,
+              "cost": 16.294,
+              "end_shape_index": 208,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.009,
+              "time": 11.294,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_multi_cue": true,
+              "verbal_post_transition_instruction": "Continue for 50 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left. Then Turn left onto the walkway.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 208,
+              "cost": 30.184,
+              "end_shape_index": 210,
+              "instruction": "Turn left onto the walkway.",
+              "length": 0.026,
+              "time": 30.184,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 15,
+              "verbal_post_transition_instruction": "Continue for 100 feet.",
+              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+              "verbal_succinct_transition_instruction": "Turn left.",
+              "verbal_transition_alert_instruction": "Turn left onto the walkway."
+            },
+            {
+              "begin_shape_index": 210,
+              "cost": 0.0,
+              "end_shape_index": 210,
+              "instruction": "Your destination is on the right.",
+              "length": 0.0,
+              "time": 0.0,
+              "travel_mode": "pedestrian",
+              "travel_type": "foot",
+              "type": 5,
+              "verbal_pre_transition_instruction": "Your destination is on the right.",
+              "verbal_transition_alert_instruction": "Your destination will be on the right."
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "language": "en-US",
+      "status_message": "Found route between points"
+    },
+    "alternates": [
+      {
+        "trip": {
+          "locations": [
+            {
+              "lat": 47.599091,
+              "lon": -122.331856
+            },
+            {
+              "lat": 47.563412,
+              "lon": -122.378248
+            }
+          ],
+          "summary": {
+            "length": 4.788,
+            "time": 4052.761,
+            "min_lat": 47.563462,
+            "min_lon": -122.3804,
+            "max_lat": 47.601552,
+            "max_lon": -122.331856,
+            "has_ferry": true,
+            "has_toll": false,
+            "has_time_restrictions": false,
+            "cost": 3784.845,
+            "has_highway": false
+          },
+          "units": "miles",
+          "legs": [
+            {
+              "summary": {
+                "length": 4.788,
+                "time": 4052.761,
+                "min_lat": 47.563462,
+                "min_lon": -122.3804,
+                "max_lat": 47.601552,
+                "max_lon": -122.331856,
+                "has_toll": false,
+                "has_time_restrictions": false,
+                "has_ferry": true,
+                "has_highway": false,
+                "cost": 3784.845
+              },
+              "shape": "y`fxyA~kpihF?pV?b^Pv@b@ZA|@cAAs@@@pD?xDBfT@rEAjFAzCAz@EnEKrO_@lAu@~BCdF?`CCna@Dzd@B`L@bL?pGoB?mCPme@H}IGeECmAt@gBfAqEGiCCwFAcKf@mCh@eDbAsBl@gCnBqK`GiCb@uJrI?dF?`BAdT?\\z@@EhmAxAAAx@@p@pAvDtHbSvHbVgAbAv|Ux|mAcOtUhJpPnAvBlB~CP_B`@oAf@eAj@u@r@i@~@ExAJtCa@lDOvCn@bAh@t@r@~@hAz@r@hAl@Z}@b[{f@^cAR_BtCRz@C~@i@rv@mmA|GqK|J_P~EyHhWka@dClEzVs`@r@_AtPcU|@_AxB_CTQpSyP`SiPdEkD~FwElR{OxV{SvPkNtFuEfLeJpb@w\\`L}IrJ}H`IqGlCcBvGcEpIcE`H{B|FkBfH}BdDeApFgB|_AgVpJqC|HMxi@rBjQw@zNuCjn@oYbj@yXbIw@xMoDvBc@jAS`KmB~N}BnBmClIi@v@dAdAM`@c@vAuAvQeBfr@{Gt^eDxIb@hKC|Pk@nX_AtHWvG_@`P{@nD}BxGYtKi@jJg@zCKnAvAlDSpFYTAbP]pHEdHCnTDxDC|EAxB@nAAdA?pJFnKDjIJzBFpGPlFP`EL~@BxKT`CFxCF`P^zV\\pHDvMHxFDrDB|ABvABpDf@n@HtCb@~Af@`@LbIfDtOrHzyBxgAjHpD|J`F`Ad@hCpA|B~AdFnD\\\\pDnDlHtNfBzErBdIHd@pAtJdAjLDbLOfkACjQApGCpWAvD?jFCpFCpOAjEAbHAdCC~K~BhXn@~EhBKZ?Oh@Ej@Bp@T`Af@tAr@pArYbb@",
+              "maneuvers": [
+                {
+                  "begin_shape_index": 0,
+                  "cost": 52.292,
+                  "end_shape_index": 5,
+                  "instruction": "Walk west on the walkway.",
+                  "length": 0.045,
+                  "time": 52.292,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 1,
+                  "verbal_post_transition_instruction": "Continue for 200 feet.",
+                  "verbal_pre_transition_instruction": "Walk west on the walkway.",
+                  "verbal_succinct_transition_instruction": "Walk west."
+                },
+                {
+                  "begin_shape_index": 5,
+                  "cost": 4.941,
+                  "end_shape_index": 7,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.004,
+                  "time": 4.941,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for 20 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway. Then Turn left onto South Jackson Street.",
+                  "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto South Jackson Street.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 7,
+                  "cost": 76.294,
+                  "end_shape_index": 18,
+                  "instruction": "Turn left onto South Jackson Street.",
+                  "length": 0.062,
+                  "street_names": [
+                    "South Jackson Street"
+                  ],
+                  "time": 71.294,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto South Jackson Street.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto South Jackson Street."
+                },
+                {
+                  "begin_shape_index": 18,
+                  "cost": 117.235,
+                  "end_shape_index": 25,
+                  "instruction": "Bear left to stay on South Jackson Street.",
+                  "length": 0.088,
+                  "street_names": [
+                    "South Jackson Street"
+                  ],
+                  "time": 112.235,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 16,
+                  "verbal_post_transition_instruction": "Continue for 500 feet.",
+                  "verbal_pre_transition_instruction": "Bear left to stay on South Jackson Street.",
+                  "verbal_succinct_transition_instruction": "Bear left.",
+                  "verbal_transition_alert_instruction": "Bear left to stay on South Jackson Street."
+                },
+                {
+                  "begin_shape_index": 25,
+                  "cost": 189.47,
+                  "end_shape_index": 43,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.165,
+                  "time": 189.47,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 900 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 43,
+                  "cost": 27.529,
+                  "end_shape_index": 47,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.024,
+                  "time": 27.529,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 100 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 47,
+                  "cost": 68.47,
+                  "end_shape_index": 49,
+                  "instruction": "Keep left to take the walkway.",
+                  "length": 0.06,
+                  "time": 68.47,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 24,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Keep left to take the walkway.",
+                  "verbal_transition_alert_instruction": "Keep left to take the walkway."
+                },
+                {
+                  "begin_shape_index": 49,
+                  "cost": 59.294,
+                  "end_shape_index": 56,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.052,
+                  "time": 59.294,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 56,
+                  "cost": 617.915,
+                  "end_shape_index": 57,
+                  "ferry": true,
+                  "instruction": "Take the West Seattle Water Taxi Ferry.",
+                  "length": 2.052,
+                  "street_names": [
+                    "West Seattle Water Taxi"
+                  ],
+                  "time": 925.831,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 28,
+                  "verbal_post_transition_instruction": "Continue for 2 miles.",
+                  "verbal_pre_transition_instruction": "Take the West Seattle Water Taxi Ferry.",
+                  "verbal_transition_alert_instruction": "Take the West Seattle Water Taxi Ferry."
+                },
+                {
+                  "begin_shape_index": 57,
+                  "cost": 57.941,
+                  "end_shape_index": 60,
+                  "instruction": "Walk northwest on the walkway.",
+                  "length": 0.046,
+                  "rough": true,
+                  "time": 52.941,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 29,
+                  "verbal_post_transition_instruction": "Continue for 200 feet.",
+                  "verbal_pre_transition_instruction": "Walk northwest on the walkway.",
+                  "verbal_succinct_transition_instruction": "Walk northwest."
+                },
+                {
+                  "begin_shape_index": 60,
+                  "cost": 11.352,
+                  "end_shape_index": 61,
+                  "instruction": "Continue on Alki Trail.",
+                  "length": 0.005,
+                  "street_names": [
+                    "Alki Trail"
+                  ],
+                  "time": 6.352,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 8,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for 30 feet.",
+                  "verbal_pre_transition_instruction": "Continue on Alki Trail. Then Turn left to stay on Alki Trail.",
+                  "verbal_transition_alert_instruction": "Continue on Alki Trail."
+                },
+                {
+                  "begin_shape_index": 61,
+                  "cost": 51.529,
+                  "end_shape_index": 76,
+                  "instruction": "Turn left to stay on Alki Trail.",
+                  "length": 0.045,
+                  "street_names": [
+                    "Alki Trail"
+                  ],
+                  "time": 51.529,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 200 feet.",
+                  "verbal_pre_transition_instruction": "Turn left to stay on Alki Trail.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left to stay on Alki Trail."
+                },
+                {
+                  "begin_shape_index": 76,
+                  "cost": 55.764,
+                  "end_shape_index": 80,
+                  "instruction": "Turn left to stay on Alki Trail.",
+                  "length": 0.049,
+                  "street_names": [
+                    "Alki Trail"
+                  ],
+                  "time": 55.764,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Turn left to stay on Alki Trail.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left to stay on Alki Trail."
+                },
+                {
+                  "begin_shape_index": 80,
+                  "cost": 197.646,
+                  "end_shape_index": 88,
+                  "instruction": "Turn right to stay on Alki Trail.",
+                  "length": 0.173,
+                  "street_names": [
+                    "Alki Trail"
+                  ],
+                  "time": 197.646,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 900 feet.",
+                  "verbal_pre_transition_instruction": "Turn right to stay on Alki Trail.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right to stay on Alki Trail."
+                },
+                {
+                  "begin_shape_index": 88,
+                  "cost": 12.764,
+                  "end_shape_index": 89,
+                  "instruction": "Turn right.",
+                  "length": 0.006,
+                  "time": 7.764,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for 40 feet.",
+                  "verbal_pre_transition_instruction": "Turn right. Then Turn left onto Harbor Avenue Southwest.",
+                  "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto Harbor Avenue Southwest.",
+                  "verbal_transition_alert_instruction": "Turn right."
+                },
+                {
+                  "begin_shape_index": 89,
+                  "cost": 556.293,
+                  "end_shape_index": 117,
+                  "instruction": "Turn left onto Harbor Avenue Southwest.",
+                  "length": 0.485,
+                  "street_names": [
+                    "Harbor Avenue Southwest"
+                  ],
+                  "time": 551.293,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for a half mile.",
+                  "verbal_pre_transition_instruction": "Turn left onto Harbor Avenue Southwest.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto Harbor Avenue Southwest."
+                },
+                {
+                  "begin_shape_index": 117,
+                  "cost": 347.293,
+                  "end_shape_index": 134,
+                  "instruction": "Keep left to stay on Harbor Avenue Southwest.",
+                  "length": 0.305,
+                  "street_names": [
+                    "Harbor Avenue Southwest"
+                  ],
+                  "time": 347.293,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 24,
+                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
+                  "verbal_pre_transition_instruction": "Keep left to stay on Harbor Avenue Southwest.",
+                  "verbal_transition_alert_instruction": "Keep left to stay on Harbor Avenue Southwest."
+                },
+                {
+                  "begin_shape_index": 134,
+                  "cost": 265.0,
+                  "end_shape_index": 146,
+                  "instruction": "Keep left to stay on Harbor Avenue Southwest.",
+                  "length": 0.232,
+                  "street_names": [
+                    "Harbor Avenue Southwest"
+                  ],
+                  "time": 265.0,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 24,
+                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
+                  "verbal_pre_transition_instruction": "Keep left to stay on Harbor Avenue Southwest.",
+                  "verbal_transition_alert_instruction": "Keep left to stay on Harbor Avenue Southwest."
+                },
+                {
+                  "begin_shape_index": 146,
+                  "cost": 919.293,
+                  "end_shape_index": 218,
+                  "instruction": "Keep left to stay on Harbor Avenue Southwest.",
+                  "length": 0.802,
+                  "street_names": [
+                    "Harbor Avenue Southwest"
+                  ],
+                  "time": 914.293,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 24,
+                  "verbal_post_transition_instruction": "Continue for 1 mile.",
+                  "verbal_pre_transition_instruction": "Keep left to stay on Harbor Avenue Southwest.",
+                  "verbal_transition_alert_instruction": "Keep left to stay on Harbor Avenue Southwest."
+                },
+                {
+                  "begin_shape_index": 218,
+                  "cost": 29.235,
+                  "end_shape_index": 220,
+                  "instruction": "Keep left to take Southwest Avalon Way.",
+                  "length": 0.024,
+                  "street_names": [
+                    "Southwest Avalon Way"
+                  ],
+                  "time": 29.235,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 24,
+                  "verbal_post_transition_instruction": "Continue for 100 feet.",
+                  "verbal_pre_transition_instruction": "Keep left to take Southwest Avalon Way.",
+                  "verbal_transition_alert_instruction": "Keep left to take Southwest Avalon Way."
+                },
+                {
+                  "begin_shape_index": 220,
+                  "cost": 12.059,
+                  "end_shape_index": 223,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.006,
+                  "time": 7.059,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for 30 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway. Then, in 30 feet, Bear left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left. Then, in 30 feet, Bear left onto the walkway.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 223,
+                  "cost": 55.227,
+                  "end_shape_index": 229,
+                  "instruction": "Bear left onto the walkway.",
+                  "length": 0.048,
+                  "time": 55.227,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 16,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Bear left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Bear left.",
+                  "verbal_transition_alert_instruction": "Bear left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 229,
+                  "cost": 0.0,
+                  "end_shape_index": 229,
+                  "instruction": "Your destination is on the left.",
+                  "length": 0.0,
+                  "time": 0.0,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 6,
+                  "verbal_pre_transition_instruction": "Your destination is on the left.",
+                  "verbal_transition_alert_instruction": "Your destination will be on the left."
+                }
+              ]
+            }
+          ],
+          "language": "en-US",
+          "status_message": "Found route between points",
+          "status": 0
+        }
+      },
+      {
+        "trip": {
+          "locations": [
+            {
+              "lat": 47.599091,
+              "lon": -122.331856
+            },
+            {
+              "lat": 47.563412,
+              "lon": -122.378248
+            }
+          ],
+          "summary": {
+            "length": 4.289,
+            "time": 4923.344,
+            "min_lat": 47.563462,
+            "min_lon": -122.378332,
+            "max_lat": 47.599132,
+            "max_lon": -122.331856,
+            "has_highway": false,
+            "has_toll": false,
+            "has_time_restrictions": false,
+            "has_ferry": false,
+            "cost": 4958.344
+          },
+          "units": "miles",
+          "legs": [
+            {
+              "summary": {
+                "length": 4.289,
+                "time": 4923.344,
+                "min_lat": 47.563462,
+                "min_lon": -122.378332,
+                "max_lat": 47.599132,
+                "max_lon": -122.331856,
+                "cost": 4958.344,
+                "has_highway": false,
+                "has_time_restrictions": false,
+                "has_toll": false,
+                "has_ferry": false
+              },
+              "shape": "y`fxyA~kpihF?pV?b^Pv@b@ZrUBnTB?bCZlB\\xBMf@?xA?r@An^?~\\Kp@IXAx@?v@~C?rEAhN?pjAGvCJj@HdBT|GpBChb@A`_@AjLCrM@tDf@zA~B|BdDpAlETjlBBnU?vVL|ObAbNtD`SnJtAxAjDlDtFjFbEhC|t@t[lSxHxOlD`ELxK`@dY`IbD~@`IdCxLtDvcAh_@|I`E`GhDpIdFnYbVpNfPbAjA~BlDhIzKvMbQpG|EtE`CbG|AhKp@je@`@nxF@jNE?zHfrB[zJ[~SBzhACp]G~]Avt@Br^RlMAfEElDEzKDpD?|EEhCMdD]jSkD`C@dN{BdBe@bv@Kd]b@pHp@nGDhHCnDnA|TJ\\b@r@dBtAfIR~ZA|RcG~[vPdpBXdEPvED`EA`UAxL?v~@?dw@DvAFdAJjC?~AA`C?l@ExEa@|KOnEOnEKhCoB`[B`AJ`@V\\XVd@Fd@Df@Fd@FPHB\\i@jPLbEC|BbAF^Dr@Hf@HPNB\\o@|J@|HT`Bt@Nd@AnBw@zB}@V?AhDDpAHfBZl@Nf@h@~Dh@zDNpAm@Ni@^a@t@S|@K|BSb`@Jpv@XrlA@jNGfk@?fz@F`bANbe@@|C`@tzALbPP|E`@|B~@zD`@rEAlLIvDI`CAxFy@~b@w@zi@i@jRc@bTr@fQ\\|C`A`DhK~X~B|IpAnC`BfCxIhKn@jAjBrHt@vBl@jAx@~@bTdPlDlCfXrQjA`A~@r@^X`@\\dCjBxXjRnGjElEzCzNzJhBnArC`BjAh@lA^z@LZ??r@MfESzHvD~@nBd@\\LOtB@t`@?f@@la@Bhe@@^FXNNV?@x@B`DBpCHbAi@?IBGJG\\C^F|bBDxp@D\\NZPL\\A?|@DzCBdC?l@p_@Rn@@NJJZJ?bBChBEJ@Ip@HnjCDrA@~H?P@PFVLL\\P|DnBPDP?RGNMRv@bB~@rBjAfB|@vtBxdAFPfVxL|GfDZDXGTYN`@tCtBnBzAZa@FZLRbAb@`C~AdCnBbCfCvCxD~CjFfBpD|AvDjAzDz@xDPbAb@lCj@jEd@lFX|EL|CBnC?|qA?ls@Jf@MRSbIMtFTV?bU@dH@p_@?zA`@|E\\tEZ?Oh@Ej@Bp@T`Af@tAr@pArYbb@",
+              "maneuvers": [
+                {
+                  "begin_shape_index": 0,
+                  "cost": 50.88,
+                  "end_shape_index": 4,
+                  "instruction": "Walk west on the walkway.",
+                  "length": 0.043,
+                  "time": 50.88,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 1,
+                  "verbal_post_transition_instruction": "Continue for 200 feet.",
+                  "verbal_pre_transition_instruction": "Walk west on the walkway.",
+                  "verbal_succinct_transition_instruction": "Walk west."
+                },
+                {
+                  "begin_shape_index": 4,
+                  "cost": 56.058,
+                  "end_shape_index": 6,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.048,
+                  "time": 56.058,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 6,
+                  "cost": 74.0,
+                  "end_shape_index": 18,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.063,
+                  "time": 74.0,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 18,
+                  "cost": 158.47,
+                  "end_shape_index": 26,
+                  "instruction": "Turn left onto 1st Avenue South.",
+                  "length": 0.134,
+                  "street_names": [
+                    "1st Avenue South"
+                  ],
+                  "time": 153.47,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 700 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto 1st Avenue South.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto 1st Avenue South."
+                },
+                {
+                  "begin_shape_index": 26,
+                  "cost": 97.176,
+                  "end_shape_index": 30,
+                  "instruction": "Turn right onto South Dearborn Street/WA 519.",
+                  "length": 0.071,
+                  "street_names": [
+                    "South Dearborn Street",
+                    "WA 519"
+                  ],
+                  "time": 87.176,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 400 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto South Dearborn Street, WA 519.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto South Dearborn Street."
+                },
+                {
+                  "begin_shape_index": 30,
+                  "cost": 1221.529,
+                  "end_shape_index": 71,
+                  "instruction": "Bear left onto Alaskan Way South.",
+                  "length": 1.07,
+                  "street_names": [
+                    "Alaskan Way South"
+                  ],
+                  "time": 1216.529,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 16,
+                  "verbal_post_transition_instruction": "Continue for 1 mile.",
+                  "verbal_pre_transition_instruction": "Bear left onto Alaskan Way South.",
+                  "verbal_succinct_transition_instruction": "Bear left.",
+                  "verbal_transition_alert_instruction": "Bear left onto Alaskan Way South."
+                },
+                {
+                  "begin_shape_index": 71,
+                  "cost": 13.47,
+                  "end_shape_index": 72,
+                  "instruction": "Turn right.",
+                  "length": 0.007,
+                  "time": 8.47,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for 40 feet.",
+                  "verbal_pre_transition_instruction": "Turn right. Then Turn left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto the walkway.",
+                  "verbal_transition_alert_instruction": "Turn right."
+                },
+                {
+                  "begin_shape_index": 72,
+                  "cost": 778.47,
+                  "end_shape_index": 101,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.683,
+                  "rough": true,
+                  "time": 778.47,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for a half mile.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 101,
+                  "cost": 439.294,
+                  "end_shape_index": 138,
+                  "instruction": "Turn right onto West Seattle Bridge Trail.",
+                  "length": 0.379,
+                  "street_names": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "time": 434.294,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for a half mile.",
+                  "verbal_pre_transition_instruction": "Turn right onto West Seattle Bridge Trail.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto West Seattle Bridge Trail."
+                },
+                {
+                  "begin_shape_index": 138,
+                  "cost": 33.059,
+                  "end_shape_index": 147,
+                  "instruction": "Turn left to stay on West Seattle Bridge Trail.",
+                  "length": 0.027,
+                  "street_names": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "time": 33.059,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 100 feet.",
+                  "verbal_pre_transition_instruction": "Turn left to stay on West Seattle Bridge Trail.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left to stay on West Seattle Bridge Trail."
+                },
+                {
+                  "begin_shape_index": 147,
+                  "cost": 17.117,
+                  "end_shape_index": 152,
+                  "instruction": "Turn left to stay on West Seattle Bridge Trail.",
+                  "length": 0.012,
+                  "street_names": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "time": 17.117,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 70 feet.",
+                  "verbal_pre_transition_instruction": "Turn left to stay on West Seattle Bridge Trail.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left to stay on West Seattle Bridge Trail."
+                },
+                {
+                  "begin_shape_index": 152,
+                  "cost": 26.705,
+                  "end_shape_index": 160,
+                  "instruction": "Turn right to stay on West Seattle Bridge Trail.",
+                  "length": 0.021,
+                  "street_names": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "time": 26.705,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 100 feet.",
+                  "verbal_pre_transition_instruction": "Turn right to stay on West Seattle Bridge Trail.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right to stay on West Seattle Bridge Trail."
+                },
+                {
+                  "begin_shape_index": 160,
+                  "cost": 484.94,
+                  "end_shape_index": 184,
+                  "instruction": "Turn right to stay on West Seattle Bridge Trail.",
+                  "length": 0.426,
+                  "street_names": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "time": 484.94,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for a half mile.",
+                  "verbal_pre_transition_instruction": "Turn right to stay on West Seattle Bridge Trail.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right to stay on West Seattle Bridge Trail."
+                },
+                {
+                  "begin_shape_index": 184,
+                  "cost": 153.176,
+                  "end_shape_index": 192,
+                  "instruction": "Keep left to stay on West Seattle Bridge Trail.",
+                  "length": 0.134,
+                  "street_names": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "time": 153.176,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 24,
+                  "verbal_post_transition_instruction": "Continue for 700 feet.",
+                  "verbal_pre_transition_instruction": "Keep left to stay on West Seattle Bridge Trail.",
+                  "verbal_transition_alert_instruction": "Keep left to stay on West Seattle Bridge Trail."
+                },
+                {
+                  "begin_shape_index": 192,
+                  "cost": 254.176,
+                  "end_shape_index": 219,
+                  "instruction": "Keep right to stay on West Seattle Bridge Trail.",
+                  "length": 0.219,
+                  "street_names": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "time": 254.176,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 23,
+                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
+                  "verbal_pre_transition_instruction": "Keep right to stay on West Seattle Bridge Trail.",
+                  "verbal_transition_alert_instruction": "Keep right to stay on West Seattle Bridge Trail."
+                },
+                {
+                  "begin_shape_index": 219,
+                  "cost": 23.529,
+                  "end_shape_index": 222,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.013,
+                  "time": 18.529,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 70 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 222,
+                  "cost": 14.411,
+                  "end_shape_index": 225,
+                  "instruction": "Turn left onto the crosswalk.",
+                  "length": 0.011,
+                  "time": 14.411,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 60 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the crosswalk.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto the crosswalk."
+                },
+                {
+                  "begin_shape_index": 225,
+                  "cost": 315.883,
+                  "end_shape_index": 261,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.272,
+                  "time": 315.883,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 261,
+                  "cost": 131.294,
+                  "end_shape_index": 267,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.115,
+                  "time": 131.294,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 600 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 267,
+                  "cost": 14.117,
+                  "end_shape_index": 275,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.012,
+                  "time": 14.117,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_post_transition_instruction": "Continue for 70 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 275,
+                  "cost": 224.059,
+                  "end_shape_index": 287,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.196,
+                  "time": 224.059,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 287,
+                  "cost": 13.294,
+                  "end_shape_index": 289,
+                  "instruction": "Keep left to take the crosswalk.",
+                  "length": 0.009,
+                  "time": 13.294,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 24,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for 50 feet.",
+                  "verbal_pre_transition_instruction": "Keep left to take the crosswalk. Then, in 50 feet, Turn left onto the walkway.",
+                  "verbal_transition_alert_instruction": "Keep left to take the crosswalk."
+                },
+                {
+                  "begin_shape_index": 289,
+                  "cost": 1.411,
+                  "end_shape_index": 290,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.001,
+                  "time": 1.411,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for less than 10 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the walkway.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 290,
+                  "cost": 213.059,
+                  "end_shape_index": 312,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.185,
+                  "time": 213.059,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 1000 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 312,
+                  "cost": 0.706,
+                  "end_shape_index": 313,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.0,
+                  "time": 0.706,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for less than 10 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway. Then Keep left to take the crosswalk.",
+                  "verbal_succinct_transition_instruction": "Turn right. Then Keep left to take the crosswalk.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 313,
+                  "cost": 17.823,
+                  "end_shape_index": 315,
+                  "instruction": "Keep left to take the crosswalk.",
+                  "length": 0.013,
+                  "time": 17.823,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 24,
+                  "verbal_post_transition_instruction": "Continue for 70 feet.",
+                  "verbal_pre_transition_instruction": "Keep left to take the crosswalk.",
+                  "verbal_transition_alert_instruction": "Keep left to take the crosswalk."
+                },
+                {
+                  "begin_shape_index": 315,
+                  "cost": 0.706,
+                  "end_shape_index": 316,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.0,
+                  "time": 0.706,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for less than 10 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the walkway.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 316,
+                  "cost": 71.47,
+                  "end_shape_index": 322,
+                  "instruction": "Turn right onto the walkway.",
+                  "length": 0.06,
+                  "time": 71.47,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 10,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn right.",
+                  "verbal_transition_alert_instruction": "Turn right onto the walkway."
+                },
+                {
+                  "begin_shape_index": 322,
+                  "cost": 2.823,
+                  "end_shape_index": 324,
+                  "instruction": "Turn left onto the walkway.",
+                  "length": 0.002,
+                  "time": 2.823,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 15,
+                  "verbal_multi_cue": true,
+                  "verbal_post_transition_instruction": "Continue for 10 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Bear left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Turn left. Then Bear left onto the walkway.",
+                  "verbal_transition_alert_instruction": "Turn left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 324,
+                  "cost": 55.227,
+                  "end_shape_index": 330,
+                  "instruction": "Bear left onto the walkway.",
+                  "length": 0.048,
+                  "time": 55.227,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 16,
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Bear left onto the walkway.",
+                  "verbal_succinct_transition_instruction": "Bear left.",
+                  "verbal_transition_alert_instruction": "Bear left onto the walkway."
+                },
+                {
+                  "begin_shape_index": 330,
+                  "cost": 0.0,
+                  "end_shape_index": 330,
+                  "instruction": "Your destination is on the left.",
+                  "length": 0.0,
+                  "time": 0.0,
+                  "travel_mode": "pedestrian",
+                  "travel_type": "foot",
+                  "type": 6,
+                  "verbal_pre_transition_instruction": "Your destination is on the left.",
+                  "verbal_transition_alert_instruction": "Your destination will be on the left."
+                }
+              ]
+            }
+          ],
+          "status_message": "Found route between points",
+          "status": 0,
+          "language": "en-US"
+        }
+      }
+    ]
+  }
+}
