@@ -55,7 +55,7 @@ struct PlaceDetail: View {
             // TODO: plumb focus from higher, or put in environment
             TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
               .containerRelativeFrame(.vertical)
-              .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+              .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
           }
         }
         .background(Color.hw_sheetBackground)

@@ -32,7 +32,7 @@ struct PlaceField: View {
         Text(place?.name ?? "None").foregroundColor(.black)
           .frame(maxWidth: .infinity, alignment: .leading)
         Text("Edit")
-      }.padding()
+      }.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 8))
     }.onChange(of: queryText) { oldValue, newValue in
       searchQueue.textDidChange(newValue: newValue, focus: getFocus())
     }

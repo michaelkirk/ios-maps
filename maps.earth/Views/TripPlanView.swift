@@ -42,13 +42,16 @@ struct TripPlanView: View {
         ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
         ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
       }
-      .scenePadding(.bottom)
+      .padding(.bottom, 8)
       VStack {
         PlaceField(header: "From", place: $tripPlan.navigateFrom, getFocus: getFocus)
-        Divider()
+        Divider().padding(.bottom, 4)
         PlaceField(header: "To", place: $tripPlan.navigateTo, getFocus: getFocus)
-      }.background(Color.hw_lightGray)
-        .cornerRadius(8)
+      }
+      .padding(.top, 10).padding(.bottom, 10)
+
+      .background(Color.hw_lightGray)
+      .cornerRadius(8)
 
       List(tripPlan.trips, selection: $tripPlan.selectedTrip) { trip in
         Button(action: {
