@@ -52,8 +52,7 @@ struct PlaceDetail: View {
             }
           }.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
           ScrollView {
-            // TODO: plumb focus from higher, or put in environment
-            TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
+            TripPlanView(tripPlan: tripPlan)
               .containerRelativeFrame(.vertical)
               .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
           }

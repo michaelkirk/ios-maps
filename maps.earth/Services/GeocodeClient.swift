@@ -11,6 +11,8 @@ import OSLog
 struct GeocodeClient {
   let config = AppConfig()
   func autocomplete(text: String, focus: LngLat? = nil) async throws -> [Place] {
+    assert(focus != nil, "missing focus. env set up?")
+
     let test = false
     if test {
       return FixtureData.places.all

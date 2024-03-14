@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		450C5F1D2B961DFC00394697 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1C2B961DFC00394697 /* Trip.swift */; };
 		450C5F1F2B963B5700394697 /* TripTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1E2B963B5700394697 /* TripTest.swift */; };
+		4545AA682BA373B500958306 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA672BA373B500958306 /* Env.swift */; };
 		455363EE2B687D90006DF291 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 455363ED2B687D90006DF291 /* MapLibre */; };
 		455363F02B687EF0006DF291 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455363EF2B687EF0006DF291 /* MapView.swift */; };
 		4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F22B687AA4005A677A /* maps_earthApp.swift */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		450C5F1C2B961DFC00394697 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		450C5F1E2B963B5700394697 /* TripTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTest.swift; sourceTree = "<group>"; };
+		4545AA672BA373B500958306 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		455363EF2B687EF0006DF291 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4563B9EF2B687AA4005A677A /* maps.earth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = maps.earth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B9F22B687AA4005A677A /* maps_earthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthApp.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				45971ABE2B719C620050BECE /* LngLat.swift */,
 				450C5F1C2B961DFC00394697 /* Trip.swift */,
 				45992B502B9B5B4300A64AEE /* TripPlan.swift */,
+				4545AA672BA373B500958306 /* Env.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
 				45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */,
 				45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */,
+				4545AA682BA373B500958306 /* Env.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,

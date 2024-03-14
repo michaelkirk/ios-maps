@@ -23,8 +23,6 @@ struct HomeView: View {
   @State var selectedPlace: Place?
   @StateObject var tripPlan: TripPlan = TripPlan()
 
-  @State var mapView: MLNMapView?
-
   @StateObject var searchQueue: SearchQueue = SearchQueue()
   @State var queryText: String = ""
   @State var searchDetent: PresentationDetent = minDetentHeight
@@ -33,7 +31,7 @@ struct HomeView: View {
 
   var body: some View {
     MapView(
-      places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
+      places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
       userLocationState: $userLocationState,
       mostRecentUserLocation: $userLocationManager.mostRecentUserLocation,
       tripPlan: tripPlan
@@ -63,8 +61,7 @@ struct HomeView: View {
       .interactiveDismissDisabled(true)
       .environmentObject(userLocationManager)
       .onChange(of: queryText) { oldValue, newValue in
-        let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
-        searchQueue.textDidChange(newValue: newValue, focus: focus)
+        searchQueue.textDidChange(newValue: newValue)
       }
     }.onAppear {
       switch CLLocationManager().authorizationStatus {

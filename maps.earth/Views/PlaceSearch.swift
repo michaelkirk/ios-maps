@@ -19,7 +19,6 @@ struct PlaceField: View {
   @Binding var place: Place?
   @State var isSearching: Bool = false
   @State var queryText: String = ""
-  var getFocus: () -> LngLat?
   @StateObject private var searchQueue: SearchQueue = SearchQueue()
 
   var body: some View {
@@ -34,33 +33,32 @@ struct PlaceField: View {
         Text("Edit")
       }.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 8))
     }.onChange(of: queryText) { oldValue, newValue in
-      searchQueue.textDidChange(newValue: newValue, focus: getFocus())
+      searchQueue.textDidChange(newValue: newValue)
     }
     .sheet(isPresented: $isSearching) {
       PlaceSearch(
         placeholder: header,
         hasPendingQuery: searchQueue.hasPendingQuery,
         places: searchQueue.mostRecentResults,
-        selectedPlace: $place,
-        getFocus: getFocus
+        selectedPlace: $place
       ).searchable(text: $queryText)
     }
   }
 }
 
 #Preview("long name") {
-  PlaceField(header: "From", place: .constant(FixtureData.places[.santaLucia]), getFocus: fakeFocus)
+  PlaceField(header: "From", place: .constant(FixtureData.places[.santaLucia]))
 }
 #Preview("short name") {
-  PlaceField(header: "To", place: .constant(FixtureData.places[.zeitgeist]), getFocus: fakeFocus)
+  PlaceField(header: "To", place: .constant(FixtureData.places[.zeitgeist]))
 }
 
 #Preview("empty place field") {
-  PlaceField(header: "From", place: .constant(nil), getFocus: fakeFocus)
+  PlaceField(header: "From", place: .constant(nil))
 }
 
 #Preview("searching place field") {
-  PlaceField(header: "From", place: .constant(nil), isSearching: true, getFocus: fakeFocus)
+  PlaceField(header: "From", place: .constant(nil), isSearching: true)
 }
 
 struct PlaceSearch: View {
@@ -68,7 +66,6 @@ struct PlaceSearch: View {
   var hasPendingQuery: Bool
   var places: [Place]?
   @Binding var selectedPlace: Place?
-  var getFocus: () -> LngLat?
 
   @Environment(\.isSearching) private var isSearching
   @Environment(\.dismissSearch) private var dismissSearch
@@ -164,6 +161,11 @@ struct FrontPagePlaceSearch: View {
 class SearchQueue: ObservableObject {
   @Published var mostRecentResults: [Place]?
 
+  var env = Env.current
+  var focus: LngLat? {
+    env.getMapFocus()
+  }
+
   struct Query: Equatable {
     let queryId: UInt64
   }
@@ -195,14 +197,19 @@ class SearchQueue: ObservableObject {
   }
 
   // TODO debounce
-  func textDidChange(newValue: String, focus: LngLat?) {
-    logger.info("text did change to \(newValue), focus: \(String(describing: focus))")
+  func textDidChange(newValue: String) {
+    search(text: newValue, focus: focus)
+  }
+
+  func search(text: String, focus: LngLat!) {
+    let queryText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    logger.info("search queryText '\(queryText)', focus: \(String(describing: focus))")
 
     let nextId = (pendingQueries.last?.queryId ?? 0) + 1
     let query = Query(queryId: nextId)
     pendingQueries.append(query)
 
-    guard !newValue.isEmpty else {
+    guard !queryText.isEmpty else {
       logger.info("Clearing results for empty search field #\(query.queryId)")
       self.cancelInFlightQueries()
       return
@@ -212,7 +219,7 @@ class SearchQueue: ObservableObject {
       do {
         logger.info("making query #\(query.queryId)")
         let results = try await GeocodeClient().autocomplete(
-          text: newValue, focus: focus)
+          text: queryText, focus: focus)
 
         await MainActor.run {
           if let mostRecentlyCompletedQuery = self.mostRecentlyCompletedQuery,

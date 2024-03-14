@@ -31,7 +31,6 @@ struct ModeButton: View {
 
 struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
-  var getFocus: () -> LngLat?
   var searcher = TripSearchManager()
 
   var body: some View {
@@ -44,9 +43,9 @@ struct TripPlanView: View {
       }
       .padding(.bottom, 8)
       VStack {
-        PlaceField(header: "From", place: $tripPlan.navigateFrom, getFocus: getFocus)
+        PlaceField(header: "From", place: $tripPlan.navigateFrom)
         Divider().padding(.bottom, 4)
-        PlaceField(header: "To", place: $tripPlan.navigateTo, getFocus: getFocus)
+        PlaceField(header: "To", place: $tripPlan.navigateTo)
       }
       .padding(.top, 10).padding(.bottom, 10)
 
@@ -139,15 +138,15 @@ func fakeFocus() -> LngLat? {
 
 #Preview("Showing trips") {
   let tripPlan = FixtureData.tripPlan
-  return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
+  return TripPlanView(tripPlan: tripPlan)
 }
 
 #Preview("Only 'to' selected") {
   let tripPlan = TripPlan(to: FixtureData.places[.zeitgeist])
-  return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
+  return TripPlanView(tripPlan: tripPlan)
 }
 
 #Preview("Only 'from' selected") {
   let tripPlan = TripPlan(from: FixtureData.places[.dubsea])
-  return TripPlanView(tripPlan: tripPlan, getFocus: fakeFocus)
+  return TripPlanView(tripPlan: tripPlan)
 }

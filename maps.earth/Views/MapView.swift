@@ -24,7 +24,6 @@ enum PendingRecenter {
 struct MapView {
   @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
-  @Binding var mapView: MLNMapView?
   @Binding var userLocationState: UserLocationState
   @Binding var mostRecentUserLocation: CLLocation?
   @State var pendingRecenter: PendingRecenter? = nil
@@ -49,6 +48,7 @@ extension MapView: UIViewRepresentable {
     let mapView = MLNMapView(frame: .zero, styleURL: styleURL)
     mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     mapView.logoView.isHidden = true
+    Env.current.getMapFocus = { LngLat(coord: mapView.centerCoordinate) }
 
     let originalLocationManagerDelegate = mapView.locationManager.delegate
     mapView.locationManager.delegate = context.coordinator
@@ -84,13 +84,6 @@ extension MapView: UIViewRepresentable {
       animated: false)
 
     mapView.delegate = context.coordinator
-    Task {
-      await MainActor.run {
-        print("setting mapView")
-        self.mapView = mapView
-      }
-    }
-
     return mapView
   }
 
