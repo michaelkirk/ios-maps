@@ -16,9 +16,19 @@ enum DistanceUnit: String, Decodable {
   case meters
   case kilometers
 
+  func toLengthFormatterUnit() -> LengthFormatter.Unit {
+    switch self {
+    case .miles:
+      .mile
+    case .meters:
+      .meter
+    case .kilometers:
+      .kilometer
+    }
+  }
+
   func toUnit() -> UnitLength {
     switch self {
-
     case .miles:
       .miles
     case .meters:

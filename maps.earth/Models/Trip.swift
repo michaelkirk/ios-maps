@@ -17,6 +17,12 @@ struct Trip: Identifiable {
   let from: Place
   let to: Place
 
+  /// leave nil to use the current Locale
+  var _formatLocale: Locale?
+  var formatLocale: Locale {
+    _formatLocale ?? Locale.current
+  }
+
   //  var from: Place
   //  var to: Place
 
@@ -27,18 +33,14 @@ struct Trip: Identifiable {
   var duration: Float64 {
     self.raw.duration
   }
+
   var distance: Float64 {
     self.raw.distance
   }
-  var distanceFormatUnit: LengthFormatter.Unit {
-    switch self.raw.distanceUnits {
-    case .miles:
-      .mile
-    case .meters:
-      .meter
-    case .kilometers:
-      .kilometer
-    }
+
+  // the native unit of the stored `distance`
+  var distanceUnit: DistanceUnit {
+    self.raw.distanceUnits
   }
 
   var durationFormatted: String {
@@ -51,10 +53,18 @@ struct Trip: Identifiable {
   }
 
   var distanceFormatted: String {
-    let formatter = LengthFormatter()
+    let formatter = MeasurementFormatter()
+    formatter.locale = self.formatLocale
     formatter.unitStyle = .long
+    formatter.unitOptions = .providedUnit
     formatter.numberFormatter.roundingIncrement = 0.1
-    return formatter.string(fromValue: distance, unit: self.distanceFormatUnit)
+
+    let outputUnit =
+      self.formatLocale.measurementSystem == .metric ? UnitLength.kilometers : UnitLength.miles
+    let measurement = Measurement(value: distance, unit: distanceUnit.toUnit()).converted(
+      to: outputUnit)
+
+    return formatter.string(from: measurement)
   }
 
   init(itinerary: Itinerary, from: Place, to: Place) {
