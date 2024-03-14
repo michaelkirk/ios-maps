@@ -52,50 +52,47 @@ struct HomeView: View {
           searchDetent = minDetentHeight
         }
       )
+      .scenePadding(.top)
+      .ignoresSafeArea(.container)  // don't trim results at bottom of notched devices
+      .background(Color.hw_sheetBackground)
+      .presentationDetents([.large, .medium, minDetentHeight], selection: $searchDetent)
+      .presentationBackgroundInteraction(
+        .enabled(upThrough: .medium)
+      )
+      .presentationDragIndicator(.visible)
+      .interactiveDismissDisabled(true)
       .environmentObject(userLocationManager)
       .onChange(of: queryText) { oldValue, newValue in
         let focus = (self.mapView?.centerCoordinate).map { LngLat(coord: $0) }
         searchQueue.textDidChange(newValue: newValue, focus: focus)
       }
-      .scenePadding(.top)
-      .presentationDetents([.large, .medium, minDetentHeight], selection: $searchDetent)
-      .presentationBackgroundInteraction(
-        .enabled(upThrough: .medium)
-      )
-      .interactiveDismissDisabled(true)
-      .edgesIgnoringSafeArea(.all)
-      .background(Color.hw_sheetBackground)
-      .onAppear {
-        switch CLLocationManager().authorizationStatus {
-        case .notDetermined:
-          break
-        case .denied, .restricted:
-          self.userLocationState = .denied
-        case .authorizedAlways, .authorizedWhenInUse:
-          self.userLocationState = .showing
-        @unknown default:
-          break
-        }
+    }.onAppear {
+      switch CLLocationManager().authorizationStatus {
+      case .notDetermined:
+        break
+      case .denied, .restricted:
+        self.userLocationState = .denied
+      case .authorizedAlways, .authorizedWhenInUse:
+        self.userLocationState = .showing
+      @unknown default:
+        break
       }
     }
   }
 }
 
-#Preview("search") {
+#Preview("Search") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
-  let result = HomeView(searchQueue: searchQueue, queryText: "coffee")
-  //  result.searchQueue.mostRecentResults = FixtureData.places.all
-  result.searchDetent = .large
-  return result
+  return HomeView(searchQueue: searchQueue, queryText: "coffee", searchDetent: .large)
 }
 
-#Preview("place") {
+#Preview("Place") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   return HomeView(
     selectedPlace: FixtureData.places[.santaLucia], searchQueue: searchQueue, queryText: "coffee")
 }
 
-#Preview("trip plan") {
+#Preview("Trip") {
   let tripPlan = FixtureData.tripPlan
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   return HomeView(
@@ -103,6 +100,6 @@ struct HomeView: View {
     queryText: "coffee")
 }
 
-#Preview("blank") {
+#Preview("Init") {
   HomeView()
 }

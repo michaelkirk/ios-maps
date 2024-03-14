@@ -36,7 +36,7 @@ struct PlaceDetail: View {
           tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
         }
       }) {
-        Text("Navigate")
+        Text("Directions")
       }
       .padding()
       .foregroundColor(.white)
