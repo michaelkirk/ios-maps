@@ -254,6 +254,11 @@ extension MapView: UIViewRepresentable {
     }
 
     func ensureRoutes(in mapView: MLNMapView, trips: [Trip], selectedTrip: Trip?) {
+      guard let style = mapView.style else {
+        print("style was unexpectedly nil")
+        return
+      }
+
       let stale = Set(self.selectedTrips.keys).union(self.unselectedTrips.keys).subtracting(trips)
       for trip in stale {
         guard
@@ -268,8 +273,8 @@ extension MapView: UIViewRepresentable {
         // because the style.json hasn't been fetched yet (it's async)
         // Maybe this should be a promise based thing?
         print("removing source/layer: \(tripSource.identifier)")
-        mapView.style!.removeLayer(tripStyleLayer)
-        try! mapView.style!.removeSource(tripSource, error: ())
+        style.removeLayer(tripStyleLayer)
+        try! style.removeSource(tripSource, error: ())
       }
 
       for trip in (trips.filter { $0 != selectedTrip }) {
@@ -278,8 +283,8 @@ extension MapView: UIViewRepresentable {
           // because the style.json hasn't been fetched yet (it's async)
           // Maybe this should be a promise based thing?
           print("removing source/layer: \(tripSource.identifier)")
-          mapView.style!.removeLayer(tripStyleLayer)
-          try! mapView.style!.removeSource(tripSource, error: ())
+          style.removeLayer(tripStyleLayer)
+          try! style.removeSource(tripSource, error: ())
         }
         if self.unselectedTrips[trip] == nil {
           self.unselectedTrips[trip] = Self.addRoute(to: mapView, trip: trip, isSelected: false)
@@ -293,8 +298,8 @@ extension MapView: UIViewRepresentable {
           // because the style.json hasn't been fetched yet (it's async)
           // Maybe this should be a promise based thing?
           print("removing source/layer: \(tripSource.identifier)")
-          mapView.style!.removeLayer(tripStyleLayer)
-          try! mapView.style!.removeSource(tripSource, error: ())
+          style.removeLayer(tripStyleLayer)
+          try! style.removeSource(tripSource, error: ())
         }
         if self.selectedTrips[trip] == nil {
           self.selectedTrips[trip] = Self.addRoute(to: mapView, trip: trip, isSelected: true)
@@ -336,16 +341,20 @@ extension MapView: UIViewRepresentable {
       let styleLayer = lineStyleLayer(source: source, id: trip.id, isSelected: isSelected)
 
       print("adding source/layer: \(identifier)")
+      guard let style = mapView.style else {
+        print("mapView.style was unexpectedly nil")
+        return (source, styleLayer)
+      }
 
-      mapView.style!.addSource(source)
+      style.addSource(source)
 
       // Insert behind the annotation layer to keep the "end" markers above the routes.
       //     identifier = com.mapbox.annotations.points; sourceIdentifier = com.mapbox.annotations; sourceLayerIdentifier = com.mapbox.annotations.points
-      let annotationLayer = mapView.style!.layers.first {
+      let annotationLayer = style.layers.first {
         $0.identifier == "com.mapbox.annotations.points"
       }
       // TODO: this unwrap is unsightly, but unlikely to break unless MapLibre changes something fundamental in an update, which should be obvious
-      mapView.style!.insertLayer(styleLayer, below: annotationLayer!)
+      style.insertLayer(styleLayer, below: annotationLayer!)
 
       return (source, styleLayer)
     }

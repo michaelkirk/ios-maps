@@ -31,8 +31,6 @@ struct HomeView: View {
   @State var userLocationState: UserLocationState = .initial
   @StateObject var userLocationManager = UserLocationManager()
 
-  var presentedSheet: PresentedSheet = .search
-
   var body: some View {
     MapView(
       places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace, mapView: $mapView,
@@ -83,12 +81,7 @@ struct HomeView: View {
   }
 }
 
-enum PresentedSheet {
-  case search
-  case placeDetail(Binding<Place>)
-}
-
-#Preview("search results") {
+#Preview("search") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   let result = HomeView(searchQueue: searchQueue, queryText: "coffee")
   //  result.searchQueue.mostRecentResults = FixtureData.places.all
@@ -96,23 +89,20 @@ enum PresentedSheet {
   return result
 }
 
-#Preview("show detail") {
+#Preview("place") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
-  let result = HomeView(
+  return HomeView(
     selectedPlace: FixtureData.places[.santaLucia], searchQueue: searchQueue, queryText: "coffee")
-  return result
 }
 
-#Preview("Initial") {
+#Preview("trip plan") {
+  let tripPlan = FixtureData.tripPlan
+  let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
+  return HomeView(
+    selectedPlace: tripPlan.navigateFrom, tripPlan: tripPlan, searchQueue: searchQueue,
+    queryText: "coffee")
+}
+
+#Preview("blank") {
   HomeView()
 }
-//
-//#Preview("with directions") {
-//  let tripPlan = FixtureData.tripPlan
-//  return ContentView(
-//    selectedPlace: tripPlan.navigateTo,
-//    tripPlan: tripPlan,
-//    toSearchQueue: LegacySearchQueue(
-//      searchText: "coffee", mostRecentResults: FixtureData.places.all)
-//  )
-//}
