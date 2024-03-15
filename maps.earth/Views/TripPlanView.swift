@@ -124,9 +124,15 @@ struct TripSearchManager {
   var completedQueries: [TripQuery] = []
 
   func query(from: Place, to: Place, mode: TravelMode) async throws -> [Trip]? {
-    // TODO: pass through units
-    try await TripPlanClient().query(
-      from: from, to: to, mode: mode, units: .miles)
+    // TODO: pass units through Env?
+    let units: DistanceUnit
+    if Locale.current.measurementSystem == .metric {
+      units = .kilometers
+    } else {
+      units = .miles
+    }
+    return try await TripPlanClient().query(
+      from: from, to: to, mode: mode, units: units)
   }
 }
 
