@@ -44,7 +44,6 @@ struct TripPlanView: View {
         ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
         ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
       }
-      .padding(.bottom, 8)
 
       VStack {
         PlaceField(header: "From", place: $tripPlan.navigateFrom)
@@ -70,18 +69,18 @@ struct TripPlanView: View {
                 .background(trip == tripPlan.selectedTrip ? .blue : .clear)
               VStack(alignment: .leading) {
                 Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-                Text(trip.distanceFormatted).font(.subheadline)  //.foregroundColor(.hw_secondaryTextColor)
+                Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
               }
               Spacer()
-              Button("Details") {
-                print("TODO: handle \"GO\" (detail view) \(trip)")
+              Button("Steps") {
                 tripPlan.selectedTrip = trip
+                showSteps = true
               }.fontWeight(.medium)
                 .foregroundColor(.white)
-                .padding()
+                .padding(8)
                 .background(.green)
                 .cornerRadius(8)
-                .hidden()  // TODO: handle detail view
+                .scenePadding(.trailing)
             }.frame(minHeight: 70)
           }
         }.listRowInsets(EdgeInsets())
