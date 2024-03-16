@@ -451,7 +451,8 @@ func bounds(_ bounds: Bounds) -> MLNCoordinateBounds {
 
 func lineStyleLayer(source: MLNSource, id: UUID, isSelected: Bool) -> MLNLineStyleLayer {
   let styleLayer = MLNLineStyleLayer(identifier: "trip-route-\(id)", source: source)
-  styleLayer.lineColor = NSExpression(forConstantValue: isSelected ? UIColor.blue : UIColor.gray)
+  styleLayer.lineColor = NSExpression(
+    forConstantValue: isSelected ? UIColor(Color.hw_activeRoute) : UIColor(Color.hw_inactiveRoute))
   styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: 4))
   return styleLayer
 }

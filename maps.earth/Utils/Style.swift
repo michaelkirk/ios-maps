@@ -9,27 +9,31 @@ import Foundation
 import SwiftUI
 
 extension Color {
-  static func rgb(_ value: UInt64) -> Self {
-    let red = Double(value & 0xFF0000 >> 16) / 0xFF
-    let green = Double(value & 0x00FF00 >> 8) / 0xFF
-    let blue = Double(value & 0x0000FF >> 0) / 0xFF
-    return Self(red: red, green: green, blue: blue)
+  init(rgb: UInt64) {
+    let red = Double((rgb & 0xFF0000) >> 16) / 0xFF
+    let green = Double((rgb & 0x00FF00) >> 8) / 0xFF
+    let blue = Double((rgb & 0x0000FF) >> 0) / 0xFF
+
+    self.init(red: red, green: green, blue: blue)
+    print("red: \(red), green: \(green), blue: \(blue), color: \(self)")
   }
-  static func gray(_ value: CGFloat) -> Self {
-    return Self(red: value, green: value, blue: value)
+  init(gray: CGFloat) {
+    self.init(red: gray, green: gray, blue: gray)
   }
 }
 
 // Color Palette
 extension Color {
-  static let hw_darkGray = Color.gray(0.5)
-  static let hw_lightGray = Color.gray(0.90)
-  static let hw_offWhite = Color.gray(0.95)
-  static let hw_sheetCloseForeground = Color.rgb(0x808084)
-  static let hw_sheetCloseBackground = Color.rgb(0xE8E8E8)
-  static let hw_sheetBackground = Color.rgb(0xE8F0F4)
-  static let hw_searchFieldBackground = Color.rgb(0xD9E1E8)
-  static let hw_searchFieldPlaceholderForeground = Color.rgb(0x7B7E82)
+  static let hw_darkGray = Color(gray: 0.5)
+  static let hw_lightGray = Color(gray: 0.90)
+  static let hw_offWhite = Color(gray: 0.95)
+  static let hw_sheetCloseForeground = Color(rgb: 0x808084)
+  static let hw_sheetCloseBackground = Color(rgb: 0xE8E8E8)
+  static let hw_sheetBackground = Color(rgb: 0xE8F0F4)
+  static let hw_searchFieldBackground = Color(rgb: 0xD9E1E8)
+  static let hw_searchFieldPlaceholderForeground = Color(rgb: 0x7B7E82)
+  static let hw_activeRoute = Color(rgb: 0x1097FF)
+  static let hw_inactiveRoute = Color(rgb: 0xAAB3C3)
 }
 
 struct Swatch: View {

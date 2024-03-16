@@ -41,7 +41,6 @@ struct LocateMeButton: View {
   }
 
   func tapped() {
-    let oldState = self.state
     switch self.state {
     case .initial, .showing:
       self.state = .showing
