@@ -38,7 +38,8 @@ struct TripPlanView: View {
   var body: some View {
     VStack(alignment: .leading) {
       HStack(spacing: 20) {
-        ModeButton(mode: .transit, selectedMode: $tripPlan.mode)
+        // Disable transit for now
+        // ModeButton(mode: .transit, selectedMode: $tripPlan.mode)
         ModeButton(mode: .car, selectedMode: $tripPlan.mode)
         ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
         ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
