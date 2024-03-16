@@ -119,7 +119,6 @@ struct TripPlanView: View {
           return
         }
         await MainActor.run {
-          print("setting trips: \(trips)")
           self.tripPlan.trips = trips
           self.tripPlan.selectedTrip = trips.first
         }

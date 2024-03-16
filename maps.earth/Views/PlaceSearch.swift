@@ -99,7 +99,6 @@ struct PlaceSearch: View {
         }
     }
     .onChange(of: isSearching) { oldValue, newValue in
-      print("isSearching changed: \(oldValue) -> \(newValue)")
       if oldValue && !newValue {
         dismissSearch()
         dismiss()

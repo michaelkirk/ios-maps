@@ -19,11 +19,9 @@ struct PlaceDetail: View {
     let isShowingDirections = Binding(
       get: {
         let value = tripPlan.navigateTo != nil || tripPlan.navigateFrom != nil
-        print("get isShowingDirections \(value)")
         return value
       },
       set: { newValue in
-        print("set isShowingDirections is no-op: \(newValue)")
       }
     )
     VStack {
@@ -32,7 +30,6 @@ struct PlaceDetail: View {
         print("navigateTo: \(place))")
         tripPlan.navigateTo = place
         if let mostRecentUserLocation = self.userLocationManager.mostRecentUserLocation {
-          print("got mostRecentUserLocation from env: \(mostRecentUserLocation)")
           tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
         }
       }) {

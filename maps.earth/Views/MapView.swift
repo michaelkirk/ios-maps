@@ -201,7 +201,6 @@ extension MapView: UIViewRepresentable {
 
       let bufferedBounds = extend(bounds: bounds, bufferMeters: bufferMeters)
 
-      print("safeAreaInsets: \(mapView.safeAreaInsets)")
       let bottomPadding = UIScreen.main.bounds.height / 2 - mapView.safeAreaInsets.top
       let padding = UIEdgeInsets(top: 0, left: 0, bottom: bottomPadding, right: 0)
       mapView.setVisibleCoordinateBounds(

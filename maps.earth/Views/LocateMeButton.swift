@@ -27,7 +27,6 @@ struct LocateMeButton: View {
   var body: some View {
     Button(action: {
       self.tapped()
-      print("tapped LocateMe. new state: \(self.state)")
     }) {
       Image(systemName: self.systemImageName)
         .imageScale(.large)
@@ -50,7 +49,6 @@ struct LocateMeButton: View {
     case .denied:
       self.state = .denied
     }
-    print("tapped. \(oldState) -> \(self.state)")
   }
 }
 
