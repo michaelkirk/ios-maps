@@ -17,7 +17,7 @@ struct PlaceDetail: View {
 
   var body: some View {
     let isShowingDirections = Binding(
-      get: {
+      get: { () -> Bool in
         let value = tripPlan.navigateTo != nil || tripPlan.navigateFrom != nil
         return value
       },
