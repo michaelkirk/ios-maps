@@ -13,8 +13,23 @@ import SwiftUI
 enum UserLocationState {
   case initial
   case showing
-  //  case following
+  case following
   case denied
+}
+
+extension UserLocationState: CustomStringConvertible {
+  var description: String {
+    switch self {
+    case .initial:
+      ".initial"
+    case .showing:
+      ".showing"
+    case .following:
+      ".following"
+    case .denied:
+      ".denied"
+    }
+  }
 }
 
 enum PendingRecenter {
@@ -29,12 +44,31 @@ private let logger = Logger(
 
 let DefaultZoomLevel: CGFloat = 13
 
+enum MapFocus: Equatable {
+  case place(Place)
+  case trip(Trip)
+  case userLocation
+}
+
+extension MapFocus: CustomStringConvertible {
+  var description: String {
+    switch self {
+    case .place(let place):
+      "MapFocus.place(\(place))"
+    case .trip(let trip):
+      "MapFocus.trip(\(trip))"
+    case .userLocation:
+      "MapFocus.userLocation"
+    }
+  }
+}
+
 struct MapView {
   @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var userLocationState: UserLocationState
   @Binding var mostRecentUserLocation: CLLocation?
-  @State var pendingRecenter: PendingRecenter? = nil
+  @Binding var pendingMapFocus: MapFocus?
   @ObservedObject var tripPlan: TripPlan
 }
 
@@ -42,7 +76,7 @@ extension MapView: UIViewRepresentable {
 
   func makeCoordinator() -> Coordinator {
     let locateMeButton = LocateMeButton(
-      state: $userLocationState, pendingRecenter: $pendingRecenter)
+      state: $userLocationState, pendingMapFocus: $pendingMapFocus)
     let locateMeButtonController = UIHostingController(rootView: locateMeButton)
     return Coordinator(
       self, locateMeButtonController: locateMeButtonController)
@@ -57,6 +91,18 @@ extension MapView: UIViewRepresentable {
     mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     mapView.logoView.isHidden = true
     Env.current.getMapFocus = { LngLat(coord: mapView.centerCoordinate) }
+    do {
+      var padding = UIEdgeInsets.zero
+      // This is a conservative estimate for notched devices.
+      // TODO: calculate this dynamically (the trick is we wont know it until the view has been laid out)
+      padding.top += 60
+
+      // TODO: calculate this dynamically based on wether a sheet is presented and bottom safe area insets
+      padding.bottom += UIScreen.main.bounds.height / 2
+      mapView.setContentInset(padding, animated: false, completionHandler: nil)
+
+      mapView.attributionButton.isHidden = true
+    }
 
     let originalLocationManagerDelegate = mapView.locationManager.delegate
     mapView.locationManager.delegate = context.coordinator
@@ -74,15 +120,14 @@ extension MapView: UIViewRepresentable {
         buttonUIView.trailingAnchor.constraint(
           equalTo: mapView.safeAreaLayoutGuide.trailingAnchor, constant: -controlMargin),
         buttonUIView.topAnchor.constraint(
-          equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: controlMargin),
+          equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 2 * controlMargin),
       ])
 
       // We want the compass to appear below our controls,
       // so we override constraint from maplibre which pins to the container.
       // To Debug:
-      //        mapView.compassView.compassVisibility = .visible
-      mapView.compassViewMargins = CGPoint(
-        x: controlMargin, y: LocateMeButton.height + 2 * controlMargin)
+      //     mapView.compassView.compassVisibility = .visible
+      mapView.compassViewMargins = CGPoint(x: controlMargin, y: controlMargin)
     }
 
     // FIXME: pull from storage, else start somewhere interesting.
@@ -96,9 +141,60 @@ extension MapView: UIViewRepresentable {
   }
 
   func updateUIView(_ mapView: MLNMapView, context: Context) {
-    logger.debug(
-      "in MapView.updateUIView, mapView.safeAreaInsets \(String(describing: mapView.safeAreaInsets))"
-    )
+    logger.debug("in MapView.updateUIView")
+    if self.pendingMapFocus != nil {
+      Task {
+        await MainActor.run {
+          guard let pendingMapFocus = self.pendingMapFocus else {
+            // since expired
+            return
+          }
+          switch pendingMapFocus {
+          case .place(let place):
+            self.pendingMapFocus = nil
+            if self.userLocationState == .following {
+              self.userLocationState = .showing
+            }
+            mapView.setCenter(place.location.asCoordinate, zoomLevel: 14, animated: true)
+          case .trip(let trip):
+            self.pendingMapFocus = nil
+            if self.userLocationState == .following {
+              self.userLocationState = .showing
+            }
+            let bounds = bounds(trip.raw.bounds)
+            context.coordinator.zoom(
+              mapView: mapView, bounds: bounds, bufferMeters: 0, animated: true)
+          case .userLocation:
+            guard let location = self.mostRecentUserLocation else {
+              // still waiting for user location
+              return
+            }
+            self.pendingMapFocus = nil
+            mapView.setCenter(location.coordinate, zoomLevel: 14, animated: true)
+          }
+        }
+      }
+    }
+
+    if let selectedTrip = self.tripPlan.selectedTrip {
+      context.coordinator.ensureRoutes(
+        in: mapView, trips: self.tripPlan.trips, selectedTrip: selectedTrip)
+      // remove markers so that we can be sure to put it back on top - there's gotta be a less dumb way, but this is expedient
+      context.coordinator.ensureMarkers(in: mapView, places: [])
+      context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
+      context.coordinator.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
+    } else if let selectedPlace = selectedPlace {
+      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
+      context.coordinator.ensureMarkers(in: mapView, places: [selectedPlace])
+    } else if let places = self.places {
+      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
+      context.coordinator.ensureMarkers(in: mapView, places: places)
+      // TODO zoom to search results bbox (add to focus enum)
+    } else {
+      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
+      context.coordinator.ensureMarkers(in: mapView, places: [])
+    }
+
     switch userLocationState {
     case .initial:
       break
@@ -107,57 +203,33 @@ extension MapView: UIViewRepresentable {
         mapView.showsUserLocation = true
         mapView.showsUserHeadingIndicator = true
       }
+      if mapView.userTrackingMode != .none {
+        logger.debug(
+          "setting tracking mode from \(String(describing: mapView.userTrackingMode)) -> .none")
+        mapView.setUserTrackingMode(
+          .none, animated: true,
+          completionHandler: {
+            let newTrackingMode = mapView.userTrackingMode
+            logger.debug("set new tracking mode \(debugString(newTrackingMode))")
+          })
+      }
+    case .following:
+      if !mapView.showsUserLocation {
+        mapView.showsUserLocation = true
+        mapView.showsUserHeadingIndicator = true
+      }
+      if mapView.userTrackingMode != .follow {
+        logger.debug(
+          "setting tracking mode from \(String(describing: mapView.userTrackingMode)) -> .follow")
+        mapView.setUserTrackingMode(
+          .follow, animated: true,
+          completionHandler: {
+            let newTrackingMode = mapView.userTrackingMode
+            logger.debug("set new tracking mode \(debugString(newTrackingMode))")
+          })
+      }
     case .denied:
       break
-    }
-
-    switch pendingRecenter {
-    case nil:
-      break
-    case .pending:
-      // If we already have a location, don't wait for an update. It's likely
-      // very near by and substantially lags the UI (anecdotally: under a second, so not super long, but enough
-      // to notice)
-      if let mostRecentLocation = self.mostRecentUserLocation {
-        Task {
-          await MainActor.run {
-            self.pendingRecenter = nil
-            mapView.setCenter(mostRecentLocation.coordinate, zoomLevel: 14, animated: true)
-          }
-        }
-      }
-    case .resolved(let pendingRecenter):
-      Task {
-        await MainActor.run {
-          self.pendingRecenter = nil
-          mapView.setCenter(pendingRecenter.coordinate, zoomLevel: 14, animated: true)
-        }
-      }
-    }
-
-    if let selectedTrip = self.tripPlan.selectedTrip {
-      // TODO: draw unselected routes
-      context.coordinator.ensureRoutes(
-        in: mapView, trips: self.tripPlan.trips, selectedTrip: selectedTrip)
-
-      // remove markers so that we can be sure to put it back on top - there's gotta be a less dumb way, but this is expedient
-      context.coordinator.ensureMarkers(in: mapView, places: [])
-      context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
-      context.coordinator.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
-    } else {
-      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
-      // TODO: this is overzealous. We only want to do this when the selection changes
-      // not whenever the view gets updated. Perhaps other things could cause the view to update,
-      // and we don't necessarily want to move the users map around.
-      if let selectedPlace = selectedPlace {
-        context.coordinator.ensureMarkers(in: mapView, places: [selectedPlace])
-        context.coordinator.zoom(mapView: mapView, center: selectedPlace.location, animated: true)
-      } else if let places = self.places {
-        context.coordinator.ensureMarkers(in: mapView, places: places)
-        // TODO zoom to search results bbox
-      } else {
-        context.coordinator.ensureMarkers(in: mapView, places: [])
-      }
     }
   }
 
@@ -184,7 +256,7 @@ extension MapView: UIViewRepresentable {
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
     func zoom(mapView: MLNMapView, center: LngLat, animated isAnimated: Bool) {
       let bounds = MLNCoordinateBounds(sw: center.asCoordinate, ne: center.asCoordinate)
-      self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 1500, animated: isAnimated)
+      self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 1000, animated: isAnimated)
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the bounds
@@ -211,8 +283,11 @@ extension MapView: UIViewRepresentable {
 
       let bufferedBounds = extend(bounds: bounds, bufferMeters: bufferMeters)
 
-      let bottomPadding = UIScreen.main.bounds.height / 2 - mapView.safeAreaInsets.top
-      let padding = UIEdgeInsets(top: 0, left: 0, bottom: bottomPadding, right: 0)
+      let inset: CGFloat = 30
+      let extraBottomInset: CGFloat = 20
+      let padding = UIEdgeInsets(
+        top: inset, left: inset, bottom: inset + extraBottomInset, right: inset)
+
       mapView.setVisibleCoordinateBounds(
         bufferedBounds, edgePadding: padding, animated: true, completionHandler: nil)
     }
@@ -307,13 +382,6 @@ extension MapView: UIViewRepresentable {
           self.selectedTrips[trip] = Self.addRoute(to: mapView, trip: trip, isSelected: true)
         }
       }
-
-      if let selectedTrip = selectedTrip {
-        let bounds = bounds(selectedTrip.raw.bounds)
-        // Maybe this should be a ratio, not fixed meters. e.g. for very far trips (like cross country)
-        // this isnt' enough. It might also partially represent a bug in the bounds calculation code
-        self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 1000, animated: true)
-      }
     }
 
     static func addMarker(to mapView: MLNMapView, at lngLat: LngLat) -> MLNAnnotation {
@@ -401,6 +469,26 @@ extension MapView.Coordinator: MLNMapViewDelegate {
 
     return view
   }
+
+  func mapView(_ mapView: MLNMapView, didChange mode: MLNUserTrackingMode, animated: Bool) {
+    Task {
+      await MainActor.run {
+        logger.debug("MLNUserTrackingMode didChange: \(debugString(mode))")
+        switch mode {
+        case .none:
+          if self.mapView.userLocationState == .following {
+            self.mapView.userLocationState = .showing
+          }
+        case .follow, .followWithHeading, .followWithCourse:
+          if self.mapView.userLocationState != .following {
+            self.mapView.userLocationState = .following
+          }
+        @unknown default:
+          assertionFailure("unexpected MLNUserTrackingModeL \(String(describing: mode))")
+        }
+      }
+    }
+  }
 }
 
 // Extend default delegate implementation
@@ -414,15 +502,6 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
       return
     }
     self.mapView.mostRecentUserLocation = mostRecentLocation
-
-    if let pendingRecenter = self.mapView.pendingRecenter {
-      switch pendingRecenter {
-      case .pending:
-        self.mapView.pendingRecenter = .resolved(mostRecentLocation)
-      case .resolved(_):
-        self.mapView.pendingRecenter = .resolved(mostRecentLocation)
-      }
-    }
   }
 
   func locationManager(_ manager: any MLNLocationManager, didUpdate newHeading: CLHeading) {
@@ -465,4 +544,19 @@ func lineStyleLayer(source: MLNSource, id: UUID, isSelected: Bool) -> MLNLineSty
     forConstantValue: isSelected ? UIColor(Color.hw_activeRoute) : UIColor(Color.hw_inactiveRoute))
   styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: 4))
   return styleLayer
+}
+
+func debugString(_ trackingMode: MLNUserTrackingMode) -> String {
+  switch trackingMode {
+  case .none:
+    "None"
+  case .follow:
+    "Follow"
+  case .followWithHeading:
+    "FollowWithHeading"
+  case .followWithCourse:
+    "FollowWithCourse"
+  @unknown default:
+    "unknown - rawValue:\(trackingMode.rawValue)"
+  }
 }

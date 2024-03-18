@@ -202,21 +202,21 @@ class SearchQueue: ObservableObject {
 
   func search(text: String, focus: LngLat!) {
     let queryText = text.trimmingCharacters(in: .whitespacesAndNewlines)
-    logger.info("search queryText '\(queryText)', focus: \(String(describing: focus))")
+    logger.debug("search queryText '\(queryText)', focus: \(String(describing: focus))")
 
     let nextId = (pendingQueries.last?.queryId ?? 0) + 1
     let query = Query(queryId: nextId)
     pendingQueries.append(query)
 
     guard !queryText.isEmpty else {
-      logger.info("Clearing results for empty search field #\(query.queryId)")
+      logger.debug("Clearing results for empty search field #\(query.queryId)")
       self.cancelInFlightQueries()
       return
     }
 
     Task {
       do {
-        logger.info("making query #\(query.queryId)")
+        logger.debug("making query #\(query.queryId)")
         let results = try await GeocodeClient().autocomplete(
           text: queryText, focus: focus)
 
@@ -224,9 +224,9 @@ class SearchQueue: ObservableObject {
           if let mostRecentlyCompletedQuery = self.mostRecentlyCompletedQuery,
             query.queryId <= mostRecentlyCompletedQuery.queryId
           {
-            logger.info("Ignoring stale results for query #\(query.queryId)")
+            logger.debug("Ignoring stale results for query #\(query.queryId)")
           } else {
-            logger.info("Updating results from query #\(query.queryId)")
+            logger.debug("Updating results from query #\(query.queryId)")
             // FIXME: there is a race here if we've "cleared" pending queries while one is in progress.
             self.mostRecentlyCompletedQuery = query
             self.mostRecentResults = results

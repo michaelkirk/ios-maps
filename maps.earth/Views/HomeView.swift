@@ -28,12 +28,21 @@ struct HomeView: View {
   @State var searchDetent: PresentationDetent = minDetentHeight
   @State var userLocationState: UserLocationState = .initial
   @StateObject var userLocationManager = UserLocationManager()
+  // start by zooming to the user's current location if we have it
+  @State var pendingMapFocus: MapFocus? = .userLocation {
+    didSet {
+      print(
+        "pendingMapFocus: \(String(describing: oldValue)) -> \(String(describing: pendingMapFocus))"
+      )
+    }
+  }
 
   var body: some View {
     MapView(
       places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
       userLocationState: $userLocationState,
       mostRecentUserLocation: $userLocationManager.mostRecentUserLocation,
+      pendingMapFocus: $pendingMapFocus,
       tripPlan: tripPlan
     )
     .edgesIgnoringSafeArea(.all)
@@ -73,6 +82,20 @@ struct HomeView: View {
         self.userLocationState = .showing
       @unknown default:
         break
+      }
+    }.onChange(of: selectedPlace) { oldValue, newValue in
+      logger.debug(
+        "selectedPlace did change: \(String(describing: oldValue)) -> \(String(describing: newValue))"
+      )
+      if let newValue = newValue {
+        self.pendingMapFocus = .place(newValue)
+      }
+    }.onChange(of: tripPlan.selectedTrip) { oldValue, newValue in
+      logger.debug(
+        "selectedTrip did change: \(String(describing: oldValue)) -> \(String(describing: newValue))"
+      )
+      if let newValue = newValue {
+        self.pendingMapFocus = .trip(newValue)
       }
     }
   }

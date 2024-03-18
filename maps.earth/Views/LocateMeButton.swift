@@ -5,20 +5,26 @@
 //  Created by Michael Kirk on 3/12/24.
 //
 
+import OSLog
 import SwiftUI
+
+private let logger = Logger(
+  subsystem: Bundle.main.bundleIdentifier!,
+  category: String(describing: #file)
+)
 
 struct LocateMeButton: View {
   static let height: CGFloat = 38
 
   @Binding var state: UserLocationState
-  @Binding var pendingRecenter: PendingRecenter?
+  @Binding var pendingMapFocus: MapFocus?
 
   var systemImageName: String {
     switch self.state {
     case .initial, .showing:
       return "location"
-    //    case .following:
-    //      return "location.fill"
+    case .following:
+      return "location.fill"
     case .denied:
       return "location.slash"
     }
@@ -41,13 +47,22 @@ struct LocateMeButton: View {
   }
 
   func tapped() {
+    let newState: UserLocationState
     switch self.state {
-    case .initial, .showing:
-      self.state = .showing
-      self.pendingRecenter = .pending
+    case .initial:
+      newState = .showing
+      self.pendingMapFocus = .userLocation
+    case .showing:
+      newState = .following
+      self.pendingMapFocus = .userLocation
+    case .following:
+      newState = .showing
+      self.pendingMapFocus = .userLocation
     case .denied:
-      self.state = .denied
+      newState = .denied
     }
+    logger.debug("tapped LocateMeButton with state \(state) -> \(newState)")
+    self.state = newState
   }
 }
 
@@ -59,13 +74,13 @@ enum LocateMeButtonState {
 }
 
 #Preview("initial/on") {
-  LocateMeButton(state: .constant(.initial), pendingRecenter: .constant(nil))
+  LocateMeButton(state: .constant(.initial), pendingMapFocus: .constant(nil))
 }
 
-//#Preview("following") {
-//  LocateMeButton(state: .constant(.following), pendingRecenter: .constant(nil))
-//}
+#Preview("following") {
+  LocateMeButton(state: .constant(.following), pendingMapFocus: .constant(nil))
+}
 
 #Preview("denied") {
-  LocateMeButton(state: .constant(.denied), pendingRecenter: .constant(nil))
+  LocateMeButton(state: .constant(.denied), pendingMapFocus: .constant(nil))
 }
