@@ -15,7 +15,6 @@ extension Color {
     let blue = Double((rgb & 0x0000FF) >> 0) / 0xFF
 
     self.init(red: red, green: green, blue: blue)
-    print("red: \(red), green: \(green), blue: \(blue), color: \(self)")
   }
   init(gray: CGFloat) {
     self.init(red: gray, green: gray, blue: gray)

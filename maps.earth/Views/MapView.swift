@@ -7,6 +7,7 @@
 
 import Foundation
 import MapLibre
+import OSLog
 import SwiftUI
 
 enum UserLocationState {
@@ -20,6 +21,13 @@ enum PendingRecenter {
   case pending
   case resolved(CLLocation)
 }
+
+private let logger = Logger(
+  subsystem: Bundle.main.bundleIdentifier!,
+  category: String(describing: #file)
+)
+
+let DefaultZoomLevel: CGFloat = 13
 
 struct MapView {
   @Binding var places: [Place]?
@@ -88,7 +96,9 @@ extension MapView: UIViewRepresentable {
   }
 
   func updateUIView(_ mapView: MLNMapView, context: Context) {
-    print("in MapView.updateUIView")
+    logger.debug(
+      "in MapView.updateUIView, mapView.safeAreaInsets \(String(describing: mapView.safeAreaInsets))"
+    )
     switch userLocationState {
     case .initial:
       break
@@ -218,7 +228,7 @@ extension MapView: UIViewRepresentable {
       let stale = Set(self.markers.keys).subtracting(places)
       for place in stale {
         guard let marker = self.markers.removeValue(forKey: place) else {
-          print("unexpectedly missing stale marker")
+          logger.error("unexpectedly missing stale marker")
           continue
         }
         // PERF: more efficient to do this all at once with `removeAnnotations`?
@@ -237,7 +247,7 @@ extension MapView: UIViewRepresentable {
       let stale = Set(self.startMarkers.keys).subtracting(places)
       for place in stale {
         guard let marker = self.startMarkers.removeValue(forKey: place) else {
-          print("unexpectedly missing stale marker")
+          logger.error("unexpectedly missing stale marker")
           continue
         }
         // PERF: more efficient to do this all at once with `removeAnnotations`?
@@ -247,7 +257,7 @@ extension MapView: UIViewRepresentable {
 
     func ensureRoutes(in mapView: MLNMapView, trips: [Trip], selectedTrip: Trip?) {
       guard let style = mapView.style else {
-        print("style was unexpectedly nil")
+        logger.error("style was unexpectedly nil")
         return
       }
 
@@ -257,14 +267,14 @@ extension MapView: UIViewRepresentable {
           let (tripSource, tripStyleLayer) = self.selectedTrips.removeValue(forKey: trip)
             ?? self.unselectedTrips.removeValue(forKey: trip)
         else {
-          print("unexpectedly missing stale tripOverlays")
+          logger.error("unexpectedly missing stale tripOverlays")
           continue
         }
 
         // NOTE: style can be nil in SwiftUI previews. I think maybe
         // because the style.json hasn't been fetched yet (it's async)
         // Maybe this should be a promise based thing?
-        print("removing source/layer: \(tripSource.identifier)")
+        logger.debug("removing source/layer: \(tripSource.identifier)")
         style.removeLayer(tripStyleLayer)
         try! style.removeSource(tripSource, error: ())
       }
@@ -274,7 +284,7 @@ extension MapView: UIViewRepresentable {
           // NOTE: style can be nil in SwiftUI previews. I think maybe
           // because the style.json hasn't been fetched yet (it's async)
           // Maybe this should be a promise based thing?
-          print("removing source/layer: \(tripSource.identifier)")
+          logger.debug("removing source/layer: \(tripSource.identifier)")
           style.removeLayer(tripStyleLayer)
           try! style.removeSource(tripSource, error: ())
         }
@@ -289,7 +299,7 @@ extension MapView: UIViewRepresentable {
           // NOTE: style can be nil in SwiftUI previews. I think maybe
           // because the style.json hasn't been fetched yet (it's async)
           // Maybe this should be a promise based thing?
-          print("removing source/layer: \(tripSource.identifier)")
+          logger.debug("removing source/layer: \(tripSource.identifier)")
           style.removeLayer(tripStyleLayer)
           try! style.removeSource(tripSource, error: ())
         }
@@ -332,9 +342,9 @@ extension MapView: UIViewRepresentable {
       let source = MLNShapeSource(identifier: identifier, shapes: polylines, options: nil)
       let styleLayer = lineStyleLayer(source: source, id: trip.id, isSelected: isSelected)
 
-      print("adding source/layer: \(identifier)")
+      logger.debug("adding source/layer: \(identifier)")
       guard let style = mapView.style else {
-        print("mapView.style was unexpectedly nil")
+        logger.error("mapView.style was unexpectedly nil")
         return (source, styleLayer)
       }
 
@@ -400,7 +410,7 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
     self.originalLocationManagerDelegate?.locationManager(manager, didUpdate: locations)
 
     guard let mostRecentLocation = locations.last else {
-      print("mostRecentLocation was unexpectedly nil in locationManger(_:didUpdate)")
+      logger.error("mostRecentLocation was unexpectedly nil in locationManger(_:didUpdate)")
       return
     }
     self.mapView.mostRecentUserLocation = mostRecentLocation
