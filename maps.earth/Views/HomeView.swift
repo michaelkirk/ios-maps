@@ -39,7 +39,7 @@ struct HomeView: View {
 
   var body: some View {
     MapView(
-      places: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
+      searchResults: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
       userLocationState: $userLocationState,
       mostRecentUserLocation: $userLocationManager.mostRecentUserLocation,
       pendingMapFocus: $pendingMapFocus,
@@ -89,6 +89,9 @@ struct HomeView: View {
       )
       if let newValue = newValue {
         self.pendingMapFocus = .place(newValue)
+      } else if let mostRecentResults = searchQueue.mostRecentResults {
+        // return to previous search results
+        self.pendingMapFocus = .searchResults(mostRecentResults)
       }
     }.onChange(of: tripPlan.selectedTrip) { oldValue, newValue in
       logger.debug(
@@ -96,6 +99,13 @@ struct HomeView: View {
       )
       if let newValue = newValue {
         self.pendingMapFocus = .trip(newValue)
+      }
+    }.onChange(of: searchQueue.mostRecentResults) { oldValue, newValue in
+      logger.debug(
+        "searchResults did change: \(String(describing: oldValue)) -> \(String(describing: newValue))"
+      )
+      if let newValue = newValue {
+        self.pendingMapFocus = .searchResults(newValue)
       }
     }
   }

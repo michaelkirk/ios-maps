@@ -18,7 +18,7 @@ struct SheetContents<Content>: View where Content: View {
 
   var body: some View {
     VStack(spacing: 0) {
-      HStack {
+      HStack(alignment: .top) {
         Text(title).font(.title).bold()
         Spacer()
         CloseButton {

@@ -47,6 +47,7 @@ let DefaultZoomLevel: CGFloat = 13
 enum MapFocus: Equatable {
   case place(Place)
   case trip(Trip)
+  case searchResults([Place])
   case userLocation
 }
 
@@ -57,6 +58,8 @@ extension MapFocus: CustomStringConvertible {
       "MapFocus.place(\(place.name))"
     case .trip(let trip):
       "MapFocus.trip(\(trip.from.name) -> \(trip.to.name))"
+    case .searchResults(let places):
+      "MapFocus.searchResults([\(places.count) Places])"
     case .userLocation:
       "MapFocus.userLocation"
     }
@@ -64,7 +67,7 @@ extension MapFocus: CustomStringConvertible {
 }
 
 struct MapView {
-  @Binding var places: [Place]?
+  @Binding var searchResults: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var userLocationState: UserLocationState
   @Binding var mostRecentUserLocation: CLLocation?
@@ -161,9 +164,21 @@ extension MapView: UIViewRepresentable {
             if self.userLocationState == .following {
               self.userLocationState = .showing
             }
-            let bounds = bounds(trip.raw.bounds)
+            let bounds = trip.raw.bounds
             context.coordinator.zoom(
-              mapView: mapView, bounds: bounds, bufferMeters: 0, animated: true)
+              mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
+          case .searchResults(let places):
+            guard let bounds = Bounds(lngLats: places.map { $0.location }) else {
+              return
+            }
+
+            self.pendingMapFocus = nil
+            if self.userLocationState == .following {
+              self.userLocationState = .showing
+            }
+
+            context.coordinator.zoom(
+              mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
           case .userLocation:
             guard let location = self.mostRecentUserLocation else {
               // still waiting for user location
@@ -183,7 +198,7 @@ extension MapView: UIViewRepresentable {
     } else if let selectedPlace = selectedPlace {
       context.coordinator.ensureMarkers(in: mapView, places: [selectedPlace])
       context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
-    } else if let places = self.places {
+    } else if let places = self.searchResults {
       context.coordinator.ensureMarkers(in: mapView, places: places)
       context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
       // TODO zoom to search results bbox (add to focus enum)
@@ -536,10 +551,6 @@ func polyline(coordinates: [CLLocationCoordinate2D]) -> MLNPolylineFeature {
   MLNPolylineFeature(coordinates: coordinates, count: UInt(coordinates.count))
 }
 
-func bounds(_ bounds: Bounds) -> MLNCoordinateBounds {
-  MLNCoordinateBounds(sw: bounds.min.asCoordinate, ne: bounds.max.asCoordinate)
-}
-
 func lineStyleLayer(source: MLNSource, id: UUID, isSelected: Bool) -> MLNLineStyleLayer {
   let styleLayer = MLNLineStyleLayer(identifier: "trip-route-\(id)", source: source)
   styleLayer.lineColor = NSExpression(
@@ -560,5 +571,11 @@ func debugString(_ trackingMode: MLNUserTrackingMode) -> String {
     "FollowWithCourse"
   @unknown default:
     "unknown - rawValue:\(trackingMode.rawValue)"
+  }
+}
+
+extension Bounds {
+  var mlnBounds: MLNCoordinateBounds {
+    MLNCoordinateBounds(sw: self.min.asCoordinate, ne: self.max.asCoordinate)
   }
 }

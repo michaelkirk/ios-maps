@@ -66,7 +66,9 @@ struct TravelmuxPlan: Decodable {
 struct Bounds: Decodable {
   var min: LngLat
   var max: LngLat
+}
 
+extension Bounds {
   private enum CodingKeys: String, CodingKey {
     case min
     case max
@@ -80,6 +82,34 @@ struct Bounds: Decodable {
 
     self.min = LngLat(lng: minCoords[0], lat: minCoords[1])
     self.max = LngLat(lng: maxCoords[0], lat: maxCoords[1])
+  }
+
+  init?(lngLats: [LngLat]) {
+    var iter = lngLats.makeIterator()
+    guard let first = iter.next() else {
+      return nil
+    }
+    self.min = first
+    self.max = first
+
+    for coord in iter {
+      self.extend(lngLat: coord)
+    }
+  }
+
+  mutating func extend(lngLat: LngLat) {
+    if lngLat.lng < self.min.lng {
+      self.min.lng = lngLat.lng
+    }
+    if lngLat.lng > self.max.lng {
+      self.max.lng = lngLat.lng
+    }
+    if lngLat.lat < self.min.lat {
+      self.min.lat = lngLat.lat
+    }
+    if lngLat.lat > self.max.lat {
+      self.max.lat = lngLat.lat
+    }
   }
 }
 

@@ -47,24 +47,20 @@ struct PlaceList: View {
       // .scrollDismissesKeyboard(.immediately)
       .sheet(isPresented: hasSelectedPlace) {
         if let selectedPlace = selectedPlace {
-          VStack {
-            HStack(alignment: .top) {
-              Text(selectedPlace.name).font(.title).bold()
-              Spacer()
-              CloseButton(action: { self.selectedPlace = nil })
-            }.padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+          SheetContents(
+            title: selectedPlace.name,
+            onClose: {
+              self.selectedPlace = nil
+            }
+          ) {
             ScrollView {
               PlaceDetail(place: selectedPlace, tripPlan: tripPlan)
             }
-            .presentationDetents([.large, .medium, minDetentHeight], selection: .constant(.medium))
-            .presentationBackgroundInteraction(
-              .enabled(upThrough: .medium)
-            ).onDisappear {
-              self.selectedPlace = nil
-            }
+            // This is arguably useful.
+            // Usually I just want to swipe down to get a better look at the map without closing out
+            // of the place. If I actually want to dismiss, it's easy enough to hit the X
+            .interactiveDismissDisabled(true)
           }
-          .interactiveDismissDisabled(true)
-          .background(Color.hw_sheetBackground)
         }
       }
     } else {
