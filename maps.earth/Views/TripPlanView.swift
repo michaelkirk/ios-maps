@@ -55,40 +55,49 @@ struct TripPlanView: View {
       .background(Color.hw_lightGray)
       .cornerRadius(8)
 
-      List(tripPlan.trips, selection: $tripPlan.selectedTrip) { trip in
-        VStack(alignment: .leading) {
-          Button(action: {
-            if tripPlan.selectedTrip == trip {
-              showSteps = true
-            } else {
-              tripPlan.selectedTrip = trip
-            }
-          }) {
-            HStack(spacing: 8) {
-              Spacer().frame(maxWidth: 8, maxHeight: .infinity)
-                .background(trip == tripPlan.selectedTrip ? .blue : .clear)
-              VStack(alignment: .leading) {
-                Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-                Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
-              }
-              Spacer()
-              Button("Steps") {
-                tripPlan.selectedTrip = trip
+      ScrollViewReader { scrollView in
+        List(tripPlan.trips, selection: $tripPlan.selectedTrip) { trip in
+          VStack(alignment: .leading) {
+            Button(action: {
+              if tripPlan.selectedTrip == trip {
                 showSteps = true
-              }.fontWeight(.medium)
-                .foregroundColor(.white)
-                .padding(8)
-                .background(.green)
-                .cornerRadius(8)
-                .scenePadding(.trailing)
-            }.frame(minHeight: 70)
+              } else {
+                tripPlan.selectedTrip = trip
+              }
+            }) {
+              HStack(spacing: 8) {
+                Spacer().frame(maxWidth: 8, maxHeight: .infinity)
+                  .background(trip == tripPlan.selectedTrip ? .blue : .clear)
+                VStack(alignment: .leading) {
+                  Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
+                  Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
+                }
+                Spacer()
+                Button("Steps") {
+                  tripPlan.selectedTrip = trip
+                  showSteps = true
+                }.fontWeight(.medium)
+                  .foregroundColor(.white)
+                  .padding(8)
+                  .background(.green)
+                  .cornerRadius(8)
+                  .scenePadding(.trailing)
+              }.frame(minHeight: 70)
+            }
+          }.listRowInsets(EdgeInsets())
+        }.listStyle(.plain)
+          .onChange(of: tripPlan.selectedTrip) { _, newValue in
+            guard let newValue = newValue else {
+              return
+            }
+            withAnimation {
+              scrollView.scrollTo(newValue.id, anchor: .top)
+            }
           }
-        }.listRowInsets(EdgeInsets())
-      }.listStyle(.plain)
-        .sheet(isPresented: $showSteps) {
-          ManeuverListSheetContents(trip: tripPlan.selectedTrip!, onClose: { showSteps = false })
-        }
-        .cornerRadius(8)
+      }.sheet(isPresented: $showSteps) {
+        ManeuverListSheetContents(trip: tripPlan.selectedTrip!, onClose: { showSteps = false })
+      }
+      .cornerRadius(8)
     }.onAppear {
       queryIfReady()
     }.onChange(of: tripPlan.navigateFrom) { oldValue, newValue in
