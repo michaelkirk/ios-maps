@@ -87,6 +87,12 @@ struct Trip: Identifiable {
   }
 }
 
+extension Trip: CustomStringConvertible {
+  var description: String {
+    "TripPlan(from: \(self.from.name), to: \(self.to.name))"
+  }
+}
+
 extension Trip: Hashable {
   static func == (lhs: Trip, rhs: Trip) -> Bool {
     lhs.id == rhs.id

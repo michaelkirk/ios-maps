@@ -54,9 +54,9 @@ extension MapFocus: CustomStringConvertible {
   var description: String {
     switch self {
     case .place(let place):
-      "MapFocus.place(\(place))"
+      "MapFocus.place(\(place.name))"
     case .trip(let trip):
-      "MapFocus.trip(\(trip))"
+      "MapFocus.trip(\(trip.from.name) -> \(trip.to.name))"
     case .userLocation:
       "MapFocus.userLocation"
     }
@@ -177,22 +177,19 @@ extension MapView: UIViewRepresentable {
     }
 
     if let selectedTrip = self.tripPlan.selectedTrip {
+      context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
       context.coordinator.ensureRoutes(
         in: mapView, trips: self.tripPlan.trips, selectedTrip: selectedTrip)
-      // remove markers so that we can be sure to put it back on top - there's gotta be a less dumb way, but this is expedient
-      context.coordinator.ensureMarkers(in: mapView, places: [])
-      context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
-      context.coordinator.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
     } else if let selectedPlace = selectedPlace {
-      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
       context.coordinator.ensureMarkers(in: mapView, places: [selectedPlace])
-    } else if let places = self.places {
       context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
+    } else if let places = self.places {
       context.coordinator.ensureMarkers(in: mapView, places: places)
+      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
       // TODO zoom to search results bbox (add to focus enum)
     } else {
-      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
       context.coordinator.ensureMarkers(in: mapView, places: [])
+      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
     }
 
     switch userLocationState {
@@ -369,8 +366,9 @@ extension MapView: UIViewRepresentable {
       }
 
       // add selected layer last so its on top
-      if let trip = selectedTrip {
-        if let (tripSource, tripStyleLayer) = self.unselectedTrips.removeValue(forKey: trip) {
+      if let selectedTrip = selectedTrip {
+        if let (tripSource, tripStyleLayer) = self.unselectedTrips.removeValue(forKey: selectedTrip)
+        {
           // NOTE: style can be nil in SwiftUI previews. I think maybe
           // because the style.json hasn't been fetched yet (it's async)
           // Maybe this should be a promise based thing?
@@ -378,9 +376,13 @@ extension MapView: UIViewRepresentable {
           style.removeLayer(tripStyleLayer)
           try! style.removeSource(tripSource, error: ())
         }
-        if self.selectedTrips[trip] == nil {
-          self.selectedTrips[trip] = Self.addRoute(to: mapView, trip: trip, isSelected: true)
+        if self.selectedTrips[selectedTrip] == nil {
+          self.selectedTrips[selectedTrip] = Self.addRoute(
+            to: mapView, trip: selectedTrip, isSelected: true)
+          self.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
         }
+      } else {
+        self.ensureStartMarkers(in: mapView, places: [])
       }
     }
 
