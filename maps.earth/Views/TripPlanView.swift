@@ -166,7 +166,9 @@ struct TripPlanSheetContents: View {
   @State var showSteps: Bool = false
 
   var body: some View {
-    SheetContents(title: "Directions", onClose: { tripPlan.clear() }) {
+    SheetContents(
+      title: "Directions", onClose: { tripPlan.clear() }, currentDetent: .constant(.medium)
+    ) {
       ScrollView {
         TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
           .containerRelativeFrame(.vertical)

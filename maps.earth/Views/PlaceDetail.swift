@@ -25,7 +25,6 @@ struct PlaceDetail: View {
       }
     )
     VStack {
-
       Button(action: {
         tripPlan.navigateTo = place
         if let mostRecentUserLocation = self.userLocationManager.mostRecentUserLocation {

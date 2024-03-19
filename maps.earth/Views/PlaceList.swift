@@ -16,6 +16,7 @@ struct PlaceList: View {
   @Binding var places: [Place]?
   @Binding var selectedPlace: Place?
   @ObservedObject var tripPlan: TripPlan
+  @Binding var placeDetailsDetent: PresentationDetent
 
   var body: some View {
     let hasSelectedPlace = Binding(
@@ -51,7 +52,8 @@ struct PlaceList: View {
             title: selectedPlace.name,
             onClose: {
               self.selectedPlace = nil
-            }
+            },
+            currentDetent: $placeDetailsDetent
           ) {
             ScrollView {
               PlaceDetail(place: selectedPlace, tripPlan: tripPlan)
@@ -71,13 +73,14 @@ struct PlaceList: View {
 
 #Preview("inital") {
   PlaceList(
-    places: .constant(FixtureData.places.all), selectedPlace: .constant(nil), tripPlan: TripPlan()
-  )
+    places: .constant(FixtureData.places.all), selectedPlace: .constant(nil), tripPlan: TripPlan(),
+    placeDetailsDetent: .constant(.medium))
 }
 
 #Preview("selected") {
   PlaceList(
     places: .constant(FixtureData.places.all),
     selectedPlace: .constant(FixtureData.places[.zeitgeist]),
-    tripPlan: TripPlan())
+    tripPlan: TripPlan(),
+    placeDetailsDetent: .constant(.medium))
 }

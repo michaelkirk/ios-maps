@@ -10,8 +10,8 @@ import SwiftUI
 struct SheetContents<Content>: View where Content: View {
   var title: String
   var onClose: () -> Void = {}
-  var initialDetent: PresentationDetent = .medium
   var presentationDetents: Set<PresentationDetent> = [.large, .medium, minDetentHeight]
+  @Binding var currentDetent: PresentationDetent
 
   @ViewBuilder
   var content: () -> Content
@@ -27,7 +27,7 @@ struct SheetContents<Content>: View where Content: View {
       }.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
       content()
     }.background(Color.hw_sheetBackground)
-      .presentationDetents(presentationDetents, selection: .constant(initialDetent))
+      .presentationDetents(presentationDetents, selection: $currentDetent)
       .ignoresSafeArea()
       .presentationBackgroundInteraction(
         .enabled(upThrough: .medium)

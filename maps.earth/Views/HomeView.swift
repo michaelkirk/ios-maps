@@ -25,7 +25,10 @@ struct HomeView: View {
 
   @StateObject var searchQueue: SearchQueue = SearchQueue()
   @State var queryText: String = ""
+
   @State var searchDetent: PresentationDetent = minDetentHeight
+  @State var placeDetailsDetent: PresentationDetent = minDetentHeight
+
   @State var userLocationState: UserLocationState = .initial
   @StateObject var userLocationManager = UserLocationManager()
   // start by zooming to the user's current location if we have it
@@ -57,7 +60,8 @@ struct HomeView: View {
         didDismissSearch: {
           queryText = ""
           searchDetent = minDetentHeight
-        }
+        },
+        placeDetailsDetent: $placeDetailsDetent
       )
       .scenePadding(.top)
       .ignoresSafeArea(.container)  // don't trim results at bottom of notched devices
@@ -89,9 +93,12 @@ struct HomeView: View {
       )
       if let newValue = newValue {
         self.pendingMapFocus = .place(newValue)
+        self.searchDetent = minDetentHeight
+        self.placeDetailsDetent = .medium
       } else if let mostRecentResults = searchQueue.mostRecentResults {
         // return to previous search results
         self.pendingMapFocus = .searchResults(mostRecentResults)
+        self.searchDetent = .medium
       }
     }.onChange(of: tripPlan.selectedTrip) { oldValue, newValue in
       logger.debug(
@@ -99,6 +106,9 @@ struct HomeView: View {
       )
       if let newValue = newValue {
         self.pendingMapFocus = .trip(newValue)
+        self.placeDetailsDetent = minDetentHeight
+      } else {
+        self.placeDetailsDetent = .medium
       }
     }.onChange(of: searchQueue.mostRecentResults) { oldValue, newValue in
       logger.debug(

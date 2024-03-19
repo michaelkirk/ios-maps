@@ -115,6 +115,7 @@ struct FrontPagePlaceSearch: View {
   @Binding var selectedPlace: Place?
   @ObservedObject var tripPlan: TripPlan
   var didDismissSearch: () -> Void
+  @Binding var placeDetailsDetent: PresentationDetent
 
   var body: some View {
     VStack(spacing: 0) {
@@ -150,7 +151,9 @@ struct FrontPagePlaceSearch: View {
         if places.isEmpty && !hasPendingQuery {
           Text("No results. 😢")
         }
-        PlaceList(places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan)
+        PlaceList(
+          places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan,
+          placeDetailsDetent: $placeDetailsDetent)
       }
       Spacer()
     }

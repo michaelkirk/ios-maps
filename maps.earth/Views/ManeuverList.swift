@@ -141,7 +141,8 @@ struct ManeuverListSheetContents: View {
 
   var body: some View {
     SheetContents(
-      title: "Steps", onClose: onClose, initialDetent: .large, presentationDetents: [.large]
+      title: "Steps", onClose: onClose, presentationDetents: [.large],
+      currentDetent: .constant(.large)
     ) {
       ManeuverList(trip: trip)
     }
@@ -149,10 +150,10 @@ struct ManeuverListSheetContents: View {
 }
 
 #Preview("Walking Maneuvers") {
-  Text("").sheet(isPresented: .constant(true)) {
-    SheetContents(title: "Steps") {
-      ManeuverList(trip: FixtureData.walkTrips[0])
-    }
+  let trip = FixtureData.walkTrips[0]
+
+  return Text("").sheet(isPresented: .constant(true)) {
+    ManeuverListSheetContents(trip: trip, onClose: {})
   }
 }
 
@@ -165,8 +166,6 @@ struct ManeuverListSheetContents: View {
   }
 
   return Text("").sheet(isPresented: .constant(true)) {
-    SheetContents(title: "Steps") {
-      ManeuverList(trip: trip)
-    }
+    ManeuverListSheetContents(trip: trip, onClose: {})
   }
 }
