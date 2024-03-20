@@ -73,7 +73,7 @@ struct HomeView: View {
       .presentationDragIndicator(.visible)
       .interactiveDismissDisabled(true)
       .environmentObject(userLocationManager)
-      .onChange(of: queryText) { oldValue, newValue in
+      .onChange(of: queryText) { newValue in
         searchQueue.textDidChange(newValue: newValue)
       }
     }.onAppear {
@@ -87,9 +87,9 @@ struct HomeView: View {
       @unknown default:
         break
       }
-    }.onChange(of: selectedPlace) { oldValue, newValue in
+    }.onChange(of: selectedPlace) { newValue in
       logger.debug(
-        "selectedPlace did change: \(String(describing: oldValue)) -> \(String(describing: newValue))"
+        "selectedPlace did change -> \(String(describing: newValue))"
       )
       if let newValue = newValue {
         self.pendingMapFocus = .place(newValue)
@@ -100,9 +100,9 @@ struct HomeView: View {
         self.pendingMapFocus = .searchResults(mostRecentResults)
         self.searchDetent = .medium
       }
-    }.onChange(of: tripPlan.selectedTrip) { oldValue, newValue in
+    }.onChange(of: tripPlan.selectedTrip) { newValue in
       logger.debug(
-        "selectedTrip did change: \(String(describing: oldValue)) -> \(String(describing: newValue))"
+        "selectedTrip did change -> \(String(describing: newValue))"
       )
       if let newValue = newValue {
         self.pendingMapFocus = .trip(newValue)
@@ -110,9 +110,9 @@ struct HomeView: View {
       } else {
         self.placeDetailsDetent = .medium
       }
-    }.onChange(of: searchQueue.mostRecentResults) { oldValue, newValue in
+    }.onChange(of: searchQueue.mostRecentResults) { newValue in
       logger.debug(
-        "searchResults did change: \(String(describing: oldValue)) -> \(String(describing: newValue))"
+        "searchResults did change -> \(String(describing: newValue))"
       )
       if let newValue = newValue {
         self.pendingMapFocus = .searchResults(newValue)

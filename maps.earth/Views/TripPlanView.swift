@@ -86,7 +86,7 @@ struct TripPlanView: View {
             }
           }.listRowInsets(EdgeInsets())
         }.listStyle(.plain)
-          .onChange(of: tripPlan.selectedTrip) { _, newValue in
+          .onChange(of: tripPlan.selectedTrip) { newValue in
             guard let newValue = newValue else {
               return
             }
@@ -98,13 +98,14 @@ struct TripPlanView: View {
         ManeuverListSheetContents(trip: tripPlan.selectedTrip!, onClose: { showSteps = false })
       }
       .cornerRadius(8)
+      .frame(minHeight: 200)
     }.onAppear {
       queryIfReady()
-    }.onChange(of: tripPlan.navigateFrom) { oldValue, newValue in
+    }.onChange(of: tripPlan.navigateFrom) { newValue in
       queryIfReady()
-    }.onChange(of: tripPlan.navigateTo) { oldValue, newValue in
+    }.onChange(of: tripPlan.navigateTo) { newValue in
       queryIfReady()
-    }.onChange(of: tripPlan.mode) { oldValue, newValue in
+    }.onChange(of: tripPlan.mode) { newValue in
       queryIfReady()
     }.onDisappear {
       self.tripPlan.selectedTrip = nil
@@ -169,10 +170,12 @@ struct TripPlanSheetContents: View {
     SheetContents(
       title: "Directions", onClose: { tripPlan.clear() }, currentDetent: .constant(.medium)
     ) {
-      ScrollView {
-        TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
-          .containerRelativeFrame(.vertical)
-          .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+      GeometryReader { geometry in
+        ScrollView {
+          TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
+            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+            .frame(height: geometry.size.height)
+        }
       }
     }
   }

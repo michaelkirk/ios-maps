@@ -32,7 +32,7 @@ struct PlaceField: View {
           .frame(maxWidth: .infinity, alignment: .leading)
         Text("Edit")
       }.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-    }.onChange(of: queryText) { oldValue, newValue in
+    }.onChange(of: queryText) { newValue in
       searchQueue.textDidChange(newValue: newValue)
     }
     .sheet(isPresented: $isSearching) {
@@ -98,8 +98,8 @@ struct PlaceSearch: View {
           }
         }
     }
-    .onChange(of: isSearching) { oldValue, newValue in
-      if oldValue && !newValue {
+    .onChange(of: isSearching) { newValue in
+      if !newValue {
         dismissSearch()
         dismiss()
       }
