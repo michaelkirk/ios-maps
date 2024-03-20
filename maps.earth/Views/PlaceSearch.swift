@@ -229,8 +229,11 @@ class SearchQueue: ObservableObject {
           {
             logger.debug("Ignoring stale results for query #\(query.queryId)")
           } else {
+            guard pendingQueries.contains(query) else {
+              logger.debug("completed query was canceled")
+              return
+            }
             logger.debug("Updating results from query #\(query.queryId)")
-            // FIXME: there is a race here if we've "cleared" pending queries while one is in progress.
             self.mostRecentlyCompletedQuery = query
             self.mostRecentResults = results
           }
