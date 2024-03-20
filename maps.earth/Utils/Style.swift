@@ -81,6 +81,7 @@ extension View {
       // lateral padding is applied outside of the background color - i.e. it'll be "sheet" colored
       .scenePadding(.leading)
       .scenePadding(.trailing)
+      .scenePadding(.top)
   }
 }
 
