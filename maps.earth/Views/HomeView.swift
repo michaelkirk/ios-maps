@@ -61,6 +61,28 @@ struct HomeView: View {
           queryText = ""
           dismissKeyboard()
         },
+        didSubmitSearch: {
+          searchDetent = .medium
+          guard let mostRecentlySubmittedQuery = searchQueue.mostRecentlySubmittedQuery else {
+            // submitted "search" with empty query, so nothing to do
+            return
+          }
+
+          guard let mostRecentlyCompletedQuery = searchQueue.mostRecentlyCompletedQuery,
+            mostRecentlyCompletedQuery.queryId >= mostRecentlySubmittedQuery.queryId
+          else {
+            // Wait for query to complete
+            self.pendingMapFocus = .pendingSearchResults(mostRecentlySubmittedQuery)
+            return
+          }
+
+          // query is already ready - zoom to results
+          guard let mostRecentResults = searchQueue.mostRecentResults else {
+            assertionFailure("mostRecentlySubmittedQuery, but no mostRecentResults")
+            return
+          }
+          self.pendingMapFocus = .searchResults(mostRecentResults)
+        },
         placeDetailsDetent: $placeDetailsDetent
       )
       .scenePadding(.top)
@@ -97,7 +119,6 @@ struct HomeView: View {
         self.placeDetailsDetent = .medium
       } else if let mostRecentResults = searchQueue.mostRecentResults {
         // return to previous search results
-        self.pendingMapFocus = .searchResults(mostRecentResults)
         self.searchDetent = .medium
       }
     }.onChange(of: tripPlan.selectedTrip) { newValue in
@@ -114,8 +135,22 @@ struct HomeView: View {
       logger.debug(
         "searchResults did change -> \(String(describing: newValue))"
       )
-      if let newValue = newValue {
-        self.pendingMapFocus = .searchResults(newValue)
+      if case .pendingSearchResults(let pendingQuery) = self.pendingMapFocus {
+        guard let mostRecentlySubmittedQuery = searchQueue.mostRecentlySubmittedQuery else {
+          // submitted "search" with now query
+          return
+        }
+        guard let mostRecentlyCompletedQuery = searchQueue.mostRecentlyCompletedQuery else {
+          // no query completed yet
+          return
+        }
+        if mostRecentlyCompletedQuery.queryId >= pendingQuery.queryId {
+          guard let mostRecentResults = searchQueue.mostRecentResults else {
+            assertionFailure("mostRecentlySubmittedQuery, but no mostRecentResults")
+            return
+          }
+          self.pendingMapFocus = .searchResults(mostRecentResults)
+        }
       }
     }
   }

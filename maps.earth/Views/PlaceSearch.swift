@@ -115,6 +115,7 @@ struct FrontPagePlaceSearch: View {
   @Binding var selectedPlace: Place?
   @ObservedObject var tripPlan: TripPlan
   var didDismissSearch: () -> Void
+  var didSubmitSearch: () -> Void
   @Binding var placeDetailsDetent: PresentationDetent
 
   var body: some View {
@@ -122,7 +123,12 @@ struct FrontPagePlaceSearch: View {
       HStack {
         HStack {
           Image(systemName: "magnifyingglass").foregroundColor(.hw_searchFieldPlaceholderForeground)
-          TextField("Where to?", text: $queryText).dynamicTypeSize(.xxLarge)
+          TextField("Where to?", text: $queryText)
+            .submitLabel(.search)
+            .dynamicTypeSize(.xxLarge)
+            .onSubmit {
+              didSubmitSearch()
+            }
           if queryText.count > 0 {
             Button(action: {
               queryText = ""
@@ -174,7 +180,8 @@ class SearchQueue: ObservableObject {
   // perf: we could prune this as queries complete, but we'd need to update `hasPendingQuery`
   // to ignore "stale" queries in pendingQueries.
   private var pendingQueries: [Query] = []
-  var mostRecentlyCompletedQuery: Query?
+  @Published var mostRecentlyCompletedQuery: Query?
+  @Published var mostRecentlySubmittedQuery: Query?
 
   var hasPendingQuery: Bool {
     guard let mostRecentlyMadeQuery = pendingQueries.last else {
@@ -216,6 +223,8 @@ class SearchQueue: ObservableObject {
       self.cancelInFlightQueries()
       return
     }
+
+    mostRecentlySubmittedQuery = query
 
     Task {
       do {

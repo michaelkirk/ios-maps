@@ -111,25 +111,6 @@ extension Bounds {
       self.max.lat = lngLat.lat
     }
   }
-
-  mutating func extend(center: LngLat) {
-    let lngRadius: Float64
-    if abs(min.lng - center.lng) > abs(max.lng - center.lng) {
-      lngRadius = abs(min.lng - center.lng)
-    } else {
-      lngRadius = abs(max.lng - center.lng)
-    }
-
-    let latRadius: Float64
-    if abs(min.lat - center.lat) > abs(max.lat - center.lat) {
-      latRadius = abs(min.lat - center.lat)
-    } else {
-      latRadius = abs(max.lat - center.lat)
-    }
-
-    self.min = LngLat(lng: fmod(center.lng - lngRadius, 180), lat: fmod(center.lat - latRadius, 90))
-    self.max = LngLat(lng: fmod(center.lng + lngRadius, 180), lat: fmod(center.lat + latRadius, 90))
-  }
 }
 
 struct OTPPlan: Decodable {

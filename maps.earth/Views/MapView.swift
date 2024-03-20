@@ -47,6 +47,7 @@ let DefaultZoomLevel: CGFloat = 13
 enum MapFocus: Equatable {
   case place(Place)
   case trip(Trip)
+  case pendingSearchResults(SearchQueue.Query)
   case searchResults([Place])
   case userLocation
 }
@@ -58,6 +59,8 @@ extension MapFocus: CustomStringConvertible {
       "MapFocus.place(\(place.name))"
     case .trip(let trip):
       "MapFocus.trip(\(trip.from.name) -> \(trip.to.name))"
+    case .pendingSearchResults(let query):
+      "MapFocus.pendingSearchResults(\(query))"
     case .searchResults(let places):
       "MapFocus.searchResults([\(places.count) Places])"
     case .userLocation:
@@ -167,14 +170,13 @@ extension MapView: UIViewRepresentable {
             let bounds = trip.raw.bounds
             context.coordinator.zoom(
               mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
+          case .pendingSearchResults(let query):
+            // do nothing. still waiting.
+            break
           case .searchResults(let places):
-            // We want bounds with our existing center
             guard var bounds = Bounds(lngLats: places.map { $0.location }) else {
               return
             }
-
-            bounds.extend(center: LngLat(coord: mapView.centerCoordinate))
-
             self.pendingMapFocus = nil
             if self.userLocationState == .following {
               self.userLocationState = .showing
