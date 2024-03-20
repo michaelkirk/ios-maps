@@ -67,8 +67,23 @@ struct ColorPalette: View {
       rows[4]
     }
   }
-
 }
+
+extension View {
+  @ViewBuilder
+  public func hwListStyle() -> some View {
+    self.listStyle(.plain)
+      // some padding after the last element *before* background is applied,
+      // so this padding will be white
+      .scenePadding(.bottom)
+      .background(Color.white)
+      .cornerRadius(16)
+      // lateral padding is applied outside of the background color - i.e. it'll be "sheet" colored
+      .scenePadding(.leading)
+      .scenePadding(.trailing)
+  }
+}
+
 #Preview("Color Pallete") {
   ColorPalette()
 }

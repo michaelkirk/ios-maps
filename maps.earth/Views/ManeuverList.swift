@@ -115,21 +115,18 @@ struct ManeuverList: View {
 
     VStack(alignment: .leading) {
       Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").scenePadding(.leading).bold()
-      List {
-        ForEach(maneuversElements) { el in
-          let maneuver = el.maneuver
-          HStack(spacing: 16) {
-            image(maneuverType: maneuver.type).imageScale(.large)
-            VStack(alignment: .leading) {
-              Text(maneuver.instruction)
-              if let verbalPostTransitionInstruction = maneuver.verbalPostTransitionInstruction {
-                Text(verbalPostTransitionInstruction).foregroundColor(.secondary)
-              }
+      List(maneuversElements) { el in
+        let maneuver = el.maneuver
+        HStack(spacing: 16) {
+          image(maneuverType: maneuver.type).imageScale(.large)
+          VStack(alignment: .leading) {
+            Text(maneuver.instruction)
+            if let verbalPostTransitionInstruction = maneuver.verbalPostTransitionInstruction {
+              Text(verbalPostTransitionInstruction).foregroundColor(.secondary)
             }
           }
         }
-      }
-      .padding(0)
+      }.hwListStyle()
     }
   }
 }

@@ -19,7 +19,7 @@ struct PlaceField: View {
   @Binding var place: Place?
   @State var isSearching: Bool = false
   @State var queryText: String = ""
-  @StateObject private var searchQueue: SearchQueue = SearchQueue()
+  @StateObject var searchQueue: SearchQueue = SearchQueue()
 
   var body: some View {
     Button(action: { isSearching = true }) {
@@ -58,7 +58,9 @@ struct PlaceField: View {
 }
 
 #Preview("searching place field") {
-  PlaceField(header: "From", place: .constant(nil), isSearching: true)
+  let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
+  return PlaceField(
+    header: "From", place: .constant(nil), isSearching: true, searchQueue: searchQueue)
 }
 
 struct PlaceSearch: View {
@@ -88,15 +90,19 @@ struct PlaceSearch: View {
               dismissSearch()
               dismiss()
             }
-          }
+          }.hwListStyle()
         }
         Spacer()
-      }.navigationTitle("Change Stop")
-        .toolbar {
-          Button(action: { dismiss() }) {
-            Image(systemName: "xmark")
-          }
+      }
+      // TODO: This should be "sheetColor" but it doesnt play nice with the built in
+      // search controller
+      .background(Color.white)
+      .navigationTitle("Change Stop")
+      .toolbar {
+        Button(action: { dismiss() }) {
+          Image(systemName: "xmark")
         }
+      }
     }
     .onChange(of: isSearching) { newValue in
       if !newValue {
