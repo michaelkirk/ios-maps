@@ -19,6 +19,7 @@
 		455363EE2B687D90006DF291 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 455363ED2B687D90006DF291 /* MapLibre */; };
 		455363F02B687EF0006DF291 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455363EF2B687EF0006DF291 /* MapView.swift */; };
 		455CDFF42BAA5E4A00D72FF6 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */; };
+		455CDFF82BAB99D600D72FF6 /* TopControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455CDFF72BAB99D600D72FF6 /* TopControls.swift */; };
 		4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4562F3492BA50BBB00FD8621 /* SheetContent.swift */; };
 		4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F22B687AA4005A677A /* maps_earthApp.swift */; };
 		4563B9F52B687AA4005A677A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F42B687AA4005A677A /* HomeView.swift */; };
@@ -79,6 +80,7 @@
 		4545AA732BA3B0B700958306 /* car_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_plan.json; sourceTree = "<group>"; };
 		4545AA762BA3B88D00958306 /* ManeuverList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManeuverList.swift; sourceTree = "<group>"; };
 		455363EF2B687EF0006DF291 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		455CDFF72BAB99D600D72FF6 /* TopControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopControls.swift; sourceTree = "<group>"; };
 		4562F3492BA50BBB00FD8621 /* SheetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContent.swift; sourceTree = "<group>"; };
 		4563B9EF2B687AA4005A677A /* maps.earth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = maps.earth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B9F22B687AA4005A677A /* maps_earthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthApp.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				45F5ECC92BA11046007A4657 /* LocateMeButton.swift */,
 				4545AA762BA3B88D00958306 /* ManeuverList.swift */,
 				4562F3492BA50BBB00FD8621 /* SheetContent.swift */,
+				455CDFF72BAB99D600D72FF6 /* TopControls.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */,
 				450C5F1D2B961DFC00394697 /* Trip.swift in Sources */,
 				45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */,
+				455CDFF82BAB99D600D72FF6 /* TopControls.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,8 +14,6 @@ private let logger = Logger(
 )
 
 struct LocateMeButton: View {
-  static let height: CGFloat = 38
-
   @Binding var state: UserLocationState
   @Binding var pendingMapFocus: MapFocus?
 
@@ -35,15 +33,10 @@ struct LocateMeButton: View {
       self.tapped()
     }) {
       Image(systemName: self.systemImageName)
-        .imageScale(.large)
-        .tint(Color.hw_sheetCloseForeground)
-    }.frame(width: Self.height, height: Self.height)
-      .background(Color.hw_sheetBackground)
-      .cornerRadius(8)
-      .shadow(radius: 3)
-      // FIXME (minor): A "disabled" button makes sense for this state, but it means that taps "pass through" so if a confused
-      // user repeatedly taps the disabled button the map will zoom in.
-      .disabled(state == .denied)
+    }
+    // FIXME (minor): A "disabled" button makes sense for this state, but it means that taps "pass through" so if a confused
+    // user repeatedly taps the disabled button the map will zoom in.
+    .disabled(state == .denied)
   }
 
   func tapped() {

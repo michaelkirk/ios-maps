@@ -81,11 +81,11 @@ struct MapView {
 extension MapView: UIViewRepresentable {
 
   func makeCoordinator() -> Coordinator {
-    let locateMeButton = LocateMeButton(
-      state: $userLocationState, pendingMapFocus: $pendingMapFocus)
-    let locateMeButtonController = UIHostingController(rootView: locateMeButton)
+    let topControls = TopControls(
+      userLocationState: $userLocationState, pendingMapFocus: $pendingMapFocus)
+    let topControlsController = UIHostingController(rootView: topControls)
     return Coordinator(
-      self, locateMeButtonController: locateMeButtonController)
+      self, topControlsController: topControlsController)
   }
 
   typealias UIViewType = MLNMapView
@@ -107,6 +107,8 @@ extension MapView: UIViewRepresentable {
       padding.bottom += UIScreen.main.bounds.height / 2
       mapView.setContentInset(padding, animated: false, completionHandler: nil)
 
+      // The built-in attribution control is positioned relative to the contentInset, which means it'll appear in the middle of the screen.
+      // Instead attribution is handled in a custom control.
       mapView.attributionButton.isHidden = true
     }
 
@@ -115,7 +117,7 @@ extension MapView: UIViewRepresentable {
     context.coordinator.originalLocationManagerDelegate = originalLocationManagerDelegate
 
     do {
-      let buttonUIView = context.coordinator.locateMeButtonController.view!
+      let buttonUIView = context.coordinator.topControlsController.view!
       buttonUIView.translatesAutoresizingMaskIntoConstraints = false
       buttonUIView.backgroundColor = .clear
       mapView.addSubview(buttonUIView)
@@ -255,7 +257,7 @@ extension MapView: UIViewRepresentable {
 
     let mapView: MapView
 
-    var locateMeButtonController: UIHostingController<LocateMeButton>
+    var topControlsController: UIHostingController<TopControls>
     // pin markers, like those used in search or at the end of a trip
     var markers: [Place: MLNAnnotation] = [:]
     // circle markers, like those used at the start of a trip
@@ -264,10 +266,10 @@ extension MapView: UIViewRepresentable {
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
     init(
-      _ mapView: MapView, locateMeButtonController: UIHostingController<LocateMeButton>
+      _ mapView: MapView, topControlsController: UIHostingController<TopControls>
     ) {
       self.mapView = mapView
-      self.locateMeButtonController = locateMeButtonController
+      self.topControlsController = topControlsController
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
@@ -547,7 +549,7 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
     self.originalLocationManagerDelegate?.locationManagerDidChangeAuthorization(manager)
 
     if manager.authorizationStatus == .denied {
-      self.locateMeButtonController.rootView.state = .denied
+      self.topControlsController.rootView.userLocationState = .denied
     }
   }
 }
