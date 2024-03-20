@@ -118,7 +118,7 @@ struct HomeView: View {
         self.pendingMapFocus = .place(newValue)
         self.searchDetent = minDetentHeight
         self.placeDetailsDetent = .medium
-      } else if let mostRecentResults = searchQueue.mostRecentResults {
+      } else if searchQueue.mostRecentResults != nil {
         // return to previous search results
         self.searchDetent = .medium
       }
@@ -137,10 +137,6 @@ struct HomeView: View {
         "searchResults did change -> \(String(describing: newValue))"
       )
       if case .pendingSearchResults(let pendingQuery) = self.pendingMapFocus {
-        guard let mostRecentlySubmittedQuery = searchQueue.mostRecentlySubmittedQuery else {
-          // submitted "search" with now query
-          return
-        }
         guard let mostRecentlyCompletedQuery = searchQueue.mostRecentlyCompletedQuery else {
           // no query completed yet
           return

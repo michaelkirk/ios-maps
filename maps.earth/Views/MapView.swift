@@ -170,11 +170,11 @@ extension MapView: UIViewRepresentable {
             let bounds = trip.raw.bounds
             context.coordinator.zoom(
               mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
-          case .pendingSearchResults(let query):
+          case .pendingSearchResults(_):
             // do nothing. still waiting.
             break
           case .searchResults(let places):
-            guard var bounds = Bounds(lngLats: places.map { $0.location }) else {
+            guard let bounds = Bounds(lngLats: places.map { $0.location }) else {
               return
             }
             self.pendingMapFocus = nil
