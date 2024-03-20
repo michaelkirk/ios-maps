@@ -12,7 +12,6 @@ struct ManeuverElement: Identifiable {
   let id: Int
 
   init(maneuver: Maneuver, id: Int) {
-    print("maneuver: \(maneuver)")
     self.maneuver = maneuver
     self.id = id
   }

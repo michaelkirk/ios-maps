@@ -168,9 +168,12 @@ extension MapView: UIViewRepresentable {
             context.coordinator.zoom(
               mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
           case .searchResults(let places):
-            guard let bounds = Bounds(lngLats: places.map { $0.location }) else {
+            // We want bounds with our existing center
+            guard var bounds = Bounds(lngLats: places.map { $0.location }) else {
               return
             }
+
+            bounds.extend(center: LngLat(coord: mapView.centerCoordinate))
 
             self.pendingMapFocus = nil
             if self.userLocationState == .following {
