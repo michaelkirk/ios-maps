@@ -27,7 +27,7 @@ struct HomeView: View {
   @State var queryText: String = ""
 
   @State var searchDetent: PresentationDetent = minDetentHeight
-  @State var placeDetailsDetent: PresentationDetent = minDetentHeight
+  @State var placeDetailsDetent: PresentationDetent = .medium
 
   @State var userLocationState: UserLocationState = .initial
   @StateObject var userLocationManager = UserLocationManager()

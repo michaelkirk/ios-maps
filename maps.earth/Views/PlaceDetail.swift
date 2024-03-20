@@ -9,6 +9,8 @@ import CoreLocation
 import Foundation
 import SwiftUI
 
+let addressFormatter = AddressFormatter()
+
 struct PlaceDetail: View {
   var place: Place
 
@@ -24,26 +26,55 @@ struct PlaceDetail: View {
       set: { newValue in
       }
     )
-    VStack {
-      Button(action: {
-        tripPlan.navigateTo = place
-        if let mostRecentUserLocation = self.userLocationManager.mostRecentUserLocation {
-          tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
+    VStack(alignment: .leading) {
+      HStack {
+        Button(action: {
+          tripPlan.navigateTo = place
+          if let mostRecentUserLocation = self.userLocationManager.mostRecentUserLocation {
+            tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
+          }
+        }) {
+          Text("Directions")
         }
-      }) {
-        Text("Directions")
-      }
-      .padding()
-      .foregroundColor(.white)
-      .background(.blue)
-      .cornerRadius(4)
-      .sheet(isPresented: isShowingDirections) {
-        TripPlanSheetContents(tripPlan: tripPlan)
-          .interactiveDismissDisabled()
-      }
+        .padding()
+        .foregroundColor(.white)
+        .background(.blue)
+        .cornerRadius(4)
+        .sheet(isPresented: isShowingDirections) {
+          TripPlanSheetContents(tripPlan: tripPlan)
+            .interactiveDismissDisabled()
+        }
+        Spacer()
+      }.scenePadding(.bottom)
 
-      Text(place.label).padding(.top, 16)
-    }
+      Text("Details").font(.title3).bold()
+      VStack(alignment: .leading) {
+        if let phoneNumber = place.phoneNumber {
+          let readableFormat = phoneNumberKit.format(phoneNumber, toType: .national)
+          let e164 = phoneNumberKit.format(phoneNumber, toType: .e164)
+          if let phoneURL = URL(string: "tel://\(e164)") {
+            Text("Phone").foregroundColor(.secondary)
+            Link(readableFormat, destination: phoneURL)
+            Divider()
+          }
+        }
+        if let websiteURL = place.websiteURL {
+          Text("Website").foregroundColor(.secondary)
+          Link(websiteURL.absoluteString, destination: websiteURL)
+          Divider()
+        }
+        let formattedAddress = {
+          if let country = place.country {
+            return "\(addressFormatter.format(place: place))\n\(country)"
+          } else {
+            return addressFormatter.format(place: place)
+          }
+        }()
+        Text("Address").foregroundColor(.secondary)
+        Text(formattedAddress)
+      }.padding().background(Color.white).cornerRadius(8)
+    }.scenePadding(.leading)
+      .scenePadding(.trailing)
   }
 }
 

@@ -7,6 +7,9 @@
 
 import CoreLocation
 import Foundation
+import PhoneNumberKit
+
+let phoneNumberKit = PhoneNumberKit()
 
 struct Place: Equatable, Hashable {
   var location: LngLat
@@ -36,22 +39,57 @@ extension Place {
   var housenumber: String? { self.properties.housenumber }
   var street: String? { self.properties.street }
   var locality: String? { self.properties.locality }
-  var state: String? { self.properties.state }
-  var postalCode: String? { self.properties.postalCode }
+  var region: String? { self.properties.region }
+  // matches weird spelling in api response
+  var postalcode: String? { self.properties.postalcode }
+  // This might be broken due to camelCase vs snake_case
   var countryCode: String? { self.properties.countryCode }
+  var country: String? { self.properties.country }
+
+  var websiteURL: URL? {
+    guard let urlString = self.properties.addendum?.osm?.website else {
+      return nil
+    }
+    return URL(string: urlString)
+  }
+
+  var phoneNumber: PhoneNumber? {
+    guard let rawPhone = self.properties.addendum?.osm?.phone else {
+      return nil
+    }
+    do {
+      return try? phoneNumberKit.parse(rawPhone)
+    }
+
+  }
+  var openingHours: String? { self.properties.addendum?.osm?.openingHours }
 }
 
 struct PlaceProperties: Codable, Equatable, Hashable {
   var id: String
   var name: String
   var label: String
+  var address: String?
   // matches weird spelling in api response
   var housenumber: String?
   var street: String?
   var locality: String?
-  var state: String?
-  var postalCode: String?
+  var region: String?
+  // matches weird spelling in api response
+  var postalcode: String?
   var countryCode: String?
+  var addendum: Addendum?
+  var country: String?
+}
+
+struct Addendum: Codable, Equatable, Hashable {
+  var osm: OSMAddendum?
+}
+
+struct OSMAddendum: Codable, Equatable, Hashable {
+  var website: String?
+  var phone: String?
+  var openingHours: String?
 }
 
 extension Place: Decodable {

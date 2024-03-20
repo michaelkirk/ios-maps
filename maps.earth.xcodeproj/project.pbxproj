@@ -18,6 +18,7 @@
 		4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA762BA3B88D00958306 /* ManeuverList.swift */; };
 		455363EE2B687D90006DF291 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 455363ED2B687D90006DF291 /* MapLibre */; };
 		455363F02B687EF0006DF291 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455363EF2B687EF0006DF291 /* MapView.swift */; };
+		455CDFF42BAA5E4A00D72FF6 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */; };
 		4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4562F3492BA50BBB00FD8621 /* SheetContent.swift */; };
 		4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F22B687AA4005A677A /* maps_earthApp.swift */; };
 		4563B9F52B687AA4005A677A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9F42B687AA4005A677A /* HomeView.swift */; };
@@ -119,6 +120,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				455363EE2B687D90006DF291 /* MapLibre in Frameworks */,
+				455CDFF42BAA5E4A00D72FF6 /* PhoneNumberKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +141,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		455CDFF22BAA5E4A00D72FF6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4563B9E62B687AA4005A677A = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +156,7 @@
 				4563BA022B687AA5005A677A /* maps.earthTests */,
 				4563BA0C2B687AA5005A677A /* maps.earthUITests */,
 				4563B9F02B687AA4005A677A /* Products */,
+				455CDFF22BAA5E4A00D72FF6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -295,6 +305,7 @@
 			name = maps.earth;
 			packageProductDependencies = (
 				455363ED2B687D90006DF291 /* MapLibre */,
+				455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */,
 			);
 			productName = maps.earth;
 			productReference = 4563B9EF2B687AA4005A677A /* maps.earth.app */;
@@ -370,6 +381,7 @@
 			mainGroup = 4563B9E62B687AA4005A677A;
 			packageReferences = (
 				455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+				4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 			);
 			productRefGroup = 4563B9F02B687AA4005A677A /* Products */;
 			projectDirPath = "";
@@ -786,6 +798,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.7.9;
+			};
+		};
 		455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution";
@@ -801,6 +821,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
 			productName = MapLibre;
+		};
+		455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = PhoneNumberKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

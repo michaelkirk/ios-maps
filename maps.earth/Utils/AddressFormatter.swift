@@ -25,10 +25,10 @@ struct AddressFormatter {
     if let locality = place.locality {
       address.city = locality
     }
-    if let state = place.state {
-      address.state = state
+    if let region = place.region {
+      address.state = region
     }
-    if let postalCode = place.postalCode {
+    if let postalCode = place.postalcode {
       address.postalCode = postalCode
     }
     // This might not be right -
