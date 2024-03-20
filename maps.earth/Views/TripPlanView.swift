@@ -71,7 +71,7 @@ struct TripPlanView: View {
                 VStack(alignment: .leading) {
                   Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
                   Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
-                }
+                }.padding(.top, 8).padding(.bottom, 8)
                 Spacer()
                 Button("Steps") {
                   tripPlan.selectedTrip = trip
@@ -82,7 +82,7 @@ struct TripPlanView: View {
                   .background(.green)
                   .cornerRadius(8)
                   .scenePadding(.trailing)
-              }.frame(minHeight: 70)
+              }
             }
           }.listRowInsets(EdgeInsets())
         }.listStyle(.plain)
@@ -170,12 +170,9 @@ struct TripPlanSheetContents: View {
     SheetContents(
       title: "Directions", onClose: { tripPlan.clear() }, currentDetent: .constant(.medium)
     ) {
-      GeometryReader { geometry in
-        ScrollView {
-          TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
-            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-            .frame(height: geometry.size.height)
-        }
+      ScrollView {
+        TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
+          .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
       }
     }
   }
