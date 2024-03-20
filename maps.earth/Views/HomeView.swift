@@ -59,6 +59,7 @@ struct HomeView: View {
         tripPlan: tripPlan,
         didDismissSearch: {
           queryText = ""
+          searchDetent = minDetentHeight
           dismissKeyboard()
         },
         didSubmitSearch: {
