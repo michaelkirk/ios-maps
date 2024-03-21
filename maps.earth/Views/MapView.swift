@@ -117,25 +117,26 @@ extension MapView: UIViewRepresentable {
     context.coordinator.originalLocationManagerDelegate = originalLocationManagerDelegate
 
     do {
-      let buttonUIView = context.coordinator.topControlsController.view!
-      buttonUIView.translatesAutoresizingMaskIntoConstraints = false
-      buttonUIView.backgroundColor = .clear
-      mapView.addSubview(buttonUIView)
+      let controlsUIView = context.coordinator.topControlsController.view!
+      controlsUIView.translatesAutoresizingMaskIntoConstraints = false
+      controlsUIView.backgroundColor = .clear
+      mapView.addSubview(controlsUIView)
 
       let controlMargin: CGFloat = 8
-      // Apply constraints or set the frame
       NSLayoutConstraint.activate([
-        buttonUIView.trailingAnchor.constraint(
+        controlsUIView.trailingAnchor.constraint(
           equalTo: mapView.safeAreaLayoutGuide.trailingAnchor, constant: -controlMargin),
-        buttonUIView.topAnchor.constraint(
+        controlsUIView.topAnchor.constraint(
           equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 2 * controlMargin),
       ])
 
       // We want the compass to appear below our controls,
-      // so we override constraint from maplibre which pins to the container.
       // To Debug:
       //     mapView.compassView.compassVisibility = .visible
-      mapView.compassViewMargins = CGPoint(x: controlMargin, y: controlMargin)
+      // This math is a bit fickle and might not be semantically correct, but looks about right emperically.
+      let bottomOfTopControl = TopControls.controlHeight * 2 - mapView.contentInset.top + 16
+
+      mapView.compassViewMargins = CGPoint(x: controlMargin, y: bottomOfTopControl + controlMargin)
     }
 
     // FIXME: pull from storage, else start somewhere interesting.
