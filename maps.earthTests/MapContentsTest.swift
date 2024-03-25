@@ -43,7 +43,7 @@ final class MapContentsTest: XCTestCase {
     }
   }
 
-  func removingPins() throws {
+  func testRemovingPins() throws {
     do {
       let oldContents = MapContents.pins(selected: nil, unselected: [dubsea, zeitgeist])
       let newContents = MapContents.pins(selected: nil, unselected: [dubsea])
@@ -51,7 +51,6 @@ final class MapContentsTest: XCTestCase {
       XCTAssertEqual(diff.adds.count, 0)
       XCTAssertEqual(diff.removes.count, 1)
       XCTAssertEqual(diff.removes[0] as! PlaceMarker, zeitgeist)
-      XCTAssert(diff.removes.isEmpty)
     }
     do {
       let oldContents = MapContents.pins(selected: nil, unselected: [dubsea, zeitgeist])
@@ -60,8 +59,7 @@ final class MapContentsTest: XCTestCase {
       XCTAssertEqual(diff.adds.count, 0)
       XCTAssertEqual(diff.removes.count, 2)
       XCTAssertEqual(diff.removes[0] as! PlaceMarker, dubsea)
-      XCTAssertEqual(diff.removes[0] as! PlaceMarker, zeitgeist)
-      XCTAssert(diff.removes.isEmpty)
+      XCTAssertEqual(diff.removes[1] as! PlaceMarker, zeitgeist)
     }
   }
 }

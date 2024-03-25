@@ -5,13 +5,9 @@
 //  Created by Michael Kirk on 3/12/24.
 //
 
-import OSLog
 import SwiftUI
 
-private let logger = Logger(
-  subsystem: Bundle.main.bundleIdentifier!,
-  category: String(describing: #file)
-)
+private let logger = FileLogger()
 
 struct LocateMeButton: View {
   @Binding var state: UserLocationState

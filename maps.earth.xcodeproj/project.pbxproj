@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450855232BCF36BF00B7678C /* Bench.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855222BCF36BF00B7678C /* Bench.swift */; };
+		450855312BCF48F800B7678C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855302BCF48F800B7678C /* StorageManager.swift */; };
+		450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */; };
 		450C5F1D2B961DFC00394697 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1C2B961DFC00394697 /* Trip.swift */; };
 		450C5F1F2B963B5700394697 /* TripTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1E2B963B5700394697 /* TripTest.swift */; };
 		4545AA682BA373B500958306 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA672BA373B500958306 /* Env.swift */; };
@@ -36,6 +39,10 @@
 		456C6CF32B7306D000AAFBE6 /* PlaceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */; };
 		45831E312BC8A3A1007E7AA4 /* MapContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E302BC8A3A1007E7AA4 /* MapContents.swift */; };
 		45831E332BC8A4C3007E7AA4 /* MapContentsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E322BC8A4C3007E7AA4 /* MapContentsTest.swift */; };
+		45831E352BCDC8A2007E7AA4 /* FrontPageSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */; };
+		45831E372BCDC8DB007E7AA4 /* SearchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E362BCDC8DB007E7AA4 /* SearchQueue.swift */; };
+		45831E392BCDC940007E7AA4 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E382BCDC940007E7AA4 /* Logging.swift */; };
+		45831E3D2BCDFDAD007E7AA4 /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E3C2BCDFDAD007E7AA4 /* PreferencesController.swift */; };
 		45971ABB2B71995D0050BECE /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971ABA2B71995D0050BECE /* Place.swift */; };
 		45971ABF2B719C620050BECE /* LngLat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971ABE2B719C620050BECE /* LngLat.swift */; };
 		45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971AC22B719DD90050BECE /* GeocodeClient.swift */; };
@@ -49,7 +56,7 @@
 		45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B502B9B5B4300A64AEE /* TripPlan.swift */; };
 		45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* MarkerViews.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
-		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
+		45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */; };
 		45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */; };
 		45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */ = {isa = PBXBuildFile; fileRef = 45E474702BB3562500018120 /* bicycle_plan_error.json */; };
 		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
@@ -75,6 +82,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		450855222BCF36BF00B7678C /* Bench.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bench.swift; sourceTree = "<group>"; };
+		450855302BCF48F800B7678C /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesControllerTests.swift; sourceTree = "<group>"; };
 		450C5F1C2B961DFC00394697 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		450C5F1E2B963B5700394697 /* TripTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTest.swift; sourceTree = "<group>"; };
 		4545AA672BA373B500958306 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
@@ -106,6 +116,10 @@
 		456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTest.swift; sourceTree = "<group>"; };
 		45831E302BC8A3A1007E7AA4 /* MapContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContents.swift; sourceTree = "<group>"; };
 		45831E322BC8A4C3007E7AA4 /* MapContentsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContentsTest.swift; sourceTree = "<group>"; };
+		45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontPageSearch.swift; sourceTree = "<group>"; };
+		45831E362BCDC8DB007E7AA4 /* SearchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQueue.swift; sourceTree = "<group>"; };
+		45831E382BCDC940007E7AA4 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
+		45831E3C2BCDFDAD007E7AA4 /* PreferencesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
 		45971ABA2B71995D0050BECE /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		45971ABE2B719C620050BECE /* LngLat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LngLat.swift; sourceTree = "<group>"; };
 		45971AC22B719DD90050BECE /* GeocodeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodeClient.swift; sourceTree = "<group>"; };
@@ -120,7 +134,7 @@
 		45992B542B9B651900A64AEE /* maps-earth-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "maps-earth-Info.plist"; sourceTree = SOURCE_ROOT; };
 		45992B552B9BC3BC00A64AEE /* MarkerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerViews.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
-		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
+		45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceField.swift; sourceTree = "<group>"; };
 		45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiModalTripDetails.swift; sourceTree = "<group>"; };
 		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
@@ -215,6 +229,7 @@
 				456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */,
 				450C5F1E2B963B5700394697 /* TripTest.swift */,
 				45831E322BC8A4C3007E7AA4 /* MapContentsTest.swift */,
+				450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */,
 			);
 			path = maps.earthTests;
 			sourceTree = "<group>";
@@ -231,10 +246,12 @@
 		456C6CEF2B71BBC800AAFBE6 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				450855222BCF36BF00B7678C /* Bench.swift */,
 				456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */,
 				45992B4C2B9A71D100A64AEE /* Style.swift */,
 				45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */,
 				45F5ECC52B9FC95C007A4657 /* UIHelper.swift */,
+				45831E382BCDC940007E7AA4 /* Logging.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -248,7 +265,7 @@
 				456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */,
 				456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */,
 				45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */,
-				45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */,
+				45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */,
 				45992B552B9BC3BC00A64AEE /* MarkerViews.swift */,
 				45F5ECC72BA011C9007A4657 /* CloseButton.swift */,
 				45F5ECC92BA11046007A4657 /* LocateMeButton.swift */,
@@ -257,6 +274,7 @@
 				455CDFF72BAB99D600D72FF6 /* TopControls.swift */,
 				45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */,
 				45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */,
+				45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -271,6 +289,7 @@
 				4545AA672BA373B500958306 /* Env.swift */,
 				4545AA6D2BA3934000958306 /* Maneuver.swift */,
 				45831E302BC8A3A1007E7AA4 /* MapContents.swift */,
+				45831E362BCDC8DB007E7AA4 /* SearchQueue.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -291,6 +310,8 @@
 			children = (
 				45971AC92B71AB500050BECE /* FixtureData.swift */,
 				45971ACC2B71AC090050BECE /* StubbedResponses */,
+				45831E3C2BCDFDAD007E7AA4 /* PreferencesController.swift */,
+				450855302BCF48F800B7678C /* StorageManager.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -452,13 +473,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45831E3D2BCDFDAD007E7AA4 /* PreferencesController.swift in Sources */,
 				4563B9F52B687AA4005A677A /* HomeView.swift in Sources */,
 				45971ABB2B71995D0050BECE /* Place.swift in Sources */,
 				45971ACA2B71AB500050BECE /* FixtureData.swift in Sources */,
 				45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */,
+				45831E352BCDC8A2007E7AA4 /* FrontPageSearch.swift in Sources */,
 				45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */,
 				45971ABF2B719C620050BECE /* LngLat.swift in Sources */,
 				456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */,
+				450855312BCF48F800B7678C /* StorageManager.swift in Sources */,
 				455363F02B687EF0006DF291 /* MapView.swift in Sources */,
 				45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */,
 				45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */,
@@ -469,7 +493,7 @@
 				45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */,
 				4545AA682BA373B500958306 /* Env.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
-				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,
+				45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
 				45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */,
 				4545AA702BA39C4F00958306 /* Valhalla.swift in Sources */,
@@ -480,7 +504,10 @@
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
 				4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */,
 				4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */,
+				450855232BCF36BF00B7678C /* Bench.swift in Sources */,
+				45831E372BCDC8DB007E7AA4 /* SearchQueue.swift in Sources */,
 				45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */,
+				45831E392BCDC940007E7AA4 /* Logging.swift in Sources */,
 				450C5F1D2B961DFC00394697 /* Trip.swift in Sources */,
 				45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */,
 				455CDFF82BAB99D600D72FF6 /* TopControls.swift in Sources */,
@@ -492,6 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45831E332BC8A4C3007E7AA4 /* MapContentsTest.swift in Sources */,
+				450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */,
 				450C5F1F2B963B5700394697 /* TripTest.swift in Sources */,
 				4563BA042B687AA5005A677A /* maps_earthTests.swift in Sources */,
 				456C6CF32B7306D000AAFBE6 /* PlaceTest.swift in Sources */,

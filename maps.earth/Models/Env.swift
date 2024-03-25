@@ -12,27 +12,32 @@ class Env {
   static var current = Env()
 
   let isMock: Bool
+  var tripPlanClient: TripPlanClient
+  var storageController: StorageController
+  var preferencesController: PreferencesController
 
   init() {
     isMock = false
     tripPlanClient = TripPlanClient.RealClient()
+    storageController = StorageController.OnDisk()
+    preferencesController = PreferencesController(fromStorage: storageController)
   }
 
   init(offlineWithMockData: ()) {
     isMock = true
     tripPlanClient = TripPlanClient.MockClient()
+    storageController = StorageController.InMemoryForTesting()
+    preferencesController = PreferencesController(fromStorage: storageController)
   }
-
-  var tripPlanClient: TripPlanClient
 
   /// Main thread only
   var getMapFocus: () -> LngLat? {
     get {
-      dispatchPrecondition(condition: .onQueue(.main))
+      AssertMainThread()
       return self._getMapFocus
     }
     set {
-      dispatchPrecondition(condition: .onQueue(.main))
+      AssertMainThread()
       self._getMapFocus = newValue
     }
   }
