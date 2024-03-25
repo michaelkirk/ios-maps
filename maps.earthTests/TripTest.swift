@@ -79,4 +79,10 @@ final class TripTest: XCTestCase {
     XCTAssertEqual(lastManeuver.instruction, "You have arrived at your destination.")
     XCTAssertEqual(lastManeuver.verbalPostTransitionInstruction, nil)
   }
+
+  func testErrorResponse() {
+    let tripError = FixtureData.bikeTripError
+    XCTAssertEqual(tripError.errorCode, TripPlanErrorCode(rawValue: 2154))
+    XCTAssertEqual(tripError.errorCode, TripPlanErrorCode(rawValue: 154))
+  }
 }

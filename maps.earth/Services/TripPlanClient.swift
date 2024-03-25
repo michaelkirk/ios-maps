@@ -194,6 +194,48 @@ struct Maneuver: Decodable {
 struct ValhallaPlan: Decodable {
 }
 
+struct TripPlanErrorResponse: Decodable, Error {
+  var error: TripPlanError
+}
+
+struct TripPlanError: Decodable, Error {
+  var message: String
+  var errorCode: TripPlanErrorCode
+  var statusCode: UInt16
+}
+
+enum TripPlanErrorCode: Equatable {
+  case tooFarForDirections
+  case other(UInt32)
+  init(rawValue: UInt32) {
+    switch rawValue {
+    case 2154:
+      self = .tooFarForDirections
+    default:
+      self = .other(rawValue)
+    }
+  }
+}
+
+extension TripPlanErrorCode: Decodable {
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let decodedValue = try container.decode(UInt32.self)
+    self.init(rawValue: decodedValue)
+  }
+}
+
+extension TripPlanError: LocalizedError {
+  var errorDescription: String? {
+    switch errorCode {
+    case .tooFarForDirections:
+      fallthrough
+    default:
+      return "Error getting directions — \(message)"
+    }
+  }
+}
+
 struct TripPlanResponse: Decodable {
   var plan: TravelmuxPlan
   var otp: OTPPlan?
@@ -221,9 +263,28 @@ enum TravelMode: String {
   case transit = "TRANSIT"
 }
 
-struct TripPlanClient {
+protocol TripPlanClient {
+  typealias RealClient = TripPlanNetworkClient
+  typealias MockClient = TripPlanMockClient
+
+  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit) async throws -> Result<
+    [Trip], TripPlanError
+  >
+}
+
+struct TripPlanMockClient: TripPlanClient {
+  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit) async throws -> Result<
+    [Trip], TripPlanError
+  > {
+    .success(FixtureData.bikeTrips)
+  }
+}
+
+struct TripPlanNetworkClient: TripPlanClient {
   let config = AppConfig()
-  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit) async throws -> [Trip] {
+  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit) async throws -> Result<
+    [Trip], TripPlanError
+  > {
     // URL: https://maps.earth/travelmux/v2/plan?fromPlace=47.575837%2C-122.339414&toPlace=47.622687%2C-122.312892&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
 
     let preferredDistanceUnits =
@@ -245,21 +306,24 @@ struct TripPlanClient {
     url.append(queryItems: params)
     // print("travelmux assembled url: \(url)")
 
-    let response: TripPlanResponse = try await fetchData(from: url)
-    let trips = response.plan.itineraries.map { itinerary in
-      Trip(itinerary: itinerary, from: from, to: to)
+    let result: Result<[Trip], TripPlanErrorResponse> = try await fetchData(from: url).map {
+      (response: TripPlanResponse) in
+      response.plan.itineraries.map { itinerary in
+        Trip(itinerary: itinerary, from: from, to: to)
+      }
     }
-    return trips
+    return result.mapError { $0.error }
   }
 
-  private func fetchData<T: Decodable>(from url: URL) async throws -> T {
+  private func fetchData<T: Decodable, E: Decodable>(from url: URL) async throws -> Result<T, E> {
     let (data, response) = try await URLSession.shared.data(from: url)
 
     guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-      throw URLError(.badServerResponse)
+      let decodedResponse = try JSONDecoder().decode(E.self, from: data)
+      return .failure(decodedResponse)
     }
 
     let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-    return decodedResponse
+    return .success(decodedResponse)
   }
 }

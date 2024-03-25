@@ -46,6 +46,7 @@
 		45992B562B9BC3BC00A64AEE /* StartMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
+		45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */ = {isa = PBXBuildFile; fileRef = 45E474702BB3562500018120 /* bicycle_plan_error.json */; };
 		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
 		45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC72BA011C9007A4657 /* CloseButton.swift */; };
 		45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC92BA11046007A4657 /* LocateMeButton.swift */; };
@@ -111,6 +112,7 @@
 		45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMarkerView.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
+		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		45F5ECC92BA11046007A4657 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 		45971ACC2B71AC090050BECE /* StubbedResponses */ = {
 			isa = PBXGroup;
 			children = (
+				45E474702BB3562500018120 /* bicycle_plan_error.json */,
 				4545AA722BA3B0B700958306 /* bicycle_plan.json */,
 				4545AA732BA3B0B700958306 /* car_plan.json */,
 				4545AA692BA3857500958306 /* walk_plan.json */,
@@ -403,6 +406,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45992B482B97E56000A64AEE /* transit_plan.json in Resources */,
+				45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */,
 				4563B9FA2B687AA5005A677A /* Preview Assets.xcassets in Resources */,
 				4545AA742BA3B0B700958306 /* bicycle_plan.json in Resources */,
 				4545AA752BA3B0B700958306 /* car_plan.json in Resources */,
@@ -631,7 +635,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "maps-earth-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Maps.Earth;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on your map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on the map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -664,7 +668,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "maps-earth-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Maps.Earth;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on your map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on the map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
