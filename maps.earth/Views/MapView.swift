@@ -199,10 +199,11 @@ extension MapView: UIViewRepresentable {
       }
     }
 
-    if let selectedTrip = self.tripPlan.selectedTrip {
+    if case .success(let trips) = self.tripPlan.trips, let selectedTrip = self.tripPlan.selectedTrip
+    {
       context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
       context.coordinator.ensureRoutes(
-        in: mapView, trips: self.tripPlan.trips, selectedTrip: selectedTrip)
+        in: mapView, trips: trips, selectedTrip: selectedTrip)
     } else if let selectedPlace = selectedPlace {
       context.coordinator.ensureMarkers(in: mapView, places: [selectedPlace])
       context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)

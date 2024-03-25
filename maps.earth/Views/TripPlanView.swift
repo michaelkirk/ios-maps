@@ -56,51 +56,64 @@ struct TripPlanView: View {
       .cornerRadius(8)
 
       ScrollViewReader { scrollView in
-        List(tripPlan.trips, selection: $tripPlan.selectedTrip) { trip in
-          VStack(alignment: .leading) {
-            Button(action: {
-              if tripPlan.selectedTrip == trip {
-                showSteps = true
-              } else {
-                tripPlan.selectedTrip = trip
-              }
-            }) {
-              HStack(spacing: 8) {
-                Spacer().frame(maxWidth: 8, maxHeight: .infinity)
-                  .background(trip == tripPlan.selectedTrip ? .blue : .clear)
-                VStack(alignment: .leading) {
-                  Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-                  Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
-                }.padding(.top, 8).padding(.bottom, 8)
-                Spacer()
-                Button("Steps") {
-                  tripPlan.selectedTrip = trip
-                  showSteps = true
-                }.fontWeight(.medium)
-                  .foregroundColor(.white)
-                  .padding(8)
-                  .background(.green)
-                  .cornerRadius(8)
-                  .scenePadding(.trailing)
-              }
-            }
-          }.listRowInsets(EdgeInsets())
-        }.listStyle(.plain)
-          .onChange(of: tripPlan.selectedTrip) { newValue in
-            guard let newValue = newValue else {
-              return
-            }
-            withAnimation {
-              scrollView.scrollTo(newValue.id, anchor: .top)
-            }
+        switch tripPlan.trips {
+        case .failure(let error):
+          switch error {
+          case let tripPlanError as TripPlanError:
+            Text(tripPlanError.localizedDescription)
+          default:
+            Text("Unable to get directions — \(error.localizedDescription)")
           }
+        case .success(let trips):
+          List(trips, selection: $tripPlan.selectedTrip) { trip in
+            VStack(alignment: .leading) {
+              Button(action: {
+                if tripPlan.selectedTrip == trip {
+                  showSteps = true
+                } else {
+                  tripPlan.selectedTrip = trip
+                }
+              }) {
+                HStack(spacing: 8) {
+                  Spacer().frame(maxWidth: 8, maxHeight: .infinity)
+                    .background(trip == tripPlan.selectedTrip ? .blue : .clear)
+                  VStack(alignment: .leading) {
+                    Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
+                    Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
+                  }.padding(.top, 8).padding(.bottom, 8)
+                  Spacer()
+                  Button("Steps") {
+                    tripPlan.selectedTrip = trip
+                    showSteps = true
+                  }.fontWeight(.medium)
+                    .foregroundColor(.white)
+                    .padding(8)
+                    .background(.green)
+                    .cornerRadius(8)
+                    .scenePadding(.trailing)
+                }
+              }
+            }.listRowInsets(EdgeInsets())
+          }.listStyle(.plain)
+            .onChange(of: tripPlan.selectedTrip) { newValue in
+              guard let newValue = newValue else {
+                return
+              }
+              withAnimation {
+                scrollView.scrollTo(newValue.id, anchor: .top)
+              }
+            }
+        }
       }.sheet(isPresented: $showSteps) {
         ManeuverListSheetContents(trip: tripPlan.selectedTrip!, onClose: { showSteps = false })
       }
       .cornerRadius(8)
       .frame(minHeight: 200)
     }.onAppear {
-      queryIfReady()
+      // don't blow away mocked values in Preview
+      if !Env.current.isMock {
+        queryIfReady()
+      }
     }.onChange(of: tripPlan.navigateFrom) { newValue in
       queryIfReady()
     }.onChange(of: tripPlan.navigateTo) { newValue in
@@ -122,18 +135,19 @@ struct TripPlanView: View {
     // TODO: track request_id, discard stale results
     Task {
       do {
-        guard let trips = try await searcher.query(from: from, to: to, mode: tripPlan.mode) else {
-          // better handling of nil?
-          print("no trips found")
-          return
-        }
+        let trips = try await searcher.query(from: from, to: to, mode: tripPlan.mode)
         await MainActor.run {
-          self.tripPlan.trips = trips
-          self.tripPlan.selectedTrip = trips.first
+          self.tripPlan.trips = trips.mapError { $0 as any Error }
+          if case .success(let trips) = trips {
+            self.tripPlan.selectedTrip = trips.first
+          }
         }
-
       } catch {
-        print("error in query: \(error)")
+        await MainActor.run {
+          print("error in query: \(error)")
+          self.tripPlan.trips = .failure(error)
+          self.tripPlan.selectedTrip = nil
+        }
       }
     }
   }
@@ -146,10 +160,15 @@ struct TripSearchManager {
     var navigateTo: Place
   }
 
+  var tripPlanClient: TripPlanClient {
+    Env.current.tripPlanClient
+  }
+
   var pendingQueries: [TripQuery] = []
   var completedQueries: [TripQuery] = []
 
-  func query(from: Place, to: Place, mode: TravelMode) async throws -> [Trip]? {
+  func query(from: Place, to: Place, mode: TravelMode) async throws -> Result<[Trip], TripPlanError>
+  {
     // TODO: pass units through Env?
     let units: DistanceUnit
     if Locale.current.measurementSystem == .metric {
@@ -157,7 +176,7 @@ struct TripSearchManager {
     } else {
       units = .miles
     }
-    return try await TripPlanClient().query(
+    return try await tripPlanClient.query(
       from: from, to: to, mode: mode, units: units)
   }
 }
@@ -180,6 +199,15 @@ struct TripPlanSheetContents: View {
 
 #Preview("Trips") {
   let tripPlan = FixtureData.tripPlan
+  return Text("").sheet(isPresented: .constant(true)) {
+    TripPlanSheetContents(tripPlan: tripPlan)
+  }
+}
+
+#Preview("TripPlan error") {
+  Env.current = Env(offlineWithMockData: ())
+  let tripPlan = FixtureData.tripPlan
+  tripPlan.trips = .failure(FixtureData.bikeTripError)
   return Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan)
   }

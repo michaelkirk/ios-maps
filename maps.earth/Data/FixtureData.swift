@@ -33,21 +33,29 @@ struct FixtureData {
     loadTrips(filename: "transit_plan.json")
   }
 
+  static var bikeTripError: TripPlanError {
+    loadTripError(filename: "bicycle_plan_error.json")
+  }
+
   static var tripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .walk, trips: Self.walkTrips)
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .walk,
+    trips: .success(Self.walkTrips))
 
   static var walkTripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .walk, trips: Self.walkTrips)
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .walk,
+    trips: .success(Self.walkTrips))
 
   static var bikeTripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike, trips: Self.bikeTrips)
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike,
+    trips: .success(Self.bikeTrips))
 
   static var driveTripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .car, trips: Self.driveTrips)
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .car,
+    trips: .success(Self.driveTrips))
 
   static var transitTripPlan: TripPlan = TripPlan(
     from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .transit,
-    trips: Self.transitTrips)
+    trips: .success(Self.transitTrips))
 
   static func loadTrips(filename: String) -> [Trip] {
     let response: TripPlanResponse = load(filename)
@@ -55,6 +63,11 @@ struct FixtureData {
       Trip(itinerary: itinerary, from: self.places[.realfine], to: self.places[.zeitgeist])
     }
     return trips
+  }
+
+  static func loadTripError(filename: String) -> TripPlanError {
+    let errorResponse: TripPlanErrorResponse = load(filename)
+    return errorResponse.error
   }
 }
 
