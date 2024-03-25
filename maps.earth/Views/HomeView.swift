@@ -6,13 +6,13 @@
 //
 
 import MapLibre
-import OSLog
 import SwiftUI
 
-private let logger = Logger(
-  subsystem: Bundle.main.bundleIdentifier!,
-  category: String(describing: #file)
-)
+private let logger = FileLogger()
+
+func AssertMainThread() {
+  assert(Thread.isMainThread)
+}
 
 class UserLocationManager: ObservableObject {
   var mostRecentUserLocation: CLLocation?
@@ -50,7 +50,7 @@ struct HomeView: View {
     )
     .edgesIgnoringSafeArea(.all)
     .sheet(isPresented: .constant(true)) {
-      FrontPagePlaceSearch(
+      FrontPageSearch(
         placeholder: "Where to?",
         hasPendingQuery: searchQueue.hasPendingQuery,
         places: $searchQueue.mostRecentResults,
@@ -86,9 +86,6 @@ struct HomeView: View {
         },
         placeDetailsDetent: $placeDetailsDetent
       )
-      .scenePadding(.top)
-      .ignoresSafeArea(.container)  // don't trim results at bottom of notched devices
-      .background(Color.hw_sheetBackground)
       .presentationDetents([.large, .medium, minDetentHeight], selection: $searchDetent)
       .presentationBackgroundInteraction(
         .enabled(upThrough: .medium)
@@ -133,9 +130,6 @@ struct HomeView: View {
         self.placeDetailsDetent = .medium
       }
     }.onChange(of: searchQueue.mostRecentResults) { newValue in
-      logger.debug(
-        "searchResults did change -> \(String(describing: newValue))"
-      )
       if case .pendingSearchResults(let pendingQuery) = self.pendingMapFocus {
         guard let mostRecentlyCompletedQuery = searchQueue.mostRecentlyCompletedQuery else {
           // no query completed yet

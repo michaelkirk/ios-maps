@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import OSLog
 
 struct GeocodeClient {
   let config = AppConfig()

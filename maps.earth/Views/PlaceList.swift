@@ -30,16 +30,16 @@ struct PlaceList: View {
       })
 
     if let places = places {
-      List(places, selection: $selectedPlace) { place in
-        PlaceRow(place: place).onTapGesture {
-          dismissKeyboard()
-          selectedPlace = place
+      VStack {
+        ForEach(places) { place in
+          PlaceRow(place: place).onTapGesture {
+            dismissKeyboard()
+            selectedPlace = place
+          }
+          .padding(.vertical, 4)
+          Divider()
         }
-        .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .background(Color.hw_sheetBackground)
       }
-      .listStyle(.plain)
 
       // FIXME: I'd like to do this, but it dismisses the *entire* sheet
       // along with the keyboard. Presumably we're really just juggling

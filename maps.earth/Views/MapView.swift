@@ -7,7 +7,6 @@
 
 import Foundation
 import MapLibre
-import OSLog
 import SwiftUI
 
 enum UserLocationState {
@@ -37,11 +36,7 @@ enum PendingRecenter {
   case resolved(CLLocation)
 }
 
-private let logger = Logger(
-  subsystem: Bundle.main.bundleIdentifier!,
-  category: String(describing: #file)
-)
-
+private let logger = FileLogger()
 let DefaultZoomLevel: CGFloat = 13
 
 enum MapFocus: Equatable {
