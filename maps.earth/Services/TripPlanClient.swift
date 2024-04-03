@@ -7,9 +7,45 @@
 
 import Foundation
 
-struct ItineraryLeg: Decodable {
+struct NamedPlace: Decodable {
+  var place: LngLat
+  var name: String
+}
+
+typealias TransitLeg = OTPTransitLeg
+
+enum ModeLeg: Decodable {
+  case transit(TransitLeg)
+  case nonTransit([Maneuver])
+}
+
+struct ItineraryLeg {
   var geometry: String
-  var maneuvers: [Maneuver]?
+  var modeLeg: ModeLeg
+}
+
+extension ItineraryLeg: Decodable {
+  private enum CodingKeys: String, CodingKey {
+    case geometry
+    case maneuvers
+    case transitLeg
+  }
+
+  // Decode from an array format
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    let geometry = try container.decode(String.self, forKey: .geometry)
+
+    let modeLeg: ModeLeg
+    if let maneuvers = try container.decodeIfPresent([Maneuver].self, forKey: .maneuvers) {
+      modeLeg = .nonTransit(maneuvers)
+    } else {
+      let transitLeg = try container.decode(TransitLeg.self, forKey: .transitLeg)
+      modeLeg = .transit(transitLeg)
+    }
+
+    self.init(geometry: geometry, modeLeg: modeLeg)
+  }
 }
 
 enum DistanceUnit: String, Decodable {
@@ -43,6 +79,8 @@ enum DistanceUnit: String, Decodable {
 struct Itinerary: Decodable {
   var mode: String
   var duration: Float64
+  var startTime: UInt64
+  var endTime: UInt64
   var distance: Float64
   var distanceUnits: DistanceUnit
   var bounds: Bounds
@@ -113,63 +151,22 @@ extension Bounds {
   }
 }
 
-struct OTPPlan: Decodable {
-
-}
-
-/// From https://valhalla.github.io/valhalla/api/turn-by-turn/api-reference/#trip-legs-and-maneuvers
-enum ManeuverType: Int, Decodable {
-  case none = 0
-  case start = 1
-  case startRight = 2
-  case startLeft = 3
-  case destination = 4
-  case destinationRight = 5
-  case destinationLeft = 6
-  case becomes = 7
-  case `continue` = 8
-  case slightRight = 9
-  case right = 10
-  case sharpRight = 11
-  case uturnRight = 12
-  case uturnLeft = 13
-  case sharpLeft = 14
-  case left = 15
-  case slightLeft = 16
-  case rampStraight = 17
-  case rampRight = 18
-  case rampLeft = 19
-  case exitRight = 20
-  case exitLeft = 21
-  case stayStraight = 22
-  case stayRight = 23
-  case stayLeft = 24
-  case merge = 25
-  case roundaboutEnter = 26
-  case roundaboutExit = 27
-  case ferryEnter = 28
-  case ferryExit = 29
-  case transit = 30
-  case transitTransfer = 31
-  case transitRemainOn = 32
-  case transitConnectionStart = 33
-  case transitConnectionTransfer = 34
-  case transitConnectionDestination = 35
-  case postTransitConnectionDestination = 36
-  case mergeRight = 37
-  case mergeLeft = 38
-
-  static var allCases: [ManeuverType] {
-    (0...38).map { ManeuverType(rawValue: $0)! }
-  }
-}
+// At some point we might want to abstract this, but Valhalla's ManeuverType seems strictly more precise than OTP's
+typealias ManeuverType = ValhallaManeuverType
 
 struct Maneuver: Decodable {
   //  var begin_shape_index: Int
   //  var end_shape_index: Int
-  var cost: Float64
+  //  var cost: Float64
 
-  var instruction: String
+  // TODO?
+  // // For Valhalla this would always be the same as the trip Mode
+  // // For OTP transit routing this will be a combination of the transit modes and
+  // // the connecting mode (either walking or biking)
+  // var mode: TravelMode
+
+  // Always present for valhalla directions, but currently nil for OTP
+  var instruction: String?
 
   //  var length: Float64
   //  var time: Float64
@@ -256,11 +253,24 @@ struct TripPlanResponse: Decodable {
   }
 }
 
-enum TravelMode: String {
+enum TravelMode: String, Decodable {
   case walk = "WALK"
   case bike = "BICYCLE"
   case car = "CAR"
   case transit = "TRANSIT"
+
+  var emoji: String {
+    switch self {
+    case .walk:
+      OTPTravelMode.walk.emoji
+    case .bike:
+      OTPTravelMode.bicycle.emoji
+    case .car:
+      OTPTravelMode.car.emoji
+    case .transit:
+      OTPTravelMode.transit.emoji
+    }
+  }
 }
 
 protocol TripPlanClient {

@@ -66,15 +66,17 @@ final class TripTest: XCTestCase {
     XCTAssertEqual(trip.legs.count, 1)
     let leg = trip.legs[0]
 
-    XCTAssertEqual(leg.maneuvers!.count, 39)
-    let firstManeuver = leg.maneuvers![0]
-    XCTAssertEqual(firstManeuver.cost, 30.184, accuracy: 10e-3)
+    guard case .nonTransit(let maneuvers) = leg.modeLeg else {
+      fatalError("unexpeted mode leg")
+    }
+
+    XCTAssertEqual(maneuvers.count, 39)
+    let firstManeuver = maneuvers[0]
     XCTAssertEqual(firstManeuver.type, .startLeft)
     XCTAssertEqual(firstManeuver.instruction, "Walk southwest on the walkway.")
     XCTAssertEqual(firstManeuver.verbalPostTransitionInstruction, "Continue for 100 feet.")
 
-    let lastManeuver = leg.maneuvers!.last!
-    XCTAssertEqual(lastManeuver.cost, 0.0)
+    let lastManeuver = maneuvers.last!
     XCTAssertEqual(lastManeuver.type, .destination)
     XCTAssertEqual(lastManeuver.instruction, "You have arrived at your destination.")
     XCTAssertEqual(lastManeuver.verbalPostTransitionInstruction, nil)

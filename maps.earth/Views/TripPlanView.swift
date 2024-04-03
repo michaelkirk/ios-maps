@@ -39,7 +39,7 @@ struct TripPlanView: View {
     VStack(alignment: .leading) {
       HStack(spacing: 20) {
         // Disable transit for now
-        // ModeButton(mode: .transit, selectedMode: $tripPlan.mode)
+        ModeButton(mode: .transit, selectedMode: $tripPlan.mode)
         ModeButton(mode: .car, selectedMode: $tripPlan.mode)
         ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
         ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
@@ -61,6 +61,9 @@ struct TripPlanView: View {
           switch error {
           case let tripPlanError as TripPlanError:
             Text(tripPlanError.localizedDescription)
+          case let decodingError as DecodingError:
+            let _ = print("Decoding error while fetching trip plan: \(decodingError)")
+            Text("Unable to get directions - there was a problem with the servers response.")
           default:
             Text("Unable to get directions — \(error.localizedDescription)")
           }
@@ -68,7 +71,7 @@ struct TripPlanView: View {
           List(trips, selection: $tripPlan.selectedTrip) { trip in
             VStack(alignment: .leading) {
               Button(action: {
-                if tripPlan.selectedTrip == trip {
+                if tripPlan.selectedTrip == trip, tripPlan.mode != .transit {
                   showSteps = true
                 } else {
                   tripPlan.selectedTrip = trip
@@ -77,20 +80,10 @@ struct TripPlanView: View {
                 HStack(spacing: 8) {
                   Spacer().frame(maxWidth: 8, maxHeight: .infinity)
                     .background(trip == tripPlan.selectedTrip ? .blue : .clear)
-                  VStack(alignment: .leading) {
-                    Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-                    Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
-                  }.padding(.top, 8).padding(.bottom, 8)
-                  Spacer()
-                  Button("Steps") {
+                  TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode) {
                     tripPlan.selectedTrip = trip
                     showSteps = true
-                  }.fontWeight(.medium)
-                    .foregroundColor(.white)
-                    .padding(8)
-                    .background(.green)
-                    .cornerRadius(8)
-                    .scenePadding(.trailing)
+                  }
                 }
               }
             }.listRowInsets(EdgeInsets())
@@ -105,7 +98,14 @@ struct TripPlanView: View {
             }
         }
       }.sheet(isPresented: $showSteps) {
-        ManeuverListSheetContents(trip: tripPlan.selectedTrip!, onClose: { showSteps = false })
+        let trip = tripPlan.selectedTrip!
+        let _ = assert(trip.legs.count > 0)
+        if trip.legs.count == 1, case .nonTransit(let maneuvers) = trip.legs[0].modeLeg {
+          ManeuverListSheetContents(
+            trip: trip, maneuvers: maneuvers, onClose: { showSteps = false })
+        } else {
+          let _ = print("TODO: multi modal/transit trip")
+        }
       }
       .cornerRadius(8)
       .frame(minHeight: 200)
@@ -200,8 +200,15 @@ struct TripPlanSheetContents: View {
   }
 }
 
-#Preview("Trips") {
-  let tripPlan = FixtureData.tripPlan
+#Preview("Walk Trips") {
+  let tripPlan = FixtureData.walkTripPlan
+  return Text("").sheet(isPresented: .constant(true)) {
+    TripPlanSheetContents(tripPlan: tripPlan)
+  }
+}
+
+#Preview("Transit Trips") {
+  let tripPlan = FixtureData.transitTripPlan
   return Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan)
   }
