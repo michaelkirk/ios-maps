@@ -189,9 +189,12 @@ struct TripPlanSheetContents: View {
     SheetContents(
       title: "Directions", onClose: { tripPlan.clear() }, currentDetent: .constant(.medium)
     ) {
-      ScrollView {
-        TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
-          .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+      GeometryReader { geometry in
+        ScrollView {
+          TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
+            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+            .frame(minHeight: geometry.size.height)
+        }
       }
     }
   }
