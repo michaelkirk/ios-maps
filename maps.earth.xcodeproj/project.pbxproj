@@ -16,6 +16,8 @@
 		4545AA742BA3B0B700958306 /* bicycle_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA722BA3B0B700958306 /* bicycle_plan.json */; };
 		4545AA752BA3B0B700958306 /* car_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA732BA3B0B700958306 /* car_plan.json */; };
 		4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA762BA3B88D00958306 /* ManeuverList.swift */; };
+		45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */; };
+		45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */; };
 		455363EE2B687D90006DF291 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 455363ED2B687D90006DF291 /* MapLibre */; };
 		455363F02B687EF0006DF291 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455363EF2B687EF0006DF291 /* MapView.swift */; };
 		455CDFF42BAA5E4A00D72FF6 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */; };
@@ -46,6 +48,7 @@
 		45992B562B9BC3BC00A64AEE /* StartMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
+		45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */ = {isa = PBXBuildFile; fileRef = 45E474702BB3562500018120 /* bicycle_plan_error.json */; };
 		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
 		45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC72BA011C9007A4657 /* CloseButton.swift */; };
 		45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC92BA11046007A4657 /* LocateMeButton.swift */; };
@@ -79,6 +82,8 @@
 		4545AA722BA3B0B700958306 /* bicycle_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan.json; sourceTree = "<group>"; };
 		4545AA732BA3B0B700958306 /* car_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_plan.json; sourceTree = "<group>"; };
 		4545AA762BA3B88D00958306 /* ManeuverList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManeuverList.swift; sourceTree = "<group>"; };
+		45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTripPlanner.swift; sourceTree = "<group>"; };
+		45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanListItemDetails.swift; sourceTree = "<group>"; };
 		455363EF2B687EF0006DF291 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		455CDFF72BAB99D600D72FF6 /* TopControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopControls.swift; sourceTree = "<group>"; };
 		4562F3492BA50BBB00FD8621 /* SheetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContent.swift; sourceTree = "<group>"; };
@@ -111,6 +116,7 @@
 		45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMarkerView.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
+		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		45F5ECC92BA11046007A4657 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
@@ -242,6 +248,7 @@
 				4545AA762BA3B88D00958306 /* ManeuverList.swift */,
 				4562F3492BA50BBB00FD8621 /* SheetContent.swift */,
 				455CDFF72BAB99D600D72FF6 /* TopControls.swift */,
+				45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -265,6 +272,7 @@
 				45971AC22B719DD90050BECE /* GeocodeClient.swift */,
 				45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */,
 				4545AA6F2BA39C4F00958306 /* Valhalla.swift */,
+				45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -281,6 +289,7 @@
 		45971ACC2B71AC090050BECE /* StubbedResponses */ = {
 			isa = PBXGroup;
 			children = (
+				45E474702BB3562500018120 /* bicycle_plan_error.json */,
 				4545AA722BA3B0B700958306 /* bicycle_plan.json */,
 				4545AA732BA3B0B700958306 /* car_plan.json */,
 				4545AA692BA3857500958306 /* walk_plan.json */,
@@ -403,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45992B482B97E56000A64AEE /* transit_plan.json in Resources */,
+				45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */,
 				4563B9FA2B687AA5005A677A /* Preview Assets.xcassets in Resources */,
 				4545AA742BA3B0B700958306 /* bicycle_plan.json in Resources */,
 				4545AA752BA3B0B700958306 /* car_plan.json in Resources */,
@@ -451,8 +461,10 @@
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
+				45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */,
 				4545AA702BA39C4F00958306 /* Valhalla.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
+				45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */,
 				45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */,
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
 				4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */,
@@ -624,14 +636,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.9;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"maps.earth/Preview Content\"";
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "maps-earth-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Maps.Earth;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on your map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on the map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -642,7 +654,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -657,14 +669,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.9;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"maps.earth/Preview Content\"";
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "maps-earth-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Maps.Earth;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on your map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on the map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -675,7 +687,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -4,6 +4,8 @@
       {
         "mode": "CAR",
         "duration": 434.472,
+        "startTime": 1712418387388,
+        "endTime": 1712418821860,
         "distance": 4.553,
         "distanceUnits": "miles",
         "bounds": {
@@ -19,134 +21,42 @@
         "legs": [
           {
             "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Eh@aGZgDPmDFsJA_IHi|AIs`FSic@gAw^wDyq@yAe\\cAkXu@uXOkXS{d@uBqd@yBim@[iMq@{]SiIe@{SuAuf@Qes@F{ON{Eb@sEt@mEdA_EvAqDfB}CrBgC|BqBhCwAlCy@pC_@rCArCXnCt@hCrA~BjBtBbChBzCxAlDhA|Dx@jEd@rEPlEApESlEg@fEw@~DgApDwAbDeBpCoBzB{BdBaCjAcIxBgSrBsgARoiAjAkq@CyuC?kgBEop@g@s~CMqnC@ycAxBmRRkZmAiP_BkK{BkHeCkLkF_ToKmSqNuVyQs[}SoTcL}PyI{pBer@ic@eOmBs@qx@{b@mX{K{\\iI_DeAkGiBuu@wLeJiAqDSmIKkN`Aip@lEaSrA}KrAmGrAwF~A@kL@a_@Bib@}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
-            "routeColor": null,
             "mode": "CAR",
             "maneuvers": [
               {
                 "instruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "cost": 187.436,
-                "beginShapeIndex": 0,
-                "endShapeIndex": 55,
-                "highway": true,
-                "length": 1.539,
-                "streetNames": [
-                  "Fauntleroy Way Southwest"
-                ],
-                "time": 143.472,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 2,
-                "verbalPostTransitionInstruction": "Continue for 1.5 miles.",
-                "verbalPreTransitionInstruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "verbalSuccinctTransitionInstruction": "Drive northeast."
+                "verbalPostTransitionInstruction": "Continue for 1.5 miles."
               },
               {
                 "instruction": "Take the WA 99 North exit on the right.",
-                "cost": 220.703,
-                "beginShapeIndex": 55,
-                "endShapeIndex": 138,
-                "highway": true,
-                "length": 2.287,
-                "streetNames": [
-                  "WA 99",
-                  "SR 99"
-                ],
-                "time": 186.053,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 20,
-                "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                "verbalPreTransitionInstruction": "Take the WA 99 North exit on the right.",
-                "verbalSuccinctTransitionInstruction": null
+                "verbalPostTransitionInstruction": "Continue for 2 miles."
               },
               {
                 "instruction": "Keep right to take SR 99 OffRamp toward Downtown/Alaskan Way South.",
-                "cost": 27.956,
-                "beginShapeIndex": 138,
-                "endShapeIndex": 153,
-                "highway": null,
-                "length": 0.367,
-                "streetNames": [
-                  "SR 99 OffRamp"
-                ],
-                "time": 25.352,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 23,
-                "verbalPostTransitionInstruction": null,
-                "verbalPreTransitionInstruction": "Keep right to take SR 99 OffRamp toward Downtown, Alaskan Way South.",
-                "verbalSuccinctTransitionInstruction": null
+                "verbalPostTransitionInstruction": null
               },
               {
                 "instruction": "Turn right onto South Dearborn Street/WA 519.",
-                "cost": 61.276,
-                "beginShapeIndex": 153,
-                "endShapeIndex": 156,
-                "highway": null,
-                "length": 0.06,
-                "streetNames": [
-                  "South Dearborn Street",
-                  "WA 519"
-                ],
-                "time": 19.633,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 300 feet.",
-                "verbalPreTransitionInstruction": "Turn right onto South Dearborn Street, WA 519. Then, in 300 feet, Turn left onto 1st Avenue South.",
-                "verbalSuccinctTransitionInstruction": "Turn right. Then, in 300 feet, Turn left onto 1st Avenue South."
+                "verbalPostTransitionInstruction": "Continue for 300 feet."
               },
               {
                 "instruction": "Turn left onto 1st Avenue South.",
-                "cost": 79.988,
-                "beginShapeIndex": 156,
-                "endShapeIndex": 169,
-                "highway": null,
-                "length": 0.192,
-                "streetNames": [
-                  "1st Avenue South"
-                ],
-                "time": 32.905,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 15,
-                "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "verbalPreTransitionInstruction": "Turn left onto 1st Avenue South.",
-                "verbalSuccinctTransitionInstruction": "Turn left."
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
               },
               {
                 "instruction": "Turn right onto South Jackson Street.",
-                "cost": 74.214,
-                "beginShapeIndex": 169,
-                "endShapeIndex": 185,
-                "highway": null,
-                "length": 0.107,
-                "streetNames": [
-                  "South Jackson Street"
-                ],
-                "time": 27.054,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 600 feet.",
-                "verbalPreTransitionInstruction": "Turn right onto South Jackson Street.",
-                "verbalSuccinctTransitionInstruction": "Turn right."
+                "verbalPostTransitionInstruction": "Continue for 600 feet."
               },
               {
                 "instruction": "Your destination is on the right.",
-                "cost": 0.0,
-                "beginShapeIndex": 185,
-                "endShapeIndex": 185,
-                "highway": null,
-                "length": 0.0,
-                "streetNames": null,
-                "time": 0.0,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 5,
-                "verbalPostTransitionInstruction": null,
-                "verbalPreTransitionInstruction": "Your destination is on the right.",
-                "verbalSuccinctTransitionInstruction": null
+                "verbalPostTransitionInstruction": null
               }
             ]
           }
@@ -155,6 +65,8 @@
       {
         "mode": "CAR",
         "duration": 513.192,
+        "startTime": 1712418387388,
+        "endTime": 1712418900580,
         "distance": 4.439,
         "distanceUnits": "miles",
         "bounds": {
@@ -170,94 +82,32 @@
         "legs": [
           {
             "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AlAid@r@k]NsKOuoACeiAAaErAwHmPQ{CEsACiDIsO]sHS_LC{FAeNCcGAiNCmE?kSEkD?sMNaLLuCxAmDjByCA}OA}D@}UBiNI}@?gECiEBsCBuDBiE?cYAiNAii@BkJ?oIFoEDyDUcIe@uF?{A?cF?uI?sI?}H?qO?wH?kC?uD?{M@wDAgG@aDAkA?a[@sA?iF?kN?uB?se@@qB?eD?{@?gIAiE@sD?iI@oC?cE@gO@uI@k^D_J?oXDi@AmD@wHAu@?kD?aC?gGAi|@EkJAsHA}LAY@iGAoH?yJ?kB?eA?yC@eD?mN?eX?yI?{H?uD@aM?oDAoF@wHAsF@oz@?aK?eP?kK?}J?mG?ol@@}D?yk@?yD?aK@qH@aH?eQAaGDiIFq\\RuAD{EoB}EIeRIsE?uDB{XSsb@hAoADs@tAsAAiFMuNYiH?oFAsD?qOE}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
-            "routeColor": null,
             "mode": "CAR",
             "maneuvers": [
               {
                 "instruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "cost": 246.056,
-                "beginShapeIndex": 0,
-                "endShapeIndex": 69,
-                "highway": true,
-                "length": 2.218,
-                "streetNames": [
-                  "Fauntleroy Way Southwest"
-                ],
-                "time": 198.858,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 2,
-                "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                "verbalPreTransitionInstruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "verbalSuccinctTransitionInstruction": "Drive northeast."
+                "verbalPostTransitionInstruction": "Continue for 2 miles."
               },
               {
                 "instruction": "Take the exit on the right toward 1st Avenue South.",
-                "cost": 50.89,
-                "beginShapeIndex": 69,
-                "endShapeIndex": 76,
-                "highway": null,
-                "length": 0.188,
-                "streetNames": null,
-                "time": 13.749,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 20,
-                "verbalPostTransitionInstruction": null,
-                "verbalPreTransitionInstruction": "Take the exit on the right toward 1st Avenue South.",
-                "verbalSuccinctTransitionInstruction": null
+                "verbalPostTransitionInstruction": null
               },
               {
                 "instruction": "Turn left onto 1st Avenue South.",
-                "cost": 400.619,
-                "beginShapeIndex": 76,
-                "endShapeIndex": 224,
-                "highway": null,
-                "length": 1.925,
-                "streetNames": [
-                  "1st Avenue South"
-                ],
-                "time": 273.53,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                "verbalPreTransitionInstruction": "Turn left onto 1st Avenue South.",
-                "verbalSuccinctTransitionInstruction": "Turn left."
+                "verbalPostTransitionInstruction": "Continue for 2 miles."
               },
               {
                 "instruction": "Turn right onto South Jackson Street.",
-                "cost": 74.214,
-                "beginShapeIndex": 224,
-                "endShapeIndex": 240,
-                "highway": null,
-                "length": 0.107,
-                "streetNames": [
-                  "South Jackson Street"
-                ],
-                "time": 27.054,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 600 feet.",
-                "verbalPreTransitionInstruction": "Turn right onto South Jackson Street.",
-                "verbalSuccinctTransitionInstruction": "Turn right."
+                "verbalPostTransitionInstruction": "Continue for 600 feet."
               },
               {
                 "instruction": "Your destination is on the right.",
-                "cost": 0.0,
-                "beginShapeIndex": 240,
-                "endShapeIndex": 240,
-                "highway": null,
-                "length": 0.0,
-                "streetNames": null,
-                "time": 0.0,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 5,
-                "verbalPostTransitionInstruction": null,
-                "verbalPreTransitionInstruction": "Your destination is on the right.",
-                "verbalSuccinctTransitionInstruction": null
+                "verbalPostTransitionInstruction": null
               }
             ]
           }
@@ -266,6 +116,8 @@
       {
         "mode": "CAR",
         "duration": 557.339,
+        "startTime": 1712418387388,
+        "endTime": 1712418944727,
         "distance": 4.986,
         "distanceUnits": "miles",
         "bounds": {
@@ -281,112 +133,37 @@
         "legs": [
           {
             "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AiAynA@saCLovBx@iT@oPA_p@hEw|B^yNr@cKp@{FdAmHjAoG`DgPfA_EjBeExAoCxA}BlBcBpBkAvBk@zBUtBKhBBr\\|CdGb@dCr@dBhAjBvAzAtAjAjBtAtClAfD`AzD|@~ELlD?pA@f@@tA@|E?hABbJs@A}DAiEA_OE{AA{_@KaNGyFCoCB{FoDoHQgO@sD?ma@Dil@DsH`D}C@k@?uJBsL@}HJiA@oA@sPNgHFmE?yFB_XPcFBkULeB@yI?uTAsPAgVAmHA_VAaG?iIAaG?_D?eJAsPAiJA}FAs@?eHAaVCiC?{D?kVCgFAyF?sGEwD?eHAuBEwEBgICoGAqFAuE@aIBoHBgE@_VDkD@kC@OAeCBoHAi@?qd@@mZEyI?s@AgCAkA?iLAiWAeT@wG?yU@uA@wG?iO@kLByEAsLAsG?wI@_G?}TCaB?oF?qBAoG?sA?yHAwH?eDCul@OiCBiCByBM{KkF_I?k`@t@a`@t@{i@pAy~@By\\_@mMUyAXmH|AqHC}PAkPCsLCyE?uHAiLCgLAwKCmUE}J?aVEed@E_[EkQAsKEa^EaTCaD?_PFgc@TsBXoBl@mB~@eBrAoAdAeGjGcOrNaDzCm@j@?xLAtVAxEApa@AzE?bFAjQ?`FAtG?dH",
-            "routeColor": null,
             "mode": "CAR",
             "maneuvers": [
               {
                 "instruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "cost": 270.823,
-                "beginShapeIndex": 0,
-                "endShapeIndex": 72,
-                "highway": true,
-                "length": 2.464,
-                "streetNames": [
-                  "Fauntleroy Way Southwest"
-                ],
-                "time": 221.207,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 2,
-                "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                "verbalPreTransitionInstruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "verbalSuccinctTransitionInstruction": "Drive northeast."
+                "verbalPostTransitionInstruction": "Continue for 2 miles."
               },
               {
                 "instruction": "Keep right toward 4th Avenue South.",
-                "cost": 28.629,
-                "beginShapeIndex": 72,
-                "endShapeIndex": 110,
-                "highway": null,
-                "length": 0.366,
-                "streetNames": null,
-                "time": 25.333,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 23,
-                "verbalPostTransitionInstruction": null,
-                "verbalPreTransitionInstruction": "Keep right toward 4th Avenue South.",
-                "verbalSuccinctTransitionInstruction": null
+                "verbalPostTransitionInstruction": null
               },
               {
                 "instruction": "Turn right onto 4th Avenue South.",
-                "cost": 439.697,
-                "beginShapeIndex": 110,
-                "endShapeIndex": 246,
-                "highway": null,
-                "length": 1.992,
-                "streetNames": [
-                  "4th Avenue South"
-                ],
-                "time": 280.929,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                "verbalPreTransitionInstruction": "Turn right onto 4th Avenue South.",
-                "verbalSuccinctTransitionInstruction": "Turn right."
+                "verbalPostTransitionInstruction": "Continue for 2 miles."
               },
               {
                 "instruction": "Keep left to take 2nd Avenue Extension South.",
-                "cost": 15.257,
-                "beginShapeIndex": 246,
-                "endShapeIndex": 255,
-                "highway": null,
-                "length": 0.06,
-                "streetNames": [
-                  "2nd Avenue Extension South"
-                ],
-                "time": 8.768,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 24,
-                "verbalPostTransitionInstruction": "Continue for 300 feet.",
-                "verbalPreTransitionInstruction": "Keep left to take 2nd Avenue Extension South. Then Turn left onto South Jackson Street.",
-                "verbalSuccinctTransitionInstruction": null
+                "verbalPostTransitionInstruction": "Continue for 300 feet."
               },
               {
                 "instruction": "Turn left onto South Jackson Street.",
-                "cost": 65.534,
-                "beginShapeIndex": 255,
-                "endShapeIndex": 265,
-                "highway": null,
-                "length": 0.101,
-                "streetNames": [
-                  "South Jackson Street"
-                ],
-                "time": 21.099,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 500 feet.",
-                "verbalPreTransitionInstruction": "Turn left onto South Jackson Street.",
-                "verbalSuccinctTransitionInstruction": "Turn left."
+                "verbalPostTransitionInstruction": "Continue for 500 feet."
               },
               {
                 "instruction": "Your destination is on the left.",
-                "cost": 0.0,
-                "beginShapeIndex": 265,
-                "endShapeIndex": 265,
-                "highway": null,
-                "length": 0.0,
-                "streetNames": null,
-                "time": 0.0,
-                "travelMode": "drive",
-                "travelType": "car",
                 "type": 6,
-                "verbalPostTransitionInstruction": null,
-                "verbalPreTransitionInstruction": "Your destination is on the left.",
-                "verbalSuccinctTransitionInstruction": null
+                "verbalPostTransitionInstruction": null
               }
             ]
           }
@@ -414,11 +191,11 @@
         "min_lon": -122.378442,
         "max_lat": 47.599218,
         "max_lon": -122.331855,
-        "has_toll": false,
-        "has_ferry": false,
         "has_time_restrictions": false,
-        "has_highway": true,
-        "cost": 651.575
+        "has_ferry": false,
+        "cost": 651.575,
+        "has_toll": false,
+        "has_highway": true
       },
       "units": "miles",
       "legs": [
@@ -430,146 +207,146 @@
             "min_lon": -122.378442,
             "max_lat": 47.599218,
             "max_lon": -122.331855,
-            "has_highway": true,
             "has_ferry": false,
-            "has_time_restrictions": false,
             "cost": 651.575,
-            "has_toll": false
+            "has_highway": true,
+            "has_toll": false,
+            "has_time_restrictions": false
           },
           "maneuvers": [
             {
               "instruction": "Drive northeast on Fauntleroy Way Southwest.",
               "cost": 187.436,
-              "beginShapeIndex": 0,
-              "endShapeIndex": 55,
+              "begin_shape_index": 0,
+              "end_shape_index": 55,
               "highway": true,
               "length": 1.539,
-              "streetNames": [
+              "street_names": [
                 "Fauntleroy Way Southwest"
               ],
               "time": 143.472,
-              "travelMode": "drive",
-              "travelType": "car",
+              "travel_mode": "drive",
+              "travel_type": "car",
               "type": 2,
-              "verbalPostTransitionInstruction": "Continue for 1.5 miles.",
-              "verbalPreTransitionInstruction": "Drive northeast on Fauntleroy Way Southwest.",
-              "verbalSuccinctTransitionInstruction": "Drive northeast."
+              "verbal_post_transition_instruction": "Continue for 1.5 miles.",
+              "verbal_pre_transition_instruction": "Drive northeast on Fauntleroy Way Southwest.",
+              "verbal_succinct_transition_instruction": "Drive northeast."
             },
             {
               "instruction": "Take the WA 99 North exit on the right.",
               "cost": 220.703,
-              "beginShapeIndex": 55,
-              "endShapeIndex": 138,
+              "begin_shape_index": 55,
+              "end_shape_index": 138,
               "highway": true,
               "length": 2.287,
-              "streetNames": [
+              "street_names": [
                 "WA 99",
                 "SR 99"
               ],
               "time": 186.053,
-              "travelMode": "drive",
-              "travelType": "car",
+              "travel_mode": "drive",
+              "travel_type": "car",
               "type": 20,
-              "verbalPostTransitionInstruction": "Continue for 2 miles.",
-              "verbalPreTransitionInstruction": "Take the WA 99 North exit on the right.",
-              "verbalSuccinctTransitionInstruction": null
+              "verbal_post_transition_instruction": "Continue for 2 miles.",
+              "verbal_pre_transition_instruction": "Take the WA 99 North exit on the right.",
+              "verbal_succinct_transition_instruction": null
             },
             {
               "instruction": "Keep right to take SR 99 OffRamp toward Downtown/Alaskan Way South.",
               "cost": 27.956,
-              "beginShapeIndex": 138,
-              "endShapeIndex": 153,
+              "begin_shape_index": 138,
+              "end_shape_index": 153,
               "highway": null,
               "length": 0.367,
-              "streetNames": [
+              "street_names": [
                 "SR 99 OffRamp"
               ],
               "time": 25.352,
-              "travelMode": "drive",
-              "travelType": "car",
+              "travel_mode": "drive",
+              "travel_type": "car",
               "type": 23,
-              "verbalPostTransitionInstruction": null,
-              "verbalPreTransitionInstruction": "Keep right to take SR 99 OffRamp toward Downtown, Alaskan Way South.",
-              "verbalSuccinctTransitionInstruction": null
+              "verbal_post_transition_instruction": null,
+              "verbal_pre_transition_instruction": "Keep right to take SR 99 OffRamp toward Downtown, Alaskan Way South.",
+              "verbal_succinct_transition_instruction": null
             },
             {
               "instruction": "Turn right onto South Dearborn Street/WA 519.",
               "cost": 61.276,
-              "beginShapeIndex": 153,
-              "endShapeIndex": 156,
+              "begin_shape_index": 153,
+              "end_shape_index": 156,
               "highway": null,
               "length": 0.06,
-              "streetNames": [
+              "street_names": [
                 "South Dearborn Street",
                 "WA 519"
               ],
               "time": 19.633,
-              "travelMode": "drive",
-              "travelType": "car",
+              "travel_mode": "drive",
+              "travel_type": "car",
               "type": 10,
-              "verbalPostTransitionInstruction": "Continue for 300 feet.",
-              "verbalPreTransitionInstruction": "Turn right onto South Dearborn Street, WA 519. Then, in 300 feet, Turn left onto 1st Avenue South.",
-              "verbalSuccinctTransitionInstruction": "Turn right. Then, in 300 feet, Turn left onto 1st Avenue South."
+              "verbal_post_transition_instruction": "Continue for 300 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto South Dearborn Street, WA 519. Then, in 300 feet, Turn left onto 1st Avenue South.",
+              "verbal_succinct_transition_instruction": "Turn right. Then, in 300 feet, Turn left onto 1st Avenue South."
             },
             {
               "instruction": "Turn left onto 1st Avenue South.",
               "cost": 79.988,
-              "beginShapeIndex": 156,
-              "endShapeIndex": 169,
+              "begin_shape_index": 156,
+              "end_shape_index": 169,
               "highway": null,
               "length": 0.192,
-              "streetNames": [
+              "street_names": [
                 "1st Avenue South"
               ],
               "time": 32.905,
-              "travelMode": "drive",
-              "travelType": "car",
+              "travel_mode": "drive",
+              "travel_type": "car",
               "type": 15,
-              "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-              "verbalPreTransitionInstruction": "Turn left onto 1st Avenue South.",
-              "verbalSuccinctTransitionInstruction": "Turn left."
+              "verbal_post_transition_instruction": "Continue for a quarter mile.",
+              "verbal_pre_transition_instruction": "Turn left onto 1st Avenue South.",
+              "verbal_succinct_transition_instruction": "Turn left."
             },
             {
               "instruction": "Turn right onto South Jackson Street.",
               "cost": 74.214,
-              "beginShapeIndex": 169,
-              "endShapeIndex": 185,
+              "begin_shape_index": 169,
+              "end_shape_index": 185,
               "highway": null,
               "length": 0.107,
-              "streetNames": [
+              "street_names": [
                 "South Jackson Street"
               ],
               "time": 27.054,
-              "travelMode": "drive",
-              "travelType": "car",
+              "travel_mode": "drive",
+              "travel_type": "car",
               "type": 10,
-              "verbalPostTransitionInstruction": "Continue for 600 feet.",
-              "verbalPreTransitionInstruction": "Turn right onto South Jackson Street.",
-              "verbalSuccinctTransitionInstruction": "Turn right."
+              "verbal_post_transition_instruction": "Continue for 600 feet.",
+              "verbal_pre_transition_instruction": "Turn right onto South Jackson Street.",
+              "verbal_succinct_transition_instruction": "Turn right."
             },
             {
               "instruction": "Your destination is on the right.",
               "cost": 0.0,
-              "beginShapeIndex": 185,
-              "endShapeIndex": 185,
+              "begin_shape_index": 185,
+              "end_shape_index": 185,
               "highway": null,
               "length": 0.0,
-              "streetNames": null,
+              "street_names": null,
               "time": 0.0,
-              "travelMode": "drive",
-              "travelType": "car",
+              "travel_mode": "drive",
+              "travel_type": "car",
               "type": 5,
-              "verbalPostTransitionInstruction": null,
-              "verbalPreTransitionInstruction": "Your destination is on the right.",
-              "verbalSuccinctTransitionInstruction": null
+              "verbal_post_transition_instruction": null,
+              "verbal_pre_transition_instruction": "Your destination is on the right.",
+              "verbal_succinct_transition_instruction": null
             }
           ],
           "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Eh@aGZgDPmDFsJA_IHi|AIs`FSic@gAw^wDyq@yAe\\cAkXu@uXOkXS{d@uBqd@yBim@[iMq@{]SiIe@{SuAuf@Qes@F{ON{Eb@sEt@mEdA_EvAqDfB}CrBgC|BqBhCwAlCy@pC_@rCArCXnCt@hCrA~BjBtBbChBzCxAlDhA|Dx@jEd@rEPlEApESlEg@fEw@~DgApDwAbDeBpCoBzB{BdBaCjAcIxBgSrBsgARoiAjAkq@CyuC?kgBEop@g@s~CMqnC@ycAxBmRRkZmAiP_BkK{BkHeCkLkF_ToKmSqNuVyQs[}SoTcL}PyI{pBer@ic@eOmBs@qx@{b@mX{K{\\iI_DeAkGiBuu@wLeJiAqDSmIKkN`Aip@lEaSrA}KrAmGrAwF~A@kL@a_@Bib@}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL"
         }
       ],
+      "status_message": "Found route between points",
       "status": 0,
-      "language": "en-US",
-      "status_message": "Found route between points"
+      "language": "en-US"
     },
     "alternates": [
       {
@@ -591,10 +368,10 @@
             "min_lon": -122.378442,
             "max_lat": 47.599218,
             "max_lon": -122.331855,
-            "has_time_restrictions": false,
-            "cost": 771.781,
-            "has_highway": true,
             "has_toll": false,
+            "has_highway": true,
+            "cost": 771.781,
+            "has_time_restrictions": false,
             "has_ferry": false
           },
           "units": "miles",
@@ -607,105 +384,105 @@
                 "min_lon": -122.378442,
                 "max_lat": 47.599218,
                 "max_lon": -122.331855,
-                "has_time_restrictions": false,
                 "has_ferry": false,
+                "has_highway": true,
+                "has_time_restrictions": false,
                 "has_toll": false,
-                "cost": 771.781,
-                "has_highway": true
+                "cost": 771.781
               },
               "maneuvers": [
                 {
                   "instruction": "Drive northeast on Fauntleroy Way Southwest.",
                   "cost": 246.056,
-                  "beginShapeIndex": 0,
-                  "endShapeIndex": 69,
+                  "begin_shape_index": 0,
+                  "end_shape_index": 69,
                   "highway": true,
                   "length": 2.218,
-                  "streetNames": [
+                  "street_names": [
                     "Fauntleroy Way Southwest"
                   ],
                   "time": 198.858,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 2,
-                  "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                  "verbalPreTransitionInstruction": "Drive northeast on Fauntleroy Way Southwest.",
-                  "verbalSuccinctTransitionInstruction": "Drive northeast."
+                  "verbal_post_transition_instruction": "Continue for 2 miles.",
+                  "verbal_pre_transition_instruction": "Drive northeast on Fauntleroy Way Southwest.",
+                  "verbal_succinct_transition_instruction": "Drive northeast."
                 },
                 {
                   "instruction": "Take the exit on the right toward 1st Avenue South.",
                   "cost": 50.89,
-                  "beginShapeIndex": 69,
-                  "endShapeIndex": 76,
+                  "begin_shape_index": 69,
+                  "end_shape_index": 76,
                   "highway": null,
                   "length": 0.188,
-                  "streetNames": null,
+                  "street_names": null,
                   "time": 13.749,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 20,
-                  "verbalPostTransitionInstruction": null,
-                  "verbalPreTransitionInstruction": "Take the exit on the right toward 1st Avenue South.",
-                  "verbalSuccinctTransitionInstruction": null
+                  "verbal_post_transition_instruction": null,
+                  "verbal_pre_transition_instruction": "Take the exit on the right toward 1st Avenue South.",
+                  "verbal_succinct_transition_instruction": null
                 },
                 {
                   "instruction": "Turn left onto 1st Avenue South.",
                   "cost": 400.619,
-                  "beginShapeIndex": 76,
-                  "endShapeIndex": 224,
+                  "begin_shape_index": 76,
+                  "end_shape_index": 224,
                   "highway": null,
                   "length": 1.925,
-                  "streetNames": [
+                  "street_names": [
                     "1st Avenue South"
                   ],
                   "time": 273.53,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                  "verbalPreTransitionInstruction": "Turn left onto 1st Avenue South.",
-                  "verbalSuccinctTransitionInstruction": "Turn left."
+                  "verbal_post_transition_instruction": "Continue for 2 miles.",
+                  "verbal_pre_transition_instruction": "Turn left onto 1st Avenue South.",
+                  "verbal_succinct_transition_instruction": "Turn left."
                 },
                 {
                   "instruction": "Turn right onto South Jackson Street.",
                   "cost": 74.214,
-                  "beginShapeIndex": 224,
-                  "endShapeIndex": 240,
+                  "begin_shape_index": 224,
+                  "end_shape_index": 240,
                   "highway": null,
                   "length": 0.107,
-                  "streetNames": [
+                  "street_names": [
                     "South Jackson Street"
                   ],
                   "time": 27.054,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 600 feet.",
-                  "verbalPreTransitionInstruction": "Turn right onto South Jackson Street.",
-                  "verbalSuccinctTransitionInstruction": "Turn right."
+                  "verbal_post_transition_instruction": "Continue for 600 feet.",
+                  "verbal_pre_transition_instruction": "Turn right onto South Jackson Street.",
+                  "verbal_succinct_transition_instruction": "Turn right."
                 },
                 {
                   "instruction": "Your destination is on the right.",
                   "cost": 0.0,
-                  "beginShapeIndex": 240,
-                  "endShapeIndex": 240,
+                  "begin_shape_index": 240,
+                  "end_shape_index": 240,
                   "highway": null,
                   "length": 0.0,
-                  "streetNames": null,
+                  "street_names": null,
                   "time": 0.0,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 5,
-                  "verbalPostTransitionInstruction": null,
-                  "verbalPreTransitionInstruction": "Your destination is on the right.",
-                  "verbalSuccinctTransitionInstruction": null
+                  "verbal_post_transition_instruction": null,
+                  "verbal_pre_transition_instruction": "Your destination is on the right.",
+                  "verbal_succinct_transition_instruction": null
                 }
               ],
               "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AlAid@r@k]NsKOuoACeiAAaErAwHmPQ{CEsACiDIsO]sHS_LC{FAeNCcGAiNCmE?kSEkD?sMNaLLuCxAmDjByCA}OA}D@}UBiNI}@?gECiEBsCBuDBiE?cYAiNAii@BkJ?oIFoEDyDUcIe@uF?{A?cF?uI?sI?}H?qO?wH?kC?uD?{M@wDAgG@aDAkA?a[@sA?iF?kN?uB?se@@qB?eD?{@?gIAiE@sD?iI@oC?cE@gO@uI@k^D_J?oXDi@AmD@wHAu@?kD?aC?gGAi|@EkJAsHA}LAY@iGAoH?yJ?kB?eA?yC@eD?mN?eX?yI?{H?uD@aM?oDAoF@wHAsF@oz@?aK?eP?kK?}J?mG?ol@@}D?yk@?yD?aK@qH@aH?eQAaGDiIFq\\RuAD{EoB}EIeRIsE?uDB{XSsb@hAoADs@tAsAAiFMuNYiH?oFAsD?qOE}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL"
             }
           ],
-          "status_message": "Found route between points",
           "status": 0,
+          "status_message": "Found route between points",
           "language": "en-US"
         }
       },
@@ -728,9 +505,9 @@
             "min_lon": -122.378442,
             "max_lat": 47.599212,
             "max_lon": -122.327881,
-            "has_time_restrictions": false,
             "has_highway": true,
             "has_ferry": false,
+            "has_time_restrictions": false,
             "has_toll": false,
             "cost": 819.943
           },
@@ -744,116 +521,116 @@
                 "min_lon": -122.378442,
                 "max_lat": 47.599212,
                 "max_lon": -122.327881,
-                "has_time_restrictions": false,
-                "has_ferry": false,
+                "cost": 819.943,
                 "has_toll": false,
+                "has_time_restrictions": false,
                 "has_highway": true,
-                "cost": 819.943
+                "has_ferry": false
               },
               "maneuvers": [
                 {
                   "instruction": "Drive northeast on Fauntleroy Way Southwest.",
                   "cost": 270.823,
-                  "beginShapeIndex": 0,
-                  "endShapeIndex": 72,
+                  "begin_shape_index": 0,
+                  "end_shape_index": 72,
                   "highway": true,
                   "length": 2.464,
-                  "streetNames": [
+                  "street_names": [
                     "Fauntleroy Way Southwest"
                   ],
                   "time": 221.207,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 2,
-                  "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                  "verbalPreTransitionInstruction": "Drive northeast on Fauntleroy Way Southwest.",
-                  "verbalSuccinctTransitionInstruction": "Drive northeast."
+                  "verbal_post_transition_instruction": "Continue for 2 miles.",
+                  "verbal_pre_transition_instruction": "Drive northeast on Fauntleroy Way Southwest.",
+                  "verbal_succinct_transition_instruction": "Drive northeast."
                 },
                 {
                   "instruction": "Keep right toward 4th Avenue South.",
                   "cost": 28.629,
-                  "beginShapeIndex": 72,
-                  "endShapeIndex": 110,
+                  "begin_shape_index": 72,
+                  "end_shape_index": 110,
                   "highway": null,
                   "length": 0.366,
-                  "streetNames": null,
+                  "street_names": null,
                   "time": 25.333,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 23,
-                  "verbalPostTransitionInstruction": null,
-                  "verbalPreTransitionInstruction": "Keep right toward 4th Avenue South.",
-                  "verbalSuccinctTransitionInstruction": null
+                  "verbal_post_transition_instruction": null,
+                  "verbal_pre_transition_instruction": "Keep right toward 4th Avenue South.",
+                  "verbal_succinct_transition_instruction": null
                 },
                 {
                   "instruction": "Turn right onto 4th Avenue South.",
                   "cost": 439.697,
-                  "beginShapeIndex": 110,
-                  "endShapeIndex": 246,
+                  "begin_shape_index": 110,
+                  "end_shape_index": 246,
                   "highway": null,
                   "length": 1.992,
-                  "streetNames": [
+                  "street_names": [
                     "4th Avenue South"
                   ],
                   "time": 280.929,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 2 miles.",
-                  "verbalPreTransitionInstruction": "Turn right onto 4th Avenue South.",
-                  "verbalSuccinctTransitionInstruction": "Turn right."
+                  "verbal_post_transition_instruction": "Continue for 2 miles.",
+                  "verbal_pre_transition_instruction": "Turn right onto 4th Avenue South.",
+                  "verbal_succinct_transition_instruction": "Turn right."
                 },
                 {
                   "instruction": "Keep left to take 2nd Avenue Extension South.",
                   "cost": 15.257,
-                  "beginShapeIndex": 246,
-                  "endShapeIndex": 255,
+                  "begin_shape_index": 246,
+                  "end_shape_index": 255,
                   "highway": null,
                   "length": 0.06,
-                  "streetNames": [
+                  "street_names": [
                     "2nd Avenue Extension South"
                   ],
                   "time": 8.768,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 24,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet.",
-                  "verbalPreTransitionInstruction": "Keep left to take 2nd Avenue Extension South. Then Turn left onto South Jackson Street.",
-                  "verbalSuccinctTransitionInstruction": null
+                  "verbal_post_transition_instruction": "Continue for 300 feet.",
+                  "verbal_pre_transition_instruction": "Keep left to take 2nd Avenue Extension South. Then Turn left onto South Jackson Street.",
+                  "verbal_succinct_transition_instruction": null
                 },
                 {
                   "instruction": "Turn left onto South Jackson Street.",
                   "cost": 65.534,
-                  "beginShapeIndex": 255,
-                  "endShapeIndex": 265,
+                  "begin_shape_index": 255,
+                  "end_shape_index": 265,
                   "highway": null,
                   "length": 0.101,
-                  "streetNames": [
+                  "street_names": [
                     "South Jackson Street"
                   ],
                   "time": 21.099,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 500 feet.",
-                  "verbalPreTransitionInstruction": "Turn left onto South Jackson Street.",
-                  "verbalSuccinctTransitionInstruction": "Turn left."
+                  "verbal_post_transition_instruction": "Continue for 500 feet.",
+                  "verbal_pre_transition_instruction": "Turn left onto South Jackson Street.",
+                  "verbal_succinct_transition_instruction": "Turn left."
                 },
                 {
                   "instruction": "Your destination is on the left.",
                   "cost": 0.0,
-                  "beginShapeIndex": 265,
-                  "endShapeIndex": 265,
+                  "begin_shape_index": 265,
+                  "end_shape_index": 265,
                   "highway": null,
                   "length": 0.0,
-                  "streetNames": null,
+                  "street_names": null,
                   "time": 0.0,
-                  "travelMode": "drive",
-                  "travelType": "car",
+                  "travel_mode": "drive",
+                  "travel_type": "car",
                   "type": 6,
-                  "verbalPostTransitionInstruction": null,
-                  "verbalPreTransitionInstruction": "Your destination is on the left.",
-                  "verbalSuccinctTransitionInstruction": null
+                  "verbal_post_transition_instruction": null,
+                  "verbal_pre_transition_instruction": "Your destination is on the left.",
+                  "verbal_succinct_transition_instruction": null
                 }
               ],
               "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AiAynA@saCLovBx@iT@oPA_p@hEw|B^yNr@cKp@{FdAmHjAoG`DgPfA_EjBeExAoCxA}BlBcBpBkAvBk@zBUtBKhBBr\\|CdGb@dCr@dBhAjBvAzAtAjAjBtAtClAfD`AzD|@~ELlD?pA@f@@tA@|E?hABbJs@A}DAiEA_OE{AA{_@KaNGyFCoCB{FoDoHQgO@sD?ma@Dil@DsH`D}C@k@?uJBsL@}HJiA@oA@sPNgHFmE?yFB_XPcFBkULeB@yI?uTAsPAgVAmHA_VAaG?iIAaG?_D?eJAsPAiJA}FAs@?eHAaVCiC?{D?kVCgFAyF?sGEwD?eHAuBEwEBgICoGAqFAuE@aIBoHBgE@_VDkD@kC@OAeCBoHAi@?qd@@mZEyI?s@AgCAkA?iLAiWAeT@wG?yU@uA@wG?iO@kLByEAsLAsG?wI@_G?}TCaB?oF?qBAoG?sA?yHAwH?eDCul@OiCBiCByBM{KkF_I?k`@t@a`@t@{i@pAy~@By\\_@mMUyAXmH|AqHC}PAkPCsLCyE?uHAiLCgLAwKCmUE}J?aVEed@E_[EkQAsKEa^EaTCaD?_PFgc@TsBXoBl@mB~@eBrAoAdAeGjGcOrNaDzCm@j@?xLAtVAxEApa@AzE?bFAjQ?`FAtG?dH"

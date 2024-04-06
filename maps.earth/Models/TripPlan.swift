@@ -14,13 +14,13 @@ class TripPlan: ObservableObject {
   @Published var navigateTo: Place?
   @Published var mode: TravelMode
   @Published var bounds: Bounds?
-  @Published var trips: [Trip]
+  @Published var trips: Result<[Trip], Error>
   @Published var selectedTrip: Trip?
   init(
     from fromPlace: Place? = nil,
     to toPlace: Place? = nil,
     mode: TravelMode = .walk,
-    trips: [Trip] = [],
+    trips: Result<[Trip], Error> = .success([]),
     selectedTrip: Trip? = nil,
     bounds: Bounds? = nil
   ) {
@@ -28,7 +28,11 @@ class TripPlan: ObservableObject {
     self.navigateTo = toPlace
     self.mode = mode
     self.trips = trips
-    self.selectedTrip = selectedTrip ?? trips.first
+    if case .success(let trips) = trips {
+      self.selectedTrip = selectedTrip ?? trips.first
+    } else {
+      assert(self.selectedTrip == nil)
+    }
     self.bounds = bounds
   }
 
@@ -36,7 +40,7 @@ class TripPlan: ObservableObject {
     self.navigateFrom = nil
     self.navigateTo = nil
     self.bounds = nil
-    self.trips = []
+    self.trips = .success([])
     self.selectedTrip = nil
   }
 }

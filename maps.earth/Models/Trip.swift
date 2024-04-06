@@ -10,8 +10,7 @@ import Foundation
 
 struct TripLeg {
   var geometry: [CLLocationCoordinate2D]
-  // FIXME: nil for OTP - maybe it'll remain this way?
-  var maneuvers: [Maneuver]?
+  var modeLeg: ModeLeg
 }
 
 struct Trip: Identifiable {
@@ -29,6 +28,21 @@ struct Trip: Identifiable {
   var legs: [TripLeg]
   var duration: Float64 {
     self.raw.duration
+  }
+
+  var startTime: Date {
+    Date(timeIntervalSince1970: Double(self.raw.startTime) / 1000)
+  }
+
+  var endTime: Date {
+    Date(timeIntervalSince1970: Double(self.raw.endTime) / 1000)
+  }
+
+  var timeSpanFormatted: String {
+    let timeStyle = Date.FormatStyle()
+      .hour()
+      .minute()
+    return "\(startTime.formatted(timeStyle)) - \(endTime.formatted(timeStyle))"
   }
 
   var distance: Float64 {
@@ -70,20 +84,10 @@ struct Trip: Identifiable {
     self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(
         geometry: decodePolyline(itineraryLeg.geometry, precision: 6),
-        maneuvers: itineraryLeg.maneuvers)
+        modeLeg: itineraryLeg.modeLeg)
     }
     self.from = from
     self.to = to
-  }
-
-  var maneuvers: [Maneuver]? {
-    let result = legs.compactMap { $0.maneuvers }.flatMap { $0 }
-    // Should only happen if the leg maneuvers are nil
-    if result.isEmpty {
-      return nil
-    } else {
-      return result
-    }
   }
 }
 

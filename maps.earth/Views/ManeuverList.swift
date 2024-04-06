@@ -17,15 +17,17 @@ struct ManeuverElement: Identifiable {
   }
 }
 
-func image(maneuverType: ManeuverType) -> Image {
-  let name = imageName(maneuverType: maneuverType)
+func image(maneuverType: ManeuverType) -> Image? {
+  guard let name = imageName(maneuverType: maneuverType) else {
+    return nil
+  }
   return Image(systemName: name)
 }
 
-func imageName(maneuverType: ManeuverType) -> String {
+func imageName(maneuverType: ManeuverType) -> String? {
   switch maneuverType {
   case .none:
-    "info.circle"
+    nil
   case .start:
     "mappin.circle"
   case .startRight:
@@ -102,14 +104,27 @@ func imageName(maneuverType: ManeuverType) -> String {
     "arrow.merge"
   case .mergeLeft:
     "arrow.merge"
+  case .elevatorEnter:
+    "square.and.arrow.down"
+  case .stepsEnter:
+    "stairs"
+  case .escalatorEnter:
+    "stairs"
+  case .buildingEnter:
+    "door.left.hand.open"
+  case .buildingExit:
+    "door.right.hand.open"
+  default:
+    nil
   }
 }
 
 struct ManeuverList: View {
   var trip: Trip
+  var maneuvers: [Maneuver]
 
   var body: some View {
-    let maneuversElements = trip.maneuvers!.enumerated().map {
+    let maneuversElements = maneuvers.enumerated().map {
       ManeuverElement(maneuver: $1, id: $0)
     }
 
@@ -120,11 +135,14 @@ struct ManeuverList: View {
         HStack(spacing: 16) {
           image(maneuverType: maneuver.type).imageScale(.large)
           VStack(alignment: .leading) {
-            Text(maneuver.instruction)
+            if let instruction = maneuver.instruction {
+              Text(instruction)
+            }
             if let verbalPostTransitionInstruction = maneuver.verbalPostTransitionInstruction {
               Text(verbalPostTransitionInstruction).foregroundColor(.secondary)
             }
           }
+          Spacer()
         }
       }.hwListStyle()
     }
@@ -133,6 +151,7 @@ struct ManeuverList: View {
 
 struct ManeuverListSheetContents: View {
   var trip: Trip
+  var maneuvers: [Maneuver]
   var onClose: () -> Void
 
   var body: some View {
@@ -140,28 +159,31 @@ struct ManeuverListSheetContents: View {
       title: "Steps", onClose: onClose, presentationDetents: [.large],
       currentDetent: .constant(.large)
     ) {
-      ManeuverList(trip: trip)
+      ManeuverList(trip: trip, maneuvers: maneuvers)
     }
   }
 }
 
 #Preview("Walking Maneuvers") {
   let trip = FixtureData.walkTrips[0]
+  guard case .nonTransit(let maneuvers) = trip.legs[0].modeLeg else {
+    fatalError("unexpected legs for trip")
+  }
 
   return Text("").sheet(isPresented: .constant(true)) {
-    ManeuverListSheetContents(trip: trip, onClose: {})
+    ManeuverListSheetContents(trip: trip, maneuvers: maneuvers, onClose: {})
   }
 }
 
 #Preview("All Maneuvers") {
   var trip = FixtureData.walkTrips[0]
-  trip.legs[0].maneuvers = ManeuverType.allCases.map { maneuver in
+  let maneuvers = ManeuverType.allCases.map { maneuver in
     Maneuver(
-      cost: 1.0, instruction: "maneuver: \(maneuver)", type: maneuver,
+      instruction: "maneuver: \(maneuver)", type: maneuver,
       verbalPostTransitionInstruction: "Go 123 miles.")
   }
 
   return Text("").sheet(isPresented: .constant(true)) {
-    ManeuverListSheetContents(trip: trip, onClose: {})
+    ManeuverListSheetContents(trip: trip, maneuvers: maneuvers, onClose: {})
   }
 }

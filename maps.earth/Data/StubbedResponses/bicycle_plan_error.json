@@ -1,0 +1,14 @@
+{
+  "error": {
+    "statusCode": 400,
+    "errorCode": 2154,
+    "message": "Path distance exceeds the max distance limit: 500000 meters"
+  },
+  "_otp": null,
+  "_valhalla": {
+    "status_code": 400,
+    "error_code": 154,
+    "error": "Path distance exceeds the max distance limit: 500000 meters",
+    "status": "Bad Request"
+  }
+}
