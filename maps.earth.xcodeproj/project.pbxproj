@@ -48,6 +48,7 @@
 		45992B562B9BC3BC00A64AEE /* StartMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */; };
+		45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */; };
 		45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */ = {isa = PBXBuildFile; fileRef = 45E474702BB3562500018120 /* bicycle_plan_error.json */; };
 		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
 		45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC72BA011C9007A4657 /* CloseButton.swift */; };
@@ -116,6 +117,7 @@
 		45992B552B9BC3BC00A64AEE /* StartMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMarkerView.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
+		45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiModalTripDetails.swift; sourceTree = "<group>"; };
 		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				4562F3492BA50BBB00FD8621 /* SheetContent.swift */,
 				455CDFF72BAB99D600D72FF6 /* TopControls.swift */,
 				45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */,
+				45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
 				45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */,
 				45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */,
+				45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */,
 				4545AA682BA373B500958306 /* Env.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceSearch.swift in Sources */,

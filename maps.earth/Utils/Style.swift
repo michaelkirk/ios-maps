@@ -9,6 +9,20 @@ import Foundation
 import SwiftUI
 
 extension Color {
+  init?(hexString: String) {
+    guard hexString.count == 6 else {
+      assertionFailure("Invalid hex string length")
+      return nil
+    }
+
+    guard let rgb = UInt64(hexString, radix: 16) else {
+      assertionFailure("Invalid hex string")
+      return nil
+    }
+
+    self.init(rgb: rgb)
+  }
+
   init(rgb: UInt64) {
     let red = Double((rgb & 0xFF0000) >> 16) / 0xFF
     let green = Double((rgb & 0x00FF00) >> 8) / 0xFF

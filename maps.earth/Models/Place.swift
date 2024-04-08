@@ -14,12 +14,9 @@ let phoneNumberKit = PhoneNumberKit()
 struct Place: Equatable, Hashable {
   var location: LngLat
   var properties: PlaceProperties
+}
 
-  init(location: LngLat, properties: PlaceProperties) {
-    self.location = location
-    self.properties = properties
-  }
-
+extension Place {
   init(currentLocation: CLLocation) {
     let location = LngLat(coord: currentLocation.coordinate)
     let properties = PlaceProperties(
