@@ -43,6 +43,10 @@ struct TripPlanView: View {
         ModeButton(mode: .car, selectedMode: $tripPlan.mode)
         ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
         ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
+      }.onChange(of: tripPlan.mode) { newValue in
+        // clear trips for previous mode
+        tripPlan.selectedTrip = nil
+        tripPlan.trips = .success([])
       }
 
       VStack {
