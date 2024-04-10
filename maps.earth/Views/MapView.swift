@@ -552,27 +552,24 @@ extension MapView.Coordinator: MLNMapViewDelegate {
   func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation)
     -> MLNAnnotationView?
   {
-    guard let (place, style) = self.markerLookup[annotation.hashable] else {
+    guard let (_, style) = self.markerLookup[annotation.hashable] else {
+      // This happens for the "current user location" marker
       print("no style for marker \(annotation)")
       return nil
     }
 
     switch style {
     case .pin:
-      print("pin style for marker: \(place.name ?? "nil") \(annotation)")
       return nil
     case .start:
-      print("start style for marker: \(place.name ?? "nil") \(annotation)")
       let view = MLNAnnotationView()
       view.addSubview(StartMarkerView())
       return view
     case .selectedTripTransfer:
-      print("transfer style for marker: \(place.name ?? "nil") \(annotation)")
       let view = MLNAnnotationView()
       view.addSubview(TransferMarkerView(isSelected: true))
       return view
     case .unselectedTripTransfer:
-      print("transfer style for marker: \(place.name ?? "nil") \(annotation)")
       let view = MLNAnnotationView()
       view.addSubview(TransferMarkerView(isSelected: false))
       return view
