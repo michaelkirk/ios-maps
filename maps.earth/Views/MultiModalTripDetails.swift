@@ -62,7 +62,6 @@ func formatDuration(from: Date, to: Date) -> String {
   let formatter = DateComponentsFormatter()
   formatter.unitsStyle = .full
   formatter.allowedUnits = [.hour, .minute]
-
   return formatter.string(from: from, to: to) ?? ""
 }
 
@@ -77,7 +76,6 @@ struct MultiModalTripDetails: View {
     VStack(alignment: .leading) {
       Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").scenePadding(.leading).bold()
       ScrollView {
-        // This layout is stressed.
         Grid(alignment: .trailing, verticalSpacing: 0) {
           ForEach(tripDiagram.elements.identifiable()) {
             (step: IdentifiableValue<TripDiagram.Element>) in
