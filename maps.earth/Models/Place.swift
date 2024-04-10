@@ -13,6 +13,12 @@ let phoneNumberKit = PhoneNumberKit()
 
 struct Place: Equatable, Hashable {
   var location: LngLat
+  var lng: Float64 {
+    location.lng
+  }
+  var lat: Float64 {
+    location.lat
+  }
   var properties: PlaceProperties
 }
 

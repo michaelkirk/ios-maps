@@ -46,6 +46,7 @@ struct PlaceList: View {
       // first responder here - and it's something that the sheet logic
       // reacts to, not just the keyboard.
       // .scrollDismissesKeyboard(.immediately)
+
       .sheet(isPresented: hasSelectedPlace) {
         if let selectedPlace = selectedPlace {
           SheetContents(

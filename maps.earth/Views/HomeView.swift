@@ -165,10 +165,10 @@ struct HomeView: View {
 }
 
 #Preview("Trip") {
-  let tripPlan = FixtureData.tripPlan
+  let tripPlan = FixtureData.transitTripPlan
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   return HomeView(
-    selectedPlace: tripPlan.navigateFrom, tripPlan: tripPlan, searchQueue: searchQueue,
+    selectedPlace: tripPlan.navigateTo, tripPlan: tripPlan, searchQueue: searchQueue,
     queryText: "coffee")
 }
 
