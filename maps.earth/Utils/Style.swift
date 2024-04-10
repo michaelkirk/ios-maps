@@ -9,6 +9,20 @@ import Foundation
 import SwiftUI
 
 extension Color {
+  init?(hexString: String) {
+    guard hexString.count == 6 else {
+      assertionFailure("Invalid hex string length")
+      return nil
+    }
+
+    guard let rgb = UInt64(hexString, radix: 16) else {
+      assertionFailure("Invalid hex string")
+      return nil
+    }
+
+    self.init(rgb: rgb)
+  }
+
   init(rgb: UInt64) {
     let red = Double((rgb & 0xFF0000) >> 16) / 0xFF
     let green = Double((rgb & 0x00FF00) >> 8) / 0xFF
@@ -33,6 +47,10 @@ extension Color {
   static let hw_searchFieldPlaceholderForeground = Color(rgb: 0x7B7E82)
   static let hw_activeRoute = Color(rgb: 0x1097FF)
   static let hw_inactiveRoute = Color(rgb: 0xAAB3C3)
+
+  var uiColor: UIColor {
+    UIColor(self)
+  }
 }
 
 struct Swatch: View {

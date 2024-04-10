@@ -69,6 +69,48 @@ extension MapFocus: CustomStringConvertible {
   }
 }
 
+enum MarkerLocation: Hashable, Equatable {
+  case place(Place)
+  case tripPlace(TripPlace)
+
+  static func == (lhs: MarkerLocation, rhs: MarkerLocation) -> Bool {
+    switch (lhs, rhs) {
+    case (.place(let lhs), .place(let rhs)): lhs == rhs
+    case (.tripPlace(let lhs), .tripPlace(let rhs)): lhs == rhs
+    default: false
+    }
+  }
+
+  var location: LngLat {
+    switch self {
+    case .place(let place): place.location
+    case .tripPlace(let tripPlace): tripPlace.location
+    }
+  }
+
+  var name: String? {
+    switch self {
+    case .place(let place): place.name
+    case .tripPlace(let tripPlace): tripPlace.name
+    }
+  }
+}
+
+protocol IntoMarkerLocation {
+  var intoMarkerLocation: MarkerLocation { get }
+}
+
+extension Place: IntoMarkerLocation {
+  var intoMarkerLocation: MarkerLocation {
+    .place(self)
+  }
+}
+extension TripPlace: IntoMarkerLocation {
+  var intoMarkerLocation: MarkerLocation {
+    .tripPlace(self)
+  }
+}
+
 struct MapView {
   @Binding var searchResults: [Place]?
   @Binding var selectedPlace: Place?
@@ -201,18 +243,18 @@ extension MapView: UIViewRepresentable {
 
     if case .success(let trips) = self.tripPlan.trips, let selectedTrip = self.tripPlan.selectedTrip
     {
-      context.coordinator.ensureMarkers(in: mapView, places: [selectedTrip.to])
+      context.coordinator.ensureMarkers(style: .pin, in: mapView, places: [selectedTrip.to])
       context.coordinator.ensureRoutes(
         in: mapView, trips: trips, selectedTrip: selectedTrip)
     } else if let selectedPlace = selectedPlace {
-      context.coordinator.ensureMarkers(in: mapView, places: [selectedPlace])
+      context.coordinator.ensureMarkers(style: .pin, in: mapView, places: [selectedPlace])
       context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
     } else if let places = self.searchResults {
-      context.coordinator.ensureMarkers(in: mapView, places: places)
+      context.coordinator.ensureMarkers(style: .pin, in: mapView, places: places)
       context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
       // TODO zoom to search results bbox (add to focus enum)
     } else {
-      context.coordinator.ensureMarkers(in: mapView, places: [])
+      context.coordinator.ensureMarkers(style: .pin, in: mapView, places: [])
       context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
     }
 
@@ -259,11 +301,17 @@ extension MapView: UIViewRepresentable {
 
     let mapView: MapView
 
+    enum MarkerStyle {
+      case start
+      case pin
+      case selectedTripTransfer
+      case unselectedTripTransfer
+    }
+
+    var markers: [MarkerStyle: [MarkerLocation: MLNAnnotation]] = [:]
+    var markerLookup: [HashableNSObject<MLNAnnotation>: (MarkerLocation, MarkerStyle)] = [:]
+
     var topControlsController: UIHostingController<TopControls>
-    // pin markers, like those used in search or at the end of a trip
-    var markers: [Place: MLNAnnotation] = [:]
-    // circle markers, like those used at the start of a trip
-    var startMarkers: [Place: MLNAnnotation] = [:]
     var selectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
@@ -313,44 +361,50 @@ extension MapView: UIViewRepresentable {
         bufferedBounds, edgePadding: padding, animated: true, completionHandler: nil)
     }
 
-    func ensureMarkers(in mapView: MLNMapView, places: [Place]) {
+    func ensureMarkers(style: MarkerStyle, in mapView: MLNMapView, places: [any IntoMarkerLocation])
+    {
+      var styleMarkers = self.markers[style] ?? [:]
+      let places = places.map { $0.intoMarkerLocation }
+
       for place in places {
-        if self.markers[place] == nil {
-          let marker = Self.addMarker(to: mapView, at: place.location)
-          self.markers[place] = marker
+        guard styleMarkers[place] == nil else {
+          // Place already has a marker in this style
+          continue
         }
+
+        let marker = MLNPointAnnotation()
+        marker.coordinate = place.location.asCoordinate
+        styleMarkers[place] = marker
+
+        // It's critical to add this before calling `mapView.addAnnotation`, otherwise
+        // the map won't know what kind of marker to add
+        self.markerLookup[marker.hashable] = (place, style)
+
+        mapView.addAnnotation(marker)
       }
 
-      let stale = Set(self.markers.keys).subtracting(places)
+      let stale = Set(styleMarkers.keys).subtracting(places)
       for place in stale {
-        guard let marker = self.markers.removeValue(forKey: place) else {
-          logger.error("unexpectedly missing stale marker")
+        guard let marker = styleMarkers.removeValue(forKey: place) else {
+          logger.error("unexpectedly missing stale  marker")
           continue
         }
         // PERF: more efficient to do this all at once with `removeAnnotations`?
         mapView.removeAnnotation(marker)
-      }
-    }
 
-    func ensureStartMarkers(in mapView: MLNMapView, places: [Place]) {
-      for place in places {
-        if self.startMarkers[place] == nil {
-          let marker = Self.addStartMarker(to: mapView, at: place.location)
-          self.startMarkers[place] = marker
+        // Only unset stale markers for *this* style, otherwise I think we might clobber
+        // a marker that moved to a new style.
+        if self.markerLookup[marker.hashable]?.1 == style {
+          assert(self.markerLookup[marker.hashable]?.0 == place)
+          self.markerLookup[marker.hashable] = nil
         }
       }
 
-      let stale = Set(self.startMarkers.keys).subtracting(places)
-      for place in stale {
-        guard let marker = self.startMarkers.removeValue(forKey: place) else {
-          logger.error("unexpectedly missing stale marker")
-          continue
-        }
-        // PERF: more efficient to do this all at once with `removeAnnotations`?
-        mapView.removeAnnotation(marker)
-      }
+      self.markers[style] = styleMarkers
     }
 
+    // These `ensure` methods are getting really hairy. It'd be nice to do some kind of RAII thing
+    // but the procedural nature of that doesnt' play well with SwiftUI's functional agenda.
     func ensureRoutes(in mapView: MLNMapView, trips: [Trip], selectedTrip: Trip?) {
       guard let style = mapView.style else {
         logger.error("style was unexpectedly nil")
@@ -375,6 +429,7 @@ extension MapView: UIViewRepresentable {
         try! style.removeSource(tripSource, error: ())
       }
 
+      // add non-selected trips first, so they'll be *below* the selected trip.
       for trip in (trips.filter { $0 != selectedTrip }) {
         if let (tripSource, tripStyleLayer) = self.selectedTrips.removeValue(forKey: trip) {
           // NOTE: style can be nil in SwiftUI previews. I think maybe
@@ -388,6 +443,11 @@ extension MapView: UIViewRepresentable {
           self.unselectedTrips[trip] = Self.addRoute(to: mapView, trip: trip, isSelected: false)
         }
       }
+      let unselectedTripTransfers = (trips.filter { $0 != selectedTrip }).flatMap {
+        $0.transferPlaces
+      }
+      self.ensureMarkers(
+        style: .unselectedTripTransfer, in: mapView, places: unselectedTripTransfers)
 
       // add selected layer last so its on top
       if let selectedTrip = selectedTrip {
@@ -403,27 +463,14 @@ extension MapView: UIViewRepresentable {
         if self.selectedTrips[selectedTrip] == nil {
           self.selectedTrips[selectedTrip] = Self.addRoute(
             to: mapView, trip: selectedTrip, isSelected: true)
-          self.ensureStartMarkers(in: mapView, places: [selectedTrip.from])
+          self.ensureMarkers(style: .start, in: mapView, places: [selectedTrip.from])
+          self.ensureMarkers(
+            style: .selectedTripTransfer, in: mapView, places: selectedTrip.transferPlaces)
         }
       } else {
-        self.ensureStartMarkers(in: mapView, places: [])
+        self.ensureMarkers(style: .start, in: mapView, places: [])
+        self.ensureMarkers(style: .selectedTripTransfer, in: mapView, places: [])
       }
-    }
-
-    static func addMarker(to mapView: MLNMapView, at lngLat: LngLat) -> MLNAnnotation {
-      let marker = MLNPointAnnotation()
-      marker.coordinate = CLLocationCoordinate2D(latitude: lngLat.lat, longitude: lngLat.lng)
-      mapView.addAnnotation(marker)
-      return marker
-    }
-
-    static func addStartMarker(to mapView: MLNMapView, at lngLat: LngLat) -> MLNAnnotation {
-      // this is identical to addMarker... not sure how to indicate a marker's style should
-      // be changed without removing and re-adding it.
-      let marker = MLNPointAnnotation()
-      marker.coordinate = CLLocationCoordinate2D(latitude: lngLat.lat, longitude: lngLat.lng)
-      mapView.addAnnotation(marker)
-      return marker
     }
 
     static func addRoute(to mapView: MLNMapView, trip: Trip, isSelected: Bool) -> (
@@ -444,56 +491,89 @@ extension MapView: UIViewRepresentable {
 
       style.addSource(source)
 
-      // Insert behind the annotation layer to keep the "end" markers above the routes.
+      // Insert the route line behind the annotation layer to keep the "end" markers above the routes.
       //     identifier = com.mapbox.annotations.points; sourceIdentifier = com.mapbox.annotations; sourceLayerIdentifier = com.mapbox.annotations.points
-      let annotationLayer = style.layers.first {
+      if let annotationLayer = style.layers.first(where: {
         $0.identifier == "com.mapbox.annotations.points"
+      }) {
+        style.insertLayer(styleLayer, below: annotationLayer)
+      } else {
+        assertionFailure("couldn't find points layer. Did maplibre change their API?")
+        style.addLayer(styleLayer)
       }
-      // TODO: this unwrap is unsightly, but unlikely to break unless MapLibre changes something fundamental in an update, which should be obvious
-      style.insertLayer(styleLayer, below: annotationLayer!)
 
       return (source, styleLayer)
     }
   }
 }
 
+struct HashableNSObject<T: NSObjectProtocol> {
+  var inner: T
+}
+
+extension HashableNSObject {
+  init(_ inner: T) {
+    self.inner = inner
+  }
+}
+
+extension HashableNSObject: Hashable {
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(inner.hash)
+  }
+}
+
+extension HashableNSObject: Equatable {
+  static func == (lhs: HashableNSObject<T>, rhs: HashableNSObject<T>) -> Bool {
+    lhs.inner.isEqual(rhs.inner)
+  }
+}
+
+extension MLNAnnotation {
+  var hashable: HashableNSObject<MLNAnnotation> {
+    HashableNSObject(self)
+  }
+}
+
 extension MapView.Coordinator: MLNMapViewDelegate {
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
-    // PERF: this is dumb, but NSObject doesn't place nice with Swift HashMaps so
-    // we do a linear search
-    guard
-      let (place, _) = self.markers.first(where: { (key: Place, value: MLNAnnotation) in
-        value.isEqual(annotation)
-      })
-    else {
+    guard let (place, _) = self.markerLookup[annotation.hashable] else {
       assertionFailure("no place for marker \(annotation)")
       return
     }
-
-    self.mapView.selectedPlace = place
+    switch place {
+    case .place(let place):
+      self.mapView.selectedPlace = place
+    case .tripPlace(_):
+      print("tripPlace is not selectable")
+    }
   }
 
   func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation)
     -> MLNAnnotationView?
   {
-    guard let navigateFrom = self.mapView.tripPlan.selectedTrip?.from else {
+    guard let (_, style) = self.markerLookup[annotation.hashable] else {
+      // This happens for the "current user location" marker
+      print("no style for marker \(annotation)")
       return nil
     }
 
-    func equalCoords(_ a: CLLocationCoordinate2D, _ b: CLLocationCoordinate2D) -> Bool {
-      a.latitude == b.latitude && a.longitude == b.longitude
-    }
-
-    // Coords check seems brittle - what if there are multiple markers at this location?
-    // is floating point robustness a concern?
-    guard equalCoords(navigateFrom.location.asCoordinate, annotation.coordinate) else {
+    switch style {
+    case .pin:
       return nil
+    case .start:
+      let view = MLNAnnotationView()
+      view.addSubview(StartMarkerView())
+      return view
+    case .selectedTripTransfer:
+      let view = MLNAnnotationView()
+      view.addSubview(TransferMarkerView(isSelected: true))
+      return view
+    case .unselectedTripTransfer:
+      let view = MLNAnnotationView()
+      view.addSubview(TransferMarkerView(isSelected: false))
+      return view
     }
-
-    let view = MLNAnnotationView()
-    view.addSubview(StartMarkerView())
-
-    return view
   }
 
   func mapView(_ mapView: MLNMapView, didChange mode: MLNUserTrackingMode, animated: Bool) {

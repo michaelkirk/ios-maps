@@ -14,27 +14,69 @@ struct NamedPlace: Decodable {
 
 typealias TransitLeg = OTPTransitLeg
 
-enum ModeLeg: Decodable {
+extension TransitLeg {
+  var emojiRouteLabel: String {
+    "\(mode.emoji) \(routeSummaryName)"
+  }
+}
+
+enum ModeLeg {
   case transit(TransitLeg)
   case nonTransit([Maneuver])
 }
 
 struct ItineraryLeg {
   var geometry: String
+  var fromPlace: TripPlace
+  var toPlace: TripPlace
+  var startTime: Date
+  var endTime: Date
+  var mode: TravelMode
   var modeLeg: ModeLeg
 }
 
+extension TripPlace: Decodable {
+  private enum CodingKeys: String, CodingKey {
+    case lon
+    case lat
+    case name
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    let name = try container.decodeIfPresent(String.self, forKey: .name)
+    let lon = try container.decode(Float64.self, forKey: .lon)
+    let lat = try container.decode(Float64.self, forKey: .lat)
+    // note spellings is different... this is a difference between the valhalla and OTP APIs vs. Maplibre
+    let lngLat = LngLat(lng: lon, lat: lat)
+    self.init(location: lngLat, name: name)
+  }
+}
 extension ItineraryLeg: Decodable {
   private enum CodingKeys: String, CodingKey {
     case geometry
     case maneuvers
+    case mode
     case transitLeg
+    case fromPlace
+    case toPlace
+    case startTime
+    case endTime
   }
 
   // Decode from an array format
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let geometry = try container.decode(String.self, forKey: .geometry)
+    let mode = try container.decode(TravelMode.self, forKey: .mode)
+
+    let fromPlace = try container.decode(TripPlace.self, forKey: .fromPlace)
+    let toPlace = try container.decode(TripPlace.self, forKey: .toPlace)
+
+    let startTimeMillis = try container.decode(UInt64.self, forKey: .startTime)
+    let startTime = Date(millisSince1970: startTimeMillis)
+    let endTimeMillis = try container.decode(UInt64.self, forKey: .endTime)
+    let endTime = Date(millisSince1970: endTimeMillis)
 
     let modeLeg: ModeLeg
     if let maneuvers = try container.decodeIfPresent([Maneuver].self, forKey: .maneuvers) {
@@ -44,7 +86,15 @@ extension ItineraryLeg: Decodable {
       modeLeg = .transit(transitLeg)
     }
 
-    self.init(geometry: geometry, modeLeg: modeLeg)
+    self.init(
+      geometry: geometry, fromPlace: fromPlace, toPlace: toPlace, startTime: startTime,
+      endTime: endTime, mode: mode, modeLeg: modeLeg)
+  }
+}
+
+extension Date {
+  init(millisSince1970 millis: UInt64) {
+    self.init(timeIntervalSince1970: Double(millis) / 1000)
   }
 }
 
@@ -77,7 +127,7 @@ enum DistanceUnit: String, Decodable {
 }
 
 struct Itinerary: Decodable {
-  var mode: String
+  var mode: TravelMode
   var duration: Float64
   var startTime: UInt64
   var endTime: UInt64

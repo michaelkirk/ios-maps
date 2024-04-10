@@ -11,7 +11,7 @@ struct TripPlanListItemDetails: View {
   var trip: Trip
   @Binding
   var tripPlanMode: TravelMode
-  var onShowSteps: (() -> Void)
+  var onShowSteps: (() -> Void)?
 
   var body: some View {
     HStack {
@@ -26,13 +26,22 @@ struct TripPlanListItemDetails: View {
 
 struct NonTransitPlanItem: View {
   var trip: Trip
-  var onShowSteps: (() -> Void)
+  var onShowSteps: (() -> Void)?
   var body: some View {
     VStack(alignment: .leading) {
       Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
       Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
     }
     Spacer()
+    if let onShowSteps = onShowSteps {
+      ShowStepsButton(onShowSteps: onShowSteps)
+    }
+  }
+}
+
+struct ShowStepsButton: View {
+  var onShowSteps: (() -> Void)
+  var body: some View {
     Button("Steps") {
       onShowSteps()
     }
@@ -47,17 +56,20 @@ struct NonTransitPlanItem: View {
 
 struct TransitPlanItem: View {
   var trip: Trip
-  var onShowSteps: (() -> Void)
+  var onShowSteps: (() -> Void)?
   var body: some View {
-    HStack(spacing: 4) {
+    HStack(alignment: .top, spacing: 4) {
       VStack(alignment: .leading, spacing: 8) {
         Text(trip.timeSpanFormatted).font(.headline).dynamicTypeSize(.xxLarge)
         Text(routeEmojiSummary(trip: trip))
+        if let onShowSteps = onShowSteps {
+          ShowStepsButton(onShowSteps: onShowSteps).padding(.top, 8)
+        }
       }
       Spacer()
       VStack(alignment: .trailing) {
         Text(trip.durationFormatted)
-        Text(trip.distanceFormatted).font(.subheadline)
+        Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
       }
     }.padding(.bottom, 8).padding(.trailing, 8)
   }
@@ -83,7 +95,7 @@ func routeEmojiSummary(trip: Trip) -> String {
     }
     switch tripLeg.modeLeg {
     case .transit(let transitLeg):
-      output += "\(transitLeg.mode.emoji) \(transitLeg.routeSummaryName)"
+      output += transitLeg.emojiRouteLabel
     case .nonTransit(_):
       // eventually we'll support bike+bus
       output += TravelMode.walk.emoji

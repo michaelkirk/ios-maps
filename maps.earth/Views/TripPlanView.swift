@@ -43,6 +43,10 @@ struct TripPlanView: View {
         ModeButton(mode: .car, selectedMode: $tripPlan.mode)
         ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
         ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
+      }.onChange(of: tripPlan.mode) { newValue in
+        // clear trips for previous mode
+        tripPlan.selectedTrip = nil
+        tripPlan.trips = .success([])
       }
 
       VStack {
@@ -71,8 +75,11 @@ struct TripPlanView: View {
           List(trips, selection: $tripPlan.selectedTrip) { trip in
             VStack(alignment: .leading) {
               Button(action: {
-                if tripPlan.selectedTrip == trip, tripPlan.mode != .transit {
-                  showSteps = true
+                if tripPlan.selectedTrip == trip {
+                  // single-mode steps from OTP aren't supported yet
+                  if trip.legs.count > 1 || tripPlan.mode != .transit {
+                    showSteps = true
+                  }
                 } else {
                   tripPlan.selectedTrip = trip
                 }
@@ -80,9 +87,13 @@ struct TripPlanView: View {
                 HStack(spacing: 8) {
                   Spacer().frame(maxWidth: 8, maxHeight: .infinity)
                     .background(trip == tripPlan.selectedTrip ? .blue : .clear)
-                  TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode) {
-                    tripPlan.selectedTrip = trip
-                    showSteps = true
+                  if trip.legs.count > 1 || tripPlan.mode != .transit {
+                    TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode) {
+                      tripPlan.selectedTrip = trip
+                      showSteps = true
+                    }
+                  } else {
+                    TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode)
                   }
                 }
               }
@@ -104,7 +115,7 @@ struct TripPlanView: View {
           ManeuverListSheetContents(
             trip: trip, maneuvers: maneuvers, onClose: { showSteps = false })
         } else {
-          let _ = print("TODO: multi modal/transit trip")
+          MultiModalTripDetailsSheetContents(trip: trip, onClose: { showSteps = false })
         }
       }
       .cornerRadius(8)

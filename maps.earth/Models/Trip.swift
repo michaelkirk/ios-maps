@@ -8,9 +8,23 @@
 import CoreLocation
 import Foundation
 
+struct TripPlace: Hashable, Equatable {
+  var location: LngLat
+  var name: String?
+}
+
 struct TripLeg {
   var geometry: [CLLocationCoordinate2D]
+  var fromPlace: TripPlace
+  var toPlace: TripPlace
+  var startTime: Date
+  var endTime: Date
+  var mode: TravelMode
   var modeLeg: ModeLeg
+
+  var duration: Duration {
+    Duration.seconds(endTime.timeIntervalSince(startTime))
+  }
 }
 
 struct Trip: Identifiable {
@@ -78,13 +92,23 @@ struct Trip: Identifiable {
     return formatter.string(from: measurement)
   }
 
+  var transferPlaces: [TripPlace] {
+    self.legs[1...].map { $0.fromPlace }
+  }
+
   init(itinerary: Itinerary, from: Place, to: Place) {
     self.id = UUID()
     self.raw = itinerary
     self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(
         geometry: decodePolyline(itineraryLeg.geometry, precision: 6),
-        modeLeg: itineraryLeg.modeLeg)
+        fromPlace: itineraryLeg.fromPlace,
+        toPlace: itineraryLeg.toPlace,
+        startTime: itineraryLeg.startTime,
+        endTime: itineraryLeg.endTime,
+        mode: itineraryLeg.mode,
+        modeLeg: itineraryLeg.modeLeg
+      )
     }
     self.from = from
     self.to = to
