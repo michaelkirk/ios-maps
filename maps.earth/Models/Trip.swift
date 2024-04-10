@@ -8,7 +8,7 @@
 import CoreLocation
 import Foundation
 
-struct TripPlace {
+struct TripPlace: Hashable, Equatable {
   var location: LngLat
   var name: String?
 }
@@ -90,6 +90,10 @@ struct Trip: Identifiable {
       to: outputUnit)
 
     return formatter.string(from: measurement)
+  }
+
+  var transferPlaces: [TripPlace] {
+    self.legs[1...].map { $0.fromPlace }
   }
 
   init(itinerary: Itinerary, from: Place, to: Place) {

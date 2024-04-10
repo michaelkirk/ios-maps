@@ -47,6 +47,10 @@ extension Color {
   static let hw_searchFieldPlaceholderForeground = Color(rgb: 0x7B7E82)
   static let hw_activeRoute = Color(rgb: 0x1097FF)
   static let hw_inactiveRoute = Color(rgb: 0xAAB3C3)
+
+  var uiColor: UIColor {
+    UIColor(self)
+  }
 }
 
 struct Swatch: View {
