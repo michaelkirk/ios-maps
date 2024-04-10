@@ -83,7 +83,7 @@ struct MultiModalTripDetails: View {
               let step = step.value
               switch step {
               case .node(.origin(from: let place, departureTime: let departureTime)):
-                Text(departureTime.formatted(date: .omitted, time: .shortened)).imageScale(.large)
+                Text(departureTime.formatted(date: .omitted, time: .shortened))
                   .padding(.vertical, 4)
                 NodeGlyph(systemName: "mappin.circle")
                 HStack {
@@ -92,7 +92,7 @@ struct MultiModalTripDetails: View {
                 }
                 .padding(.vertical, 4)
               case .node(.stop(place: let place, departureTime: let departureTime)):
-                Text(departureTime.formatted(date: .omitted, time: .shortened)).padding(.top, 4)
+                Text(departureTime.formatted(date: .omitted, time: .shortened))
                   .padding(.vertical, 4)
                 VStack {
                   NodeGlyph(systemName: "circle").foregroundColor(.secondary)
