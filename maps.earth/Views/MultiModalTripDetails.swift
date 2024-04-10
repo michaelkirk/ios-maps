@@ -77,54 +77,56 @@ struct MultiModalTripDetails: View {
     VStack(alignment: .leading) {
       Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").scenePadding(.leading).bold()
       ScrollView {
-        Grid(alignment: .trailing) {
+        // This layout is stressed.
+        Grid(alignment: .trailing, verticalSpacing: 0) {
           ForEach(tripDiagram.elements.identifiable()) {
             (step: IdentifiableValue<TripDiagram.Element>) in
             GridRow(alignment: .top) {
               let step = step.value
               switch step {
               case .node(.origin(from: let place, departureTime: let departureTime)):
-                HStack {
-                  Text(departureTime.formatted(date: .omitted, time: .shortened)).imageScale(.large)
-                  Image(systemName: "mappin.circle").imageScale(.large)
-                }
+                Text(departureTime.formatted(date: .omitted, time: .shortened)).imageScale(.large)
+                  .padding(.vertical, 4)
+                NodeGlyph(systemName: "mappin.circle")
                 HStack {
                   Text("Depart: \(place.name)")
                   Spacer()
                 }
+                .padding(.vertical, 4)
               case .node(.stop(place: let place, departureTime: let departureTime)):
-                HStack {
-                  Text(departureTime.formatted(date: .omitted, time: .shortened))
-                  Image(systemName: "circle").foregroundColor(.secondary).imageScale(.large)
+                Text(departureTime.formatted(date: .omitted, time: .shortened)).padding(.top, 4)
+                  .padding(.vertical, 4)
+                VStack {
+                  NodeGlyph(systemName: "circle").foregroundColor(.secondary)
+                  Spacer().frame(minWidth: 4, maxWidth: 4, maxHeight: .infinity)
+                    .background(.red)
+                    .frame(width: timelineWidth)
                 }
                 HStack {
                   Text(place.name ?? "")
                   Spacer()
-                }
+                }.padding(.top, 4)
               case .node(.destination(to: let place, arrivalTime: let arrivalTime)):
-                HStack {
-                  Text(arrivalTime.formatted(date: .omitted, time: .shortened))
-                  Image(systemName: "flag.checkered.circle").imageScale(.large)
-                }
+                Text(arrivalTime.formatted(date: .omitted, time: .shortened))
+                  .padding(.vertical, 4)
+                NodeGlyph(systemName: "flag.checkered.circle")
                 HStack {
                   Text("Arrive: \(place.name)")
                   Spacer()
                 }
+                .padding(.vertical, 4)
 
               case .edge(let leg):
-                HStack(alignment: .top) {
-                  switch leg.modeLeg {
-                  case .nonTransit(_):
-                    Text(leg.mode.emoji).padding(.top, 4)
-                  case .transit(let transitLeg):
-                    Text(transitLeg.emojiRouteLabel).padding(.top, 4)
-                  }
-                  Spacer().frame(minWidth: 4, maxWidth: 4, maxHeight: .infinity)
-                    .padding(.vertical, 40)
-                    .background(.red)
-                    // this number seems really brittle
-                    .padding(.trailing, 11).padding(.leading, 8).padding(.top, -4)
+                switch leg.modeLeg {
+                case .nonTransit(_):
+                  Text(leg.mode.emoji).padding(.top, 4)
+                case .transit(let transitLeg):
+                  Text(transitLeg.emojiRouteLabel).padding(.top, 4)
                 }
+                Spacer().frame(minWidth: 4, maxWidth: 4, maxHeight: .infinity)
+                  .padding(.vertical, 30)
+                  .background(.red)
+                  .frame(width: timelineWidth)
                 HStack {
                   Text(formatDuration(from: leg.startTime, to: leg.endTime)).padding(.top, 4)
                   Spacer()
@@ -135,6 +137,17 @@ struct MultiModalTripDetails: View {
         }.padding()
       }
     }
+  }
+}
+
+let timelineWidth: CGFloat = 24
+struct NodeGlyph: View {
+  var systemName: String
+  var body: some View {
+    Image(systemName: systemName).resizable().scaledToFit().frame(
+      width: timelineWidth, height: timelineWidth
+    )
+    .padding(.vertical, 4)
   }
 }
 
