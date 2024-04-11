@@ -117,7 +117,7 @@ struct Trip: Identifiable {
 
 extension Trip: CustomStringConvertible {
   var description: String {
-    "TripPlan(from: \(self.from.name), to: \(self.to.name))"
+    "Trip(from: \(self.from.name), to: \(self.to.name), id: \(self.id)"
   }
 }
 
