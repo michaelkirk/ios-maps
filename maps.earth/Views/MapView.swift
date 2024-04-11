@@ -192,6 +192,16 @@ extension MapView: UIViewRepresentable {
   }
 
   func updateUIView(_ mapView: MLNMapView, context: Context) {
+    guard let style = mapView.style else {
+      logger.error("style was unexpectedly nil. Requeueing call for a bit later.")
+      // TODO: debounce this
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        self.updateUIView(mapView, context: context)
+      }
+      return
+    }
+
+
     logger.debug("in MapView.updateUIView")
     if self.pendingMapFocus != nil {
       Task {
@@ -245,17 +255,24 @@ extension MapView: UIViewRepresentable {
     {
       context.coordinator.ensureMarkers(style: .pin, in: mapView, places: [selectedTrip.to])
       context.coordinator.ensureRoutes(
-        in: mapView, trips: trips, selectedTrip: selectedTrip)
+        in: mapView, style: style, trips: trips, selectedTrip: selectedTrip)
     } else if let selectedPlace = selectedPlace {
       context.coordinator.ensureMarkers(style: .pin, in: mapView, places: [selectedPlace])
-      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
+      context.coordinator.ensureRoutes(in: mapView, style: style, trips: [], selectedTrip: nil)
     } else if let places = self.searchResults {
       context.coordinator.ensureMarkers(style: .pin, in: mapView, places: places)
-      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
+      context.coordinator.ensureRoutes(in: mapView, style: style, trips: [], selectedTrip: nil)
       // TODO zoom to search results bbox (add to focus enum)
     } else {
       context.coordinator.ensureMarkers(style: .pin, in: mapView, places: [])
-      context.coordinator.ensureRoutes(in: mapView, trips: [], selectedTrip: nil)
+      context.coordinator.ensureRoutes(in: mapView, style: style, trips: [], selectedTrip: nil)
+    }
+
+    // I don't know why, but the routes aren't visible in the preview app without this.
+    // Probably don't need to check this in.
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+      // Touch to redraw
+      self.updateUIView(mapView, context: context)
     }
 
     switch userLocationState {
@@ -405,12 +422,7 @@ extension MapView: UIViewRepresentable {
 
     // These `ensure` methods are getting really hairy. It'd be nice to do some kind of RAII thing
     // but the procedural nature of that doesnt' play well with SwiftUI's functional agenda.
-    func ensureRoutes(in mapView: MLNMapView, trips: [Trip], selectedTrip: Trip?) {
-      guard let style = mapView.style else {
-        logger.error("style was unexpectedly nil")
-        return
-      }
-
+    func ensureRoutes(in mapView: MLNMapView, style: MLNStyle, trips: [Trip], selectedTrip: Trip?) {
       let stale = Set(self.selectedTrips.keys).union(self.unselectedTrips.keys).subtracting(trips)
       for trip in stale {
         guard
@@ -599,6 +611,10 @@ extension MapView.Coordinator: MLNMapViewDelegate {
 
 // Extend default delegate implementation
 extension MapView.Coordinator: MLNLocationManagerDelegate {
+
+  // Explicit objc bindings avoid an error while compiling preview
+  // Otherwise there's a conflict between method names
+  @objc(locationManager:didUpdateLocations:)
   func locationManager(_ manager: any MLNLocationManager, didUpdate locations: [CLLocation]) {
     dispatchPrecondition(condition: .onQueue(.main))
     self.originalLocationManagerDelegate?.locationManager(manager, didUpdate: locations)
@@ -610,6 +626,9 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
     self.mapView.mostRecentUserLocation = mostRecentLocation
   }
 
+  // Explicit objc bindings avoid an error while compiling preview
+  // Otherwise there's a conflict between method names
+  @objc(locationManager:didUpdateHeading:)
   func locationManager(_ manager: any MLNLocationManager, didUpdate newHeading: CLHeading) {
     dispatchPrecondition(condition: .onQueue(.main))
     self.originalLocationManagerDelegate?.locationManager(manager, didUpdate: newHeading)
@@ -667,4 +686,19 @@ extension Bounds {
   var mlnBounds: MLNCoordinateBounds {
     MLNCoordinateBounds(sw: self.min.asCoordinate, ne: self.max.asCoordinate)
   }
+}
+
+#Preview("MapView") {
+  let tripPlan = ObservedObject(initialValue: FixtureData.transitTripPlan)
+  let searchQueue = Binding.constant(SearchQueue(mostRecentResults: FixtureData.places.all))
+  let currentLocation = FixtureData.places[.zeitgeist].location
+  return MapView(
+    searchResults: searchQueue.mostRecentResults, selectedPlace: tripPlan.projectedValue.navigateTo,
+    userLocationState: .constant(.initial),
+    mostRecentUserLocation: .constant(
+      CLLocation(latitude: currentLocation.lat, longitude: currentLocation.lng)),
+    pendingMapFocus: .constant(nil),
+    tripPlan: tripPlan.wrappedValue
+  )
+  .edgesIgnoringSafeArea(.all)
 }
