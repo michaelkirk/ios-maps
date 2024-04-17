@@ -26,52 +26,38 @@ struct FrontPageSearch: View {
 
   var body: some View {
     VStack(spacing: 0) {
-      VStack {
+      HStack {
         HStack {
-          HStack {
-            Image(systemName: "magnifyingglass").foregroundColor(
-              .hw_searchFieldPlaceholderForeground)
-            TextField("Where to?", text: $queryText)
-              .submitLabel(.search)
-              .dynamicTypeSize(.xxLarge)
-              .onSubmit {
-                didSubmitSearch()
-              }
-            if queryText.count > 0 {
-              Button(action: {
-                queryText = ""
-              }) {
-                Image(systemName: "xmark.circle.fill")
-              }.foregroundColor(.hw_searchFieldPlaceholderForeground)
+          Image(systemName: "magnifyingglass").foregroundColor(
+            .hw_searchFieldPlaceholderForeground)
+          TextField("Where to?", text: $queryText)
+            .submitLabel(.search)
+            .dynamicTypeSize(.xxLarge)
+            .onSubmit {
+              didSubmitSearch()
             }
-          }
-          .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 6))
-          .background(Color.hw_searchFieldBackground)
-          .cornerRadius(10)
           if queryText.count > 0 {
             Button(action: {
               queryText = ""
-              didDismissSearch()
             }) {
-              Text("Cancel")
-            }
+              Image(systemName: "xmark.circle.fill")
+            }.foregroundColor(.hw_searchFieldPlaceholderForeground)
           }
         }
+        .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 6))
+        .background(Color.hw_searchFieldBackground)
+        .cornerRadius(10)
+        if queryText.count > 0 {
+          Button(action: {
+            queryText = ""
+            didDismissSearch()
+          }) {
+            Text("Cancel")
+          }
+        }
+      }.padding()
 
-        let statusText =
-          ({
-            if hasPendingQuery {
-              return "Looking... 🧐"
-            } else if let places = places {
-              return "\(places.count) Results"
-            } else {
-              return " "
-            }
-          })()
-        Text(statusText).padding(.top, 8).bold()
-      }.padding().padding(.top, 8)
-
-      Divider()
+      Divider() // TODO: Only if there are search results and scrolled up a bit
       ScrollView {
         if let places = places {
           if places.isEmpty && !hasPendingQuery {
@@ -117,8 +103,6 @@ struct FrontPageSearch: View {
         Spacer()
       }
     }
-    // This padding is excessive, but works with/out notch and with sheet up/down.
-    .padding(.top, 32)
     .background(Color.hw_sheetBackground)
   }
 }
