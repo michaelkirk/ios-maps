@@ -19,6 +19,7 @@ struct FrontPageSearch: View {
   @Binding var placeDetailsDetent: PresentationDetent
 
   @StateObject var preferences = Env.current.preferencesController.preferences
+  @State private var scrollViewOffset: CGFloat = 0
 
   var preferencesController: PreferencesController {
     Env.current.preferencesController
@@ -57,56 +58,77 @@ struct FrontPageSearch: View {
         }
       }.padding()
 
-      Divider() // TODO: Only if there are search results and scrolled up a bit
+      // TODO: Only if there are search results and scrolled up a bit
+      if scrollViewOffset < -5 {
+        Divider()
+      }
       ScrollView {
-        if let places = places {
-          if places.isEmpty && !hasPendingQuery {
-            Text("No results. 😢")
+        VStack {
+          if hasPendingQuery {
+            ProgressView().padding(.top)
           }
-          PlaceList(
-            places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan,
-            placeDetailsDetent: $placeDetailsDetent
-          )
-          .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-          .onChange(of: selectedPlace) { newValue in
-            if newValue != nil {
-              let _ = print("selected place, so recording queryText: \(queryText)")
-              Task {
-                try await preferencesController.addSearch(text: queryText)
+          if let places = places {
+            if places.isEmpty && !hasPendingQuery {
+              Text("No results. 😢")
+            }
+            PlaceList(
+              places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan,
+              placeDetailsDetent: $placeDetailsDetent
+            )
+            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+            .onChange(of: selectedPlace) { newValue in
+              if newValue != nil {
+                let _ = print("selected place, so recording queryText: \(queryText)")
+                Task {
+                  try await preferencesController.addSearch(text: queryText)
+                }
               }
             }
-          }
-        } else {
-          if !preferences.recentSearches.isEmpty {
-            VStack(alignment: .leading, spacing: 8) {
-              HStack {
-                Text("Recent Searches").font(.headline)
-                Spacer()
-                Button(action: {
-                  preferencesController.clear()
-                }) {
-                  Text("Clear")
-                }
-              }
-              ForEach(preferences.recentSearches.identifiable()) { recentSearch in
-                let recentSearch = recentSearch.value
+          } else {
+            if !preferences.recentSearches.isEmpty {
+              VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                  Button(action: { queryText = recentSearch }) {
-                    Text(recentSearch)
-                  }
+                  Text("Recent Searches").font(.headline)
                   Spacer()
+                  Button(action: {
+                    preferencesController.clear()
+                  }) {
+                    Text("Clear")
+                  }
                 }
-              }
-            }.padding().padding(.top, 16)
+                ForEach(preferences.recentSearches.identifiable()) { recentSearch in
+                  let recentSearch = recentSearch.value
+                  HStack {
+                    Button(action: { queryText = recentSearch }) {
+                      Text(recentSearch)
+                    }
+                    Spacer()
+                  }
+                }
+              }.padding().padding(.top, 16)
+            }
           }
-        }
-        Spacer()
+          Spacer()
+        }.overlay(
+          GeometryReader { proxy in
+            Color.clear
+              .preference(
+                key: ScrollViewOffsetPreferenceKey.self,
+                value: proxy.frame(in: .named("scrollView")).minY)
+          })
       }
+      .coordinateSpace(name: "scrollView")
+    }
+    .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
+      scrollViewOffset = value
     }
     .background(Color.hw_sheetBackground)
   }
 }
 
-//#Preview {
-//    FrontPageSearch()
-//}
+struct ScrollViewOffsetPreferenceKey: PreferenceKey {
+  static var defaultValue: CGFloat = 0
+  static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+    value = nextValue()
+  }
+}
