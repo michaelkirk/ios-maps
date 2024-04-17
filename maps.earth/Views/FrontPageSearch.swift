@@ -37,6 +37,9 @@ struct FrontPageSearch: View {
             .onSubmit {
               didSubmitSearch()
             }
+          if hasPendingQuery {
+            ProgressView().padding(.trailing, 2)
+          }
           if queryText.count > 0 {
             Button(action: {
               queryText = ""
@@ -64,9 +67,6 @@ struct FrontPageSearch: View {
       }
       ScrollView {
         VStack {
-          if hasPendingQuery {
-            ProgressView().padding(.top)
-          }
           if let places = places {
             if places.isEmpty && !hasPendingQuery {
               Text("No results. 😢")
