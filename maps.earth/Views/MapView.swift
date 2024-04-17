@@ -46,6 +46,7 @@ class MapTapper: NSObject {
         continue
       }
       guard let tripLegId = try? TripLegId(string: featureId) else {
+        // We might want to handle other feature taps - e.g. tapping a trashcan or bus depot
         continue
       }
       coordinator.mapView(mapView, didTapTripLegId: tripLegId)
