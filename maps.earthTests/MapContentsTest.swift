@@ -22,7 +22,7 @@ final class MapContentsTest: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
 
-  func testAddingPins() throws {
+  func testAddingPins() {
     do {
       let oldContents = MapContents.empty
       let newContents = MapContents.pins(selected: nil, unselected: [dubsea])
@@ -43,7 +43,7 @@ final class MapContentsTest: XCTestCase {
     }
   }
 
-  func testRemovingPins() throws {
+  func testRemovingPins() {
     do {
       let oldContents = MapContents.pins(selected: nil, unselected: [dubsea, zeitgeist])
       let newContents = MapContents.pins(selected: nil, unselected: [dubsea])
@@ -61,5 +61,13 @@ final class MapContentsTest: XCTestCase {
       XCTAssertEqual(diff.removes[0] as! PlaceMarker, dubsea)
       XCTAssertEqual(diff.removes[1] as! PlaceMarker, zeitgeist)
     }
+  }
+
+  func testTripLegId() {
+    let uuid = UUID(uuidString: "abcd1234-5678-9abc-def0-1234567890ab")!
+    let id = TripLegId(tripId: uuid, legIdx: 1, isSelected: true)
+    let string = id.asString
+    let roundTrip = try! TripLegId(string: string)
+    XCTAssertEqual(id, roundTrip)
   }
 }

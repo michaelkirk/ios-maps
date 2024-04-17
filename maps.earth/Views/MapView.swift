@@ -16,6 +16,43 @@ enum UserLocationState {
   case denied
 }
 
+class MapTapper: NSObject {
+  weak var coordinator: MapView.Coordinator?
+  init(coordinator: MapView.Coordinator) {
+    self.coordinator = coordinator
+  }
+  @objc
+  func handleMapTap(sender: UITapGestureRecognizer) {
+    guard let coordinator = self.coordinator else {
+      // coordinator has been gc'd
+      return
+    }
+    guard let view = sender.view else {
+      assertionFailure("gesture was not in view")
+      return
+    }
+    guard let mapView = view as? MLNMapView else {
+      assertionFailure("view hosting gesture was not an MLNMapView")
+      return
+    }
+
+    let location = sender.location(in: mapView)
+    let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
+    let touchPoint = mapView.convert(coordinate, toPointTo: mapView)
+    let features = mapView.visibleFeatures(at: touchPoint)
+
+    for feature in features {
+      guard let featureId = feature.identifier as? String else {
+        continue
+      }
+      guard let tripLegId = try? TripLegId(string: featureId) else {
+        continue
+      }
+      coordinator.mapView(mapView, didTapTripLegId: tripLegId)
+    }
+  }
+}
+
 extension UserLocationState: CustomStringConvertible {
   var description: String {
     switch self {
@@ -160,6 +197,15 @@ extension MapView: UIViewRepresentable {
     let originalLocationManagerDelegate = mapView.locationManager.delegate
     mapView.locationManager.delegate = context.coordinator
     context.coordinator.originalLocationManagerDelegate = originalLocationManagerDelegate
+
+    let mapTapper = MapTapper(coordinator: context.coordinator)
+    let featureTapper = UITapGestureRecognizer(
+      target: mapTapper, action: #selector(MapTapper.handleMapTap(sender:)))
+    for recognizer in mapView.gestureRecognizers! where recognizer is UITapGestureRecognizer {
+      featureTapper.require(toFail: recognizer)
+    }
+    mapView.addGestureRecognizer(featureTapper)
+    context.coordinator.mapTapper = mapTapper
 
     do {
       let controlsUIView = context.coordinator.topControlsController.view!
@@ -309,6 +355,8 @@ extension MapView: UIViewRepresentable {
 
     let mapView: MapView
 
+    var mapTapper: MapTapper? = nil
+
     var mapContents: MapContents = .empty
 
     var topControlsController: UIHostingController<TopControls>
@@ -372,34 +420,19 @@ extension MapView: UIViewRepresentable {
       }
       self.mapContents = newContents
     }
-  }
-}
 
-struct HashableNSObject<T: NSObjectProtocol> {
-  var inner: T
-}
-
-extension HashableNSObject {
-  init(_ inner: T) {
-    self.inner = inner
-  }
-}
-
-extension HashableNSObject: Hashable {
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(inner.hash)
-  }
-}
-
-extension HashableNSObject: Equatable {
-  static func == (lhs: HashableNSObject<T>, rhs: HashableNSObject<T>) -> Bool {
-    lhs.inner.isEqual(rhs.inner)
-  }
-}
-
-extension MLNAnnotation {
-  var hashable: HashableNSObject<MLNAnnotation> {
-    HashableNSObject(self)
+    func mapView(_ mapView: MLNMapView, didTapTripLegId tripLegId: TripLegId) {
+      AssertMainThread()
+      guard case Result.success(let trips) = self.mapView.tripPlan.trips else {
+        assertionFailure("no trips found")
+        return
+      }
+      guard let selectedTrip = trips.first(where: { $0.id == tripLegId.tripId }) else {
+        assertionFailure("no trip found for tapped id: \(tripLegId)")
+        return
+      }
+      self.mapView.tripPlan.selectedTrip = selectedTrip
+    }
   }
 }
 
@@ -512,10 +545,6 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
       self.topControlsController.rootView.userLocationState = .denied
     }
   }
-}
-
-func polyline(coordinates: [CLLocationCoordinate2D]) -> MLNPolylineFeature {
-  MLNPolylineFeature(coordinates: coordinates, count: UInt(coordinates.count))
 }
 
 func debugString(_ trackingMode: MLNUserTrackingMode) -> String {

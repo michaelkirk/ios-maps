@@ -78,7 +78,6 @@ struct FrontPageSearch: View {
             .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
             .onChange(of: selectedPlace) { newValue in
               if newValue != nil {
-                let _ = print("selected place, so recording queryText: \(queryText)")
                 Task {
                   try await preferencesController.addSearch(text: queryText)
                 }

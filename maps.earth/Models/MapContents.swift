@@ -99,6 +99,49 @@ protocol MapContent: Equatable, Hashable {
   func add(to mapView: MLNMapView)
   func remove(from mapView: MLNMapView)
 }
+struct TripLegId: Equatable {
+  let tripId: UUID
+  let legIdx: Int
+  let isSelected: Bool
+  var asString: String {
+    "trip-route-\(tripId)-leg-\(legIdx)-\(isSelected ? "selected" : "unselected")"
+  }
+  static let pattern =
+    "trip-route-([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})-leg-(\\d+)-(selected|unselected)"
+  static let regex = try! NSRegularExpression(pattern: Self.pattern)
+  struct ParseError: Error {}
+}
+
+extension TripLegId {
+  init(string: String) throws {
+    guard
+      let match = Self.regex.firstMatch(
+        in: string, range: NSRange(string.startIndex..., in: string))
+    else {
+      throw Self.ParseError()
+    }
+
+    guard let tripId = UUID(uuidString: (string as NSString).substring(with: match.range(at: 1)))
+    else {
+      throw Self.ParseError()
+    }
+    self.tripId = tripId
+
+    guard let legIdx = Int((string as NSString).substring(with: match.range(at: 2))) else {
+      throw Self.ParseError()
+    }
+    self.legIdx = legIdx
+
+    switch (string as NSString).substring(with: match.range(at: 3)) {
+    case "selected":
+      self.isSelected = true
+    case "unselected":
+      self.isSelected = false
+    default:
+      throw Self.ParseError()
+    }
+  }
+}
 
 struct MapTrip: MapContent {
   let trip: Trip
@@ -106,7 +149,7 @@ struct MapTrip: MapContent {
 
   struct TripLayers {
     struct LegLayer {
-      let identifier: String
+      let identifier: TripLegId
       let source: MLNShapeSource
       let styleLayer: MLNLineStyleLayer
     }
@@ -119,10 +162,12 @@ struct MapTrip: MapContent {
       self.trip = trip
       self.isSelected = isSelected
       self.legLayers = trip.legs.enumerated().map { idx, leg in
-        let polyline = polyline(coordinates: leg.geometry)
-        let identifier =
-          "trip-route-\(trip.id)-leg-\(idx)-\(isSelected ? "selected" : "unselected")"
-        let source = MLNShapeSource(identifier: identifier, shapes: [polyline], options: nil)
+        let identifier = TripLegId(tripId: trip.id, legIdx: idx, isSelected: isSelected)
+        let polyline = polylineFeature(coordinates: leg.geometry, identifier: identifier)
+
+        let source = MLNShapeSource(
+          identifier: identifier.asString, features: [polyline], options: nil)
+
         let styleLayer = lineStyleLayer(
           source: source, identifier: identifier, travelMode: leg.mode, isSelected: isSelected)
         return LegLayer(identifier: identifier, source: source, styleLayer: styleLayer)
@@ -163,16 +208,16 @@ struct MapTrip: MapContent {
 
     // Insert the route line behind the annotation layer to keep the "end" markers above the routes.
     //     identifier = com.mapbox.annotations.points; sourceIdentifier = com.mapbox.annotations; sourceLayerIdentifier = com.mapbox.annotations.points
-    let annotationLayer = style.layers.first(where: {
+    let annotationsLayer = style.layers.first(where: {
       $0.identifier == "com.mapbox.annotations.points"
     })
 
     for legLayer in tripLayers.legLayers {
       style.addSource(legLayer.source)
-      if let annotationLayer = annotationLayer {
-        style.insertLayer(legLayer.styleLayer, below: annotationLayer)
+      if let annotationsLayer = annotationsLayer {
+        style.insertLayer(legLayer.styleLayer, below: annotationsLayer)
       } else {
-        assertionFailure("couldn't find points layer. Did maplibre change their API?")
+        assertionFailure("couldn't find annotationsLayer layer. Did maplibre change their API?")
         style.addLayer(legLayer.styleLayer)
       }
     }
@@ -190,6 +235,7 @@ struct MapTrip: MapContent {
     }
     for legLayer in tripLayers.legLayers {
       style.removeLayer(legLayer.styleLayer)
+      // this errors in the canvas preview
       try! style.removeSource(legLayer.source, error: ())
     }
     for marker in tripLayers.markers {
@@ -246,10 +292,12 @@ extension PlaceMarker: CustomDebugStringConvertible {
   }
 }
 
-func lineStyleLayer(source: MLNSource, identifier: String, travelMode: TravelMode, isSelected: Bool)
+func lineStyleLayer(
+  source: MLNSource, identifier: TripLegId, travelMode: TravelMode, isSelected: Bool
+)
   -> MLNLineStyleLayer
 {
-  let styleLayer = MLNLineStyleLayer(identifier: identifier, source: source)
+  let styleLayer = MLNLineStyleLayer(identifier: identifier.asString, source: source)
   styleLayer.lineColor = NSExpression(
     forConstantValue: isSelected ? UIColor(Color.hw_activeRoute) : UIColor(Color.hw_inactiveRoute))
   styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: 4))
@@ -262,4 +310,12 @@ func lineStyleLayer(source: MLNSource, identifier: String, travelMode: TravelMod
   }
   return styleLayer
 
+}
+
+func polylineFeature(coordinates: [CLLocationCoordinate2D], identifier: TripLegId)
+  -> MLNPolylineFeature
+{
+  let feature = MLNPolylineFeature(coordinates: coordinates, count: UInt(coordinates.count))
+  feature.identifier = identifier.asString
+  return feature
 }
