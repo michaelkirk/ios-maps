@@ -7,6 +7,7 @@
 
 import CoreLocation
 import Foundation
+import SwiftUI
 
 struct TripPlace: Hashable, Equatable {
   var location: LngLat
@@ -24,6 +25,17 @@ struct TripLeg {
 
   var duration: Duration {
     Duration.seconds(endTime.timeIntervalSince(startTime))
+  }
+
+  var activeLineColor: Color {
+    if case .transit(let transitLeg) = self.modeLeg,
+      let routeColor = transitLeg.routeColor,
+      let color = Color(hexString: routeColor)
+    {
+      color
+    } else {
+      Color.hw_activeRoute
+    }
   }
 }
 
