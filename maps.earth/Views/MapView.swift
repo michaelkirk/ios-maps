@@ -9,6 +9,8 @@ import Foundation
 import MapLibre
 import SwiftUI
 
+private let logger = FileLogger()
+
 enum UserLocationState {
   case initial
   case showing
@@ -36,10 +38,18 @@ class MapTapper: NSObject {
       return
     }
 
-    let location = sender.location(in: mapView)
-    let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
-    let touchPoint = mapView.convert(coordinate, toPointTo: mapView)
-    let features = mapView.visibleFeatures(at: touchPoint)
+    let touchPoint = sender.location(in: mapView)
+    // `visibleFeatures(at: point)` requires a very precise tap.
+    //
+    // Anecdotally, I find myself tapping multiple times before I successfully select the route.
+    // so we add some slop and use a Rect selector rather than the point selector
+    let slop: CGFloat = 10
+    let touchRect = CGRect(
+      x: touchPoint.x - slop, y: touchPoint.y - slop, width: slop * 2, height: slop * 2)
+
+    let pointFeatures = mapView.visibleFeatures(at: touchPoint)
+    // styleLayerIdentifiers:
+    let features = mapView.visibleFeatures(in: touchRect)
 
     for feature in features {
       guard let featureId = feature.identifier as? String else {
@@ -49,6 +59,8 @@ class MapTapper: NSObject {
         // We might want to handle other feature taps - e.g. tapping a trashcan or bus depot
         continue
       }
+      // If there are multiple features, we return whichever is first, not necessarily which is closest.
+      // If this proves problematc, we can sort the results by distance from touchPoint.
       coordinator.mapView(mapView, didTapTripLegId: tripLegId)
     }
   }
@@ -74,7 +86,6 @@ enum PendingRecenter {
   case resolved(CLLocation)
 }
 
-private let logger = FileLogger()
 let DefaultZoomLevel: CGFloat = 13
 
 enum MapFocus: Equatable {

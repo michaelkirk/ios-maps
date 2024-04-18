@@ -165,6 +165,12 @@ struct MapTrip: MapContent {
         let identifier = TripLegId(tripId: trip.id, legIdx: idx, isSelected: isSelected)
         let polyline = polylineFeature(coordinates: leg.geometry, identifier: identifier)
 
+        // We want to style each leg independently, so we can style the dashed line for walking.
+        // It's also sufficient for styling routeColor (once we support that)
+        // But it ends up being a lot of source/layers. Rather than a source/layer for *each* leg of the trip,
+        // maybe we can put in the whole trip (or all the trips?!) and use a runtime MGLVectorStyleeLayer.predicate
+        // to filter out the subset of features we want to style as dashed.
+        // Or maybe we can figure out why MGL doesn't support "data properties" for dynamic line type styling.
         let source = MLNShapeSource(
           identifier: identifier.asString, features: [polyline], options: nil)
 
