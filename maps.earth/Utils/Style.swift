@@ -45,8 +45,8 @@ extension Color {
   static let hw_sheetBackground = Color(rgb: 0xE8F0F4)
   static let hw_searchFieldBackground = Color(rgb: 0xD9E1E8)
   static let hw_searchFieldPlaceholderForeground = Color(rgb: 0x7B7E82)
-  static let hw_activeRoute = Color(rgb: 0x1097FF)
-  static let hw_inactiveRoute = Color(rgb: 0xAAB3C3)
+  static let hw_activeRoute = Color(rgb: 0x1296FF)
+  static let hw_inactiveRoute = Color(rgb: 0x6FC1EE)
 
   var uiColor: UIColor {
     UIColor(self)
