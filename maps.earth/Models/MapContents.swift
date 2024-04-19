@@ -175,7 +175,7 @@ struct MapTrip: MapContent {
           identifier: identifier.asString, features: [polyline], options: nil)
 
         let styleLayer = lineStyleLayer(
-          source: source, identifier: identifier, travelMode: leg.mode, isSelected: isSelected)
+          source: source, identifier: identifier, leg: leg, isSelected: isSelected)
         return LegLayer(identifier: identifier, source: source, styleLayer: styleLayer)
       }
       var markers = trip.transferPlaces.map { transfer in
@@ -299,16 +299,15 @@ extension PlaceMarker: CustomDebugStringConvertible {
 }
 
 func lineStyleLayer(
-  source: MLNSource, identifier: TripLegId, travelMode: TravelMode, isSelected: Bool
+  source: MLNSource, identifier: TripLegId, leg: TripLeg, isSelected: Bool
 )
   -> MLNLineStyleLayer
 {
   let styleLayer = MLNLineStyleLayer(identifier: identifier.asString, source: source)
-  styleLayer.lineColor = NSExpression(
-    forConstantValue: isSelected ? UIColor(Color.hw_activeRoute) : UIColor(Color.hw_inactiveRoute))
   styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: 4))
-
-  switch travelMode {
+  styleLayer.lineColor = NSExpression(
+    forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
+  switch leg.mode {
   case .walk:
     styleLayer.lineDashPattern = NSExpression(forConstantValue: NSArray(array: [1, 1]))
   default:
