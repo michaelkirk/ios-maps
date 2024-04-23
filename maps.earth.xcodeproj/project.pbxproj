@@ -37,6 +37,10 @@
 		456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */; };
 		456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */; };
 		456C6CF32B7306D000AAFBE6 /* PlaceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */; };
+		4571DB8B2BD87B4C00C919D8 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB8A2BD87B4C00C919D8 /* SwiftUIView.swift */; };
+		4571DB8D2BD9A8C000C919D8 /* TripDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */; };
+		4571DB8F2BD9BE0C00C919D8 /* RelativeDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB8E2BD9BE0C00C919D8 /* RelativeDateFormatter.swift */; };
+		4571DB912BD9BE9F00C919D8 /* FormatRelativeDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB902BD9BE9F00C919D8 /* FormatRelativeDateTests.swift */; };
 		45831E312BC8A3A1007E7AA4 /* MapContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E302BC8A3A1007E7AA4 /* MapContents.swift */; };
 		45831E332BC8A4C3007E7AA4 /* MapContentsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E322BC8A4C3007E7AA4 /* MapContentsTest.swift */; };
 		45831E352BCDC8A2007E7AA4 /* FrontPageSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */; };
@@ -114,6 +118,10 @@
 		456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetail.swift; sourceTree = "<group>"; };
 		456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
 		456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTest.swift; sourceTree = "<group>"; };
+		4571DB8A2BD87B4C00C919D8 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDatePicker.swift; sourceTree = "<group>"; };
+		4571DB8E2BD9BE0C00C919D8 /* RelativeDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeDateFormatter.swift; sourceTree = "<group>"; };
+		4571DB902BD9BE9F00C919D8 /* FormatRelativeDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatRelativeDateTests.swift; sourceTree = "<group>"; };
 		45831E302BC8A3A1007E7AA4 /* MapContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContents.swift; sourceTree = "<group>"; };
 		45831E322BC8A4C3007E7AA4 /* MapContentsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContentsTest.swift; sourceTree = "<group>"; };
 		45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontPageSearch.swift; sourceTree = "<group>"; };
@@ -230,6 +238,7 @@
 				450C5F1E2B963B5700394697 /* TripTest.swift */,
 				45831E322BC8A4C3007E7AA4 /* MapContentsTest.swift */,
 				450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */,
+				4571DB902BD9BE9F00C919D8 /* FormatRelativeDateTests.swift */,
 			);
 			path = maps.earthTests;
 			sourceTree = "<group>";
@@ -252,13 +261,23 @@
 				45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */,
 				45F5ECC52B9FC95C007A4657 /* UIHelper.swift */,
 				45831E382BCDC940007E7AA4 /* Logging.swift */,
+				4571DB8E2BD9BE0C00C919D8 /* RelativeDateFormatter.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		4571DB892BD87B3B00C919D8 /* UtilityViews */ = {
+			isa = PBXGroup;
+			children = (
+				4571DB8A2BD87B4C00C919D8 /* SwiftUIView.swift */,
+			);
+			path = UtilityViews;
 			sourceTree = "<group>";
 		};
 		45971AC62B71A7050050BECE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4571DB892BD87B3B00C919D8 /* UtilityViews */,
 				45971AC42B71A6FF0050BECE /* PlaceRow.swift */,
 				455363EF2B687EF0006DF291 /* MapView.swift */,
 				4563B9F42B687AA4005A677A /* HomeView.swift */,
@@ -275,6 +294,7 @@
 				45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */,
 				45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */,
 				45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */,
+				4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -476,6 +496,7 @@
 				45831E3D2BCDFDAD007E7AA4 /* PreferencesController.swift in Sources */,
 				4563B9F52B687AA4005A677A /* HomeView.swift in Sources */,
 				45971ABB2B71995D0050BECE /* Place.swift in Sources */,
+				4571DB8D2BD9A8C000C919D8 /* TripDatePicker.swift in Sources */,
 				45971ACA2B71AB500050BECE /* FixtureData.swift in Sources */,
 				45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */,
 				45831E352BCDC8A2007E7AA4 /* FrontPageSearch.swift in Sources */,
@@ -499,7 +520,9 @@
 				4545AA702BA39C4F00958306 /* Valhalla.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
 				45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */,
+				4571DB8B2BD87B4C00C919D8 /* SwiftUIView.swift in Sources */,
 				45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */,
+				4571DB8F2BD9BE0C00C919D8 /* RelativeDateFormatter.swift in Sources */,
 				45831E312BC8A3A1007E7AA4 /* MapContents.swift in Sources */,
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
 				4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */,
@@ -518,6 +541,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4571DB912BD9BE9F00C919D8 /* FormatRelativeDateTests.swift in Sources */,
 				45831E332BC8A4C3007E7AA4 /* MapContentsTest.swift in Sources */,
 				450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */,
 				450C5F1F2B963B5700394697 /* TripTest.swift in Sources */,

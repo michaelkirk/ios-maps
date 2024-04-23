@@ -33,7 +33,9 @@ struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
   var searcher = TripSearchManager()
 
-  @Binding var showSteps: Bool
+  @State var showSteps: Bool
+  @State var showTimePicker: Bool = false
+  @State var tripDate: TripDateMode = .departNow
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -58,6 +60,25 @@ struct TripPlanView: View {
       .padding(.bottom, 10)
       .background(Color.hw_lightGray)
       .cornerRadius(8)
+
+      if tripPlan.mode == .transit {
+        Button(action: { showTimePicker = true }) {
+          switch tripDate {
+          case .departNow:
+            Text("Leave now")
+          case .departAt(let date):
+            Text("Leave at \(formatRelativeDate(date))")
+          case .arriveBy(let date):
+            Text("Arrive by \(formatRelativeDate(date))")
+          }
+          Image(systemName: "chevron.down").imageScale(.small)
+            .padding(.top, 3)
+        }
+        .foregroundColor(.black)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .roundedBorder(.black, cornerRadius: 8)
+      }
 
       ScrollViewReader { scrollView in
         switch tripPlan.trips {
@@ -117,9 +138,24 @@ struct TripPlanView: View {
         } else {
           MultiModalTripDetailsSheetContents(trip: trip, onClose: { showSteps = false })
         }
+      }.sheet(isPresented: $showTimePicker) {
+        SheetContentsWithoutTitle(currentDetent: .constant(.medium)) {
+          VStack {
+            TripDatePicker(mode: $tripDate)
+            HStack(spacing: 60) {
+              Button(
+                "Cancel",
+                action: {
+                  // maybe we should restore to previous value rather than always reset to now
+                  tripDate = .departNow
+                  showTimePicker = false
+                }
+              ).foregroundColor(.black)
+              Button("Done", action: { showTimePicker = false })
+            }.font(.title3)
+          }.padding()
+        }
       }
-      .cornerRadius(8)
-      .frame(minHeight: 200)
     }.onAppear {
       // don't blow away mocked values in Preview
       if !Env.current.isMock {
@@ -128,6 +164,8 @@ struct TripPlanView: View {
     }.onChange(of: tripPlan.navigateFrom) { newValue in
       queryIfReady()
     }.onChange(of: tripPlan.navigateTo) { newValue in
+      queryIfReady()
+    }.onChange(of: tripDate) { newValue in
       queryIfReady()
     }.onChange(of: tripPlan.mode) { newValue in
       queryIfReady()
@@ -146,7 +184,8 @@ struct TripPlanView: View {
     // TODO: track request_id, discard stale results
     Task {
       do {
-        let trips = try await searcher.query(from: from, to: to, mode: tripPlan.mode)
+        let trips = try await searcher.query(
+          from: from, to: to, mode: tripPlan.mode, tripDate: tripDate)
         await MainActor.run {
           self.tripPlan.trips = trips.mapError { $0 as any Error }
           if case .success(let trips) = trips {
@@ -178,7 +217,8 @@ struct TripSearchManager {
   var pendingQueries: [TripQuery] = []
   var completedQueries: [TripQuery] = []
 
-  func query(from: Place, to: Place, mode: TravelMode) async throws -> Result<[Trip], TripPlanError>
+  func query(from: Place, to: Place, mode: TravelMode, tripDate: TripDateMode) async throws
+    -> Result<[Trip], TripPlanError>
   {
     // TODO: pass units through Env?
     let units: DistanceUnit
@@ -188,7 +228,7 @@ struct TripSearchManager {
       units = .miles
     }
     return try await tripPlanClient.query(
-      from: from, to: to, mode: mode, units: units)
+      from: from, to: to, mode: mode, units: units, tripDate: tripDate)
   }
 }
 
@@ -202,7 +242,7 @@ struct TripPlanSheetContents: View {
     ) {
       GeometryReader { geometry in
         ScrollView {
-          TripPlanView(tripPlan: tripPlan, showSteps: $showSteps)
+          TripPlanView(tripPlan: tripPlan, showSteps: showSteps)
             .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             .frame(minHeight: geometry.size.height)
         }

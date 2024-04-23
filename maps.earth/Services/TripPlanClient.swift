@@ -327,24 +327,42 @@ protocol TripPlanClient {
   typealias RealClient = TripPlanNetworkClient
   typealias MockClient = TripPlanMockClient
 
-  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit) async throws -> Result<
-    [Trip], TripPlanError
-  >
+  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit, tripDate: TripDateMode)
+    async throws -> Result<
+      [Trip], TripPlanError
+    >
 }
 
 struct TripPlanMockClient: TripPlanClient {
-  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit) async throws -> Result<
-    [Trip], TripPlanError
-  > {
+  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit, tripDate: TripDateMode)
+    async throws -> Result<
+      [Trip], TripPlanError
+    >
+  {
     .success(FixtureData.bikeTrips)
   }
 }
 
 struct TripPlanNetworkClient: TripPlanClient {
   let config = AppConfig()
-  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit) async throws -> Result<
-    [Trip], TripPlanError
-  > {
+
+  static var dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-dd"
+    return dateFormatter
+  }()
+
+  static var timeFormatter: DateFormatter = {
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateFormat = "HH:mm"
+    return timeFormatter
+  }()
+
+  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit, tripDate: TripDateMode)
+    async throws -> Result<
+      [Trip], TripPlanError
+    >
+  {
     // URL: https://maps.earth/travelmux/v2/plan?fromPlace=47.575837%2C-122.339414&toPlace=47.622687%2C-122.312892&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
 
     let preferredDistanceUnits =
@@ -356,15 +374,39 @@ struct TripPlanNetworkClient: TripPlanClient {
 
     var url = config.travelmuxEndpoint
 
-    let params = [
+    var params = [
       URLQueryItem(name: "fromPlace", value: "\(from.location.lat),\(from.location.lng)"),
       URLQueryItem(name: "toPlace", value: "\(to.location.lat),\(to.location.lng)"),
       URLQueryItem(name: "numItineraries", value: "5"),
       URLQueryItem(name: "mode", value: mode.rawValue),
       URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
     ]
+
+    if mode == .transit {
+      switch tripDate {
+      case .departNow:
+        break
+      case .departAt(let date):
+        // time=16%3A50&date=2024-04-24
+        let time = Self.timeFormatter.string(from: date)
+        params.append(URLQueryItem(name: "time", value: time))
+
+        let date = Self.dateFormatter.string(from: date)
+        params.append(URLQueryItem(name: "date", value: date))
+      case .arriveBy(let date):
+        // time=16%3A50&date=2024-04-24&arriveBy=true
+        let time = Self.timeFormatter.string(from: date)
+        params.append(URLQueryItem(name: "time", value: time))
+
+        let date = Self.dateFormatter.string(from: date)
+        params.append(URLQueryItem(name: "date", value: date))
+
+        params.append(URLQueryItem(name: "arriveBy", value: "true"))
+      }
+    }
+
     url.append(queryItems: params)
-    // print("travelmux assembled url: \(url)")
+     print("travelmux assembled url: \(url)")
 
     let result: Result<[Trip], TripPlanErrorResponse> = try await fetchData(from: url).map {
       (response: TripPlanResponse) in
