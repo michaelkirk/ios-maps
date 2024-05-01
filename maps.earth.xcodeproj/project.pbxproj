@@ -37,7 +37,7 @@
 		456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */; };
 		456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */; };
 		456C6CF32B7306D000AAFBE6 /* PlaceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */; };
-		4571DB8B2BD87B4C00C919D8 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB8A2BD87B4C00C919D8 /* SwiftUIView.swift */; };
+		4571DB8B2BD87B4C00C919D8 /* View+roundedBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB8A2BD87B4C00C919D8 /* View+roundedBorder.swift */; };
 		4571DB8D2BD9A8C000C919D8 /* TripDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */; };
 		4571DB8F2BD9BE0C00C919D8 /* RelativeDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB8E2BD9BE0C00C919D8 /* RelativeDateFormatter.swift */; };
 		4571DB912BD9BE9F00C919D8 /* FormatRelativeDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4571DB902BD9BE9F00C919D8 /* FormatRelativeDateTests.swift */; };
@@ -62,6 +62,7 @@
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */; };
 		45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */; };
+		45DD17122BE2E2170085D2B1 /* LabeledCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DD17112BE2E2170085D2B1 /* LabeledCheckbox.swift */; };
 		45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */ = {isa = PBXBuildFile; fileRef = 45E474702BB3562500018120 /* bicycle_plan_error.json */; };
 		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
 		45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC72BA011C9007A4657 /* CloseButton.swift */; };
@@ -118,7 +119,7 @@
 		456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetail.swift; sourceTree = "<group>"; };
 		456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
 		456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTest.swift; sourceTree = "<group>"; };
-		4571DB8A2BD87B4C00C919D8 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		4571DB8A2BD87B4C00C919D8 /* View+roundedBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+roundedBorder.swift"; sourceTree = "<group>"; };
 		4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDatePicker.swift; sourceTree = "<group>"; };
 		4571DB8E2BD9BE0C00C919D8 /* RelativeDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeDateFormatter.swift; sourceTree = "<group>"; };
 		4571DB902BD9BE9F00C919D8 /* FormatRelativeDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatRelativeDateTests.swift; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceField.swift; sourceTree = "<group>"; };
 		45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiModalTripDetails.swift; sourceTree = "<group>"; };
+		45DD17112BE2E2170085D2B1 /* LabeledCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledCheckbox.swift; sourceTree = "<group>"; };
 		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -269,7 +271,8 @@
 		4571DB892BD87B3B00C919D8 /* UtilityViews */ = {
 			isa = PBXGroup;
 			children = (
-				4571DB8A2BD87B4C00C919D8 /* SwiftUIView.swift */,
+				4571DB8A2BD87B4C00C919D8 /* View+roundedBorder.swift */,
+				45DD17112BE2E2170085D2B1 /* LabeledCheckbox.swift */,
 			);
 			path = UtilityViews;
 			sourceTree = "<group>";
@@ -520,11 +523,12 @@
 				4545AA702BA39C4F00958306 /* Valhalla.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
 				45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */,
-				4571DB8B2BD87B4C00C919D8 /* SwiftUIView.swift in Sources */,
+				4571DB8B2BD87B4C00C919D8 /* View+roundedBorder.swift in Sources */,
 				45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */,
 				4571DB8F2BD9BE0C00C919D8 /* RelativeDateFormatter.swift in Sources */,
 				45831E312BC8A3A1007E7AA4 /* MapContents.swift in Sources */,
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
+				45DD17122BE2E2170085D2B1 /* LabeledCheckbox.swift in Sources */,
 				4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */,
 				4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */,
 				450855232BCF36BF00B7678C /* Bench.swift in Sources */,

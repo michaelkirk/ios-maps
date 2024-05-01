@@ -97,8 +97,7 @@ func routeEmojiSummary(trip: Trip) -> String {
     case .transit(let transitLeg):
       output += transitLeg.emojiRouteLabel
     case .nonTransit(_):
-      // eventually we'll support bike+bus
-      output += TravelMode.walk.emoji
+      output += tripLeg.mode.emoji
     }
     first = false
   }

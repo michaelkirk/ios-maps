@@ -36,6 +36,7 @@ struct TripPlanView: View {
   @State var showSteps: Bool
   @State var showTimePicker: Bool = false
   @State var tripDate: TripDateMode = .departNow
+  @State var transitWithBike: Bool = false
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -62,22 +63,31 @@ struct TripPlanView: View {
       .cornerRadius(8)
 
       if tripPlan.mode == .transit {
-        Button(action: { showTimePicker = true }) {
-          switch tripDate {
-          case .departNow:
-            Text("Leave now")
-          case .departAt(let date):
-            Text("Leave at \(formatRelativeDate(date))")
-          case .arriveBy(let date):
-            Text("Arrive by \(formatRelativeDate(date))")
+        HStack(spacing: 16) {
+          Button(action: { showTimePicker = true }) {
+            switch tripDate {
+            case .departNow:
+              Text("Leave now")
+            case .departAt(let date):
+              Text("Leave at \(formatRelativeDate(date))")
+            case .arriveBy(let date):
+              Text("Arrive by \(formatRelativeDate(date))")
+            }
+            Image(systemName: "chevron.down").imageScale(.small)
+              .padding(.top, 3)
           }
-          Image(systemName: "chevron.down").imageScale(.small)
-            .padding(.top, 3)
+          .foregroundColor(.black)
+          .padding(.horizontal, 8)
+          .padding(.vertical, 4)
+          .roundedBorder(.black, cornerRadius: 8)
+
+          LabeledCheckbox(isChecked: $transitWithBike) {
+            Text("Transit with a bike")
+          }
+          .padding(.horizontal, 8)
+          .padding(.vertical, 4)
+          .roundedBorder(.black, cornerRadius: 8)
         }
-        .foregroundColor(.black)
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .roundedBorder(.black, cornerRadius: 8)
       }
 
       ScrollViewReader { scrollView in
@@ -169,6 +179,8 @@ struct TripPlanView: View {
       queryIfReady()
     }.onChange(of: tripPlan.mode) { newValue in
       queryIfReady()
+    }.onChange(of: transitWithBike) { newValue in
+      queryIfReady()
     }.onDisappear {
       self.tripPlan.selectedTrip = nil
     }
@@ -185,7 +197,8 @@ struct TripPlanView: View {
     Task {
       do {
         let trips = try await searcher.query(
-          from: from, to: to, mode: tripPlan.mode, tripDate: tripDate)
+          from: from, to: to, mode: tripPlan.mode, tripDate: tripDate,
+          transitWithBike: transitWithBike)
         await MainActor.run {
           self.tripPlan.trips = trips.mapError { $0 as any Error }
           if case .success(let trips) = trips {
@@ -217,7 +230,9 @@ struct TripSearchManager {
   var pendingQueries: [TripQuery] = []
   var completedQueries: [TripQuery] = []
 
-  func query(from: Place, to: Place, mode: TravelMode, tripDate: TripDateMode) async throws
+  func query(
+    from: Place, to: Place, mode: TravelMode, tripDate: TripDateMode, transitWithBike: Bool
+  ) async throws
     -> Result<[Trip], TripPlanError>
   {
     // TODO: pass units through Env?
@@ -227,8 +242,14 @@ struct TripSearchManager {
     } else {
       units = .miles
     }
+
+    var modes = [mode]
+    if mode == .transit && transitWithBike {
+      modes.append(.bike)
+    }
+
     return try await tripPlanClient.query(
-      from: from, to: to, mode: mode, units: units, tripDate: tripDate)
+      from: from, to: to, modes: modes, units: units, tripDate: tripDate)
   }
 }
 
