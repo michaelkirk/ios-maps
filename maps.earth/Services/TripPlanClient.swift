@@ -327,14 +327,18 @@ protocol TripPlanClient {
   typealias RealClient = TripPlanNetworkClient
   typealias MockClient = TripPlanMockClient
 
-  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit, tripDate: TripDateMode)
+  func query(
+    from: Place, to: Place, modes: [TravelMode], units: DistanceUnit, tripDate: TripDateMode
+  )
     async throws -> Result<
       [Trip], TripPlanError
     >
 }
 
 struct TripPlanMockClient: TripPlanClient {
-  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit, tripDate: TripDateMode)
+  func query(
+    from: Place, to: Place, modes: [TravelMode], units: DistanceUnit, tripDate: TripDateMode
+  )
     async throws -> Result<
       [Trip], TripPlanError
     >
@@ -358,7 +362,9 @@ struct TripPlanNetworkClient: TripPlanClient {
     return timeFormatter
   }()
 
-  func query(from: Place, to: Place, mode: TravelMode, units: DistanceUnit, tripDate: TripDateMode)
+  func query(
+    from: Place, to: Place, modes: [TravelMode], units: DistanceUnit, tripDate: TripDateMode
+  )
     async throws -> Result<
       [Trip], TripPlanError
     >
@@ -378,11 +384,11 @@ struct TripPlanNetworkClient: TripPlanClient {
       URLQueryItem(name: "fromPlace", value: "\(from.location.lat),\(from.location.lng)"),
       URLQueryItem(name: "toPlace", value: "\(to.location.lat),\(to.location.lng)"),
       URLQueryItem(name: "numItineraries", value: "5"),
-      URLQueryItem(name: "mode", value: mode.rawValue),
+      URLQueryItem(name: "mode", value: modes.map { $0.rawValue }.joined(separator: ",")),
       URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
     ]
 
-    if mode == .transit {
+    if modes[0] == .transit {
       switch tripDate {
       case .departNow:
         break
@@ -406,7 +412,7 @@ struct TripPlanNetworkClient: TripPlanClient {
     }
 
     url.append(queryItems: params)
-     print("travelmux assembled url: \(url)")
+    print("travelmux assembled url: \(url)")
 
     let result: Result<[Trip], TripPlanErrorResponse> = try await fetchData(from: url).map {
       (response: TripPlanResponse) in
