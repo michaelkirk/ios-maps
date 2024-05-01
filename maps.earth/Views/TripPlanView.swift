@@ -82,7 +82,10 @@ struct TripPlanView: View {
           .roundedBorder(.black, cornerRadius: 8)
 
           LabeledCheckbox(isChecked: $transitWithBike) {
-            Text("Transit with a bike")
+            HStack(spacing: 2) {
+              Text("🚲").padding(.top, -6)  // bike baseline is super low for some reason
+              Text("Bring a bike")
+            }
           }
           .padding(.horizontal, 8)
           .padding(.vertical, 4)
