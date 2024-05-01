@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LabeledCheckbox<Label>: View where Label: View {
   @Binding var isChecked: Bool
- 
+
   @ViewBuilder
   var label: () -> Label
 
