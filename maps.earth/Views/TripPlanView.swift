@@ -36,7 +36,6 @@ struct TripPlanView: View {
   @State var showSteps: Bool
   @State var showTimePicker: Bool = false
   @State var tripDate: TripDateMode = .departNow
-  @State var transitWithBike: Bool = false
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -81,7 +80,7 @@ struct TripPlanView: View {
           .padding(.vertical, 4)
           .roundedBorder(.black, cornerRadius: 8)
 
-          LabeledCheckbox(isChecked: $transitWithBike) {
+          LabeledCheckbox(isChecked: $tripPlan.transitWithBike) {
             HStack(spacing: 2) {
               Text("🚲").padding(.top, -6)  // bike baseline is super low for some reason
               Text("Bring a bike")
@@ -182,7 +181,7 @@ struct TripPlanView: View {
       queryIfReady()
     }.onChange(of: tripPlan.mode) { newValue in
       queryIfReady()
-    }.onChange(of: transitWithBike) { newValue in
+    }.onChange(of: tripPlan.transitWithBike) { newValue in
       queryIfReady()
     }.onDisappear {
       self.tripPlan.selectedTrip = nil
@@ -201,7 +200,7 @@ struct TripPlanView: View {
       do {
         let trips = try await searcher.query(
           from: from, to: to, mode: tripPlan.mode, tripDate: tripDate,
-          transitWithBike: transitWithBike)
+          transitWithBike: tripPlan.transitWithBike)
         await MainActor.run {
           self.tripPlan.trips = trips.mapError { $0 as any Error }
           if case .success(let trips) = trips {
