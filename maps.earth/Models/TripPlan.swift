@@ -13,6 +13,7 @@ class TripPlan: ObservableObject {
   @Published var navigateFrom: Place?
   @Published var navigateTo: Place?
   @Published var mode: TravelMode
+  @Published var transitWithBike: Bool = false
   @Published var bounds: Bounds?
   @Published var trips: Result<[Trip], Error>
   @Published var selectedTrip: Trip?

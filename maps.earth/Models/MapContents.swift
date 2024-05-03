@@ -308,7 +308,7 @@ func lineStyleLayer(
   styleLayer.lineColor = NSExpression(
     forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
   switch leg.mode {
-  case .walk:
+  case .walk, .bike:
     styleLayer.lineDashPattern = NSExpression(forConstantValue: NSArray(array: [1, 1]))
   default:
     break
