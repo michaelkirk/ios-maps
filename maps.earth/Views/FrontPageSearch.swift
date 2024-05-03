@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct FrontPageSearch: View {
-  var placeholder: String
   var hasPendingQuery: Bool
   @Binding var places: [Place]?
   @Binding var queryText: String
@@ -18,116 +17,53 @@ struct FrontPageSearch: View {
   var didSubmitSearch: () -> Void
   @Binding var placeDetailsDetent: PresentationDetent
 
-  @StateObject var preferences = Env.current.preferencesController.preferences
-  @State private var scrollViewOffset: CGFloat = 0
-
-  var preferencesController: PreferencesController {
-    Env.current.preferencesController
-  }
+  @EnvironmentObject var userLocationManager: UserLocationManager
 
   var body: some View {
-    VStack(spacing: 0) {
-      HStack {
-        HStack {
-          Image(systemName: "magnifyingglass").foregroundColor(
-            .hw_searchFieldPlaceholderForeground)
-          TextField("Where to?", text: $queryText)
-            .submitLabel(.search)
-            .dynamicTypeSize(.xxLarge)
-            .onSubmit {
-              didSubmitSearch()
-            }
-          if hasPendingQuery {
-            ProgressView().padding(.trailing, 2)
-          }
-          if queryText.count > 0 {
-            Button(action: {
-              queryText = ""
-            }) {
-              Image(systemName: "xmark.circle.fill")
-            }.foregroundColor(.hw_searchFieldPlaceholderForeground)
-          }
+    let hasSelectedPlace = Binding(
+      get: { selectedPlace != nil },
+      set: { newValue in
+        if newValue {
+          assert(selectedPlace != nil)
+        } else {
+          selectedPlace = nil
         }
-        .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 6))
-        .background(Color.hw_searchFieldBackground)
-        .cornerRadius(10)
-        if queryText.count > 0 {
-          Button(action: {
-            queryText = ""
-            didDismissSearch()
-          }) {
-            Text("Cancel")
+      })
+
+    PlaceSearch(
+      placeholder: "Where to?", hasPendingQuery: hasPendingQuery, places: $places,
+      queryText: $queryText, didDismissSearch: didDismissSearch,
+      didSubmitSearch: didSubmitSearch,
+      didSelectPlace: { place in
+        selectedPlace = place
+      }
+    ).sheet(isPresented: hasSelectedPlace) {
+      if let selectedPlace = selectedPlace {
+        SheetContents(
+          title: selectedPlace.name,
+          onClose: {
+            self.selectedPlace = nil
+          },
+          currentDetent: $placeDetailsDetent
+        ) {
+          ScrollView {
+            PlaceDetail(
+              place: selectedPlace, tripPlan: tripPlan,
+              didSelectNavigateTo: { place in
+                tripPlan.navigateTo = place
+                if let mostRecentUserLocation = self.userLocationManager
+                  .mostRecentUserLocation
+                {
+                  tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
+                }
+              })
           }
+          // This is arguably useful.
+          // Usually I just want to swipe down to get a better look at the map without closing out
+          // of the place. If I actually want to dismiss, it's easy enough to hit the X
+          .interactiveDismissDisabled(true)
         }
-      }.padding()
-
-      // TODO: Only if there are search results and scrolled up a bit
-      if scrollViewOffset < -5 {
-        Divider()
       }
-      ScrollView {
-        VStack {
-          if let places = places {
-            if places.isEmpty && !hasPendingQuery {
-              Text("No results. 😢")
-            }
-            PlaceList(
-              places: $places, selectedPlace: $selectedPlace, tripPlan: tripPlan,
-              placeDetailsDetent: $placeDetailsDetent
-            )
-            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-            .onChange(of: selectedPlace) { newValue in
-              if newValue != nil {
-                Task {
-                  try await preferencesController.addSearch(text: queryText)
-                }
-              }
-            }
-          } else {
-            if !preferences.recentSearches.isEmpty {
-              VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                  Text("Recent Searches").font(.headline)
-                  Spacer()
-                  Button(action: {
-                    preferencesController.clear()
-                  }) {
-                    Text("Clear")
-                  }
-                }
-                ForEach(preferences.recentSearches.identifiable()) { recentSearch in
-                  let recentSearch = recentSearch.value
-                  HStack {
-                    Button(action: { queryText = recentSearch }) {
-                      Text(recentSearch)
-                    }
-                    Spacer()
-                  }
-                }
-              }.padding().padding(.top, 16)
-            }
-          }
-          Spacer()
-        }.overlay(
-          GeometryReader { proxy in
-            Color.clear
-              .preference(
-                key: ScrollViewOffsetPreferenceKey.self,
-                value: proxy.frame(in: .named("scrollView")).minY)
-          })
-      }
-      .coordinateSpace(name: "scrollView")
     }
-    .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
-      scrollViewOffset = value
-    }
-    .background(Color.hw_sheetBackground)
-  }
-}
-
-struct ScrollViewOffsetPreferenceKey: PreferenceKey {
-  static var defaultValue: CGFloat = 0
-  static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-    value = nextValue()
   }
 }

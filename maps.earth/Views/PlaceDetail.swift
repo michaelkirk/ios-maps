@@ -13,9 +13,8 @@ let addressFormatter = AddressFormatter()
 
 struct PlaceDetail: View {
   var place: Place
-
-  @EnvironmentObject var userLocationManager: UserLocationManager
   @ObservedObject var tripPlan: TripPlan
+  var didSelectNavigateTo: (Place) -> Void
 
   var body: some View {
     let isShowingDirections = Binding(
@@ -28,12 +27,7 @@ struct PlaceDetail: View {
     )
     VStack(alignment: .leading) {
       HStack {
-        Button(action: {
-          tripPlan.navigateTo = place
-          if let mostRecentUserLocation = self.userLocationManager.mostRecentUserLocation {
-            tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
-          }
-        }) {
+        Button(action: { didSelectNavigateTo(place) }) {
           Text("Directions")
         }
         .padding()
@@ -79,9 +73,11 @@ struct PlaceDetail: View {
 }
 
 #Preview {
-  PlaceDetail(place: FixtureData.places[.zeitgeist], tripPlan: TripPlan())
+  PlaceDetail(
+    place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(), didSelectNavigateTo: { _ in })
 }
 
 #Preview("showing sheet") {
-  PlaceDetail(place: FixtureData.places[.zeitgeist], tripPlan: TripPlan())
+  PlaceDetail(
+    place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(), didSelectNavigateTo: { _ in })
 }

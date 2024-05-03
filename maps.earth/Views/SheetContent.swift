@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SheetContents<Content>: View where Content: View {
   var title: String
-  var onClose: () -> Void = {}
+  var onClose: () -> Void
   var presentationDetents: Set<PresentationDetent> = [.large, .medium, minDetentHeight]
   @Binding var currentDetent: PresentationDetent
 
