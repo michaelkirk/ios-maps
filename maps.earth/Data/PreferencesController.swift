@@ -82,8 +82,8 @@ class PreferencesController {
         recentSearches.append(text)
         recentSearches.reverse()
 
-        // Only keep the 5 most recent searches
-        recentSearches = Array(recentSearches.prefix(5))
+        // Only keep some of the most recent searches
+        recentSearches = Array(recentSearches.prefix(10))
         logger.debug("New recents: \(recentSearches)")
 
         DispatchQueue.main.async {

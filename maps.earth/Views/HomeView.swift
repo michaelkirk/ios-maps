@@ -51,7 +51,6 @@ struct HomeView: View {
     .edgesIgnoringSafeArea(.all)
     .sheet(isPresented: .constant(true)) {
       FrontPageSearch(
-        placeholder: "Where to?",
         hasPendingQuery: searchQueue.hasPendingQuery,
         places: $searchQueue.mostRecentResults,
         queryText: $queryText,
