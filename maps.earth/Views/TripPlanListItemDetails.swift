@@ -29,6 +29,9 @@ struct NonTransitPlanItem: View {
   var onShowSteps: (() -> Void)
   var body: some View {
     VStack(alignment: .leading) {
+      if let substantialRoadNames = trip.substantialStreetNames {
+        Text(substantialRoadNames)
+      }
       Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
       Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
     }

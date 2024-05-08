@@ -104,6 +104,22 @@ struct Trip: Identifiable {
     return formatter.string(from: measurement)
   }
 
+  var substantialStreetNames: String? {
+    let names = legs.flatMap({ leg -> [String] in
+      if case .nonTransit(let nonTransitLeg) = leg.modeLeg {
+        return nonTransitLeg.substantialStreetNames
+      } else {
+        return []
+      }
+    })
+
+    if names.isEmpty {
+      return nil
+    } else {
+      return names.joined(separator: ", ")
+    }
+  }
+
   var transferPlaces: [TripPlace] {
     self.legs[1...].map { $0.fromPlace }
   }
