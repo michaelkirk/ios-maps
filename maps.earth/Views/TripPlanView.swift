@@ -120,13 +120,9 @@ struct TripPlanView: View {
                 HStack(spacing: 8) {
                   Spacer().frame(maxWidth: 8, maxHeight: .infinity)
                     .background(trip == tripPlan.selectedTrip ? .blue : .clear)
-                  if trip.legs.count > 1 || tripPlan.mode != .transit {
-                    TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode) {
-                      tripPlan.selectedTrip = trip
-                      showSteps = true
-                    }
-                  } else {
-                    TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode)
+                  TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode) {
+                    tripPlan.selectedTrip = trip
+                    showSteps = true
                   }
                 }
               }
