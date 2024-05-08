@@ -166,12 +166,12 @@ struct ManeuverListSheetContents: View {
 
 #Preview("Walking Maneuvers") {
   let trip = FixtureData.walkTrips[0]
-  guard case .nonTransit(let maneuvers) = trip.legs[0].modeLeg else {
+  guard case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg else {
     fatalError("unexpected legs for trip")
   }
 
   return Text("").sheet(isPresented: .constant(true)) {
-    ManeuverListSheetContents(trip: trip, maneuvers: maneuvers, onClose: {})
+    ManeuverListSheetContents(trip: trip, maneuvers: nonTransitLeg.maneuvers, onClose: {})
   }
 }
 

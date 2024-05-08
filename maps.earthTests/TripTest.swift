@@ -12,7 +12,7 @@ import XCTest
 
 final class TripTest: XCTestCase {
   func testGeometry() {
-    let trip = FixtureData.bikeTrips[0]
+    let trip = FixtureData.bikeTrips[1]
     let geometry = trip.legs[0].geometry
 
     XCTAssertEqual(geometry.count, 287)
@@ -31,19 +31,19 @@ final class TripTest: XCTestCase {
   }
 
   func testDuration() {
-    let trip = FixtureData.bikeTrips[0]
+    let trip = FixtureData.bikeTrips[1]
     XCTAssertEqual(trip.duration, 1566.205, accuracy: 10e-3)
     XCTAssertEqual(trip.durationFormatted, "26 min")
   }
 
   func testDistance() {
-    let trip = FixtureData.bikeTrips[0]
+    let trip = FixtureData.bikeTrips[1]
     XCTAssertEqual(trip.distance, 4.358, accuracy: 10e-3)
     XCTAssertEqual(trip.distanceUnit, .miles)
   }
 
   func testDistanceFormatting() {
-    var trip = FixtureData.bikeTrips[0]
+    var trip = FixtureData.bikeTrips[1]
     trip._formatLocale = Locale(identifier: "en_US")
     XCTAssertEqual(trip.distanceFormatted, "4.4 miles")
 
@@ -58,7 +58,7 @@ final class TripTest: XCTestCase {
   }
 
   func testWalkManeuvers() {
-    let trip = FixtureData.walkTrips[0]
+    let trip = FixtureData.walkTrips[1]
     XCTAssertEqual(trip.duration, 4025.249, accuracy: 10e-3)
     XCTAssertEqual(trip.distance, 4.736, accuracy: 10e-3)
     XCTAssertEqual(trip.distanceUnit, .miles)
@@ -66,9 +66,10 @@ final class TripTest: XCTestCase {
     XCTAssertEqual(trip.legs.count, 1)
     let leg = trip.legs[0]
 
-    guard case .nonTransit(let maneuvers) = leg.modeLeg else {
+    guard case .nonTransit(let nonTransitLeg) = leg.modeLeg else {
       fatalError("unexpeted mode leg")
     }
+    let maneuvers = nonTransitLeg.maneuvers
 
     XCTAssertEqual(maneuvers.count, 39)
     let firstManeuver = maneuvers[0]

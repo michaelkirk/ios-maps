@@ -120,13 +120,9 @@ struct TripPlanView: View {
                 HStack(spacing: 8) {
                   Spacer().frame(maxWidth: 8, maxHeight: .infinity)
                     .background(trip == tripPlan.selectedTrip ? .blue : .clear)
-                  if trip.legs.count > 1 || tripPlan.mode != .transit {
-                    TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode) {
-                      tripPlan.selectedTrip = trip
-                      showSteps = true
-                    }
-                  } else {
-                    TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode)
+                  TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode) {
+                    tripPlan.selectedTrip = trip
+                    showSteps = true
                   }
                 }
               }
@@ -144,9 +140,9 @@ struct TripPlanView: View {
       }.sheet(isPresented: $showSteps) {
         let trip = tripPlan.selectedTrip!
         let _ = assert(trip.legs.count > 0)
-        if trip.legs.count == 1, case .nonTransit(let maneuvers) = trip.legs[0].modeLeg {
+        if trip.legs.count == 1, case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg {
           ManeuverListSheetContents(
-            trip: trip, maneuvers: maneuvers, onClose: { showSteps = false })
+            trip: trip, maneuvers: nonTransitLeg.maneuvers, onClose: { showSteps = false })
         } else {
           MultiModalTripDetailsSheetContents(trip: trip, onClose: { showSteps = false })
         }

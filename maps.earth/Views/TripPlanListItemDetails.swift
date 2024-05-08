@@ -11,7 +11,7 @@ struct TripPlanListItemDetails: View {
   var trip: Trip
   @Binding
   var tripPlanMode: TravelMode
-  var onShowSteps: (() -> Void)?
+  var onShowSteps: (() -> Void)
 
   var body: some View {
     HStack {
@@ -26,16 +26,17 @@ struct TripPlanListItemDetails: View {
 
 struct NonTransitPlanItem: View {
   var trip: Trip
-  var onShowSteps: (() -> Void)?
+  var onShowSteps: (() -> Void)
   var body: some View {
     VStack(alignment: .leading) {
+      if let substantialRoadNames = trip.substantialStreetNames {
+        Text(substantialRoadNames)
+      }
       Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
       Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
     }
     Spacer()
-    if let onShowSteps = onShowSteps {
-      ShowStepsButton(onShowSteps: onShowSteps)
-    }
+    ShowStepsButton(onShowSteps: onShowSteps)
   }
 }
 
@@ -56,15 +57,13 @@ struct ShowStepsButton: View {
 
 struct TransitPlanItem: View {
   var trip: Trip
-  var onShowSteps: (() -> Void)?
+  var onShowSteps: (() -> Void)
   var body: some View {
     HStack(alignment: .top, spacing: 4) {
       VStack(alignment: .leading, spacing: 8) {
         Text(trip.timeSpanFormatted).font(.headline).dynamicTypeSize(.xxLarge)
         Text(routeEmojiSummary(trip: trip))
-        if let onShowSteps = onShowSteps {
-          ShowStepsButton(onShowSteps: onShowSteps).padding(.top, 8)
-        }
+        ShowStepsButton(onShowSteps: onShowSteps).padding(.top, 8)
       }
       Spacer()
       VStack(alignment: .trailing) {
