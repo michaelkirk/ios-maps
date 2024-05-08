@@ -359,6 +359,309 @@
       {
         "bounds": {
           "max": [
+            -122.33158,
+            47.59913
+          ],
+          "min": [
+            -122.37834,
+            47.56346
+          ]
+        },
+        "distance": 6.9658999999999995,
+        "distanceUnits": "kilometers",
+        "duration": 1955.0,
+        "endTime": 1715204450000,
+        "legs": [
+          {
+            "endTime": 1715204450000,
+            "fromPlace": {
+              "lat": 47.563412,
+              "lon": -122.378248,
+              "name": "Origin"
+            },
+            "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?cBRg@oFkC_XRcL?kC?wG?gE?{O?oF?oF?sD?sSRwB?wG?cQRgkAScL{@wLoAgJSg@wBsIcB{EkHsNsDsDSSoFsDwBcBkCoA{@g@{J{EkHsDczBogA{O_I_I_Dg@SoAg@?oFSoi@?gc@SgkA?oFgE?o_@?g@?wBcBg@{E?wo@?klBSon@?_N?sS?{Y?{J?{J?oFcBS{@?S?{@SoASoAg@kCcBwBoAsN{JgE_DwGgEsXkRkCwBg@SSS{@{@oA{@sXwQ_DkCgToP{@{@g@oA{@wBcBkH{@oAsIoKcBwBoA_DwBsIoKgY{@_Dg@_D{@cQf@gTf@kRz@oi@z@gc@?oFRkC?sD?wLSgEoAgESwBS{ES{Og@{zA?_DSce@?{aA?kz@?kk@?_NScmASsv@f@o_@?kCR{@f@{@f@Sf@SSoAg@sDg@gESg@Sg@SwB?oA?_DS?wBz@wBz@g@?g@SScBS_Iz@{J?SSSg@S{@?S?oAS?wB?gEf@oP?SSSg@?g@Sg@?g@?Sg@g@S?g@?{@bBc[RkCRgER{ERoKR{E?g@?kC?cBSkC?{@ScB?gw@?w~@?wL?{T?gES{ESsDoPgnB?oAR{@zEwV?kC?sq@SwB{@wBf@g@z@oAf@{@RS?{E?wBScB_I{@sXf@sSf@co@vB_NRo_@?kH?kHf@{JvB_NnA_Nf@{O?kH?sI?krDg@g~DnAsNRkxF?we@g@{J{@cGoA{EkCwG{EkMcQsIoKwBsD{@oAsNoP{YcVsI{EcGsDsIsDwcAo_@wLsD_IkC_D{@gY_Iz@cBkHoAoA{@?oAgESkH{@oKcBc[gJcGcBwVoF{JgE{T_IcQsDwBg@_S_DwGSgESgToAsSg@sg@SsXRk_AoAoU?_I?c~@f@oASSg@?wB?sDoA?cB?cBgJ{@cL?oF?sD{@{^?gE?{Y?{E?wG?_DRs]?kR?oK?kH?oF?w`@?s]?cB?gEgE?cj@g@SzE?bBS?SRSR?fE",
+            "mode": "BICYCLE",
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 50.5237,
+                  "instruction": "Bike northeast on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5634626,
+                    "lon": -122.3783322
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 3.6847,
+                  "instruction": "Continue onto path.",
+                  "startPoint": {
+                    "lat": 47.5639506,
+                    "lon": -122.3775853
+                  },
+                  "streetNames": null,
+                  "type": 8,
+                  "verbalPostTransitionInstruction": "Continue for 20 feet."
+                },
+                {
+                  "distance": 471.0986,
+                  "instruction": "Turn right onto Southwest Avalon Way.",
+                  "startPoint": {
+                    "lat": 47.5640038,
+                    "lon": -122.3775908
+                  },
+                  "streetNames": [
+                    "Southwest Avalon Way"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a half mile."
+                },
+                {
+                  "distance": 127.0642,
+                  "instruction": "Turn right onto Southwest Yancy Street.",
+                  "startPoint": {
+                    "lat": 47.5675988,
+                    "lon": -122.3708258
+                  },
+                  "streetNames": [
+                    "Southwest Yancy Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 48.5291,
+                  "instruction": "Turn left onto 28th Avenue Southwest.",
+                  "startPoint": {
+                    "lat": 47.5676195,
+                    "lon": -122.3681005
+                  },
+                  "streetNames": [
+                    "28th Avenue Southwest"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 228.6583,
+                  "instruction": "Turn right onto Southwest Andover Street.",
+                  "startPoint": {
+                    "lat": 47.5683122,
+                    "lon": -122.368053
+                  },
+                  "streetNames": [
+                    "Southwest Andover Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 3.0571,
+                  "instruction": "Turn left onto path.",
+                  "startPoint": {
+                    "lat": 47.5683495,
+                    "lon": -122.3631533
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 20 feet."
+                },
+                {
+                  "distance": 782.884,
+                  "instruction": "Continue onto West Seattle Bridge Trail.",
+                  "startPoint": {
+                    "lat": 47.5683936,
+                    "lon": -122.3631473
+                  },
+                  "streetNames": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "type": 8,
+                  "verbalPostTransitionInstruction": "Continue for 0.8 miles."
+                },
+                {
+                  "distance": 61.8388,
+                  "instruction": "Turn left onto West Seattle Bridge Trail.",
+                  "startPoint": {
+                    "lat": 47.571263,
+                    "lon": -122.3488547
+                  },
+                  "streetNames": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 396.851,
+                  "instruction": "Turn right onto West Seattle Bridge Trail.",
+                  "startPoint": {
+                    "lat": 47.5716135,
+                    "lon": -122.3480161
+                  },
+                  "streetNames": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a half mile."
+                },
+                {
+                  "distance": 1021.8819,
+                  "instruction": "Turn left onto East Marginal Way South.",
+                  "startPoint": {
+                    "lat": 47.5717804,
+                    "lon": -122.3397999
+                  },
+                  "streetNames": [
+                    "East Marginal Way South"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 1 mile."
+                },
+                {
+                  "distance": 320.6212,
+                  "instruction": "Continue onto Alaskan Way South.",
+                  "startPoint": {
+                    "lat": 47.58656,
+                    "lon": -122.3400253
+                  },
+                  "streetNames": [
+                    "Alaskan Way South"
+                  ],
+                  "type": 8,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 3.0882,
+                  "instruction": "Turn right onto South Atlantic Street.",
+                  "startPoint": {
+                    "lat": 47.5907595,
+                    "lon": -122.337345
+                  },
+                  "streetNames": [
+                    "South Atlantic Street"
+                  ],
+                  "type": 11,
+                  "verbalPostTransitionInstruction": "Continue for 20 feet."
+                },
+                {
+                  "distance": 115.7179,
+                  "instruction": "Turn left onto Marginal Way Cycle Route.",
+                  "startPoint": {
+                    "lat": 47.5907275,
+                    "lon": -122.3372987
+                  },
+                  "streetNames": null,
+                  "type": 14,
+                  "verbalPostTransitionInstruction": "Continue for 600 feet."
+                },
+                {
+                  "distance": 409.9122,
+                  "instruction": "Continue onto Portside Trail.",
+                  "startPoint": {
+                    "lat": 47.592328,
+                    "lon": -122.3367458
+                  },
+                  "streetNames": [
+                    "Portside Trail"
+                  ],
+                  "type": 8,
+                  "verbalPostTransitionInstruction": "Continue for a half mile."
+                },
+                {
+                  "distance": 6.4623,
+                  "instruction": "Turn left onto Portside Trail.",
+                  "startPoint": {
+                    "lat": 47.5981133,
+                    "lon": -122.3360192
+                  },
+                  "streetNames": [
+                    "Portside Trail"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 30 feet."
+                },
+                {
+                  "distance": 206.929,
+                  "instruction": "Turn right onto South King Street.",
+                  "startPoint": {
+                    "lat": 47.5982068,
+                    "lon": -122.336015
+                  },
+                  "streetNames": [
+                    "South King Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 54.8608,
+                  "instruction": "Turn left onto 2nd Avenue South.",
+                  "startPoint": {
+                    "lat": 47.5983027,
+                    "lon": -122.3315944
+                  },
+                  "streetNames": [
+                    "2nd Avenue South"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 5.3065,
+                  "instruction": "Turn left onto path.",
+                  "startPoint": {
+                    "lat": 47.5990966,
+                    "lon": -122.3315716
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 30 feet."
+                },
+                {
+                  "distance": 9.4821,
+                  "instruction": "Continue onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5991016,
+                    "lon": -122.3316853
+                  },
+                  "streetNames": null,
+                  "type": 8,
+                  "verbalPostTransitionInstruction": "Continue for 50 feet."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Arrive at your destination.",
+                  "startPoint": {
+                    "lat": 47.599091,
+                    "lon": -122.331856
+                  },
+                  "streetNames": null,
+                  "type": 4,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": [
+                "West Seattle Bridge Trail",
+                "East Marginal Way South"
+              ]
+            },
+            "startTime": 1715202495000,
+            "toPlace": {
+              "lat": 47.599091,
+              "lon": -122.331856,
+              "name": "Destination"
+            }
+          }
+        ],
+        "mode": "BICYCLE",
+        "startTime": 1715202495000
+      },
+      {
+        "bounds": {
+          "max": [
             -122.331855,
             47.599222
           ],
@@ -370,105 +673,243 @@
         "distance": 4.358,
         "distanceUnits": "miles",
         "duration": 1566.205,
-        "endTime": 1712708425873,
+        "endTime": 1715204062119,
         "legs": [
           {
-            "endTime": 1712708425873,
+            "endTime": 1715204062119,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": null
             },
             "geometry": "mo`vyArkklhFaL}OyFmIoBoCuB_Mi@gDMaAo@_F_CiXB_L@eC@cH@kEBqOBqF?kF@wDBqW@qGBkQNgkAEcLeAkLqAuJIe@sBeIgB{EmHuNqDoD]]eFoD}B_BiCqAaAe@}JaFkHqD{yBygAuOsHcIgDa@M_Bg@AmFIii@Gwc@SekAAsFwD?w_@Dc@@sBgBm@}E?uo@?alBO{n@?oMAySC{YAcKCqJ?yFEuq@A_EiCUm@?ma@W}c@y@m@A]FSTQ\\_@rA_@Y_As@kAaAgXsQmDmCcTePy@_Am@kAu@wBkBsHo@kAyIiKaBgCqAoC_C}IiK_YaAaD]}Cs@gQb@cTh@kRv@{i@x@_c@@yFHaCHwD@mLa@sE_A{Da@}BQ}EMcPa@uzAA}COce@GabA?gz@Fgk@AkNYslAKqv@Rc`@J}BR}@`@u@h@_@l@OOqAi@{Di@_EOg@[m@IgBEqA@iDW?{B|@oBv@e@@u@OUaBA}Hn@}JC]QOg@Is@I_@EcAGB}BMcEh@kPC]QIe@Gg@Ge@Ee@GYWW]Ka@CaAnBa[JiCNoENoE`@}KDyE?m@@aC?_BKkCGeAEwA?ew@?w~@@yL@aUEaEQwEYeEwPepBbG_\\@}RS_[uAgIp@yAp@yA`@s@^e@AkDG_C?uBeIu@_m@pAeo@`CaNB}h@@aHn@}JlBgNrAcNd@gOB}HBoIAorD_@k~DnAkNDoxFAke@a@iKq@cG}AuEaCqG}EwMcQiI{K_CmDcAkAqNgPoYcVqIeFaGiD}IaEwcAi_@yLuDaIeCcD_AeYaIyKa@kBnFc@b@aBdBs@d@q@B_AO}@[mAcAgG{FoDyC}Am@qI_CqCgAoImFyXeQ{JmE{T}HwPoDyBa@}RcDeH[yDEeT_BqSe@ch@GqXJm_AkAcU?mIIa~@d@aAKYm@GyBHcDqAEiBAwA?uIJ{A|@yHH{R`@sMFmA@?kB?qGAcLCaLE{d@Boa@?aCBeFt@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
-            "maneuvers": [
-              {
-                "instruction": "Bike northeast on Fauntleroy Way Southwest.",
-                "type": 2,
-                "verbalPostTransitionInstruction": "Continue for 200 feet."
-              },
-              {
-                "instruction": "Bear right toward Southwest Avalon Way.",
-                "type": 9,
-                "verbalPostTransitionInstruction": "Continue for a half mile."
-              },
-              {
-                "instruction": "Turn right onto Southwest Yancy Street.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 700 feet."
-              },
-              {
-                "instruction": "Turn left onto 28th Avenue Southwest.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 300 feet."
-              },
-              {
-                "instruction": "Turn right onto Southwest Andover Street.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for a quarter mile."
-              },
-              {
-                "instruction": "Turn left onto 23rd Avenue Southwest.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 500 feet."
-              },
-              {
-                "instruction": "Turn left to stay on 23rd Avenue Southwest.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 20 feet."
-              },
-              {
-                "instruction": "Turn right onto West Seattle Bridge Trail.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for a half mile."
-              },
-              {
-                "instruction": "Turn left to stay on West Seattle Bridge Trail.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 200 feet."
-              },
-              {
-                "instruction": "Turn right to stay on West Seattle Bridge Trail.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for a half mile."
-              },
-              {
-                "instruction": "Turn left to stay on West Seattle Bridge Trail.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 50 feet."
-              },
-              {
-                "instruction": "Turn left onto East Marginal Way South.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 1.5 miles."
-              },
-              {
-                "instruction": "Turn left onto the cycleway.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 40 feet."
-              },
-              {
-                "instruction": "Bear right onto Portside Trail.",
-                "type": 9,
-                "verbalPostTransitionInstruction": "Continue for a half mile."
-              },
-              {
-                "instruction": "Turn right onto South Jackson Street.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 500 feet."
-              },
-              {
-                "instruction": "Bear right to stay on South Jackson Street.",
-                "type": 9,
-                "verbalPostTransitionInstruction": "Continue for 600 feet."
-              },
-              {
-                "instruction": "Your destination is on the right.",
-                "type": 5,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "BICYCLE",
-            "startTime": 1712706859668,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 0.036,
+                  "instruction": "Bike northeast on Fauntleroy Way Southwest.",
+                  "startPoint": {
+                    "lat": 47.563527,
+                    "lon": -122.378442
+                  },
+                  "streetNames": [
+                    "Fauntleroy Way Southwest"
+                  ],
+                  "type": 2,
+                  "verbalPostTransitionInstruction": "Continue for 200 feet."
+                },
+                {
+                  "distance": 0.489,
+                  "instruction": "Bear right toward Southwest Avalon Way.",
+                  "startPoint": {
+                    "lat": 47.563917,
+                    "lon": -122.377932
+                  },
+                  "streetNames": [
+                    "Southwest Avalon Way"
+                  ],
+                  "type": 9,
+                  "verbalPostTransitionInstruction": "Continue for a half mile."
+                },
+                {
+                  "distance": 0.127,
+                  "instruction": "Turn right onto Southwest Yancy Street.",
+                  "startPoint": {
+                    "lat": 47.567599,
+                    "lon": -122.370826
+                  },
+                  "streetNames": [
+                    "Southwest Yancy Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 700 feet."
+                },
+                {
+                  "distance": 0.047,
+                  "instruction": "Turn left onto 28th Avenue Southwest.",
+                  "startPoint": {
+                    "lat": 47.56762,
+                    "lon": -122.368101
+                  },
+                  "streetNames": [
+                    "28th Avenue Southwest"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 0.27,
+                  "instruction": "Turn right onto Southwest Andover Street.",
+                  "startPoint": {
+                    "lat": 47.568312,
+                    "lon": -122.368053
+                  },
+                  "streetNames": [
+                    "Southwest Andover Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 0.088,
+                  "instruction": "Turn left onto 23rd Avenue Southwest.",
+                  "startPoint": {
+                    "lat": 47.568353,
+                    "lon": -122.362246
+                  },
+                  "streetNames": [
+                    "23rd Avenue Southwest"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 500 feet."
+                },
+                {
+                  "distance": 0.003,
+                  "instruction": "Turn left to stay on 23rd Avenue Southwest.",
+                  "startPoint": {
+                    "lat": 47.569635,
+                    "lon": -122.362208
+                  },
+                  "streetNames": [
+                    "23rd Avenue Southwest"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 20 feet."
+                },
+                {
+                  "distance": 0.685,
+                  "instruction": "Turn right onto West Seattle Bridge Trail.",
+                  "startPoint": {
+                    "lat": 47.56966,
+                    "lon": -122.362265
+                  },
+                  "streetNames": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a half mile."
+                },
+                {
+                  "distance": 0.034,
+                  "instruction": "Turn left to stay on West Seattle Bridge Trail.",
+                  "startPoint": {
+                    "lat": 47.571263,
+                    "lon": -122.348855
+                  },
+                  "streetNames": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 200 feet."
+                },
+                {
+                  "distance": 0.415,
+                  "instruction": "Turn right to stay on West Seattle Bridge Trail.",
+                  "startPoint": {
+                    "lat": 47.571518,
+                    "lon": -122.348455
+                  },
+                  "streetNames": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a half mile."
+                },
+                {
+                  "distance": 0.009,
+                  "instruction": "Turn left to stay on West Seattle Bridge Trail.",
+                  "startPoint": {
+                    "lat": 47.571778,
+                    "lon": -122.34
+                  },
+                  "streetNames": [
+                    "West Seattle Bridge Trail"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 50 feet."
+                },
+                {
+                  "distance": 1.357,
+                  "instruction": "Turn left onto East Marginal Way South.",
+                  "startPoint": {
+                    "lat": 47.571783,
+                    "lon": -122.339791
+                  },
+                  "streetNames": [
+                    "East Marginal Way South"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 1.5 miles."
+                },
+                {
+                  "distance": 0.006,
+                  "instruction": "Turn left onto the cycleway.",
+                  "startPoint": {
+                    "lat": 47.590964,
+                    "lon": -122.337328
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 40 feet."
+                },
+                {
+                  "distance": 0.587,
+                  "instruction": "Bear right onto Portside Trail.",
+                  "startPoint": {
+                    "lat": 47.591018,
+                    "lon": -122.337448
+                  },
+                  "streetNames": [
+                    "Portside Trail"
+                  ],
+                  "type": 9,
+                  "verbalPostTransitionInstruction": "Continue for a half mile."
+                },
+                {
+                  "distance": 0.09,
+                  "instruction": "Turn right onto South Jackson Street.",
+                  "startPoint": {
+                    "lat": 47.599216,
+                    "lon": -122.336079
+                  },
+                  "streetNames": [
+                    "South Jackson Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 500 feet."
+                },
+                {
+                  "distance": 0.107,
+                  "instruction": "Bear right to stay on South Jackson Street.",
+                  "startPoint": {
+                    "lat": 47.599218,
+                    "lon": -122.334131
+                  },
+                  "streetNames": [
+                    "South Jackson Street"
+                  ],
+                  "type": 9,
+                  "verbalPostTransitionInstruction": "Continue for 600 feet."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Your destination is on the right.",
+                  "startPoint": {
+                    "lat": 47.599212,
+                    "lon": -122.331855
+                  },
+                  "streetNames": null,
+                  "type": 5,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": [
+                "East Marginal Way South",
+                "West Seattle Bridge Trail"
+              ]
+            },
+            "startTime": 1715202495914,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -477,7 +918,7 @@
           }
         ],
         "mode": "BICYCLE",
-        "startTime": 1712708425873
+        "startTime": 1715204062119
       }
     ]
   }

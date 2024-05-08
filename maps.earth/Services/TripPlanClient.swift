@@ -20,9 +20,21 @@ extension TransitLeg {
   }
 }
 
+struct NonTransitLeg {
+  let maneuvers: [Maneuver]
+  let substantialStreetNames: [String]
+}
+
+extension NonTransitLeg: Decodable {
+  private enum CodingKeys: String, CodingKey {
+    case maneuvers
+    case substantialStreetNames
+  }
+}
+
 enum ModeLeg {
   case transit(TransitLeg)
-  case nonTransit([Maneuver])
+  case nonTransit(NonTransitLeg)
 }
 
 struct ItineraryLeg {
@@ -52,11 +64,12 @@ extension TripPlace: Decodable {
     self.init(location: lngLat, name: name)
   }
 }
+
 extension ItineraryLeg: Decodable {
   private enum CodingKeys: String, CodingKey {
     case geometry
-    case maneuvers
     case mode
+    case nonTransitLeg
     case transitLeg
     case fromPlace
     case toPlace
@@ -79,8 +92,9 @@ extension ItineraryLeg: Decodable {
     let endTime = Date(millisSince1970: endTimeMillis)
 
     let modeLeg: ModeLeg
-    if let maneuvers = try container.decodeIfPresent([Maneuver].self, forKey: .maneuvers) {
-      modeLeg = .nonTransit(maneuvers)
+    if let nonTransitLeg = try container.decodeIfPresent(NonTransitLeg.self, forKey: .nonTransitLeg)
+    {
+      modeLeg = .nonTransit(nonTransitLeg)
     } else {
       let transitLeg = try container.decode(TransitLeg.self, forKey: .transitLeg)
       modeLeg = .transit(transitLeg)

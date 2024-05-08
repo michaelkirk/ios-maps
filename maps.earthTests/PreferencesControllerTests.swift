@@ -70,10 +70,12 @@ final class PreferencesControllerTests: XCTestCase {
       try! await preferencesController.addSearch(text: "nine")
       try! await preferencesController.addSearch(text: "ten")
       XCTAssertEqual(
-        preferencesController.preferences.recentSearches, ["ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"])
+        preferencesController.preferences.recentSearches,
+        ["ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"])
       try! await preferencesController.addSearch(text: "eleven")
       XCTAssertEqual(
-      preferencesController.preferences.recentSearches, ["eleven", "ten", "nine", "eight", "seven", "six", "five", "four", "three", "two"])
+        preferencesController.preferences.recentSearches,
+        ["eleven", "ten", "nine", "eight", "seven", "six", "five", "four", "three", "two"])
       expectation.fulfill()
     }
     await fulfillment(of: [expectation], timeout: 10)

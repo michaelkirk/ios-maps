@@ -487,55 +487,118 @@
         "distance": 4.553,
         "distanceUnits": "miles",
         "duration": 434.472,
-        "endTime": 1712707294182,
+        "endTime": 1715202930587,
         "legs": [
           {
-            "endTime": 1712707294182,
+            "endTime": 1715202930587,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": null
             },
             "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Eh@aGZgDPmDFsJA_IHi|AIs`FSic@gAw^wDyq@yAe\\cAkXu@uXOkXS{d@uBqd@yBim@[iMq@{]SiIe@{SuAuf@Qes@F{ON{Eb@sEt@mEdA_EvAqDfB}CrBgC|BqBhCwAlCy@pC_@rCArCXnCt@hCrA~BjBtBbChBzCxAlDhA|Dx@jEd@rEPlEApESlEg@fEw@~DgApDwAbDeBpCoBzB{BdBaCjAcIxBgSrBsgARoiAjAkq@CyuC?kgBEop@g@s~CMqnC@ycAxBmRRkZmAiP_BkK{BkHeCkLkF_ToKmSqNuVyQs[}SoTcL}PyI{pBer@ic@eOmBs@qx@{b@mX{K{\\iI_DeAkGiBuu@wLeJiAqDSmIKkN`Aip@lEaSrA}KrAmGrAwF~A@kL@a_@Bib@}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
-            "maneuvers": [
-              {
-                "instruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "type": 2,
-                "verbalPostTransitionInstruction": "Continue for 1.5 miles."
-              },
-              {
-                "instruction": "Take the WA 99 North exit on the right.",
-                "type": 20,
-                "verbalPostTransitionInstruction": "Continue for 2 miles."
-              },
-              {
-                "instruction": "Keep right to take SR 99 OffRamp toward Downtown/Alaskan Way South.",
-                "type": 23,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": "Turn right onto South Dearborn Street/WA 519.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 300 feet."
-              },
-              {
-                "instruction": "Turn left onto 1st Avenue South.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for a quarter mile."
-              },
-              {
-                "instruction": "Turn right onto South Jackson Street.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 600 feet."
-              },
-              {
-                "instruction": "Your destination is on the right.",
-                "type": 5,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "CAR",
-            "startTime": 1712706859710,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 1.539,
+                  "instruction": "Drive northeast on Fauntleroy Way Southwest.",
+                  "startPoint": {
+                    "lat": 47.563527,
+                    "lon": -122.378442
+                  },
+                  "streetNames": [
+                    "Fauntleroy Way Southwest"
+                  ],
+                  "type": 2,
+                  "verbalPostTransitionInstruction": "Continue for 1.5 miles."
+                },
+                {
+                  "distance": 2.287,
+                  "instruction": "Take the WA 99 North exit on the right.",
+                  "startPoint": {
+                    "lat": 47.570959,
+                    "lon": -122.352667
+                  },
+                  "streetNames": [
+                    "WA 99",
+                    "SR 99"
+                  ],
+                  "type": 20,
+                  "verbalPostTransitionInstruction": "Continue for 2 miles."
+                },
+                {
+                  "distance": 0.367,
+                  "instruction": "Keep right to take SR 99 OffRamp toward Downtown/Alaskan Way South.",
+                  "startPoint": {
+                    "lat": 47.591311,
+                    "lon": -122.336491
+                  },
+                  "streetNames": [
+                    "SR 99 OffRamp"
+                  ],
+                  "type": 23,
+                  "verbalPostTransitionInstruction": null
+                },
+                {
+                  "distance": 0.06,
+                  "instruction": "Turn right onto South Dearborn Street/WA 519.",
+                  "startPoint": {
+                    "lat": 47.596463,
+                    "lon": -122.335495
+                  },
+                  "streetNames": [
+                    "South Dearborn Street",
+                    "WA 519"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 0.192,
+                  "instruction": "Turn left onto 1st Avenue South.",
+                  "startPoint": {
+                    "lat": 47.596459,
+                    "lon": -122.334203
+                  },
+                  "streetNames": [
+                    "1st Avenue South"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 0.107,
+                  "instruction": "Turn right onto South Jackson Street.",
+                  "startPoint": {
+                    "lat": 47.599218,
+                    "lon": -122.334131
+                  },
+                  "streetNames": [
+                    "South Jackson Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 600 feet."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Your destination is on the right.",
+                  "startPoint": {
+                    "lat": 47.599212,
+                    "lon": -122.331855
+                  },
+                  "streetNames": null,
+                  "type": 5,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": [
+                "SR 99",
+                "WA 99",
+                "Fauntleroy Way Southwest"
+              ]
+            },
+            "startTime": 1715202496115,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -544,7 +607,7 @@
           }
         ],
         "mode": "CAR",
-        "startTime": 1712707294182
+        "startTime": 1715202930587
       },
       {
         "bounds": {
@@ -560,45 +623,87 @@
         "distance": 4.439,
         "distanceUnits": "miles",
         "duration": 513.192,
-        "endTime": 1712707372902,
+        "endTime": 1715203009307,
         "legs": [
           {
-            "endTime": 1712707372902,
+            "endTime": 1715203009307,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": null
             },
             "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AlAid@r@k]NsKOuoACeiAAaErAwHmPQ{CEsACiDIsO]sHS_LC{FAeNCcGAiNCmE?kSEkD?sMNaLLuCxAmDjByCA}OA}D@}UBiNI}@?gECiEBsCBuDBiE?cYAiNAii@BkJ?oIFoEDyDUcIe@uF?{A?cF?uI?sI?}H?qO?wH?kC?uD?{M@wDAgG@aDAkA?a[@sA?iF?kN?uB?se@@qB?eD?{@?gIAiE@sD?iI@oC?cE@gO@uI@k^D_J?oXDi@AmD@wHAu@?kD?aC?gGAi|@EkJAsHA}LAY@iGAoH?yJ?kB?eA?yC@eD?mN?eX?yI?{H?uD@aM?oDAoF@wHAsF@oz@?aK?eP?kK?}J?mG?ol@@}D?yk@?yD?aK@qH@aH?eQAaGDiIFq\\RuAD{EoB}EIeRIsE?uDB{XSsb@hAoADs@tAsAAiFMuNYiH?oFAsD?qOE}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
-            "maneuvers": [
-              {
-                "instruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "type": 2,
-                "verbalPostTransitionInstruction": "Continue for 2 miles."
-              },
-              {
-                "instruction": "Take the exit on the right toward 1st Avenue South.",
-                "type": 20,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": "Turn left onto 1st Avenue South.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 2 miles."
-              },
-              {
-                "instruction": "Turn right onto South Jackson Street.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 600 feet."
-              },
-              {
-                "instruction": "Your destination is on the right.",
-                "type": 5,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "CAR",
-            "startTime": 1712706859710,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 2.218,
+                  "instruction": "Drive northeast on Fauntleroy Way Southwest.",
+                  "startPoint": {
+                    "lat": 47.563527,
+                    "lon": -122.378442
+                  },
+                  "streetNames": [
+                    "Fauntleroy Way Southwest"
+                  ],
+                  "type": 2,
+                  "verbalPostTransitionInstruction": "Continue for 2 miles."
+                },
+                {
+                  "distance": 0.188,
+                  "instruction": "Take the exit on the right toward 1st Avenue South.",
+                  "startPoint": {
+                    "lat": 47.57152,
+                    "lon": -122.338171
+                  },
+                  "streetNames": null,
+                  "type": 20,
+                  "verbalPostTransitionInstruction": null
+                },
+                {
+                  "distance": 1.925,
+                  "instruction": "Turn left onto 1st Avenue South.",
+                  "startPoint": {
+                    "lat": 47.571416,
+                    "lon": -122.334155
+                  },
+                  "streetNames": [
+                    "1st Avenue South"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 2 miles."
+                },
+                {
+                  "distance": 0.107,
+                  "instruction": "Turn right onto South Jackson Street.",
+                  "startPoint": {
+                    "lat": 47.599218,
+                    "lon": -122.334131
+                  },
+                  "streetNames": [
+                    "South Jackson Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 600 feet."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Your destination is on the right.",
+                  "startPoint": {
+                    "lat": 47.599212,
+                    "lon": -122.331855
+                  },
+                  "streetNames": null,
+                  "type": 5,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": [
+                "Fauntleroy Way Southwest",
+                "1st Avenue South"
+              ]
+            },
+            "startTime": 1715202496115,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -607,7 +712,7 @@
           }
         ],
         "mode": "CAR",
-        "startTime": 1712707372902
+        "startTime": 1715203009307
       },
       {
         "bounds": {
@@ -623,50 +728,100 @@
         "distance": 4.986,
         "distanceUnits": "miles",
         "duration": 557.339,
-        "endTime": 1712707417049,
+        "endTime": 1715203053454,
         "legs": [
           {
-            "endTime": 1712707417049,
+            "endTime": 1715203053454,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": null
             },
             "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AiAynA@saCLovBx@iT@oPA_p@hEw|B^yNr@cKp@{FdAmHjAoG`DgPfA_EjBeExAoCxA}BlBcBpBkAvBk@zBUtBKhBBr\\|CdGb@dCr@dBhAjBvAzAtAjAjBtAtClAfD`AzD|@~ELlD?pA@f@@tA@|E?hABbJs@A}DAiEA_OE{AA{_@KaNGyFCoCB{FoDoHQgO@sD?ma@Dil@DsH`D}C@k@?uJBsL@}HJiA@oA@sPNgHFmE?yFB_XPcFBkULeB@yI?uTAsPAgVAmHA_VAaG?iIAaG?_D?eJAsPAiJA}FAs@?eHAaVCiC?{D?kVCgFAyF?sGEwD?eHAuBEwEBgICoGAqFAuE@aIBoHBgE@_VDkD@kC@OAeCBoHAi@?qd@@mZEyI?s@AgCAkA?iLAiWAeT@wG?yU@uA@wG?iO@kLByEAsLAsG?wI@_G?}TCaB?oF?qBAoG?sA?yHAwH?eDCul@OiCBiCByBM{KkF_I?k`@t@a`@t@{i@pAy~@By\\_@mMUyAXmH|AqHC}PAkPCsLCyE?uHAiLCgLAwKCmUE}J?aVEed@E_[EkQAsKEa^EaTCaD?_PFgc@TsBXoBl@mB~@eBrAoAdAeGjGcOrNaDzCm@j@?xLAtVAxEApa@AzE?bFAjQ?`FAtG?dH",
-            "maneuvers": [
-              {
-                "instruction": "Drive northeast on Fauntleroy Way Southwest.",
-                "type": 2,
-                "verbalPostTransitionInstruction": "Continue for 2 miles."
-              },
-              {
-                "instruction": "Keep right toward 4th Avenue South.",
-                "type": 23,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": "Turn right onto 4th Avenue South.",
-                "type": 10,
-                "verbalPostTransitionInstruction": "Continue for 2 miles."
-              },
-              {
-                "instruction": "Keep left to take 2nd Avenue Extension South.",
-                "type": 24,
-                "verbalPostTransitionInstruction": "Continue for 300 feet."
-              },
-              {
-                "instruction": "Turn left onto South Jackson Street.",
-                "type": 15,
-                "verbalPostTransitionInstruction": "Continue for 500 feet."
-              },
-              {
-                "instruction": "Your destination is on the left.",
-                "type": 6,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "CAR",
-            "startTime": 1712706859710,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 2.464,
+                  "instruction": "Drive northeast on Fauntleroy Way Southwest.",
+                  "startPoint": {
+                    "lat": 47.563527,
+                    "lon": -122.378442
+                  },
+                  "streetNames": [
+                    "Fauntleroy Way Southwest"
+                  ],
+                  "type": 2,
+                  "verbalPostTransitionInstruction": "Continue for 2 miles."
+                },
+                {
+                  "distance": 0.366,
+                  "instruction": "Keep right toward 4th Avenue South.",
+                  "startPoint": {
+                    "lat": 47.571549,
+                    "lon": -122.332892
+                  },
+                  "streetNames": null,
+                  "type": 23,
+                  "verbalPostTransitionInstruction": null
+                },
+                {
+                  "distance": 1.992,
+                  "instruction": "Turn right onto 4th Avenue South.",
+                  "startPoint": {
+                    "lat": 47.569653,
+                    "lon": -122.329067
+                  },
+                  "streetNames": [
+                    "4th Avenue South"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 2 miles."
+                },
+                {
+                  "distance": 0.06,
+                  "instruction": "Keep left to take 2nd Avenue Extension South.",
+                  "startPoint": {
+                    "lat": 47.598453,
+                    "lon": -122.329047
+                  },
+                  "streetNames": [
+                    "2nd Avenue Extension South"
+                  ],
+                  "type": 24,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 0.101,
+                  "instruction": "Turn left onto South Jackson Street.",
+                  "startPoint": {
+                    "lat": 47.599206,
+                    "lon": -122.329676
+                  },
+                  "streetNames": [
+                    "South Jackson Street"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 500 feet."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Your destination is on the left.",
+                  "startPoint": {
+                    "lat": 47.599212,
+                    "lon": -122.331855
+                  },
+                  "streetNames": null,
+                  "type": 6,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": [
+                "Fauntleroy Way Southwest",
+                "4th Avenue South"
+              ]
+            },
+            "startTime": 1715202496115,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -675,7 +830,7 @@
           }
         ],
         "mode": "CAR",
-        "startTime": 1712707417049
+        "startTime": 1715203053454
       }
     ]
   }

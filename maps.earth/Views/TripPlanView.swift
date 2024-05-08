@@ -144,9 +144,9 @@ struct TripPlanView: View {
       }.sheet(isPresented: $showSteps) {
         let trip = tripPlan.selectedTrip!
         let _ = assert(trip.legs.count > 0)
-        if trip.legs.count == 1, case .nonTransit(let maneuvers) = trip.legs[0].modeLeg {
+        if trip.legs.count == 1, case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg {
           ManeuverListSheetContents(
-            trip: trip, maneuvers: maneuvers, onClose: { showSteps = false })
+            trip: trip, maneuvers: nonTransitLeg.maneuvers, onClose: { showSteps = false })
         } else {
           MultiModalTripDetailsSheetContents(trip: trip, onClose: { showSteps = false })
         }

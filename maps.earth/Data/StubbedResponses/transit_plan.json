@@ -1,32 +1,32 @@
 {
   "_otp": {
     "debugOutput": {
-      "directStreetRouterTime": 52403622,
-      "filteringTime": 10843675,
-      "precalculationTime": 1136651,
-      "renderingTime": 6661430,
-      "totalTime": 240008481,
-      "transitRouterTime": 168333289,
+      "directStreetRouterTime": 47776925,
+      "filteringTime": 23993692,
+      "precalculationTime": 578294,
+      "renderingTime": 8916457,
+      "totalTime": 301063200,
+      "transitRouterTime": 219615621,
       "transitRouterTimes": {
-        "accessEgressTime": 104810120,
-        "itineraryCreationTime": 8835955,
-        "raptorSearchTime": 41796827,
-        "tripPatternFilterTime": 12847853
+        "accessEgressTime": 88414068,
+        "itineraryCreationTime": 26483037,
+        "raptorSearchTime": 84976177,
+        "tripPatternFilterTime": 19485588
       }
     },
     "elevationMetadata": {
-      "ellipsoidToGeoidDifference": -19.33316528209268,
+      "ellipsoidToGeoidDifference": -19.263942171473552,
       "geoidElevation": false
     },
     "error": null,
     "metadata": {
-      "nextDateTime": 1712709120000,
-      "prevDateTime": 1712703859343,
+      "nextDateTime": 1715204700000,
+      "prevDateTime": 1715199495000,
       "searchWindowUsed": 3000
     },
-    "nextPageCursor": "rO0ABXcxAQAJTkVYVF9QQUdFCAn9AIAAAAAAAAlgABdTVFJFRVRfQU5EX0FSUklWQUxfVElNRQ==",
+    "nextPageCursor": "MXxORVhUX1BBR0V8MjAyNC0wNS0wOFQyMTo1NDo0NFp8fDQwbXxTVFJFRVRfQU5EX0FSUklWQUxfVElNRXxmYWxzZXwyMDI0LTA1LTA4VDIxOjQ0OjQ0WnwyMDI0LTA1LTA4VDIyOjEwOjIxWnwwfDI1Mzh8",
     "plan": {
-      "date": 1712706859343,
+      "date": 1715202495517,
       "from": {
         "lat": 47.563412,
         "lon": -122.378248,
@@ -36,43 +36,37 @@
       "itineraries": [
         {
           "arrivedAtDestinationWithRentedBicycle": false,
-          "duration": 1640,
+          "duration": 1537,
           "elevationGained": 0.0,
           "elevationLost": 0.0,
-          "endTime": 1712708884000,
+          "endTime": 1715204361000,
           "fare": {
-            "details": {
-              "regular": [
-                {
-                  "fareId": "headway-1080:31",
-                  "price": {
-                    "cents": 275,
-                    "currency": {
-                      "currency": "USD",
-                      "currencyCode": "USD",
-                      "defaultFractionDigits": 2,
-                      "symbol": "$"
-                    }
-                  },
-                  "routes": [
-                    "headway-1080:102576"
-                  ]
-                }
-              ]
-            },
-            "fare": {
-              "regular": {
-                "cents": 275,
-                "currency": {
-                  "currency": "USD",
-                  "currencyCode": "USD",
-                  "defaultFractionDigits": 2,
-                  "symbol": "$"
-                }
+            "details": {},
+            "fare": {},
+            "legProducts": [
+              {
+                "legIndices": [
+                  1
+                ],
+                "products": [
+                  {
+                    "amount": {
+                      "cents": 0,
+                      "currency": {
+                        "currency": "USD",
+                        "currencyCode": "USD",
+                        "defaultFractionDigits": 2,
+                        "symbol": "$"
+                      }
+                    },
+                    "id": "headway-1330:300",
+                    "name": "regular"
+                  }
+                ]
               }
-            }
+            ]
           },
-          "generalizedCost": 2641,
+          "generalizedCost": 2538,
           "legs": [
             {
               "agencyTimeZoneOffset": -25200000,
@@ -80,10 +74,10 @@
               "departureDelay": 0,
               "distance": 245.54,
               "duration": 229.0,
-              "endTime": 1712707473000,
+              "endTime": 1715203053000,
               "from": {
                 "arrival": null,
-                "departure": 1712707244000,
+                "departure": 1715202824000,
                 "lat": 47.563412,
                 "lon": -122.378248,
                 "name": "Origin",
@@ -101,7 +95,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712707244000,
+              "startTime": 1715202824000,
               "steps": [
                 {
                   "absoluteDirection": "NORTHEAST",
@@ -175,13 +169,13 @@
                 }
               ],
               "to": {
-                "arrival": 1712707473000,
-                "departure": 1712707473000,
+                "arrival": 1715203053000,
+                "departure": 1715203053000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
@@ -189,29 +183,29 @@
               "walkingBike": false
             },
             {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
               "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712708546000,
+              "duration": 970.0,
+              "endTime": 1715204023000,
               "from": {
-                "arrival": 1712707473000,
-                "departure": 1712707473000,
+                "arrival": 1715203053000,
+                "departure": 1715203053000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "stopIndex": 14,
                 "stopSequence": 157,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
+              "generalizedCost": 1570,
               "headsign": "South Lake Union Downtown Seattle",
               "interlineWithPreviousLeg": false,
               "legGeometry": {
@@ -223,29 +217,29 @@
               "realTime": false,
               "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
+              "routeId": "headway-1330:102576",
               "routeLongName": "C-Line Rapid Ride",
               "routeShortName": "C Line",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712707473000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715203053000,
               "steps": [],
               "to": {
-                "arrival": 1712708546000,
-                "departure": 1712708546000,
+                "arrival": 1715204023000,
+                "departure": 1715204023000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "stopIndex": 16,
                 "stopSequence": 334,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157023",
-              "tripId": "headway-1080:635649276"
+              "tripBlockId": "7160094",
+              "tripId": "headway-1330:635649146"
             },
             {
               "agencyTimeZoneOffset": -25200000,
@@ -253,15 +247,15 @@
               "departureDelay": 0,
               "distance": 334.69,
               "duration": 338.0,
-              "endTime": 1712708884000,
+              "endTime": 1715204361000,
               "from": {
-                "arrival": 1712708546000,
-                "departure": 1712708546000,
+                "arrival": 1715204023000,
+                "departure": 1715204023000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
@@ -277,7 +271,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712708546000,
+              "startTime": 1715204023000,
               "steps": [
                 {
                   "absoluteDirection": "SOUTH",
@@ -309,7 +303,7 @@
                 }
               ],
               "to": {
-                "arrival": 1712708884000,
+                "arrival": 1715204361000,
                 "departure": null,
                 "lat": 47.599091,
                 "lon": -122.331856,
@@ -320,10 +314,10 @@
               "walkingBike": false
             }
           ],
-          "startTime": 1712707244000,
+          "startTime": 1715202824000,
           "tooSloped": false,
           "transfers": 0,
-          "transitTime": 1073,
+          "transitTime": 970,
           "waitingTime": 0,
           "walkDistance": 580.23,
           "walkLimitExceeded": false,
@@ -331,43 +325,37 @@
         },
         {
           "arrivedAtDestinationWithRentedBicycle": false,
-          "duration": 1640,
+          "duration": 1537,
           "elevationGained": 0.0,
           "elevationLost": 0.0,
-          "endTime": 1712709304000,
+          "endTime": 1715205021000,
           "fare": {
-            "details": {
-              "regular": [
-                {
-                  "fareId": "headway-1080:31",
-                  "price": {
-                    "cents": 275,
-                    "currency": {
-                      "currency": "USD",
-                      "currencyCode": "USD",
-                      "defaultFractionDigits": 2,
-                      "symbol": "$"
-                    }
-                  },
-                  "routes": [
-                    "headway-1080:102576"
-                  ]
-                }
-              ]
-            },
-            "fare": {
-              "regular": {
-                "cents": 275,
-                "currency": {
-                  "currency": "USD",
-                  "currencyCode": "USD",
-                  "defaultFractionDigits": 2,
-                  "symbol": "$"
-                }
+            "details": {},
+            "fare": {},
+            "legProducts": [
+              {
+                "legIndices": [
+                  1
+                ],
+                "products": [
+                  {
+                    "amount": {
+                      "cents": 0,
+                      "currency": {
+                        "currency": "USD",
+                        "currencyCode": "USD",
+                        "defaultFractionDigits": 2,
+                        "symbol": "$"
+                      }
+                    },
+                    "id": "headway-1330:300",
+                    "name": "regular"
+                  }
+                ]
               }
-            }
+            ]
           },
-          "generalizedCost": 2641,
+          "generalizedCost": 2538,
           "legs": [
             {
               "agencyTimeZoneOffset": -25200000,
@@ -375,10 +363,10 @@
               "departureDelay": 0,
               "distance": 245.54,
               "duration": 229.0,
-              "endTime": 1712707893000,
+              "endTime": 1715203713000,
               "from": {
                 "arrival": null,
-                "departure": 1712707664000,
+                "departure": 1715203484000,
                 "lat": 47.563412,
                 "lon": -122.378248,
                 "name": "Origin",
@@ -396,7 +384,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712707664000,
+              "startTime": 1715203484000,
               "steps": [
                 {
                   "absoluteDirection": "NORTHEAST",
@@ -470,13 +458,13 @@
                 }
               ],
               "to": {
-                "arrival": 1712707893000,
-                "departure": 1712707893000,
+                "arrival": 1715203713000,
+                "departure": 1715203713000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
@@ -484,29 +472,29 @@
               "walkingBike": false
             },
             {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
               "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712708966000,
+              "duration": 970.0,
+              "endTime": 1715204683000,
               "from": {
-                "arrival": 1712707893000,
-                "departure": 1712707893000,
+                "arrival": 1715203713000,
+                "departure": 1715203713000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "stopIndex": 14,
                 "stopSequence": 157,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
+              "generalizedCost": 1570,
               "headsign": "South Lake Union Downtown Seattle",
               "interlineWithPreviousLeg": false,
               "legGeometry": {
@@ -518,29 +506,29 @@
               "realTime": false,
               "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
+              "routeId": "headway-1330:102576",
               "routeLongName": "C-Line Rapid Ride",
               "routeShortName": "C Line",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712707893000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715203713000,
               "steps": [],
               "to": {
-                "arrival": 1712708966000,
-                "departure": 1712708966000,
+                "arrival": 1715204683000,
+                "departure": 1715204683000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "stopIndex": 16,
                 "stopSequence": 334,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157033",
-              "tripId": "headway-1080:635650776"
+              "tripBlockId": "7160085",
+              "tripId": "headway-1330:635654576"
             },
             {
               "agencyTimeZoneOffset": -25200000,
@@ -548,15 +536,15 @@
               "departureDelay": 0,
               "distance": 334.69,
               "duration": 338.0,
-              "endTime": 1712709304000,
+              "endTime": 1715205021000,
               "from": {
-                "arrival": 1712708966000,
-                "departure": 1712708966000,
+                "arrival": 1715204683000,
+                "departure": 1715204683000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
@@ -572,7 +560,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712708966000,
+              "startTime": 1715204683000,
               "steps": [
                 {
                   "absoluteDirection": "SOUTH",
@@ -604,7 +592,7 @@
                 }
               ],
               "to": {
-                "arrival": 1712709304000,
+                "arrival": 1715205021000,
                 "departure": null,
                 "lat": 47.599091,
                 "lon": -122.331856,
@@ -615,10 +603,10 @@
               "walkingBike": false
             }
           ],
-          "startTime": 1712707664000,
+          "startTime": 1715203484000,
           "tooSloped": false,
           "transfers": 0,
-          "transitTime": 1073,
+          "transitTime": 970,
           "waitingTime": 0,
           "walkDistance": 580.23,
           "walkLimitExceeded": false,
@@ -626,43 +614,37 @@
         },
         {
           "arrivedAtDestinationWithRentedBicycle": false,
-          "duration": 1640,
+          "duration": 1537,
           "elevationGained": 0.0,
           "elevationLost": 0.0,
-          "endTime": 1712709784000,
+          "endTime": 1715205621000,
           "fare": {
-            "details": {
-              "regular": [
-                {
-                  "fareId": "headway-1080:31",
-                  "price": {
-                    "cents": 275,
-                    "currency": {
-                      "currency": "USD",
-                      "currencyCode": "USD",
-                      "defaultFractionDigits": 2,
-                      "symbol": "$"
-                    }
-                  },
-                  "routes": [
-                    "headway-1080:102576"
-                  ]
-                }
-              ]
-            },
-            "fare": {
-              "regular": {
-                "cents": 275,
-                "currency": {
-                  "currency": "USD",
-                  "currencyCode": "USD",
-                  "defaultFractionDigits": 2,
-                  "symbol": "$"
-                }
+            "details": {},
+            "fare": {},
+            "legProducts": [
+              {
+                "legIndices": [
+                  1
+                ],
+                "products": [
+                  {
+                    "amount": {
+                      "cents": 0,
+                      "currency": {
+                        "currency": "USD",
+                        "currencyCode": "USD",
+                        "defaultFractionDigits": 2,
+                        "symbol": "$"
+                      }
+                    },
+                    "id": "headway-1330:300",
+                    "name": "regular"
+                  }
+                ]
               }
-            }
+            ]
           },
-          "generalizedCost": 2641,
+          "generalizedCost": 2538,
           "legs": [
             {
               "agencyTimeZoneOffset": -25200000,
@@ -670,10 +652,10 @@
               "departureDelay": 0,
               "distance": 245.54,
               "duration": 229.0,
-              "endTime": 1712708373000,
+              "endTime": 1715204313000,
               "from": {
                 "arrival": null,
-                "departure": 1712708144000,
+                "departure": 1715204084000,
                 "lat": 47.563412,
                 "lon": -122.378248,
                 "name": "Origin",
@@ -691,7 +673,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712708144000,
+              "startTime": 1715204084000,
               "steps": [
                 {
                   "absoluteDirection": "NORTHEAST",
@@ -765,13 +747,13 @@
                 }
               ],
               "to": {
-                "arrival": 1712708373000,
-                "departure": 1712708373000,
+                "arrival": 1715204313000,
+                "departure": 1715204313000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
@@ -779,29 +761,29 @@
               "walkingBike": false
             },
             {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
               "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712709446000,
+              "duration": 970.0,
+              "endTime": 1715205283000,
               "from": {
-                "arrival": 1712708373000,
-                "departure": 1712708373000,
+                "arrival": 1715204313000,
+                "departure": 1715204313000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "stopIndex": 14,
                 "stopSequence": 157,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
+              "generalizedCost": 1570,
               "headsign": "South Lake Union Downtown Seattle",
               "interlineWithPreviousLeg": false,
               "legGeometry": {
@@ -813,29 +795,29 @@
               "realTime": false,
               "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
+              "routeId": "headway-1330:102576",
               "routeLongName": "C-Line Rapid Ride",
               "routeShortName": "C Line",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712708373000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715204313000,
               "steps": [],
               "to": {
-                "arrival": 1712709446000,
-                "departure": 1712709446000,
+                "arrival": 1715205283000,
+                "departure": 1715205283000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "stopIndex": 16,
                 "stopSequence": 334,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157017",
-              "tripId": "headway-1080:635650206"
+              "tripBlockId": "7160086",
+              "tripId": "headway-1330:635650196"
             },
             {
               "agencyTimeZoneOffset": -25200000,
@@ -843,15 +825,15 @@
               "departureDelay": 0,
               "distance": 334.69,
               "duration": 338.0,
-              "endTime": 1712709784000,
+              "endTime": 1715205621000,
               "from": {
-                "arrival": 1712709446000,
-                "departure": 1712709446000,
+                "arrival": 1715205283000,
+                "departure": 1715205283000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
@@ -867,7 +849,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712709446000,
+              "startTime": 1715205283000,
               "steps": [
                 {
                   "absoluteDirection": "SOUTH",
@@ -899,7 +881,7 @@
                 }
               ],
               "to": {
-                "arrival": 1712709784000,
+                "arrival": 1715205621000,
                 "departure": null,
                 "lat": 47.599091,
                 "lon": -122.331856,
@@ -910,10 +892,10 @@
               "walkingBike": false
             }
           ],
-          "startTime": 1712708144000,
+          "startTime": 1715204084000,
           "tooSloped": false,
           "transfers": 0,
-          "transitTime": 1073,
+          "transitTime": 970,
           "waitingTime": 0,
           "walkDistance": 580.23,
           "walkLimitExceeded": false,
@@ -921,43 +903,57 @@
         },
         {
           "arrivedAtDestinationWithRentedBicycle": false,
-          "duration": 1640,
+          "duration": 1819,
           "elevationGained": 0.0,
           "elevationLost": 0.0,
-          "endTime": 1712710204000,
+          "endTime": 1715206170000,
           "fare": {
-            "details": {
-              "regular": [
-                {
-                  "fareId": "headway-1080:31",
-                  "price": {
-                    "cents": 275,
-                    "currency": {
-                      "currency": "USD",
-                      "currencyCode": "USD",
-                      "defaultFractionDigits": 2,
-                      "symbol": "$"
-                    }
-                  },
-                  "routes": [
-                    "headway-1080:102576"
-                  ]
-                }
-              ]
-            },
-            "fare": {
-              "regular": {
-                "cents": 275,
-                "currency": {
-                  "currency": "USD",
-                  "currencyCode": "USD",
-                  "defaultFractionDigits": 2,
-                  "symbol": "$"
-                }
+            "details": {},
+            "fare": {},
+            "legProducts": [
+              {
+                "legIndices": [
+                  1
+                ],
+                "products": [
+                  {
+                    "amount": {
+                      "cents": 0,
+                      "currency": {
+                        "currency": "USD",
+                        "currencyCode": "USD",
+                        "defaultFractionDigits": 2,
+                        "symbol": "$"
+                      }
+                    },
+                    "id": "headway-1330:300",
+                    "name": "regular"
+                  }
+                ]
+              },
+              {
+                "legIndices": [
+                  2
+                ],
+                "products": [
+                  {
+                    "amount": {
+                      "cents": 0,
+                      "currency": {
+                        "currency": "USD",
+                        "currencyCode": "USD",
+                        "defaultFractionDigits": 2,
+                        "symbol": "$"
+                      }
+                    },
+                    "id": "headway-1330:300",
+                    "name": "regular"
+                  }
+                ]
               }
-            }
+            ]
           },
-          "generalizedCost": 2641,
+          "generalizedCost": 2792,
           "legs": [
             {
               "agencyTimeZoneOffset": -25200000,
@@ -965,10 +961,10 @@
               "departureDelay": 0,
               "distance": 245.54,
               "duration": 229.0,
-              "endTime": 1712708793000,
+              "endTime": 1715204580000,
               "from": {
                 "arrival": null,
-                "departure": 1712708564000,
+                "departure": 1715204351000,
                 "lat": 47.563412,
                 "lon": -122.378248,
                 "name": "Origin",
@@ -986,7 +982,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712708564000,
+              "startTime": 1715204351000,
               "steps": [
                 {
                   "absoluteDirection": "NORTHEAST",
@@ -1060,13 +1056,13 @@
                 }
               ],
               "to": {
-                "arrival": 1712708793000,
-                "departure": 1712708793000,
+                "arrival": 1715204580000,
+                "departure": 1715204580000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
@@ -1074,87 +1070,151 @@
               "walkingBike": false
             },
             {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
+              "agencyName": "Metro Transit",
+              "agencyTimeZoneOffset": -25200000,
+              "agencyUrl": "https://kingcounty.gov/en/dept/metro",
+              "alerts": [
+                {
+                  "alertDescriptionText": "This is an update to a previous Transit Alert.  \r\nThe reroute end time for games on June 1 and June 15 have been updated.\r\n\nReroute will be in effect on each of the games noted below:\r\n- Sunday, April 28 at 3:30 PM-4:30 PM\r\n- Wednesday, May 1 at 3:00 PM-4:00 PM\r\n- Sunday, May 12 at 3:30 PM-4:30 PM\r\n- Wednesday, May 15 at 3:30 PM-4:30 PM\r\n- Thursday, May 30 at 3:30 PM-4:30 PM\r\n- Saturday, June 1 at 6:35 PM-7:35 PM\r\n- Sunday, June 2 at 3:30 PM-4:30 PM\r\n- Saturday, June 15 at 6:35 PM-7:35 PM\r\n- Sunday, June 16 at 3:30 PM-4:30 PM\r\n- Sunday, June 30 at 3:30 PM-4:30 PM\r\n- Thursday, July 4 at 3:30 PM-4:30 PM\r\n- Saturday, July 6 at 3:30 PM-4:30 PM\r\n- Sunday, July 7 at 3:30 PM-4:30 PM\r\n- Sunday, July 21 at 3:30 PM-4:30 PM\r\n- Wednesday, July 24 at 3:00 PM-4:00 PM\r\n- Sunday, August 4 at 3:30 PM-4:30 PM\r\n- Sunday, August 11 at 3:30 PM-4:30 PM\r\n- Saturday, August 24 at 3:30 PM-4:30 PM\r\n- Sunday, August 25 at 3:30 PM-4:30 PM\r\n- Wednesday, August 28 at 3:30 PM-4:30 PM\r\n- Sunday, September 15 at 3:30 PM-4:30 PM\r\n- Thursday, September 19 at 3:30 PM-4:30 PM\r\n- Sunday, September 29 at 2:30 PM-3:30 PM\r\n\nAffected stops:\r\nStop #15190 1st Ave S & S Spokane St (NB)\r\nStop #15205 1st Ave S & S Hanford St (NB)\r\nStop #15230 1st Ave S & S Lander St (NB)\r\nStop #15206 1st Ave S & S Stacy St (NB)\r\nStop #15212 1st Ave S & S Walker St (NB)\r\nStop #15207 1st Ave S & S Holgate St (NB)\r\nStop #15204 Edgar Martinez Dr S & Occidental Ave S (EB)\r\nStop #15201 1st Ave S & S Atlantic St (SB)\r\nStop #15202 1st Ave S & S Holgate St (SB)\r\nStop #15211 1st Ave S & S Walker St (SB)\r\nStop #15203 1st Ave S & S Stacy St (SB)\r\n\nFor Route 21 to Downtown Seattle get on/off buses at:\r\nStop #15145 SW Spokane St & Chelan Ave SW (EB)\r\nStop #30538 4th Ave S & S Spokane St (NB)\r\nStop #30550 4th Ave S & S Hanford St (NB)\r\nStop #30560 4th Ave S & S Forest St (NB)\r\nStop #30570 4th Ave S & S Lander St (NB)\r\nStop #30590 4th Ave S & S Walker St (NB)\r\nStop #30600 4th Ave S & S Holgate St (NB)\r\nStop #30635 4th Ave S & S Royal Brougham Way (NB)\r\n\nFor Route 21 to Westwood Village get on/off buses at:\r\nStop #515 3rd Ave S & S Main St (SB)\r\nStop #30670 4th Ave S & Edgar Martinez Dr S (SB)\r\nStop #30690 4th Ave S & S Holgate St (SB)\r\nStop #30700 4th Ave S & S Walker St (SB)\r\nStop #15380 1st Ave S & S Lander St (SB)",
+                  "alertHeaderText": "Route 21 will be affected in both directions during Mariners afternoon home games; stops on portions of 1st Ave S will not be served; use alternate stops on 4th Ave S instead.",
+                  "alertUrl": "https://drive.google.com/file/d/1rOKsBD54nHp8U1Sh3GGpQQpLMNhXwTDf/view",
+                  "effectiveEndDate": 1727649000000,
+                  "effectiveStartDate": 1711924200000
+                }
+              ],
+              "arrivalDelay": 0,
+              "departureDelay": 0,
+              "distance": 6780.02,
+              "duration": 1020.0,
+              "endTime": 1715205600000,
+              "from": {
+                "arrival": 1715204580000,
+                "departure": 1715204580000,
+                "lat": 47.563568,
+                "lon": -122.376099,
+                "name": "35th Ave SW & SW Avalon Way",
+                "stopCode": "22820",
+                "stopId": "headway-1330:22820",
+                "stopIndex": 21,
+                "stopSequence": 72,
+                "vertexType": "TRANSIT",
+                "zoneId": "1"
+              },
+              "generalizedCost": 1620,
+              "headsign": "Downtown Seattle Via 35th Ave SW",
+              "interlineWithPreviousLeg": false,
+              "legGeometry": {
+                "length": 170.0,
+                "points": "gwhaHdr|iVS?qA??uMIqAMq@[y@Y]e@c@GAy@c@??mO_Iu@???{A?oDG_CEm@???M?g@?e@?e@AmC??q@AgB@mABkDDuBEeCCiCAk@Ew@C}@?eC???aA@oJ@YDQDGBMBKBS@_@?C???O?M?KBEH?PBL?J?JGHEJGFMDOFU@S?QASCQGS]u@IUKWI]I]E[C]Ca@A_@@_@DmAH_A?[?e@?k@TkCJuADiAFiB@wA?oJ@uJAaY@gBAcD?w@Ag@Cw@IuASqEMeBUaEImBUiDE}@Ao@?u@?eC@eB?w@?]A_GFaB@aB@qA@uCA}A?}ADoADy@}@?YIo@Gu@A??G?eG?m@@s@Fg@HmF?eA???gJ?gK???W?aL?cA???}I?s@???qJ?sA???uI?yK?@oC???g@?_AEyB?gB?cA?mC?cCAgBCiBEMACCCCAECI?{FAc@D[RQ?Y?W?G?sD?"
+              },
+              "mode": "BUS",
+              "pathway": false,
+              "realTime": false,
+              "routeColor": null,
+              "routeId": "headway-1330:100101",
+              "routeShortName": "21",
+              "routeType": 3,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715204580000,
+              "steps": [],
+              "to": {
+                "arrival": 1715205600000,
+                "departure": 1715205600000,
+                "lat": 47.593342,
+                "lon": -122.328957,
+                "name": "4th Ave S & S Royal Brougham Way",
+                "stopCode": "30635",
+                "stopId": "headway-1330:30635",
+                "stopIndex": 34,
+                "stopSequence": 229,
+                "vertexType": "TRANSIT",
+                "zoneId": "1"
+              },
+              "transitLeg": true,
+              "tripBlockId": "7142701",
+              "tripId": "headway-1330:605084266"
+            },
+            {
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
-              "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712709866000,
+              "distance": 723.41,
+              "duration": 240.0,
+              "endTime": 1715205840000,
               "from": {
-                "arrival": 1712708793000,
-                "departure": 1712708793000,
-                "lat": 47.563568,
-                "lon": -122.376099,
-                "name": "35th Ave SW & SW Avalon Way",
-                "stopCode": "22820",
-                "stopId": "headway-1080:22820",
-                "stopIndex": 14,
-                "stopSequence": 157,
+                "arrival": 1715205600000,
+                "departure": 1715205600000,
+                "lat": 47.593342,
+                "lon": -122.328957,
+                "name": "4th Ave S & S Royal Brougham Way",
+                "stopCode": "30635",
+                "stopId": "headway-1330:30635",
+                "stopIndex": 0,
+                "stopSequence": 1,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
-              "headsign": "South Lake Union Downtown Seattle",
-              "interlineWithPreviousLeg": false,
+              "generalizedCost": 240,
+              "headsign": "Shoreline Greenwood",
+              "interlineWithPreviousLeg": true,
               "legGeometry": {
-                "length": 179.0,
-                "points": "gwhaHdr|iVS?qA??uMIqAMq@[y@Y]e@c@GAgQcJu@???{A?oDG_CE{@?g@?e@?e@AmC??q@AgB@mABkDDuB@cHAgXCmCKeC@gA@{@?aADaABg@HmA^_DTkCJuADiAFiB@wA?oJ@uJAaY@gBAcD?w@Ag@Cw@IuASqECmC?yBAgBAa@OcCGiBGqCGyACeBAsBAiB?Q@S?M@MBOBKDKBKBKFIFIDGHGFGFCFEF?RCH?F?FBH?JDFDHFHFDHDHBHBFDJBJBJ@J@N@N?RANAPCRENENGLGHIJEDGFIDIDM@KDS@YBU?eDBaALaD?aC?qA?kA?wF?kI?sA?_ACkACuBCiA?uC?cDA{K@qC?iABmA@kAFw@Be@?c@Ce@Eg@GYE]Ic@M_@Oe@Qi@Yi@]kAu@gBiAu@e@q@[g@S_Aa@uCeAkE_BcE}BeAc@aA_@y@Us@OkCe@{@Mu@Im@Aa@?u@DcGt@u@DsBNyBNcABICWB}B@[A]?cA?"
+                "length": 12.0,
+                "points": "kqnaHpksiVmD?e@?_L?}ECoDCqCAYLY@c@B[CIA"
               },
               "mode": "BUS",
               "pathway": false,
               "realTime": false,
-              "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
-              "routeLongName": "C-Line Rapid Ride",
-              "routeShortName": "C Line",
+              "routeId": "headway-1330:100229",
+              "routeShortName": "5",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712708793000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715205600000,
               "steps": [],
               "to": {
-                "arrival": 1712709866000,
-                "departure": 1712709866000,
-                "lat": 47.599701,
-                "lon": -122.335556,
-                "name": "Alaskan Way S & S Jackson St",
-                "stopCode": "1561",
-                "stopId": "headway-1080:1561",
-                "stopIndex": 16,
-                "stopSequence": 334,
+                "arrival": 1715205840000,
+                "departure": 1715205840000,
+                "lat": 47.599827,
+                "lon": -122.328972,
+                "name": "4th Ave S & S Jackson St",
+                "stopCode": "619",
+                "stopId": "headway-1330:619",
+                "stopIndex": 1,
+                "stopSequence": 12,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157034",
-              "tripId": "headway-1080:635650966"
+              "tripBlockId": "7142701",
+              "tripId": "headway-1330:571900296"
             },
             {
               "agencyTimeZoneOffset": -25200000,
               "arrivalDelay": 0,
               "departureDelay": 0,
-              "distance": 334.69,
-              "duration": 338.0,
-              "endTime": 1712710204000,
+              "distance": 294.89,
+              "duration": 330.0,
+              "endTime": 1715206170000,
               "from": {
-                "arrival": 1712709866000,
-                "departure": 1712709866000,
-                "lat": 47.599701,
-                "lon": -122.335556,
-                "name": "Alaskan Way S & S Jackson St",
-                "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "arrival": 1715205840000,
+                "departure": 1715205840000,
+                "lat": 47.599827,
+                "lon": -122.328972,
+                "name": "4th Ave S & S Jackson St",
+                "stopCode": "619",
+                "stopId": "headway-1330:619",
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
-              "generalizedCost": 568,
+              "generalizedCost": 532,
               "interlineWithPreviousLeg": false,
               "legGeometry": {
-                "length": 28.0,
-                "points": "cyoaHfttiV?OfA?JA?{B?eB@EJ@?M?UBMF?B??wA?M?cB?CBAB?AM?K?I?G?ECCAC?cB?kA"
+                "length": 40.0,
+                "points": "{yoaHbksiV?F^?bA?@P@FN@B?B@J?@B?B?f@?D@@?B?T@\\@BAH?h@AB?H?FCN?L?TAD?fE@D@@B@?F?NAT?HA?A@A@?R"
               },
               "mode": "WALK",
               "pathway": false,
@@ -1162,39 +1222,67 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712709866000,
+              "startTime": 1715205840000,
               "steps": [
                 {
                   "absoluteDirection": "SOUTH",
                   "area": false,
-                  "bogusName": true,
-                  "distance": 133.37,
+                  "bogusName": false,
+                  "distance": 55.73,
                   "elevation": "",
                   "exit": null,
-                  "lat": 47.5997005,
-                  "lon": -122.335475,
+                  "lat": 47.5998272,
+                  "lon": -122.3290159,
                   "relativeDirection": "DEPART",
                   "stayOn": false,
-                  "streetName": "sidewalk",
+                  "streetName": "4th Avenue South",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "WEST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 10.18,
+                  "elevation": "",
+                  "exit": null,
+                  "lat": 47.599326,
+                  "lon": -122.3290187,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": false,
+                  "streetName": "path",
                   "walkingBike": false
                 },
                 {
                   "absoluteDirection": "SOUTH",
                   "area": false,
                   "bogusName": true,
-                  "distance": 201.32,
+                  "distance": 19.69,
                   "elevation": "",
                   "exit": null,
-                  "lat": 47.5992703,
-                  "lon": -122.3343092,
-                  "relativeDirection": "RIGHT",
+                  "lat": 47.5993016,
+                  "lon": -122.3291495,
+                  "relativeDirection": "LEFT",
                   "stayOn": true,
                   "streetName": "path",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "SOUTHWEST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 209.32,
+                  "elevation": "",
+                  "exit": null,
+                  "lat": 47.599125,
+                  "lon": -122.3291684,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": true,
+                  "streetName": "sidewalk",
                   "walkingBike": false
                 }
               ],
               "to": {
-                "arrival": 1712710204000,
+                "arrival": 1715206170000,
                 "departure": null,
                 "lat": 47.599091,
                 "lon": -122.331856,
@@ -1205,54 +1293,48 @@
               "walkingBike": false
             }
           ],
-          "startTime": 1712708564000,
+          "startTime": 1715204351000,
           "tooSloped": false,
           "transfers": 0,
-          "transitTime": 1073,
+          "transitTime": 1260,
           "waitingTime": 0,
-          "walkDistance": 580.23,
+          "walkDistance": 540.43,
           "walkLimitExceeded": false,
-          "walkTime": 567
+          "walkTime": 559
         },
         {
           "arrivedAtDestinationWithRentedBicycle": false,
-          "duration": 1640,
+          "duration": 1537,
           "elevationGained": 0.0,
           "elevationLost": 0.0,
-          "endTime": 1712710684000,
+          "endTime": 1715206221000,
           "fare": {
-            "details": {
-              "regular": [
-                {
-                  "fareId": "headway-1080:31",
-                  "price": {
-                    "cents": 275,
-                    "currency": {
-                      "currency": "USD",
-                      "currencyCode": "USD",
-                      "defaultFractionDigits": 2,
-                      "symbol": "$"
-                    }
-                  },
-                  "routes": [
-                    "headway-1080:102576"
-                  ]
-                }
-              ]
-            },
-            "fare": {
-              "regular": {
-                "cents": 275,
-                "currency": {
-                  "currency": "USD",
-                  "currencyCode": "USD",
-                  "defaultFractionDigits": 2,
-                  "symbol": "$"
-                }
+            "details": {},
+            "fare": {},
+            "legProducts": [
+              {
+                "legIndices": [
+                  1
+                ],
+                "products": [
+                  {
+                    "amount": {
+                      "cents": 0,
+                      "currency": {
+                        "currency": "USD",
+                        "currencyCode": "USD",
+                        "defaultFractionDigits": 2,
+                        "symbol": "$"
+                      }
+                    },
+                    "id": "headway-1330:300",
+                    "name": "regular"
+                  }
+                ]
               }
-            }
+            ]
           },
-          "generalizedCost": 2641,
+          "generalizedCost": 2538,
           "legs": [
             {
               "agencyTimeZoneOffset": -25200000,
@@ -1260,10 +1342,10 @@
               "departureDelay": 0,
               "distance": 245.54,
               "duration": 229.0,
-              "endTime": 1712709273000,
+              "endTime": 1715204913000,
               "from": {
                 "arrival": null,
-                "departure": 1712709044000,
+                "departure": 1715204684000,
                 "lat": 47.563412,
                 "lon": -122.378248,
                 "name": "Origin",
@@ -1281,7 +1363,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712709044000,
+              "startTime": 1715204684000,
               "steps": [
                 {
                   "absoluteDirection": "NORTHEAST",
@@ -1355,13 +1437,13 @@
                 }
               ],
               "to": {
-                "arrival": 1712709273000,
-                "departure": 1712709273000,
+                "arrival": 1715204913000,
+                "departure": 1715204913000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
@@ -1369,29 +1451,29 @@
               "walkingBike": false
             },
             {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
               "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712710346000,
+              "duration": 970.0,
+              "endTime": 1715205883000,
               "from": {
-                "arrival": 1712709273000,
-                "departure": 1712709273000,
+                "arrival": 1715204913000,
+                "departure": 1715204913000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "stopIndex": 14,
                 "stopSequence": 157,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
+              "generalizedCost": 1570,
               "headsign": "South Lake Union Downtown Seattle",
               "interlineWithPreviousLeg": false,
               "legGeometry": {
@@ -1403,29 +1485,29 @@
               "realTime": false,
               "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
+              "routeId": "headway-1330:102576",
               "routeLongName": "C-Line Rapid Ride",
               "routeShortName": "C Line",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712709273000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715204913000,
               "steps": [],
               "to": {
-                "arrival": 1712710346000,
-                "departure": 1712710346000,
+                "arrival": 1715205883000,
+                "departure": 1715205883000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "stopIndex": 16,
                 "stopSequence": 334,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157029",
-              "tripId": "headway-1080:635649746"
+              "tripBlockId": "7160077",
+              "tripId": "headway-1330:635649736"
             },
             {
               "agencyTimeZoneOffset": -25200000,
@@ -1433,15 +1515,15 @@
               "departureDelay": 0,
               "distance": 334.69,
               "duration": 338.0,
-              "endTime": 1712710684000,
+              "endTime": 1715206221000,
               "from": {
-                "arrival": 1712710346000,
-                "departure": 1712710346000,
+                "arrival": 1715205883000,
+                "departure": 1715205883000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
@@ -1457,7 +1539,7 @@
               "rentedBike": false,
               "route": "",
               "routeColor": null,
-              "startTime": 1712710346000,
+              "startTime": 1715205883000,
               "steps": [
                 {
                   "absoluteDirection": "SOUTH",
@@ -1489,7 +1571,7 @@
                 }
               ],
               "to": {
-                "arrival": 1712710684000,
+                "arrival": 1715206221000,
                 "departure": null,
                 "lat": 47.599091,
                 "lon": -122.331856,
@@ -1500,10 +1582,10 @@
               "walkingBike": false
             }
           ],
-          "startTime": 1712709044000,
+          "startTime": 1715204684000,
           "tooSloped": false,
           "transfers": 0,
-          "transitTime": 1073,
+          "transitTime": 970,
           "waitingTime": 0,
           "walkDistance": 580.23,
           "walkLimitExceeded": false,
@@ -1517,7 +1599,7 @@
         "vertexType": "NORMAL"
       }
     },
-    "previousPageCursor": "rO0ABXc1AQANUFJFVklPVVNfUEFHRQgJ6suAAAAAAAAJYAAXU1RSRUVUX0FORF9BUlJJVkFMX1RJTUU=",
+    "previousPageCursor": "MXxQUkVWSU9VU19QQUdFfDIwMjQtMDUtMDhUMjA6Mjg6MTVafHw0MG18U1RSRUVUX0FORF9BUlJJVkFMX1RJTUV8ZmFsc2V8MjAyNC0wNS0wOFQyMTo0NDo0NFp8MjAyNC0wNS0wOFQyMjoxMDoyMVp8MHwyNTM4fA==",
     "requestParameters": {
       "fromPlace": "47.563412,-122.378248",
       "mode": "TRANSIT",
@@ -1542,46 +1624,79 @@
         },
         "distance": 7.70761,
         "distanceUnits": "kilometers",
-        "duration": 1640.0,
-        "endTime": 1712708884000,
+        "duration": 1537.0,
+        "endTime": 1715204361000,
         "legs": [
           {
-            "endTime": 1712707473000,
+            "endTime": 1715203053000,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": "Origin"
             },
             "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?S{Eg@{E?oA?o_@?kHf@?rI?f@{@z@cBR_D?wG?wB?cGrD??wGnF?",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 15,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "WALK",
-            "startTime": 1712707244000,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 50.5237,
+                  "instruction": "Walk northeast on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5634626,
+                    "lon": -122.3783322
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 43.7197,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5639506,
+                    "lon": -122.3775853
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 200 feet."
+                },
+                {
+                  "distance": 14.9813,
+                  "instruction": "Turn right onto service road.",
+                  "startPoint": {
+                    "lat": 47.5639845,
+                    "lon": -122.3766528
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 80 feet."
+                },
+                {
+                  "distance": 34.9148,
+                  "instruction": "Turn left onto service road.",
+                  "startPoint": {
+                    "lat": 47.5637722,
+                    "lon": -122.3766287
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 180 feet."
+                },
+                {
+                  "distance": 8.4382,
+                  "instruction": "Turn right onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5636442,
+                    "lon": -122.3760215
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 40 feet."
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715202824000,
             "toPlace": {
               "lat": 47.563568,
               "lon": -122.376099,
@@ -1589,7 +1704,7 @@
             }
           },
           {
-            "endTime": 1712708546000,
+            "endTime": 1715204023000,
             "fromPlace": {
               "lat": 47.563568,
               "lon": -122.376099,
@@ -1597,36 +1712,36 @@
             },
             "geometry": "oq`vyAz~flhFgE?sX??{qCcBsXkCsNwGcQcGkH{JgJoASouDgnB{O???w[?_v@oA_g@{@wQ?oK?{J?{JSkk@??sNSo_@RkWf@wt@z@{c@RgzASo{Fg@kk@wB{h@RoURwQ?sSz@sSf@oKbBkW~H_q@zEwj@vB{Yz@cVnAc`@RoZ?_rBR{sBSscGRo_@Sgr@?oPSoKg@oPcB{YgEs`Ag@kk@?ce@So_@SsI_Dgh@oAc`@oAsl@oAc[g@{^Sgc@Sc`@?sDRgE?kCRkCf@_Df@wBz@wBf@wBf@wBnAcBnAcBz@oAbBoAnAoAnAg@nA{@nA?fEg@bB?nA?nAf@bB?vBz@nAz@bBnAbBnAz@bBz@bBf@bBf@nAz@vBf@vBf@vBRvBR~CR~C?fES~CSrDg@fE{@~C{@~CoAjCoAbBcBvB{@z@oAnAcBz@cBz@kCRwBz@gERcGf@{E?{r@f@sSjCsq@?sg@?sX?wV?olA?wfB?gY?_Sg@wVg@{c@g@cV?{m@?gr@Sw_CRsl@?cVf@kWRwVnAoPf@{J?gJg@{J{@oKoAcG{@kHcBgJkC_I_D{JsDcLcGcLkHwV{Oo_@cV{O{JsNwGoKgE_SsI{m@{Tw~@_]g|@kf@{TgJsS_IcQ{EgO_Dwj@{JwQkC{OcBkMSsI?{Oz@gpAzO{Oz@gc@~Cce@~CgTf@cBg@oFf@kf@RwGSkH?gT?",
             "mode": "TRANSIT",
-            "startTime": 1712707473000,
+            "startTime": 1715203053000,
             "toPlace": {
               "lat": 47.599701,
               "lon": -122.335556,
               "name": "Alaskan Way S & S Jackson St"
             },
             "transitLeg": {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
               "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712708546000,
+              "duration": 970.0,
+              "endTime": 1715204023000,
               "from": {
-                "arrival": 1712707473000,
-                "departure": 1712707473000,
+                "arrival": 1715203053000,
+                "departure": 1715203053000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "stopIndex": 14,
                 "stopSequence": 157,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
+              "generalizedCost": 1570,
               "headsign": "South Lake Union Downtown Seattle",
               "interlineWithPreviousLeg": false,
               "legGeometry": {
@@ -1638,53 +1753,79 @@
               "realTime": false,
               "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
+              "routeId": "headway-1330:102576",
               "routeLongName": "C-Line Rapid Ride",
               "routeShortName": "C Line",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712707473000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715203053000,
               "steps": [],
               "to": {
-                "arrival": 1712708546000,
-                "departure": 1712708546000,
+                "arrival": 1715204023000,
+                "departure": 1715204023000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "stopIndex": 16,
                 "stopSequence": 334,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157023",
-              "tripId": "headway-1080:635649276"
+              "tripBlockId": "7160094",
+              "tripId": "headway-1330:635649146"
             }
           },
           {
-            "endTime": 1712708884000,
+            "endTime": 1715204361000,
             "fromPlace": {
               "lat": 47.599701,
               "lon": -122.335556,
               "name": "Alaskan Way S & S Jackson St"
             },
             "geometry": "gdgxyAnswihF?_DnU?vBS?we@?{^R{@vBR?kC?{Ef@kCnA?f@??oZ?kC?g^?g@f@Sf@?SkC?wB?cB?oA?{@g@g@Sg@?g^?wV",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "WALK",
-            "startTime": 1712708546000,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 82.8723,
+                  "instruction": "Walk south on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5997005,
+                    "lon": -122.335475
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 400 feet."
+                },
+                {
+                  "distance": 125.0944,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5992703,
+                    "lon": -122.3343092
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Arrive at your destination.",
+                  "startPoint": {
+                    "lat": 47.599091,
+                    "lon": -122.331856
+                  },
+                  "streetNames": null,
+                  "type": 4,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715204023000,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -1693,7 +1834,7 @@
           }
         ],
         "mode": "TRANSIT",
-        "startTime": 1712707244000
+        "startTime": 1715202824000
       },
       {
         "bounds": {
@@ -1708,46 +1849,79 @@
         },
         "distance": 7.70761,
         "distanceUnits": "kilometers",
-        "duration": 1640.0,
-        "endTime": 1712709304000,
+        "duration": 1537.0,
+        "endTime": 1715205021000,
         "legs": [
           {
-            "endTime": 1712707893000,
+            "endTime": 1715203713000,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": "Origin"
             },
             "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?S{Eg@{E?oA?o_@?kHf@?rI?f@{@z@cBR_D?wG?wB?cGrD??wGnF?",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 15,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "WALK",
-            "startTime": 1712707664000,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 50.5237,
+                  "instruction": "Walk northeast on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5634626,
+                    "lon": -122.3783322
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 43.7197,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5639506,
+                    "lon": -122.3775853
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 200 feet."
+                },
+                {
+                  "distance": 14.9813,
+                  "instruction": "Turn right onto service road.",
+                  "startPoint": {
+                    "lat": 47.5639845,
+                    "lon": -122.3766528
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 80 feet."
+                },
+                {
+                  "distance": 34.9148,
+                  "instruction": "Turn left onto service road.",
+                  "startPoint": {
+                    "lat": 47.5637722,
+                    "lon": -122.3766287
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 180 feet."
+                },
+                {
+                  "distance": 8.4382,
+                  "instruction": "Turn right onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5636442,
+                    "lon": -122.3760215
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 40 feet."
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715203484000,
             "toPlace": {
               "lat": 47.563568,
               "lon": -122.376099,
@@ -1755,7 +1929,7 @@
             }
           },
           {
-            "endTime": 1712708966000,
+            "endTime": 1715204683000,
             "fromPlace": {
               "lat": 47.563568,
               "lon": -122.376099,
@@ -1763,36 +1937,36 @@
             },
             "geometry": "oq`vyAz~flhFgE?sX??{qCcBsXkCsNwGcQcGkH{JgJoASouDgnB{O???w[?_v@oA_g@{@wQ?oK?{J?{JSkk@??sNSo_@RkWf@wt@z@{c@RgzASo{Fg@kk@wB{h@RoURwQ?sSz@sSf@oKbBkW~H_q@zEwj@vB{Yz@cVnAc`@RoZ?_rBR{sBSscGRo_@Sgr@?oPSoKg@oPcB{YgEs`Ag@kk@?ce@So_@SsI_Dgh@oAc`@oAsl@oAc[g@{^Sgc@Sc`@?sDRgE?kCRkCf@_Df@wBz@wBf@wBf@wBnAcBnAcBz@oAbBoAnAoAnAg@nA{@nA?fEg@bB?nA?nAf@bB?vBz@nAz@bBnAbBnAz@bBz@bBf@bBf@nAz@vBf@vBf@vBRvBR~CR~C?fES~CSrDg@fE{@~C{@~CoAjCoAbBcBvB{@z@oAnAcBz@cBz@kCRwBz@gERcGf@{E?{r@f@sSjCsq@?sg@?sX?wV?olA?wfB?gY?_Sg@wVg@{c@g@cV?{m@?gr@Sw_CRsl@?cVf@kWRwVnAoPf@{J?gJg@{J{@oKoAcG{@kHcBgJkC_I_D{JsDcLcGcLkHwV{Oo_@cV{O{JsNwGoKgE_SsI{m@{Tw~@_]g|@kf@{TgJsS_IcQ{EgO_Dwj@{JwQkC{OcBkMSsI?{Oz@gpAzO{Oz@gc@~Cce@~CgTf@cBg@oFf@kf@RwGSkH?gT?",
             "mode": "TRANSIT",
-            "startTime": 1712707893000,
+            "startTime": 1715203713000,
             "toPlace": {
               "lat": 47.599701,
               "lon": -122.335556,
               "name": "Alaskan Way S & S Jackson St"
             },
             "transitLeg": {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
               "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712708966000,
+              "duration": 970.0,
+              "endTime": 1715204683000,
               "from": {
-                "arrival": 1712707893000,
-                "departure": 1712707893000,
+                "arrival": 1715203713000,
+                "departure": 1715203713000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "stopIndex": 14,
                 "stopSequence": 157,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
+              "generalizedCost": 1570,
               "headsign": "South Lake Union Downtown Seattle",
               "interlineWithPreviousLeg": false,
               "legGeometry": {
@@ -1804,53 +1978,79 @@
               "realTime": false,
               "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
+              "routeId": "headway-1330:102576",
               "routeLongName": "C-Line Rapid Ride",
               "routeShortName": "C Line",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712707893000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715203713000,
               "steps": [],
               "to": {
-                "arrival": 1712708966000,
-                "departure": 1712708966000,
+                "arrival": 1715204683000,
+                "departure": 1715204683000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "stopIndex": 16,
                 "stopSequence": 334,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157033",
-              "tripId": "headway-1080:635650776"
+              "tripBlockId": "7160085",
+              "tripId": "headway-1330:635654576"
             }
           },
           {
-            "endTime": 1712709304000,
+            "endTime": 1715205021000,
             "fromPlace": {
               "lat": 47.599701,
               "lon": -122.335556,
               "name": "Alaskan Way S & S Jackson St"
             },
             "geometry": "gdgxyAnswihF?_DnU?vBS?we@?{^R{@vBR?kC?{Ef@kCnA?f@??oZ?kC?g^?g@f@Sf@?SkC?wB?cB?oA?{@g@g@Sg@?g^?wV",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "WALK",
-            "startTime": 1712708966000,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 82.8723,
+                  "instruction": "Walk south on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5997005,
+                    "lon": -122.335475
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 400 feet."
+                },
+                {
+                  "distance": 125.0944,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5992703,
+                    "lon": -122.3343092
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Arrive at your destination.",
+                  "startPoint": {
+                    "lat": 47.599091,
+                    "lon": -122.331856
+                  },
+                  "streetNames": null,
+                  "type": 4,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715204683000,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -1859,7 +2059,7 @@
           }
         ],
         "mode": "TRANSIT",
-        "startTime": 1712707664000
+        "startTime": 1715203484000
       },
       {
         "bounds": {
@@ -1874,46 +2074,79 @@
         },
         "distance": 7.70761,
         "distanceUnits": "kilometers",
-        "duration": 1640.0,
-        "endTime": 1712709784000,
+        "duration": 1537.0,
+        "endTime": 1715205621000,
         "legs": [
           {
-            "endTime": 1712708373000,
+            "endTime": 1715204313000,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": "Origin"
             },
             "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?S{Eg@{E?oA?o_@?kHf@?rI?f@{@z@cBR_D?wG?wB?cGrD??wGnF?",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 15,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "WALK",
-            "startTime": 1712708144000,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 50.5237,
+                  "instruction": "Walk northeast on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5634626,
+                    "lon": -122.3783322
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 43.7197,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5639506,
+                    "lon": -122.3775853
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 200 feet."
+                },
+                {
+                  "distance": 14.9813,
+                  "instruction": "Turn right onto service road.",
+                  "startPoint": {
+                    "lat": 47.5639845,
+                    "lon": -122.3766528
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 80 feet."
+                },
+                {
+                  "distance": 34.9148,
+                  "instruction": "Turn left onto service road.",
+                  "startPoint": {
+                    "lat": 47.5637722,
+                    "lon": -122.3766287
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 180 feet."
+                },
+                {
+                  "distance": 8.4382,
+                  "instruction": "Turn right onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5636442,
+                    "lon": -122.3760215
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 40 feet."
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715204084000,
             "toPlace": {
               "lat": 47.563568,
               "lon": -122.376099,
@@ -1921,7 +2154,7 @@
             }
           },
           {
-            "endTime": 1712709446000,
+            "endTime": 1715205283000,
             "fromPlace": {
               "lat": 47.563568,
               "lon": -122.376099,
@@ -1929,36 +2162,36 @@
             },
             "geometry": "oq`vyAz~flhFgE?sX??{qCcBsXkCsNwGcQcGkH{JgJoASouDgnB{O???w[?_v@oA_g@{@wQ?oK?{J?{JSkk@??sNSo_@RkWf@wt@z@{c@RgzASo{Fg@kk@wB{h@RoURwQ?sSz@sSf@oKbBkW~H_q@zEwj@vB{Yz@cVnAc`@RoZ?_rBR{sBSscGRo_@Sgr@?oPSoKg@oPcB{YgEs`Ag@kk@?ce@So_@SsI_Dgh@oAc`@oAsl@oAc[g@{^Sgc@Sc`@?sDRgE?kCRkCf@_Df@wBz@wBf@wBf@wBnAcBnAcBz@oAbBoAnAoAnAg@nA{@nA?fEg@bB?nA?nAf@bB?vBz@nAz@bBnAbBnAz@bBz@bBf@bBf@nAz@vBf@vBf@vBRvBR~CR~C?fES~CSrDg@fE{@~C{@~CoAjCoAbBcBvB{@z@oAnAcBz@cBz@kCRwBz@gERcGf@{E?{r@f@sSjCsq@?sg@?sX?wV?olA?wfB?gY?_Sg@wVg@{c@g@cV?{m@?gr@Sw_CRsl@?cVf@kWRwVnAoPf@{J?gJg@{J{@oKoAcG{@kHcBgJkC_I_D{JsDcLcGcLkHwV{Oo_@cV{O{JsNwGoKgE_SsI{m@{Tw~@_]g|@kf@{TgJsS_IcQ{EgO_Dwj@{JwQkC{OcBkMSsI?{Oz@gpAzO{Oz@gc@~Cce@~CgTf@cBg@oFf@kf@RwGSkH?gT?",
             "mode": "TRANSIT",
-            "startTime": 1712708373000,
+            "startTime": 1715204313000,
             "toPlace": {
               "lat": 47.599701,
               "lon": -122.335556,
               "name": "Alaskan Way S & S Jackson St"
             },
             "transitLeg": {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
               "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712709446000,
+              "duration": 970.0,
+              "endTime": 1715205283000,
               "from": {
-                "arrival": 1712708373000,
-                "departure": 1712708373000,
+                "arrival": 1715204313000,
+                "departure": 1715204313000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "stopIndex": 14,
                 "stopSequence": 157,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
+              "generalizedCost": 1570,
               "headsign": "South Lake Union Downtown Seattle",
               "interlineWithPreviousLeg": false,
               "legGeometry": {
@@ -1970,53 +2203,79 @@
               "realTime": false,
               "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
+              "routeId": "headway-1330:102576",
               "routeLongName": "C-Line Rapid Ride",
               "routeShortName": "C Line",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712708373000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715204313000,
               "steps": [],
               "to": {
-                "arrival": 1712709446000,
-                "departure": 1712709446000,
+                "arrival": 1715205283000,
+                "departure": 1715205283000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "stopIndex": 16,
                 "stopSequence": 334,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157017",
-              "tripId": "headway-1080:635650206"
+              "tripBlockId": "7160086",
+              "tripId": "headway-1330:635650196"
             }
           },
           {
-            "endTime": 1712709784000,
+            "endTime": 1715205621000,
             "fromPlace": {
               "lat": 47.599701,
               "lon": -122.335556,
               "name": "Alaskan Way S & S Jackson St"
             },
             "geometry": "gdgxyAnswihF?_DnU?vBS?we@?{^R{@vBR?kC?{Ef@kCnA?f@??oZ?kC?g^?g@f@Sf@?SkC?wB?cB?oA?{@g@g@Sg@?g^?wV",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "WALK",
-            "startTime": 1712709446000,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 82.8723,
+                  "instruction": "Walk south on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5997005,
+                    "lon": -122.335475
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 400 feet."
+                },
+                {
+                  "distance": 125.0944,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5992703,
+                    "lon": -122.3343092
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Arrive at your destination.",
+                  "startPoint": {
+                    "lat": 47.599091,
+                    "lon": -122.331856
+                  },
+                  "streetNames": null,
+                  "type": 4,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715205283000,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -2025,7 +2284,338 @@
           }
         ],
         "mode": "TRANSIT",
-        "startTime": 1712708144000
+        "startTime": 1715204084000
+      },
+      {
+        "bounds": {
+          "max": [
+            -122.32892,
+            47.59983
+          ],
+          "min": [
+            -122.37834,
+            47.56346
+          ]
+        },
+        "distance": 8.04386,
+        "distanceUnits": "kilometers",
+        "duration": 1819.0,
+        "endTime": 1715206170000,
+        "legs": [
+          {
+            "endTime": 1715204580000,
+            "fromPlace": {
+              "lat": 47.563412,
+              "lon": -122.378248,
+              "name": "Origin"
+            },
+            "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?S{Eg@{E?oA?o_@?kHf@?rI?f@{@z@cBR_D?wG?wB?cGrD??wGnF?",
+            "mode": "WALK",
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 50.5237,
+                  "instruction": "Walk northeast on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5634626,
+                    "lon": -122.3783322
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 43.7197,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5639506,
+                    "lon": -122.3775853
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 200 feet."
+                },
+                {
+                  "distance": 14.9813,
+                  "instruction": "Turn right onto service road.",
+                  "startPoint": {
+                    "lat": 47.5639845,
+                    "lon": -122.3766528
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 80 feet."
+                },
+                {
+                  "distance": 34.9148,
+                  "instruction": "Turn left onto service road.",
+                  "startPoint": {
+                    "lat": 47.5637722,
+                    "lon": -122.3766287
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 180 feet."
+                },
+                {
+                  "distance": 8.4382,
+                  "instruction": "Turn right onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5636442,
+                    "lon": -122.3760215
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 40 feet."
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715204351000,
+            "toPlace": {
+              "lat": 47.563568,
+              "lon": -122.376099,
+              "name": "35th Ave SW & SW Avalon Way"
+            }
+          },
+          {
+            "endTime": 1715205600000,
+            "fromPlace": {
+              "lat": 47.563568,
+              "lon": -122.376099,
+              "name": "35th Ave SW & SW Avalon Way"
+            },
+            "geometry": "oq`vyAz~flhFgE?sX??{qCcBsXkCsNwGcQcGkH{JgJoAScQgJ??kcD_cB{O???w[?_v@oA_g@{@kM???kC?oK?{J?{JSkk@??sNSo_@RkWf@wt@z@{c@{@{h@g@cj@SwL{@oPg@kR?{h@???sSR_rBRcGz@sDz@oAf@kCf@wBf@gER_I?g@???_D?kC?wBf@{@bB?rDf@jC?vB?vBoAbB{@vBoAnAkCz@_DnA{ERgE?sDSgEg@sDoAgEkH{OcB{EwBoFcBkHcBkH{@wGg@kHg@sIS_IR_Iz@kWbB_S?wG?{J?wLzEwj@vB{Yz@cVnAc`@RoZ?_rBR{sBSscGRo_@Sgr@?oPSoKg@oPcB{YgEs`AkC{^{Es{@cBka@{Ect@{@kRS_N?{O?{h@R{^?oP?kHS_oAnAs]Rs]RsXR{m@Sk\\?k\\z@_Xz@cQkR?cGcB_NoA{OS??oA?{pA?kMRgOnAoKbBkiA?{T???ooB?oyB???oF?saC?gT???klB?gO???srB?gY???{iB?c_C?R_l@???oK?_S{@ce@?o_@?gT?kk@?gh@So_@g@c`@{@kCSg@g@g@g@S{@g@cB?wmASgJz@wGfEsD?cG?oF?oA?gw@?",
+            "mode": "TRANSIT",
+            "startTime": 1715204580000,
+            "toPlace": {
+              "lat": 47.593342,
+              "lon": -122.328957,
+              "name": "4th Ave S & S Royal Brougham Way"
+            },
+            "transitLeg": {
+              "agencyId": "headway-1330:1",
+              "agencyName": "Metro Transit",
+              "agencyTimeZoneOffset": -25200000,
+              "agencyUrl": "https://kingcounty.gov/en/dept/metro",
+              "alerts": [
+                {
+                  "alertDescriptionText": "This is an update to a previous Transit Alert.  \r\nThe reroute end time for games on June 1 and June 15 have been updated.\r\n\nReroute will be in effect on each of the games noted below:\r\n- Sunday, April 28 at 3:30 PM-4:30 PM\r\n- Wednesday, May 1 at 3:00 PM-4:00 PM\r\n- Sunday, May 12 at 3:30 PM-4:30 PM\r\n- Wednesday, May 15 at 3:30 PM-4:30 PM\r\n- Thursday, May 30 at 3:30 PM-4:30 PM\r\n- Saturday, June 1 at 6:35 PM-7:35 PM\r\n- Sunday, June 2 at 3:30 PM-4:30 PM\r\n- Saturday, June 15 at 6:35 PM-7:35 PM\r\n- Sunday, June 16 at 3:30 PM-4:30 PM\r\n- Sunday, June 30 at 3:30 PM-4:30 PM\r\n- Thursday, July 4 at 3:30 PM-4:30 PM\r\n- Saturday, July 6 at 3:30 PM-4:30 PM\r\n- Sunday, July 7 at 3:30 PM-4:30 PM\r\n- Sunday, July 21 at 3:30 PM-4:30 PM\r\n- Wednesday, July 24 at 3:00 PM-4:00 PM\r\n- Sunday, August 4 at 3:30 PM-4:30 PM\r\n- Sunday, August 11 at 3:30 PM-4:30 PM\r\n- Saturday, August 24 at 3:30 PM-4:30 PM\r\n- Sunday, August 25 at 3:30 PM-4:30 PM\r\n- Wednesday, August 28 at 3:30 PM-4:30 PM\r\n- Sunday, September 15 at 3:30 PM-4:30 PM\r\n- Thursday, September 19 at 3:30 PM-4:30 PM\r\n- Sunday, September 29 at 2:30 PM-3:30 PM\r\n\nAffected stops:\r\nStop #15190 1st Ave S & S Spokane St (NB)\r\nStop #15205 1st Ave S & S Hanford St (NB)\r\nStop #15230 1st Ave S & S Lander St (NB)\r\nStop #15206 1st Ave S & S Stacy St (NB)\r\nStop #15212 1st Ave S & S Walker St (NB)\r\nStop #15207 1st Ave S & S Holgate St (NB)\r\nStop #15204 Edgar Martinez Dr S & Occidental Ave S (EB)\r\nStop #15201 1st Ave S & S Atlantic St (SB)\r\nStop #15202 1st Ave S & S Holgate St (SB)\r\nStop #15211 1st Ave S & S Walker St (SB)\r\nStop #15203 1st Ave S & S Stacy St (SB)\r\n\nFor Route 21 to Downtown Seattle get on/off buses at:\r\nStop #15145 SW Spokane St & Chelan Ave SW (EB)\r\nStop #30538 4th Ave S & S Spokane St (NB)\r\nStop #30550 4th Ave S & S Hanford St (NB)\r\nStop #30560 4th Ave S & S Forest St (NB)\r\nStop #30570 4th Ave S & S Lander St (NB)\r\nStop #30590 4th Ave S & S Walker St (NB)\r\nStop #30600 4th Ave S & S Holgate St (NB)\r\nStop #30635 4th Ave S & S Royal Brougham Way (NB)\r\n\nFor Route 21 to Westwood Village get on/off buses at:\r\nStop #515 3rd Ave S & S Main St (SB)\r\nStop #30670 4th Ave S & Edgar Martinez Dr S (SB)\r\nStop #30690 4th Ave S & S Holgate St (SB)\r\nStop #30700 4th Ave S & S Walker St (SB)\r\nStop #15380 1st Ave S & S Lander St (SB)",
+                  "alertHeaderText": "Route 21 will be affected in both directions during Mariners afternoon home games; stops on portions of 1st Ave S will not be served; use alternate stops on 4th Ave S instead.",
+                  "alertUrl": "https://drive.google.com/file/d/1rOKsBD54nHp8U1Sh3GGpQQpLMNhXwTDf/view",
+                  "effectiveEndDate": 1727649000000,
+                  "effectiveStartDate": 1711924200000
+                }
+              ],
+              "arrivalDelay": 0,
+              "departureDelay": 0,
+              "distance": 6780.02,
+              "duration": 1020.0,
+              "endTime": 1715205600000,
+              "from": {
+                "arrival": 1715204580000,
+                "departure": 1715204580000,
+                "lat": 47.563568,
+                "lon": -122.376099,
+                "name": "35th Ave SW & SW Avalon Way",
+                "stopCode": "22820",
+                "stopId": "headway-1330:22820",
+                "stopIndex": 21,
+                "stopSequence": 72,
+                "vertexType": "TRANSIT",
+                "zoneId": "1"
+              },
+              "generalizedCost": 1620,
+              "headsign": "Downtown Seattle Via 35th Ave SW",
+              "interlineWithPreviousLeg": false,
+              "legGeometry": {
+                "length": 170.0,
+                "points": "gwhaHdr|iVS?qA??uMIqAMq@[y@Y]e@c@GAy@c@??mO_Iu@???{A?oDG_CEm@???M?g@?e@?e@AmC??q@AgB@mABkDDuBEeCCiCAk@Ew@C}@?eC???aA@oJ@YDQDGBMBKBS@_@?C???O?M?KBEH?PBL?J?JGHEJGFMDOFU@S?QASCQGS]u@IUKWI]I]E[C]Ca@A_@@_@DmAH_A?[?e@?k@TkCJuADiAFiB@wA?oJ@uJAaY@gBAcD?w@Ag@Cw@IuASqEMeBUaEImBUiDE}@Ao@?u@?eC@eB?w@?]A_GFaB@aB@qA@uCA}A?}ADoADy@}@?YIo@Gu@A??G?eG?m@@s@Fg@HmF?eA???gJ?gK???W?aL?cA???}I?s@???qJ?sA???uI?yK?@oC???g@?_AEyB?gB?cA?mC?cCAgBCiBEMACCCCAECI?{FAc@D[RQ?Y?W?G?sD?"
+              },
+              "mode": "BUS",
+              "pathway": false,
+              "realTime": false,
+              "routeColor": null,
+              "routeId": "headway-1330:100101",
+              "routeShortName": "21",
+              "routeType": 3,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715204580000,
+              "steps": [],
+              "to": {
+                "arrival": 1715205600000,
+                "departure": 1715205600000,
+                "lat": 47.593342,
+                "lon": -122.328957,
+                "name": "4th Ave S & S Royal Brougham Way",
+                "stopCode": "30635",
+                "stopId": "headway-1330:30635",
+                "stopIndex": 34,
+                "stopSequence": 229,
+                "vertexType": "TRANSIT",
+                "zoneId": "1"
+              },
+              "transitLeg": true,
+              "tripBlockId": "7142701",
+              "tripId": "headway-1330:605084266"
+            }
+          },
+          {
+            "endTime": 1715205840000,
+            "fromPlace": {
+              "lat": 47.593342,
+              "lon": -122.328957,
+              "name": "4th Ave S & S Royal Brougham Way"
+            },
+            "geometry": "wvzwyAr|jihFku@?{J?_aC?kdAg@_v@g@sl@ScGjCcGRgJf@wGg@cBS",
+            "mode": "TRANSIT",
+            "startTime": 1715205600000,
+            "toPlace": {
+              "lat": 47.599827,
+              "lon": -122.328972,
+              "name": "4th Ave S & S Jackson St"
+            },
+            "transitLeg": {
+              "agencyId": "headway-1330:1",
+              "agencyName": "Metro Transit",
+              "agencyTimeZoneOffset": -25200000,
+              "agencyUrl": "https://kingcounty.gov/en/dept/metro",
+              "arrivalDelay": 0,
+              "departureDelay": 0,
+              "distance": 723.41,
+              "duration": 240.0,
+              "endTime": 1715205840000,
+              "from": {
+                "arrival": 1715205600000,
+                "departure": 1715205600000,
+                "lat": 47.593342,
+                "lon": -122.328957,
+                "name": "4th Ave S & S Royal Brougham Way",
+                "stopCode": "30635",
+                "stopId": "headway-1330:30635",
+                "stopIndex": 0,
+                "stopSequence": 1,
+                "vertexType": "TRANSIT",
+                "zoneId": "1"
+              },
+              "generalizedCost": 240,
+              "headsign": "Shoreline Greenwood",
+              "interlineWithPreviousLeg": true,
+              "legGeometry": {
+                "length": 12.0,
+                "points": "kqnaHpksiVmD?e@?_L?}ECoDCqCAYLY@c@B[CIA"
+              },
+              "mode": "BUS",
+              "pathway": false,
+              "realTime": false,
+              "routeColor": null,
+              "routeId": "headway-1330:100229",
+              "routeShortName": "5",
+              "routeType": 3,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715205600000,
+              "steps": [],
+              "to": {
+                "arrival": 1715205840000,
+                "departure": 1715205840000,
+                "lat": 47.599827,
+                "lon": -122.328972,
+                "name": "4th Ave S & S Jackson St",
+                "stopCode": "619",
+                "stopId": "headway-1330:619",
+                "stopIndex": 1,
+                "stopSequence": 12,
+                "vertexType": "TRANSIT",
+                "zoneId": "21"
+              },
+              "transitLeg": true,
+              "tripBlockId": "7142701",
+              "tripId": "headway-1330:571900296"
+            }
+          },
+          {
+            "endTime": 1715206170000,
+            "fromPlace": {
+              "lat": 47.599827,
+              "lon": -122.328972,
+              "name": "4th Ave S & S Jackson St"
+            },
+            "geometry": "wkgxyAfxjihF?nA~H?fT?RrDRnA~CRf@?f@RvB?Rf@?f@?nK?z@RR?f@?zERjHRf@SbB?bLSf@?bB?nAg@~C?jC?zESz@?n}@Rz@RRf@R?nA?~CSzE?bBS?SRSR?fE",
+            "mode": "WALK",
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 34.629,
+                  "instruction": "Walk south on 4th Avenue South.",
+                  "startPoint": {
+                    "lat": 47.5998272,
+                    "lon": -122.3290159
+                  },
+                  "streetNames": [
+                    "4th Avenue South"
+                  ],
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 180 feet."
+                },
+                {
+                  "distance": 6.3256,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.599326,
+                    "lon": -122.3290187
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 30 feet."
+                },
+                {
+                  "distance": 12.2348,
+                  "instruction": "Turn left onto path.",
+                  "startPoint": {
+                    "lat": 47.5993016,
+                    "lon": -122.3291495
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 60 feet."
+                },
+                {
+                  "distance": 130.0654,
+                  "instruction": "Turn right onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.599125,
+                    "lon": -122.3291684
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Arrive at your destination.",
+                  "startPoint": {
+                    "lat": 47.599091,
+                    "lon": -122.331856
+                  },
+                  "streetNames": null,
+                  "type": 4,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": [
+                "4th Avenue South"
+              ]
+            },
+            "startTime": 1715205840000,
+            "toPlace": {
+              "lat": 47.599091,
+              "lon": -122.331856,
+              "name": "Destination"
+            }
+          }
+        ],
+        "mode": "TRANSIT",
+        "startTime": 1715204351000
       },
       {
         "bounds": {
@@ -2040,46 +2630,79 @@
         },
         "distance": 7.70761,
         "distanceUnits": "kilometers",
-        "duration": 1640.0,
-        "endTime": 1712710204000,
+        "duration": 1537.0,
+        "endTime": 1715206221000,
         "legs": [
           {
-            "endTime": 1712708793000,
+            "endTime": 1715204913000,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": "Origin"
             },
             "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?S{Eg@{E?oA?o_@?kHf@?rI?f@{@z@cBR_D?wG?wB?cGrD??wGnF?",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 15,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "WALK",
-            "startTime": 1712708564000,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 50.5237,
+                  "instruction": "Walk northeast on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5634626,
+                    "lon": -122.3783322
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 300 feet."
+                },
+                {
+                  "distance": 43.7197,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5639506,
+                    "lon": -122.3775853
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 200 feet."
+                },
+                {
+                  "distance": 14.9813,
+                  "instruction": "Turn right onto service road.",
+                  "startPoint": {
+                    "lat": 47.5639845,
+                    "lon": -122.3766528
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 80 feet."
+                },
+                {
+                  "distance": 34.9148,
+                  "instruction": "Turn left onto service road.",
+                  "startPoint": {
+                    "lat": 47.5637722,
+                    "lon": -122.3766287
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 180 feet."
+                },
+                {
+                  "distance": 8.4382,
+                  "instruction": "Turn right onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5636442,
+                    "lon": -122.3760215
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 40 feet."
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715204684000,
             "toPlace": {
               "lat": 47.563568,
               "lon": -122.376099,
@@ -2087,7 +2710,7 @@
             }
           },
           {
-            "endTime": 1712709866000,
+            "endTime": 1715205883000,
             "fromPlace": {
               "lat": 47.563568,
               "lon": -122.376099,
@@ -2095,36 +2718,36 @@
             },
             "geometry": "oq`vyAz~flhFgE?sX??{qCcBsXkCsNwGcQcGkH{JgJoASouDgnB{O???w[?_v@oA_g@{@wQ?oK?{J?{JSkk@??sNSo_@RkWf@wt@z@{c@RgzASo{Fg@kk@wB{h@RoURwQ?sSz@sSf@oKbBkW~H_q@zEwj@vB{Yz@cVnAc`@RoZ?_rBR{sBSscGRo_@Sgr@?oPSoKg@oPcB{YgEs`Ag@kk@?ce@So_@SsI_Dgh@oAc`@oAsl@oAc[g@{^Sgc@Sc`@?sDRgE?kCRkCf@_Df@wBz@wBf@wBf@wBnAcBnAcBz@oAbBoAnAoAnAg@nA{@nA?fEg@bB?nA?nAf@bB?vBz@nAz@bBnAbBnAz@bBz@bBf@bBf@nAz@vBf@vBf@vBRvBR~CR~C?fES~CSrDg@fE{@~C{@~CoAjCoAbBcBvB{@z@oAnAcBz@cBz@kCRwBz@gERcGf@{E?{r@f@sSjCsq@?sg@?sX?wV?olA?wfB?gY?_Sg@wVg@{c@g@cV?{m@?gr@Sw_CRsl@?cVf@kWRwVnAoPf@{J?gJg@{J{@oKoAcG{@kHcBgJkC_I_D{JsDcLcGcLkHwV{Oo_@cV{O{JsNwGoKgE_SsI{m@{Tw~@_]g|@kf@{TgJsS_IcQ{EgO_Dwj@{JwQkC{OcBkMSsI?{Oz@gpAzO{Oz@gc@~Cce@~CgTf@cBg@oFf@kf@RwGSkH?gT?",
             "mode": "TRANSIT",
-            "startTime": 1712708793000,
+            "startTime": 1715204913000,
             "toPlace": {
               "lat": 47.599701,
               "lon": -122.335556,
               "name": "Alaskan Way S & S Jackson St"
             },
             "transitLeg": {
-              "agencyId": "headway-1080:1",
+              "agencyId": "headway-1330:1",
               "agencyName": "Metro Transit",
               "agencyTimeZoneOffset": -25200000,
               "agencyUrl": "https://kingcounty.gov/en/dept/metro",
               "arrivalDelay": 0,
               "departureDelay": 0,
               "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712709866000,
+              "duration": 970.0,
+              "endTime": 1715205883000,
               "from": {
-                "arrival": 1712708793000,
-                "departure": 1712708793000,
+                "arrival": 1715204913000,
+                "departure": 1715204913000,
                 "lat": 47.563568,
                 "lon": -122.376099,
                 "name": "35th Ave SW & SW Avalon Way",
                 "stopCode": "22820",
-                "stopId": "headway-1080:22820",
+                "stopId": "headway-1330:22820",
                 "stopIndex": 14,
                 "stopSequence": 157,
                 "vertexType": "TRANSIT",
                 "zoneId": "1"
               },
-              "generalizedCost": 1673,
+              "generalizedCost": 1570,
               "headsign": "South Lake Union Downtown Seattle",
               "interlineWithPreviousLeg": false,
               "legGeometry": {
@@ -2136,53 +2759,79 @@
               "realTime": false,
               "route": "C-Line Rapid Ride",
               "routeColor": null,
-              "routeId": "headway-1080:102576",
+              "routeId": "headway-1330:102576",
               "routeLongName": "C-Line Rapid Ride",
               "routeShortName": "C Line",
               "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712708793000,
+              "serviceDate": "2024-05-08",
+              "startTime": 1715204913000,
               "steps": [],
               "to": {
-                "arrival": 1712709866000,
-                "departure": 1712709866000,
+                "arrival": 1715205883000,
+                "departure": 1715205883000,
                 "lat": 47.599701,
                 "lon": -122.335556,
                 "name": "Alaskan Way S & S Jackson St",
                 "stopCode": "1561",
-                "stopId": "headway-1080:1561",
+                "stopId": "headway-1330:1561",
                 "stopIndex": 16,
                 "stopSequence": 334,
                 "vertexType": "TRANSIT",
                 "zoneId": "21"
               },
               "transitLeg": true,
-              "tripBlockId": "7157034",
-              "tripId": "headway-1080:635650966"
+              "tripBlockId": "7160077",
+              "tripId": "headway-1330:635649736"
             }
           },
           {
-            "endTime": 1712710204000,
+            "endTime": 1715206221000,
             "fromPlace": {
               "lat": 47.599701,
               "lon": -122.335556,
               "name": "Alaskan Way S & S Jackson St"
             },
             "geometry": "gdgxyAnswihF?_DnU?vBS?we@?{^R{@vBR?kC?{Ef@kCnA?f@??oZ?kC?g^?g@f@Sf@?SkC?wB?cB?oA?{@g@g@Sg@?g^?wV",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
             "mode": "WALK",
-            "startTime": 1712709866000,
+            "nonTransitLeg": {
+              "maneuvers": [
+                {
+                  "distance": 82.8723,
+                  "instruction": "Walk south on sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5997005,
+                    "lon": -122.335475
+                  },
+                  "streetNames": null,
+                  "type": 1,
+                  "verbalPostTransitionInstruction": "Continue for 400 feet."
+                },
+                {
+                  "distance": 125.0944,
+                  "instruction": "Turn right onto path.",
+                  "startPoint": {
+                    "lat": 47.5992703,
+                    "lon": -122.3343092
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
+                },
+                {
+                  "distance": 0.0,
+                  "instruction": "Arrive at your destination.",
+                  "startPoint": {
+                    "lat": 47.599091,
+                    "lon": -122.331856
+                  },
+                  "streetNames": null,
+                  "type": 4,
+                  "verbalPostTransitionInstruction": null
+                }
+              ],
+              "substantialStreetNames": []
+            },
+            "startTime": 1715205883000,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -2191,173 +2840,7 @@
           }
         ],
         "mode": "TRANSIT",
-        "startTime": 1712708564000
-      },
-      {
-        "bounds": {
-          "max": [
-            -122.33186,
-            47.5997
-          ],
-          "min": [
-            -122.37834,
-            47.56346
-          ]
-        },
-        "distance": 7.70761,
-        "distanceUnits": "kilometers",
-        "duration": 1640.0,
-        "endTime": 1712710684000,
-        "legs": [
-          {
-            "endTime": 1712709273000,
-            "fromPlace": {
-              "lat": 47.563412,
-              "lon": -122.378248,
-              "name": "Origin"
-            },
-            "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?S{Eg@{E?oA?o_@?kHf@?rI?f@{@z@cBR_D?wG?wB?cGrD??wGnF?",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 15,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
-            "mode": "WALK",
-            "startTime": 1712709044000,
-            "toPlace": {
-              "lat": 47.563568,
-              "lon": -122.376099,
-              "name": "35th Ave SW & SW Avalon Way"
-            }
-          },
-          {
-            "endTime": 1712710346000,
-            "fromPlace": {
-              "lat": 47.563568,
-              "lon": -122.376099,
-              "name": "35th Ave SW & SW Avalon Way"
-            },
-            "geometry": "oq`vyAz~flhFgE?sX??{qCcBsXkCsNwGcQcGkH{JgJoASouDgnB{O???w[?_v@oA_g@{@wQ?oK?{J?{JSkk@??sNSo_@RkWf@wt@z@{c@RgzASo{Fg@kk@wB{h@RoURwQ?sSz@sSf@oKbBkW~H_q@zEwj@vB{Yz@cVnAc`@RoZ?_rBR{sBSscGRo_@Sgr@?oPSoKg@oPcB{YgEs`Ag@kk@?ce@So_@SsI_Dgh@oAc`@oAsl@oAc[g@{^Sgc@Sc`@?sDRgE?kCRkCf@_Df@wBz@wBf@wBf@wBnAcBnAcBz@oAbBoAnAoAnAg@nA{@nA?fEg@bB?nA?nAf@bB?vBz@nAz@bBnAbBnAz@bBz@bBf@bBf@nAz@vBf@vBf@vBRvBR~CR~C?fES~CSrDg@fE{@~C{@~CoAjCoAbBcBvB{@z@oAnAcBz@cBz@kCRwBz@gERcGf@{E?{r@f@sSjCsq@?sg@?sX?wV?olA?wfB?gY?_Sg@wVg@{c@g@cV?{m@?gr@Sw_CRsl@?cVf@kWRwVnAoPf@{J?gJg@{J{@oKoAcG{@kHcBgJkC_I_D{JsDcLcGcLkHwV{Oo_@cV{O{JsNwGoKgE_SsI{m@{Tw~@_]g|@kf@{TgJsS_IcQ{EgO_Dwj@{JwQkC{OcBkMSsI?{Oz@gpAzO{Oz@gc@~Cce@~CgTf@cBg@oFf@kf@RwGSkH?gT?",
-            "mode": "TRANSIT",
-            "startTime": 1712709273000,
-            "toPlace": {
-              "lat": 47.599701,
-              "lon": -122.335556,
-              "name": "Alaskan Way S & S Jackson St"
-            },
-            "transitLeg": {
-              "agencyId": "headway-1080:1",
-              "agencyName": "Metro Transit",
-              "agencyTimeZoneOffset": -25200000,
-              "agencyUrl": "https://kingcounty.gov/en/dept/metro",
-              "arrivalDelay": 0,
-              "departureDelay": 0,
-              "distance": 7127.38,
-              "duration": 1073.0,
-              "endTime": 1712710346000,
-              "from": {
-                "arrival": 1712709273000,
-                "departure": 1712709273000,
-                "lat": 47.563568,
-                "lon": -122.376099,
-                "name": "35th Ave SW & SW Avalon Way",
-                "stopCode": "22820",
-                "stopId": "headway-1080:22820",
-                "stopIndex": 14,
-                "stopSequence": 157,
-                "vertexType": "TRANSIT",
-                "zoneId": "1"
-              },
-              "generalizedCost": 1673,
-              "headsign": "South Lake Union Downtown Seattle",
-              "interlineWithPreviousLeg": false,
-              "legGeometry": {
-                "length": 179.0,
-                "points": "gwhaHdr|iVS?qA??uMIqAMq@[y@Y]e@c@GAgQcJu@???{A?oDG_CE{@?g@?e@?e@AmC??q@AgB@mABkDDuB@cHAgXCmCKeC@gA@{@?aADaABg@HmA^_DTkCJuADiAFiB@wA?oJ@uJAaY@gBAcD?w@Ag@Cw@IuASqECmC?yBAgBAa@OcCGiBGqCGyACeBAsBAiB?Q@S?M@MBOBKDKBKBKFIFIDGHGFGFCFEF?RCH?F?FBH?JDFDHFHFDHDHBHBFDJBJBJ@J@N@N?RANAPCRENENGLGHIJEDGFIDIDM@KDS@YBU?eDBaALaD?aC?qA?kA?wF?kI?sA?_ACkACuBCiA?uC?cDA{K@qC?iABmA@kAFw@Be@?c@Ce@Eg@GYE]Ic@M_@Oe@Qi@Yi@]kAu@gBiAu@e@q@[g@S_Aa@uCeAkE_BcE}BeAc@aA_@y@Us@OkCe@{@Mu@Im@Aa@?u@DcGt@u@DsBNyBNcABICWB}B@[A]?cA?"
-              },
-              "mode": "BUS",
-              "pathway": false,
-              "realTime": false,
-              "route": "C-Line Rapid Ride",
-              "routeColor": null,
-              "routeId": "headway-1080:102576",
-              "routeLongName": "C-Line Rapid Ride",
-              "routeShortName": "C Line",
-              "routeType": 3,
-              "serviceDate": "2024-04-09",
-              "startTime": 1712709273000,
-              "steps": [],
-              "to": {
-                "arrival": 1712710346000,
-                "departure": 1712710346000,
-                "lat": 47.599701,
-                "lon": -122.335556,
-                "name": "Alaskan Way S & S Jackson St",
-                "stopCode": "1561",
-                "stopId": "headway-1080:1561",
-                "stopIndex": 16,
-                "stopSequence": 334,
-                "vertexType": "TRANSIT",
-                "zoneId": "21"
-              },
-              "transitLeg": true,
-              "tripBlockId": "7157029",
-              "tripId": "headway-1080:635649746"
-            }
-          },
-          {
-            "endTime": 1712710684000,
-            "fromPlace": {
-              "lat": 47.599701,
-              "lon": -122.335556,
-              "name": "Alaskan Way S & S Jackson St"
-            },
-            "geometry": "gdgxyAnswihF?_DnU?vBS?we@?{^R{@vBR?kC?{Ef@kCnA?f@??oZ?kC?g^?g@f@Sf@?SkC?wB?cB?oA?{@g@g@Sg@?g^?wV",
-            "maneuvers": [
-              {
-                "instruction": null,
-                "type": 1,
-                "verbalPostTransitionInstruction": null
-              },
-              {
-                "instruction": null,
-                "type": 10,
-                "verbalPostTransitionInstruction": null
-              }
-            ],
-            "mode": "WALK",
-            "startTime": 1712710346000,
-            "toPlace": {
-              "lat": 47.599091,
-              "lon": -122.331856,
-              "name": "Destination"
-            }
-          }
-        ],
-        "mode": "TRANSIT",
-        "startTime": 1712709044000
+        "startTime": 1715204684000
       }
     ]
   }
