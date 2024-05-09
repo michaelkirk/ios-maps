@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HomeView.swift
 //  maps.earth
 //
 //  Created by Michael Kirk on 1/29/24.
@@ -21,7 +21,7 @@ class UserLocationManager: ObservableObject {
 let minDetentHeight = PresentationDetent.height(68)
 struct HomeView: View {
   @State var selectedPlace: Place?
-  @StateObject var tripPlan: TripPlan = TripPlan()
+  @ObservedObject var tripPlan: TripPlan = TripPlan()
 
   @StateObject var searchQueue: SearchQueue = SearchQueue()
   @State var queryText: String = ""
@@ -41,7 +41,31 @@ struct HomeView: View {
   }
 
   var body: some View {
-    MapView(
+    let showSearchSheet = Binding(
+      get: {
+        if case .success(_) = $tripPlan.selectedRoute.wrappedValue {
+          return false
+        } else {
+          return true
+        }
+      },
+      set: { newValue in
+        print("new value for showSearchSheet: \(newValue)")
+      }
+    )
+    let showRouteSheet = Binding(
+      get: {
+        if case .success(_) = $tripPlan.selectedRoute.wrappedValue {
+          return true
+        } else {
+          return false
+        }
+      },
+      set: { newValue in
+        print("new value for showRouteSheet: \(newValue)")
+      }
+    )
+    return MapView(
       searchResults: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
       userLocationState: $userLocationState,
       mostRecentUserLocation: $userLocationManager.mostRecentUserLocation,
@@ -49,7 +73,17 @@ struct HomeView: View {
       tripPlan: tripPlan
     )
     .edgesIgnoringSafeArea(.all)
-    .sheet(isPresented: .constant(true)) {
+    .sheet(isPresented: showRouteSheet) {
+      if case let .success(route) = self.tripPlan.selectedRoute {
+        MENavigationViewController(route: route, onDismiss: { tripPlan.selectedRoute = nil })
+          // Disable interactive dismiss to ensure the `onDismiss` handler above is called.
+          .interactiveDismissDisabled(true)
+      } else {
+        let _ = assertionFailure("showing route sheet without a successful route.")
+      }
+    }
+    .sheet(isPresented: showSearchSheet) {
+      let _ = assert(self.tripPlan.selectedRoute == nil)
       FrontPageSearch(
         hasPendingQuery: searchQueue.hasPendingQuery,
         places: $searchQueue.mostRecentResults,
@@ -94,6 +128,25 @@ struct HomeView: View {
       .environmentObject(userLocationManager)
       .onChange(of: queryText) { newValue in
         searchQueue.textDidChange(newValue: newValue)
+      }
+    }.onAppear {
+      guard Env.current.simulateLocationForTesting else {
+        return
+      }
+
+      // When testing routing, pop up a route immediately.
+      let from = FixtureData.places[.zeitgeist]
+      let to = FixtureData.places[.realfine]
+      Task {
+        do {
+          self.tripPlan.selectedRoute = .success(
+            try await DirectionsService().directions(
+              from: from, to: to, mode: .bike, tripIdx: 0))
+
+        } catch {
+          self.tripPlan.selectedRoute = .failure(error)
+          print("error when getting directions: \(error)")
+        }
       }
     }.onAppear {
       switch CLLocationManager().authorizationStatus {
@@ -148,7 +201,8 @@ struct HomeView: View {
 
 #Preview("Search") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
-  return HomeView(searchQueue: searchQueue, queryText: "coffee", searchDetent: .large)
+  return HomeView(
+    searchQueue: searchQueue, queryText: "coffee", searchDetent: .large)
 }
 
 #Preview("Place") {

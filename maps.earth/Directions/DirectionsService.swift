@@ -1,0 +1,199 @@
+//
+//  DirectionsService.swift
+//  maps.earth
+//
+//  Created by Michael Kirk on 5/20/24.
+//
+
+import MapboxCoreNavigation
+import MapboxDirections
+import MapboxDirectionsObjc
+
+struct DirectionsService {
+  var mlnDirections: Directions {
+    Env.current.mlnDirections
+  }
+
+  /// - Parameters:
+  ///   - tripIdx: Try to match this trip. This is a hack. We have a trips API and a Directions API.
+  ///                    In theory they should correspond to the same Route, but the API formats are different.
+  func directions(from: Place, to: Place, mode: TravelMode, tripIdx: Int) async throws -> Route {
+    let options = routeOptions(from: from, to: to, mode: mode)
+
+    print(
+      "[\(type(of:self))] Calculating directions with URL: \(mlnDirections.url(forCalculating: options))"
+    )
+
+    return try await withCheckedThrowingContinuation {
+      (continuation: CheckedContinuation<Route, any Error>) in
+      self.mlnDirections.calculate(options) {
+        (waypoints: [Waypoint]?, routes: [Route]?, error: NSError?) -> Void in
+        if let error = error {
+          return continuation.resume(throwing: error)
+        }
+
+        enum DirectionsError: Error {
+          case noneFound
+        }
+
+        guard let routes = routes else {
+          assertionFailure("routes was unexpectedly nil")
+          return continuation.resume(throwing: DirectionsError.noneFound)
+        }
+
+        guard let route = routes[getOrNil: tripIdx] else {
+          assertionFailure("route at idx was unexpectedly nil")
+
+          if let firstRoute = routes.first {
+            return continuation.resume(returning: firstRoute)
+          } else {
+            return continuation.resume(throwing: DirectionsError.noneFound)
+          }
+        }
+
+        continuation.resume(returning: route)
+      }
+    }
+  }
+
+  private func routeOptions(from: Place, to: Place, mode: TravelMode) -> RouteOptions {
+    let waypoints = [from, to].map { Waypoint(location: $0.location.asCLLocation) }
+
+    let options: RouteOptions
+    let mode = mode.asMBDirectionsProfileIdentifier
+    if mlnDirections == Env.current.travelmuxDirectionsService {
+      options = TravelmuxNavigationRouteOptions(waypoints: waypoints, profileIdentifier: mode)
+    } else if mlnDirections == Env.current.valhallaDirectionsService {
+      options = ValhallaNavigationRouteOptions(waypoints: waypoints, profileIdentifier: mode)
+    } else if mlnDirections == Env.current.mapboxDirectionsService {
+      options = NavigationRouteOptions(waypoints: waypoints, profileIdentifier: mode)
+    } else {
+      fatalError("unknown directions service: \(String(describing: directions))")
+    }
+    options.shapeFormat = .polyline6
+    options.distanceMeasurementSystem = .imperial
+    options.attributeOptions = []
+
+    return options
+  }
+}
+
+extension TravelMode {
+  var asMBDirectionsProfileIdentifier: MBDirectionsProfileIdentifier {
+    switch self {
+    case .bike:
+      return MBDirectionsProfileIdentifier.cycling
+    case .car:
+      return MBDirectionsProfileIdentifier.automobile
+    case .walk:
+      return MBDirectionsProfileIdentifier.walking
+    case .transit:
+      assertionFailure("MBDirections not supported for transit")
+      return MBDirectionsProfileIdentifier.walking
+    }
+  }
+}
+
+class ValhallaNavigationRouteOptions: NavigationRouteOptions {
+  override var path: String {
+    AppConfig().valhallaEndpoint.path()
+  }
+
+  open override var params: [URLQueryItem] {
+    let from = LngLat(coord: self.waypoints[0].coordinate)
+    let to = LngLat(coord: self.waypoints[1].coordinate)
+
+    let mode: String
+    switch self.profileIdentifier {
+    case .automobile, .automobileAvoidingTraffic:
+      mode = "auto"
+    case .cycling:
+      mode = "bicycle"
+    case .walking:
+      mode = "pedestrian"
+    default:
+      assertionFailure("unexpected mode")
+      mode = "auto"
+    }
+
+    let units =
+      switch self.distanceMeasurementSystem {
+      case .imperial:
+        DistanceUnit.miles
+      case .metric:
+        DistanceUnit.kilometers
+      }
+
+    struct ValhallaParams: Codable {
+      struct LatLon: Codable {
+        let lat: Double
+        let lon: Double
+        init(lngLat: LngLat) {
+          lat = lngLat.lat
+          lon = lngLat.lng
+        }
+      }
+
+      let locations: [LatLon]
+      let costing: String
+      let units: DistanceUnit
+      let format: String
+      let banner_instructions: Bool
+      let voice_instructions: Bool
+    }
+
+    // `voice_instructions` false for now - it's crashing due to a missing non-optional (in Swift, anway) `ssml` field
+    // let ssmlText = json["ssmlAnnouncement"] as! String
+    let valhallaParams = ValhallaParams(
+      locations: [.init(lngLat: from), .init(lngLat: to)],
+      costing: mode,
+      units: units,
+      format: "osrm",
+      banner_instructions: true,
+      voice_instructions: false
+    )
+    let jsonParams = String(bytes: try! JSONEncoder().encode(valhallaParams), encoding: .utf8)!
+    // print("jsonParams: \(jsonParams)")
+
+    var params: [URLQueryItem] = []
+    params.append(URLQueryItem(name: "json", value: jsonParams))
+
+    return params
+  }
+}
+
+class TravelmuxNavigationRouteOptions: NavigationRouteOptions {
+  override var path: String {
+    AppConfig().travelmuxEndpoint.replacingLastPathComponent(with: "directions").path()
+  }
+
+  open override var params: [URLQueryItem] {
+    let from = LngLat(coord: self.waypoints[0].coordinate)
+    let to = LngLat(coord: self.waypoints[1].coordinate)
+
+    let mode: TravelMode
+    switch self.profileIdentifier {
+    case .automobile, .automobileAvoidingTraffic:
+      mode = .car
+    case .cycling:
+      mode = .bike
+    case .walking:
+      mode = .walk
+    default:
+      assertionFailure("unexpected mode")
+      mode = .car
+    }
+
+    let params = TripPlanClient.RealClient.queryParams(
+      from: from, to: to, modes: [mode], measurementSystem: self.distanceMeasurementSystem)
+    return params
+  }
+}
+
+extension URL {
+  func replacingLastPathComponent(with newComponent: String) -> URL {
+    var url = self.deletingLastPathComponent()
+    url.append(path: newComponent, directoryHint: .notDirectory)
+    return url
+  }
+}

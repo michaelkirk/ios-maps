@@ -1,0 +1,82 @@
+{
+    "geocoding": {
+        "version": "0.2",
+        "attribution": "http://pelias-api:4000/attribution",
+        "query": {
+            "ids": [
+                {
+                    "source": "openstreetmap",
+                    "layer": "venue",
+                    "id": "node/1177562515"
+                }
+            ],
+            "private": false,
+            "lang": {
+                "name": "English",
+                "iso6391": "en",
+                "iso6393": "eng",
+                "via": "header",
+                "defaulted": false
+            }
+        },
+        "engine": {
+            "name": "Pelias",
+            "author": "Mapzen",
+            "version": "1.0"
+        },
+        "timestamp": 1716510721217
+    },
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.380568,
+                    47.58943
+                ]
+            },
+            "properties": {
+                "id": "node/1177562515",
+                "gid": "openstreetmap:venue:node/1177562515",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "node/1177562515",
+                "country_code": "US",
+                "name": "Marination Ma Kai",
+                "housenumber": "1660",
+                "street": "Harbor Avenue SW",
+                "postalcode": "98126",
+                "accuracy": "point",
+                "country": "United States",
+                "country_gid": "whosonfirst:country:85633793",
+                "country_a": "USA",
+                "region": "Washington",
+                "region_gid": "whosonfirst:region:85688623",
+                "region_a": "WA",
+                "county": "King County",
+                "county_gid": "whosonfirst:county:102086191",
+                "county_a": "KN",
+                "locality": "Seattle",
+                "locality_gid": "whosonfirst:locality:101730401",
+                "neighbourhood": "West Industrial District",
+                "neighbourhood_gid": "whosonfirst:neighbourhood:907129123",
+                "label": "Marination Ma Kai, Seattle, WA, USA",
+                "addendum": {
+                    "osm": {
+                        "wheelchair": "yes",
+                        "website": "http://marinationmobile.com",
+                        "opening_hours": "Mo-Th 11:00-20:00; Fr, Sa 09:00-21:00; Su 09:00-20:00"
+                    }
+                }
+            }
+        }
+    ],
+    "bbox": [
+        -122.380568,
+        47.58943,
+        -122.380568,
+        47.58943
+    ]
+}

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapboxDirections
 
 struct NamedPlace: Decodable {
   var place: LngLat
@@ -112,7 +113,7 @@ extension Date {
   }
 }
 
-enum DistanceUnit: String, Decodable {
+enum DistanceUnit: String, Decodable, Encodable {
   case miles
   case meters
   case kilometers
@@ -342,7 +343,8 @@ protocol TripPlanClient {
   typealias MockClient = TripPlanMockClient
 
   func query(
-    from: Place, to: Place, modes: [TravelMode], units: DistanceUnit, tripDate: TripDateMode
+    from: Place, to: Place, modes: [TravelMode], measurementSystem: MeasurementSystem,
+    tripDate: TripDateMode
   )
     async throws -> Result<
       [Trip], TripPlanError
@@ -351,7 +353,8 @@ protocol TripPlanClient {
 
 struct TripPlanMockClient: TripPlanClient {
   func query(
-    from: Place, to: Place, modes: [TravelMode], units: DistanceUnit, tripDate: TripDateMode
+    from: Place, to: Place, modes: [TravelMode], measurementSystem: MeasurementSystem,
+    tripDate: TripDateMode
   )
     async throws -> Result<
       [Trip], TripPlanError
@@ -376,31 +379,41 @@ struct TripPlanNetworkClient: TripPlanClient {
     return timeFormatter
   }()
 
+  static func queryParams(
+    from: LngLat, to: LngLat, modes: [TravelMode], measurementSystem: MeasurementSystem
+  )
+    -> [URLQueryItem]
+  {
+    assert(!modes.isEmpty)
+
+    let preferredDistanceUnits =
+      switch measurementSystem {
+      case .metric: "kilometers"
+      case .imperial: "miles"
+      }
+
+    return [
+      URLQueryItem(name: "fromPlace", value: "\(from.lat),\(from.lng)"),
+      URLQueryItem(name: "toPlace", value: "\(to.lat),\(to.lng)"),
+      URLQueryItem(name: "numItineraries", value: "5"),
+      URLQueryItem(name: "mode", value: modes.map { $0.rawValue }.joined(separator: ",")),
+      URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
+    ]
+  }
+
   func query(
-    from: Place, to: Place, modes: [TravelMode], units: DistanceUnit, tripDate: TripDateMode
+    from: Place, to: Place, modes: [TravelMode], measurementSystem: MeasurementSystem,
+    tripDate: TripDateMode
   )
     async throws -> Result<
       [Trip], TripPlanError
     >
   {
     // URL: https://maps.earth/travelmux/v2/plan?fromPlace=47.575837%2C-122.339414&toPlace=47.622687%2C-122.312892&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
-
-    let preferredDistanceUnits =
-      switch units {
-      case .kilometers: "kilometers"
-      case .meters: "meters"
-      case .miles: "miles"
-      }
-
     var url = config.travelmuxEndpoint
 
-    var params = [
-      URLQueryItem(name: "fromPlace", value: "\(from.location.lat),\(from.location.lng)"),
-      URLQueryItem(name: "toPlace", value: "\(to.location.lat),\(to.location.lng)"),
-      URLQueryItem(name: "numItineraries", value: "5"),
-      URLQueryItem(name: "mode", value: modes.map { $0.rawValue }.joined(separator: ",")),
-      URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
-    ]
+    var params = Self.queryParams(
+      from: from.location, to: to.location, modes: modes, measurementSystem: measurementSystem)
 
     if modes[0] == .transit {
       switch tripDate {

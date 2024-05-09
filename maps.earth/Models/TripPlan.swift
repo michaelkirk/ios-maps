@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapboxDirections
 
 // TODO: split this into something like TripQuery and TripResponse
 //       since many of these fields will be blank.
@@ -17,6 +18,8 @@ class TripPlan: ObservableObject {
   @Published var bounds: Bounds?
   @Published var trips: Result<[Trip], Error>
   @Published var selectedTrip: Trip?
+  @Published var selectedRoute: Result<Route, Error>?
+
   init(
     from fromPlace: Place? = nil,
     to toPlace: Place? = nil,

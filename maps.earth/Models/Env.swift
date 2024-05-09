@@ -7,6 +7,7 @@
 
 import Foundation
 import MapLibre
+import MapboxDirections
 
 class Env {
   static var current = Env()
@@ -15,9 +16,23 @@ class Env {
   var tripPlanClient: TripPlanClient
   var storageController: StorageController
   var preferencesController: PreferencesController
+  var mlnDirections: Directions {
+    travelmuxDirectionsService
+    //    valhallaDirectionsService
+    //     mapboxDirectionsService
+  }
+
+  lazy var mapboxDirectionsService: Directions = Directions.shared
+  lazy var travelmuxDirectionsService: Directions = Directions(
+    accessToken: "fake-token", host: AppConfig().travelmuxEndpoint.host())
+  lazy var valhallaDirectionsService: Directions = Directions(
+    accessToken: "fake-token", host: AppConfig().valhallaEndpoint.host())
+
+  let simulateLocationForTesting: Bool
 
   init() {
     isMock = false
+    simulateLocationForTesting = Platform.isSimulator
     tripPlanClient = TripPlanClient.RealClient()
     storageController = StorageController.OnDisk()
     preferencesController = PreferencesController(fromStorage: storageController)
@@ -25,6 +40,7 @@ class Env {
 
   init(offlineWithMockData: ()) {
     isMock = true
+    simulateLocationForTesting = true
     tripPlanClient = TripPlanClient.MockClient()
     storageController = StorageController.InMemoryForTesting()
     preferencesController = PreferencesController(fromStorage: storageController)

@@ -77,10 +77,8 @@ struct MultiModalTripDetails: View {
       Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").scenePadding(.leading).bold()
       ScrollView {
         Grid(alignment: .trailing, verticalSpacing: 0) {
-          ForEach(tripDiagram.elements.identifiable()) {
-            (step: IdentifiableValue<TripDiagram.Element>) in
+          ForEach(Array(tripDiagram.elements.enumerated()), id: \.0) { _, step in
             GridRow(alignment: .top) {
-              let step = step.value
               switch step {
               case .node(.origin(from: let place, departureTime: let departureTime)):
                 Text(departureTime.formatted(date: .omitted, time: .shortened))

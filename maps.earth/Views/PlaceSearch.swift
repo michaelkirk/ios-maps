@@ -91,8 +91,8 @@ struct PlaceSearch: View {
                     Text("Clear")
                   }
                 }
-                ForEach(preferences.recentSearches.identifiable()) { recentSearch in
-                  let recentSearch = recentSearch.value
+                ForEach(Array(preferences.recentSearches.enumerated()), id: \.0) {
+                  _, recentSearch in
                   HStack {
                     Button(action: { queryText = recentSearch }) {
                       Text(recentSearch)

@@ -78,18 +78,18 @@ struct BBox: Codable {
   }
 }
 
-struct AutocompleteResponse: Decodable {
+struct PlaceResponse: Decodable {
   var bbox: BBox?
   private(set) var places: [Place] = []
 
-  private enum FeatureCollectionCodingKeys: String, CodingKey {
+  private enum CodingKeys: String, CodingKey {
     case bbox
     case features
   }
 
   init(from decoder: Decoder) throws {
     let featureCollectionContainer = try decoder.container(
-      keyedBy: FeatureCollectionCodingKeys.self)
+      keyedBy: CodingKeys.self)
     self.bbox = try featureCollectionContainer.decodeIfPresent(BBox.self, forKey: .bbox)
     var featuresContainer = try featureCollectionContainer.nestedUnkeyedContainer(forKey: .features)
 
@@ -99,3 +99,5 @@ struct AutocompleteResponse: Decodable {
     }
   }
 }
+
+typealias AutocompleteResponse = PlaceResponse

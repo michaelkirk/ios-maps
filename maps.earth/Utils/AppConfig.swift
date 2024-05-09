@@ -14,9 +14,15 @@ struct AppConfig {
   var peliasEndpoint: URL {
     URL(string: "\(self.serverBase)/pelias/v1/autocomplete")!
   }
+
   var travelmuxEndpoint: URL {
-    URL(string: "\(self.serverBase)/travelmux/v5/plan")!
+    URL(string: "\(self.serverBase)/travelmux/v6/plan")!
   }
+
+  var valhallaEndpoint: URL {
+    URL(string: "\(self.serverBase)/valhalla/route")!
+  }
+
   var tileserverStyleUrl: URL {
     URL(string: "\(self.serverBase)/tileserver/styles/basic/style.json")!
   }

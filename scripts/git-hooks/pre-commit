@@ -1,1 +1,1 @@
-swift-format format --in-place --recursive .
+swift-format format --in-place --recursive maps.earth maps.earthTests maps.earthUITests
