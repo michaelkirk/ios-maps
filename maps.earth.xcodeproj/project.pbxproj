@@ -765,7 +765,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "maps-earth-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Maps.Earth;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on the map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to see where you are on the map and determines where navigation should start from. It's not used for any purpose other than operating the map for you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -798,7 +798,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "maps-earth-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Maps.Earth;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is displayed on the map and used to determine navigation directions. It's not used for any purpose other than operating the map.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to see where you are on the map and determines where navigation should start from. It's not used for any purpose other than operating the map for you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
