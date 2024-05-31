@@ -1,5 +1,4 @@
 {
-  "originHash" : "f755fb23b3e4d57b9a8ac5584987701105039bdc783c058e71d2219d73009d9f",
   "pins" : [
     {
       "identity" : "maplibre-gl-native-distribution",
@@ -11,6 +10,15 @@
       }
     },
     {
+      "identity" : "ohhttpstubs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AliSoftware/OHHTTPStubs",
+      "state" : {
+        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
+        "version" : "9.1.0"
+      }
+    },
+    {
       "identity" : "phonenumberkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/marmelroy/PhoneNumberKit",
@@ -18,7 +26,43 @@
         "revision" : "ee5d7114934e60812c9b47c333f01b67d002be2d",
         "version" : "3.7.10"
       }
+    },
+    {
+      "identity" : "polyline",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/raphaelmor/Polyline",
+      "state" : {
+        "revision" : "353f80378dcd8f17eefe8550090c6b1ae3c9da23",
+        "version" : "5.1.0"
+      }
+    },
+    {
+      "identity" : "solar",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ceeK/Solar.git",
+      "state" : {
+        "revision" : "c2b96f2d5fb7f835b91cefac5e83101f54643901",
+        "version" : "3.0.1"
+      }
+    },
+    {
+      "identity" : "swiftformat",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicklockwood/SwiftFormat.git",
+      "state" : {
+        "revision" : "05cb325003a673b3d177c711b3bc909cfee07622",
+        "version" : "0.53.9"
+      }
+    },
+    {
+      "identity" : "turf-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/flitsmeister/turf-swift",
+      "state" : {
+        "revision" : "b05b4658d1b48eac4127a0d9ebbb5a6f965a8251",
+        "version" : "0.2.2"
+      }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

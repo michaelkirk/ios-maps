@@ -7,26 +7,10 @@
 
 import SwiftUI
 
-struct TripPlanListItemDetails: View {
-  var trip: Trip
-  @Binding
-  var tripPlanMode: TravelMode
-  var onShowSteps: (() -> Void)
-
-  var body: some View {
-    HStack {
-      if tripPlanMode == .transit {
-        TransitPlanItem(trip: trip, onShowSteps: onShowSteps)
-      } else {
-        NonTransitPlanItem(trip: trip, onShowSteps: onShowSteps)
-      }
-    }.padding(.top, 8).padding(.bottom, 8)
-  }
-}
-
 struct NonTransitPlanItem: View {
   var trip: Trip
   var onShowSteps: (() -> Void)
+
   var body: some View {
     VStack(alignment: .leading) {
       if let substantialRoadNames = trip.substantialStreetNames {
@@ -36,34 +20,20 @@ struct NonTransitPlanItem: View {
       Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
     }
     Spacer()
-    ShowStepsButton(onShowSteps: onShowSteps)
-  }
-}
-
-struct ShowStepsButton: View {
-  var onShowSteps: (() -> Void)
-  var body: some View {
-    Button("Steps") {
-      onShowSteps()
-    }
-    .fontWeight(.medium)
-    .foregroundColor(.white)
-    .padding(8)
-    .background(.green)
-    .cornerRadius(8)
-    .scenePadding(.trailing)
+    TripButton("GO", action: onShowSteps)
   }
 }
 
 struct TransitPlanItem: View {
   var trip: Trip
-  var onShowSteps: (() -> Void)
+  var onShowNavigation: (() -> Void)
+
   var body: some View {
     HStack(alignment: .top, spacing: 4) {
       VStack(alignment: .leading, spacing: 8) {
         Text(trip.timeSpanFormatted).font(.headline).dynamicTypeSize(.xxLarge)
         Text(routeEmojiSummary(trip: trip))
-        ShowStepsButton(onShowSteps: onShowSteps).padding(.top, 8)
+        TripButton("Steps", action: onShowNavigation)
       }
       Spacer()
       VStack(alignment: .trailing) {
@@ -74,14 +44,23 @@ struct TransitPlanItem: View {
   }
 }
 
-struct IdentifiableValue<T>: Identifiable {
-  let id: Int
-  let value: T
-}
+struct TripButton: View {
+  var title: String
+  var action: (() -> Void)
 
-extension Collection {
-  func identifiable() -> [IdentifiableValue<Self.Element>] {
-    Array(self.enumerated()).map { IdentifiableValue(id: $0.offset, value: $0.element) }
+  init(_ title: String, action: @escaping () -> Void) {
+    self.title = title
+    self.action = action
+  }
+
+  var body: some View {
+    Button(title, action: action)
+      .fontWeight(.medium)
+      .foregroundColor(.white)
+      .padding(8)
+      .background(.green)
+      .cornerRadius(8)
+      .scenePadding(.trailing)
   }
 }
 

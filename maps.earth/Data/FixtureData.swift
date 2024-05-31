@@ -11,7 +11,13 @@ struct FixtureData {
   struct Places {
     let all: [Place] = {
       let response: AutocompleteResponse = load("autocomplete.json")
-      let places = response.places
+      var places = response.places
+
+      let westSeattleWaterTaxi: PlaceResponse = load("west_seattle_water_taxi_place.json")
+      assert(westSeattleWaterTaxi.places.count == 1)
+      assert(places.count == 10)
+      places.append(westSeattleWaterTaxi.places[0])
+
       return places
     }()
   }
@@ -102,6 +108,7 @@ extension FixtureData.Places {
     case dubsea = 2
     case realfine = 3
     case santaLucia = 4
+    case westSeattleWaterTaxi = 10
   }
 
   subscript(position: PlaceIdx) -> Place {

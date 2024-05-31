@@ -1,0 +1,6 @@
+[submodule "DevDependencies/mapbox-directions-swift"]
+	path = DevDependencies/mapbox-directions-swift
+	url = https://github.com/flitsmeister/mapbox-directions-swift
+[submodule "DevDependencies/maplibre-navigation-ios"]
+	path = DevDependencies/maplibre-navigation-ios
+	url = https://github.com/maplibre/maplibre-navigation-ios

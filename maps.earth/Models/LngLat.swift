@@ -14,6 +14,9 @@ struct LngLat: Hashable, Equatable {
   var asCoordinate: CLLocationCoordinate2D {
     CLLocationCoordinate2D(latitude: lat, longitude: lng)
   }
+  var asCLLocation: CLLocation {
+    CLLocation(latitude: self.lat, longitude: self.lng)
+  }
 }
 
 extension LngLat: Decodable {

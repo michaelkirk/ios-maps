@@ -7,6 +7,9 @@
 
 import Foundation
 import MapLibre
+import MapboxCoreNavigation
+import MapboxDirections
+import MapboxNavigation
 import SwiftUI
 
 private let logger = FileLogger()
@@ -47,7 +50,6 @@ class MapTapper: NSObject {
     let touchRect = CGRect(
       x: touchPoint.x - slop, y: touchPoint.y - slop, width: slop * 2, height: slop * 2)
 
-    let pointFeatures = mapView.visibleFeatures(at: touchPoint)
     // styleLayerIdentifiers:
     let features = mapView.visibleFeatures(in: touchRect)
 
@@ -173,7 +175,6 @@ struct MapView {
 }
 
 extension MapView: UIViewRepresentable {
-
   func makeCoordinator() -> Coordinator {
     let topControls = TopControls(
       userLocationState: $userLocationState, pendingMapFocus: $pendingMapFocus)
@@ -182,12 +183,13 @@ extension MapView: UIViewRepresentable {
       self, topControlsController: topControlsController)
   }
 
-  typealias UIViewType = MLNMapView
-  func makeUIView(context: Context) -> MLNMapView {
+  typealias UIViewType = NavigationMapView
+  func makeUIView(context: Context) -> NavigationMapView {
     let styleURL = AppConfig().tileserverStyleUrl
 
     // create the mapview
-    let mapView = MLNMapView(frame: .zero, styleURL: styleURL)
+    let mapView = NavigationMapView(frame: .zero, styleURL: styleURL)
+    context.coordinator.mlnNavigationMapView = mapView
     mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     mapView.logoView.isHidden = true
     Env.current.getMapFocus = { LngLat(coord: mapView.centerCoordinate) }
@@ -252,7 +254,7 @@ extension MapView: UIViewRepresentable {
     return mapView
   }
 
-  func updateUIView(_ mapView: MLNMapView, context: Context) {
+  func updateUIView(_ mapView: NavigationMapView, context: Context) {
     logger.debug("in MapView.updateUIView")
     if self.pendingMapFocus != nil {
       Task {
@@ -366,6 +368,7 @@ extension MapView: UIViewRepresentable {
     weak var originalLocationManagerDelegate: MLNLocationManagerDelegate?
 
     let mapView: MapView
+    weak var mlnNavigationMapView: NavigationMapView?
 
     var mapTapper: MapTapper? = nil
 
@@ -556,6 +559,50 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
     if manager.authorizationStatus == .denied {
       self.topControlsController.rootView.userLocationState = .denied
     }
+  }
+}
+
+extension MapView.Coordinator: RouteControllerDelegate {
+  @objc public func routeController(
+    _ routeController: RouteController, didUpdate locations: [CLLocation]
+  ) {
+    let camera = MLNMapCamera(
+      lookingAtCenter: locations.first!.coordinate,
+      acrossDistance: 500,
+      pitch: 0,
+      heading: 0
+    )
+
+    mlnNavigationMapView?.setCamera(camera, animated: true)
+  }
+
+  @objc func didPassVisualInstructionPoint(notification: NSNotification) {
+    guard
+      let currentVisualInstruction = currentStepProgress(from: notification)?
+        .currentVisualInstruction
+    else { return }
+
+    //    print(
+    //      String(
+    //        format: "didPassVisualInstructionPoint primary text: %@ and secondary text: %@",
+    //        String(describing: currentVisualInstruction.primaryInstruction.text),
+    //        String(describing: currentVisualInstruction.secondaryInstruction?.text)))
+  }
+
+  @objc func didPassSpokenInstructionPoint(notification: NSNotification) {
+    guard
+      let currentSpokenInstruction = currentStepProgress(from: notification)?
+        .currentSpokenInstruction
+    else { return }
+
+    //    print("didPassSpokenInstructionPoint text: \(currentSpokenInstruction.text)")
+  }
+
+  private func currentStepProgress(from notification: NSNotification) -> RouteStepProgress? {
+    let routeProgress =
+      notification.userInfo?[RouteControllerNotificationUserInfoKey.routeProgressKey]
+      as? RouteProgress
+    return routeProgress?.currentLegProgress.currentStepProgress
   }
 }
 

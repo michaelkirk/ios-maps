@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapboxDirections
 import SwiftUI
 
 struct ModeButton: View {
@@ -79,6 +80,24 @@ struct TripPlanView: View {
           .padding(.horizontal, 8)
           .padding(.vertical, 4)
           .roundedBorder(.black, cornerRadius: 8)
+          .sheet(isPresented: $showTimePicker) {
+            SheetContentsWithoutTitle(currentDetent: .constant(.medium)) {
+              VStack {
+                TripDatePicker(mode: $tripDate)
+                HStack(spacing: 60) {
+                  Button(
+                    "Cancel",
+                    action: {
+                      // maybe we should restore to previous value rather than always reset to now
+                      tripDate = .departNow
+                      showTimePicker = false
+                    }
+                  ).foregroundColor(.black)
+                  Button("Done", action: { showTimePicker = false })
+                }.font(.title3)
+              }.padding()
+            }
+          }
 
           LabeledCheckbox(isChecked: $tripPlan.transitWithBike) {
             HStack(spacing: 2) {
@@ -92,77 +111,19 @@ struct TripPlanView: View {
         }
       }
 
-      ScrollViewReader { scrollView in
-        switch tripPlan.trips {
-        case .failure(let error):
-          switch error {
-          case let tripPlanError as TripPlanError:
-            Text(tripPlanError.localizedDescription)
-          case let decodingError as DecodingError:
-            let _ = print("Decoding error while fetching trip plan: \(decodingError)")
-            Text("Unable to get directions - there was a problem with the servers response.")
-          default:
-            Text("Unable to get directions — \(error.localizedDescription)")
-          }
-        case .success(let trips):
-          List(trips, selection: $tripPlan.selectedTrip) { trip in
-            VStack(alignment: .leading) {
-              Button(action: {
-                if tripPlan.selectedTrip == trip {
-                  // single-mode steps from OTP aren't supported yet
-                  if trip.legs.count > 1 || tripPlan.mode != .transit {
-                    showSteps = true
-                  }
-                } else {
-                  tripPlan.selectedTrip = trip
-                }
-              }) {
-                HStack(spacing: 8) {
-                  Spacer().frame(maxWidth: 8, maxHeight: .infinity)
-                    .background(trip == tripPlan.selectedTrip ? .blue : .clear)
-                  TripPlanListItemDetails(trip: trip, tripPlanMode: $tripPlan.mode) {
-                    tripPlan.selectedTrip = trip
-                    showSteps = true
-                  }
-                }
-              }
-            }.listRowInsets(EdgeInsets())
-          }.listStyle(.plain)
-            .onChange(of: tripPlan.selectedTrip) { newValue in
-              guard let newValue = newValue else {
-                return
-              }
-              withAnimation {
-                scrollView.scrollTo(newValue.id, anchor: .top)
-              }
-            }
+      switch tripPlan.trips {
+      case .failure(let error):
+        switch error {
+        case let tripPlanError as TripPlanError:
+          Text(tripPlanError.localizedDescription)
+        case let decodingError as DecodingError:
+          let _ = print("Decoding error while fetching trip plan: \(decodingError)")
+          Text("Unable to get directions - there was a problem with the servers response.")
+        default:
+          Text("Unable to get directions — \(error.localizedDescription)")
         }
-      }.sheet(isPresented: $showSteps) {
-        let trip = tripPlan.selectedTrip!
-        let _ = assert(trip.legs.count > 0)
-        if trip.legs.count == 1, case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg {
-          ManeuverListSheetContents(
-            trip: trip, maneuvers: nonTransitLeg.maneuvers, onClose: { showSteps = false })
-        } else {
-          MultiModalTripDetailsSheetContents(trip: trip, onClose: { showSteps = false })
-        }
-      }.sheet(isPresented: $showTimePicker) {
-        SheetContentsWithoutTitle(currentDetent: .constant(.medium)) {
-          VStack {
-            TripDatePicker(mode: $tripDate)
-            HStack(spacing: 60) {
-              Button(
-                "Cancel",
-                action: {
-                  // maybe we should restore to previous value rather than always reset to now
-                  tripDate = .departNow
-                  showTimePicker = false
-                }
-              ).foregroundColor(.black)
-              Button("Done", action: { showTimePicker = false })
-            }.font(.title3)
-          }.padding()
-        }
+      case .success(let trips):
+        TripList(tripPlan: tripPlan, trips: .constant(trips), showSteps: $showSteps)
       }
     }.onAppear {
       // don't blow away mocked values in Preview
@@ -225,6 +186,11 @@ struct TripSearchManager {
     Env.current.tripPlanClient
   }
 
+  var distanceMeasurementSystem: Locale.MeasurementSystem {
+    // This matches the logic in MapboxDirections.DirectionsOptions.distanceMeasurementSystem
+    Locale.autoupdatingCurrent.measurementSystem
+  }
+
   var pendingQueries: [TripQuery] = []
   var completedQueries: [TripQuery] = []
 
@@ -233,12 +199,11 @@ struct TripSearchManager {
   ) async throws
     -> Result<[Trip], TripPlanError>
   {
-    // TODO: pass units through Env?
-    let units: DistanceUnit
-    if Locale.current.measurementSystem == .metric {
-      units = .kilometers
+    let measurementSystem: MeasurementSystem
+    if self.distanceMeasurementSystem == .metric {
+      measurementSystem = .metric
     } else {
-      units = .miles
+      measurementSystem = .imperial
     }
 
     var modes = [mode]
@@ -247,7 +212,7 @@ struct TripSearchManager {
     }
 
     return try await tripPlanClient.query(
-      from: from, to: to, modes: modes, units: units, tripDate: tripDate)
+      from: from, to: to, modes: modes, measurementSystem: measurementSystem, tripDate: tripDate)
   }
 }
 

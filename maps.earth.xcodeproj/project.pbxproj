@@ -12,6 +12,7 @@
 		450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */; };
 		450C5F1D2B961DFC00394697 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1C2B961DFC00394697 /* Trip.swift */; };
 		450C5F1F2B963B5700394697 /* TripTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1E2B963B5700394697 /* TripTest.swift */; };
+		4516BAA92C0810DC0095E760 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4516BAA82C0810DC0095E760 /* Platform.swift */; };
 		4545AA682BA373B500958306 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA672BA373B500958306 /* Env.swift */; };
 		4545AA6B2BA3857500958306 /* walk_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA692BA3857500958306 /* walk_plan.json */; };
 		4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA6D2BA3934000958306 /* Maneuver.swift */; };
@@ -64,10 +65,16 @@
 		45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */; };
 		45DD17122BE2E2170085D2B1 /* LabeledCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DD17112BE2E2170085D2B1 /* LabeledCheckbox.swift */; };
 		45DD17142BE598260085D2B1 /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DD17132BE598260085D2B1 /* PlaceSearch.swift */; };
+		45E0C3AB2BFFD26900C6388C /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E0C3AA2BFFD26900C6388C /* UtilityExtensions.swift */; };
+		45E0C3AD2BFFD44B00C6388C /* TripList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E0C3AC2BFFD44B00C6388C /* TripList.swift */; };
+		45E0C3B32C0017A900C6388C /* west_seattle_water_taxi_place.json in Resources */ = {isa = PBXBuildFile; fileRef = 45E0C3B22C0017A900C6388C /* west_seattle_water_taxi_place.json */; };
 		45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */ = {isa = PBXBuildFile; fileRef = 45E474702BB3562500018120 /* bicycle_plan_error.json */; };
 		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
 		45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC72BA011C9007A4657 /* CloseButton.swift */; };
 		45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC92BA11046007A4657 /* LocateMeButton.swift */; };
+		45F8A6422BED704E00CA83B4 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F8A6402BED704E00CA83B4 /* NavigationViewController.swift */; };
+		45F8A6452BED720E00CA83B4 /* MapboxNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 45F8A6442BED720E00CA83B4 /* MapboxNavigation */; };
+		45FA80F02BFBFFB3009C0415 /* DirectionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FA80EF2BFBFFB3009C0415 /* DirectionsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +100,7 @@
 		450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesControllerTests.swift; sourceTree = "<group>"; };
 		450C5F1C2B961DFC00394697 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		450C5F1E2B963B5700394697 /* TripTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTest.swift; sourceTree = "<group>"; };
+		4516BAA82C0810DC0095E760 /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		4545AA672BA373B500958306 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		4545AA692BA3857500958306 /* walk_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = walk_plan.json; sourceTree = "<group>"; };
 		4545AA6D2BA3934000958306 /* Maneuver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maneuver.swift; sourceTree = "<group>"; };
@@ -146,12 +154,20 @@
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceField.swift; sourceTree = "<group>"; };
 		45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiModalTripDetails.swift; sourceTree = "<group>"; };
+		45D6B1142BF2D4E10052D400 /* maplibre-navigation-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "maplibre-navigation-ios"; sourceTree = "<group>"; };
 		45DD17112BE2E2170085D2B1 /* LabeledCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledCheckbox.swift; sourceTree = "<group>"; };
 		45DD17132BE598260085D2B1 /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
+		45DFFD5E2BED949E00C27041 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		45E0C3AA2BFFD26900C6388C /* UtilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
+		45E0C3AC2BFFD44B00C6388C /* TripList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripList.swift; sourceTree = "<group>"; };
+		45E0C3B22C0017A900C6388C /* west_seattle_water_taxi_place.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = west_seattle_water_taxi_place.json; sourceTree = "<group>"; };
+		45E456982BED96C200D95DFD /* mapbox-directions-swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "mapbox-directions-swift"; sourceTree = "<group>"; };
 		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		45F5ECC92BA11046007A4657 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
+		45F8A6402BED704E00CA83B4 /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		45FA80EF2BFBFFB3009C0415 /* DirectionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				455363EE2B687D90006DF291 /* MapLibre in Frameworks */,
+				45F8A6452BED720E00CA83B4 /* MapboxNavigation in Frameworks */,
 				455CDFF42BAA5E4A00D72FF6 /* PhoneNumberKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,6 +208,7 @@
 		4563B9E62B687AA4005A677A = {
 			isa = PBXGroup;
 			children = (
+				45DFFD5F2BED949E00C27041 /* DevDependencies */,
 				4545AA712BA3A9E000958306 /* maps.earth-unit-tests.xctestplan */,
 				4563B9F12B687AA4005A677A /* maps.earth */,
 				4563BA022B687AA5005A677A /* maps.earthTests */,
@@ -213,6 +231,7 @@
 		4563B9F12B687AA4005A677A /* maps.earth */ = {
 			isa = PBXGroup;
 			children = (
+				45F8A6412BED704E00CA83B4 /* Directions */,
 				45992B542B9B651900A64AEE /* maps-earth-Info.plist */,
 				456C6CEF2B71BBC800AAFBE6 /* Utils */,
 				45971ACB2B71AC000050BECE /* Data */,
@@ -266,6 +285,8 @@
 				45F5ECC52B9FC95C007A4657 /* UIHelper.swift */,
 				45831E382BCDC940007E7AA4 /* Logging.swift */,
 				4571DB8E2BD9BE0C00C919D8 /* RelativeDateFormatter.swift */,
+				45E0C3AA2BFFD26900C6388C /* UtilityExtensions.swift */,
+				4516BAA82C0810DC0095E760 /* Platform.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -301,6 +322,7 @@
 				45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */,
 				4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */,
 				45DD17132BE598260085D2B1 /* PlaceSearch.swift */,
+				45E0C3AC2BFFD44B00C6388C /* TripList.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -345,6 +367,7 @@
 		45971ACC2B71AC090050BECE /* StubbedResponses */ = {
 			isa = PBXGroup;
 			children = (
+				45E0C3B22C0017A900C6388C /* west_seattle_water_taxi_place.json */,
 				45E474702BB3562500018120 /* bicycle_plan_error.json */,
 				4545AA722BA3B0B700958306 /* bicycle_plan.json */,
 				4545AA732BA3B0B700958306 /* car_plan.json */,
@@ -353,6 +376,25 @@
 				45971ACD2B71AC320050BECE /* autocomplete.json */,
 			);
 			path = StubbedResponses;
+			sourceTree = "<group>";
+		};
+		45DFFD5F2BED949E00C27041 /* DevDependencies */ = {
+			isa = PBXGroup;
+			children = (
+				45D6B1142BF2D4E10052D400 /* maplibre-navigation-ios */,
+				45E456982BED96C200D95DFD /* mapbox-directions-swift */,
+				45DFFD5E2BED949E00C27041 /* README.md */,
+			);
+			path = DevDependencies;
+			sourceTree = "<group>";
+		};
+		45F8A6412BED704E00CA83B4 /* Directions */ = {
+			isa = PBXGroup;
+			children = (
+				45F8A6402BED704E00CA83B4 /* NavigationViewController.swift */,
+				45FA80EF2BFBFFB3009C0415 /* DirectionsService.swift */,
+			);
+			path = Directions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -374,6 +416,7 @@
 			packageProductDependencies = (
 				455363ED2B687D90006DF291 /* MapLibre */,
 				455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */,
+				45F8A6442BED720E00CA83B4 /* MapboxNavigation */,
 			);
 			productName = maps.earth;
 			productReference = 4563B9EF2B687AA4005A677A /* maps.earth.app */;
@@ -450,6 +493,7 @@
 			packageReferences = (
 				455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 				4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
+				45F8A6432BED709E00CA83B4 /* XCRemoteSwiftPackageReference "maplibre-navigation-ios" */,
 			);
 			productRefGroup = 4563B9F02B687AA4005A677A /* Products */;
 			projectDirPath = "";
@@ -472,6 +516,7 @@
 				4563B9FA2B687AA5005A677A /* Preview Assets.xcassets in Resources */,
 				4545AA742BA3B0B700958306 /* bicycle_plan.json in Resources */,
 				4545AA752BA3B0B700958306 /* car_plan.json in Resources */,
+				45E0C3B32C0017A900C6388C /* west_seattle_water_taxi_place.json in Resources */,
 				45971ACE2B71AC320050BECE /* autocomplete.json in Resources */,
 				4545AA6B2BA3857500958306 /* walk_plan.json in Resources */,
 				4563B9F72B687AA5005A677A /* Assets.xcassets in Resources */,
@@ -501,9 +546,11 @@
 			files = (
 				45831E3D2BCDFDAD007E7AA4 /* PreferencesController.swift in Sources */,
 				4563B9F52B687AA4005A677A /* HomeView.swift in Sources */,
+				45FA80F02BFBFFB3009C0415 /* DirectionsService.swift in Sources */,
 				45971ABB2B71995D0050BECE /* Place.swift in Sources */,
 				4571DB8D2BD9A8C000C919D8 /* TripDatePicker.swift in Sources */,
 				45971ACA2B71AB500050BECE /* FixtureData.swift in Sources */,
+				45E0C3AB2BFFD26900C6388C /* UtilityExtensions.swift in Sources */,
 				45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */,
 				45831E352BCDC8A2007E7AA4 /* FrontPageSearch.swift in Sources */,
 				45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */,
@@ -511,6 +558,7 @@
 				456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */,
 				450855312BCF48F800B7678C /* StorageManager.swift in Sources */,
 				455363F02B687EF0006DF291 /* MapView.swift in Sources */,
+				45F8A6422BED704E00CA83B4 /* NavigationViewController.swift in Sources */,
 				45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */,
 				45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */,
 				45992B4D2B9A71D100A64AEE /* Style.swift in Sources */,
@@ -526,11 +574,13 @@
 				4545AA702BA39C4F00958306 /* Valhalla.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
 				45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */,
+				4516BAA92C0810DC0095E760 /* Platform.swift in Sources */,
 				4571DB8B2BD87B4C00C919D8 /* View+roundedBorder.swift in Sources */,
 				45DD17142BE598260085D2B1 /* PlaceSearch.swift in Sources */,
 				45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */,
 				4571DB8F2BD9BE0C00C919D8 /* RelativeDateFormatter.swift in Sources */,
 				45831E312BC8A3A1007E7AA4 /* MapContents.swift in Sources */,
+				45E0C3AD2BFFD44B00C6388C /* TripList.swift in Sources */,
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
 				45DD17122BE2E2170085D2B1 /* LabeledCheckbox.swift in Sources */,
 				4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */,
@@ -726,7 +776,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -759,7 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -902,6 +952,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		45F8A6432BED709E00CA83B4 /* XCRemoteSwiftPackageReference "maplibre-navigation-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maplibre/maplibre-navigation-ios";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -914,6 +972,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
 			productName = PhoneNumberKit;
+		};
+		45F8A6442BED720E00CA83B4 /* MapboxNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45F8A6432BED709E00CA83B4 /* XCRemoteSwiftPackageReference "maplibre-navigation-ios" */;
+			productName = MapboxNavigation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
