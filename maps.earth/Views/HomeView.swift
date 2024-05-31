@@ -141,7 +141,7 @@ struct HomeView: View {
         do {
           self.tripPlan.selectedRoute = .success(
             try await DirectionsService().route(
-              from: from, to: to, mode: .bike, tripIdx: 0))
+              from: from, to: to, mode: .bike, transitWithBike: false, tripIdx: 0))
 
         } catch {
           self.tripPlan.selectedRoute = .failure(error)

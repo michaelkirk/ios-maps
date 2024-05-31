@@ -43,7 +43,8 @@ struct TripList: View {
                       do {
                         self.tripPlan.selectedRoute = .success(
                           try await DirectionsService().route(
-                            from: trip.from, to: trip.to, mode: tripPlan.mode, tripIdx: tripIdx))
+                            from: trip.from, to: trip.to, mode: tripPlan.mode,
+                            transitWithBike: tripPlan.transitWithBike, tripIdx: tripIdx))
                       } catch {
                         self.tripPlan.selectedRoute = .failure(error)
                         print("error when getting directions: \(error)")
