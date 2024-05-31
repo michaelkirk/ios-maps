@@ -13,27 +13,25 @@ struct DirectionsService {
   var mlnDirections: Directions {
     Env.current.mlnDirections
   }
+  enum DirectionsError: Error {
+    case noneFound
+  }
 
-  /// - Parameters:
-  ///   - tripIdx: Try to match this trip. This is a hack. We have a trips API and a Directions API.
-  ///                    In theory they should correspond to the same Route, but the API formats are different.
-  func directions(from: Place, to: Place, mode: TravelMode, tripIdx: Int) async throws -> Route {
-    let options = routeOptions(from: from, to: to, mode: mode)
+  func routes(from: Place, to: Place, mode: TravelMode, transitWithBike: Bool) async throws
+    -> [Route]
+  {
+    let options = routeOptions(from: from, to: to, mode: mode, transitWithBike: transitWithBike)
 
     print(
       "[\(type(of:self))] Calculating directions with URL: \(mlnDirections.url(forCalculating: options))"
     )
 
     return try await withCheckedThrowingContinuation {
-      (continuation: CheckedContinuation<Route, any Error>) in
+      (continuation: CheckedContinuation<[Route], any Error>) in
       self.mlnDirections.calculate(options) {
         (waypoints: [Waypoint]?, routes: [Route]?, error: NSError?) -> Void in
         if let error = error {
           return continuation.resume(throwing: error)
-        }
-
-        enum DirectionsError: Error {
-          case noneFound
         }
 
         guard let routes = routes else {
@@ -41,37 +39,57 @@ struct DirectionsService {
           return continuation.resume(throwing: DirectionsError.noneFound)
         }
 
-        guard let route = routes[getOrNil: tripIdx] else {
-          assertionFailure("route at idx was unexpectedly nil")
-
-          if let firstRoute = routes.first {
-            return continuation.resume(returning: firstRoute)
-          } else {
-            return continuation.resume(throwing: DirectionsError.noneFound)
-          }
-        }
-
-        continuation.resume(returning: route)
+        continuation.resume(returning: routes)
       }
     }
   }
 
-  private func routeOptions(from: Place, to: Place, mode: TravelMode) -> RouteOptions {
+  /// - Parameters:
+  ///   - tripIdx: Try to match this trip. This is a hack. We have a trips API and a Directions API.
+  ///                    In theory they should correspond to the same Route, but the API formats are different.
+  func route(from: Place, to: Place, mode: TravelMode, transitWithBike: Bool, tripIdx: Int)
+    async throws -> Route
+  {
+    let routes = try await self.routes(
+      from: from, to: to, mode: mode, transitWithBike: transitWithBike)
+
+    guard let route = routes[getOrNil: tripIdx] else {
+      assertionFailure("route at idx was unexpectedly nil")
+      guard let firstRoute = routes.first else {
+        throw DirectionsError.noneFound
+      }
+      return firstRoute
+    }
+
+    return route
+  }
+
+  private func routeOptions(from: Place, to: Place, mode: TravelMode, transitWithBike: Bool)
+    -> RouteOptions
+  {
     let waypoints = [from, to].map { Waypoint(location: $0.location.asCLLocation) }
 
     let options: RouteOptions
-    let mode = mode.asMBDirectionsProfileIdentifier
+    let profileIdentifier = mode.asMBDirectionsProfileIdentifier
     if mlnDirections == Env.current.travelmuxDirectionsService {
-      options = TravelmuxNavigationRouteOptions(waypoints: waypoints, profileIdentifier: mode)
+      var modes = [mode]
+      if transitWithBike {
+        assert(mode == .transit)
+        modes.append(.bike)
+      }
+      let travelmuxOptions = TravelmuxNavigationRouteOptions(
+        waypoints: waypoints, profileIdentifier: profileIdentifier)
+      travelmuxOptions.modes = modes
+      options = travelmuxOptions
     } else if mlnDirections == Env.current.valhallaDirectionsService {
-      options = ValhallaNavigationRouteOptions(waypoints: waypoints, profileIdentifier: mode)
+      options = ValhallaNavigationRouteOptions(
+        waypoints: waypoints, profileIdentifier: profileIdentifier)
     } else if mlnDirections == Env.current.mapboxDirectionsService {
-      options = NavigationRouteOptions(waypoints: waypoints, profileIdentifier: mode)
+      options = NavigationRouteOptions(waypoints: waypoints, profileIdentifier: profileIdentifier)
     } else {
-      fatalError("unknown directions service: \(String(describing: directions))")
+      fatalError("unknown directions service: \(String(describing: mlnDirections))")
     }
     options.shapeFormat = .polyline6
-    options.distanceMeasurementSystem = .imperial
     options.attributeOptions = []
 
     return options
@@ -167,25 +185,16 @@ class TravelmuxNavigationRouteOptions: NavigationRouteOptions {
     AppConfig().travelmuxEndpoint.replacingLastPathComponent(with: "directions").path()
   }
 
+  var modes: [TravelMode] = []
+
   open override var params: [URLQueryItem] {
+    assert(!modes.isEmpty)
+
     let from = LngLat(coord: self.waypoints[0].coordinate)
     let to = LngLat(coord: self.waypoints[1].coordinate)
 
-    let mode: TravelMode
-    switch self.profileIdentifier {
-    case .automobile, .automobileAvoidingTraffic:
-      mode = .car
-    case .cycling:
-      mode = .bike
-    case .walking:
-      mode = .walk
-    default:
-      assertionFailure("unexpected mode")
-      mode = .car
-    }
-
     let params = TripPlanClient.RealClient.queryParams(
-      from: from, to: to, modes: [mode], measurementSystem: self.distanceMeasurementSystem)
+      from: from, to: to, modes: self.modes, measurementSystem: self.distanceMeasurementSystem)
     return params
   }
 }
