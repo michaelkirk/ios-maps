@@ -328,7 +328,12 @@ extension MapView: UIViewRepresentable {
 
     switch userLocationState {
     case .initial:
-      break
+      DispatchQueue.main.async {
+        // This will prompt for location permission on first load.
+        // If the user accepts, their blue dot will be shown and we'll have their location ready for routing.
+        // If the user denies, no problem. This state will be updated such that the "locate me" control will be disabled.
+        userLocationState = .showing
+      }
     case .showing:
       if !mapView.showsUserLocation {
         mapView.showsUserLocation = true
