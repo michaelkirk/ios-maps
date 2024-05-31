@@ -140,7 +140,7 @@ struct HomeView: View {
       Task {
         do {
           self.tripPlan.selectedRoute = .success(
-            try await DirectionsService().directions(
+            try await DirectionsService().route(
               from: from, to: to, mode: .bike, tripIdx: 0))
 
         } catch {

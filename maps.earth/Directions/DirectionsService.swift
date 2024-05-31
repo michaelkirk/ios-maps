@@ -13,11 +13,11 @@ struct DirectionsService {
   var mlnDirections: Directions {
     Env.current.mlnDirections
   }
+  enum DirectionsError: Error {
+    case noneFound
+  }
 
-  /// - Parameters:
-  ///   - tripIdx: Try to match this trip. This is a hack. We have a trips API and a Directions API.
-  ///                    In theory they should correspond to the same Route, but the API formats are different.
-  func directions(from: Place, to: Place, mode: TravelMode, tripIdx: Int) async throws -> Route {
+  func routes(from: Place, to: Place, mode: TravelMode) async throws -> [Route] {
     let options = routeOptions(from: from, to: to, mode: mode)
 
     print(
@@ -25,15 +25,11 @@ struct DirectionsService {
     )
 
     return try await withCheckedThrowingContinuation {
-      (continuation: CheckedContinuation<Route, any Error>) in
+      (continuation: CheckedContinuation<[Route], any Error>) in
       self.mlnDirections.calculate(options) {
         (waypoints: [Waypoint]?, routes: [Route]?, error: NSError?) -> Void in
         if let error = error {
           return continuation.resume(throwing: error)
-        }
-
-        enum DirectionsError: Error {
-          case noneFound
         }
 
         guard let routes = routes else {
@@ -41,19 +37,26 @@ struct DirectionsService {
           return continuation.resume(throwing: DirectionsError.noneFound)
         }
 
-        guard let route = routes[getOrNil: tripIdx] else {
-          assertionFailure("route at idx was unexpectedly nil")
-
-          if let firstRoute = routes.first {
-            return continuation.resume(returning: firstRoute)
-          } else {
-            return continuation.resume(throwing: DirectionsError.noneFound)
-          }
-        }
-
-        continuation.resume(returning: route)
+        continuation.resume(returning: routes)
       }
     }
+  }
+
+  /// - Parameters:
+  ///   - tripIdx: Try to match this trip. This is a hack. We have a trips API and a Directions API.
+  ///                    In theory they should correspond to the same Route, but the API formats are different.
+  func route(from: Place, to: Place, mode: TravelMode, tripIdx: Int) async throws -> Route {
+    let routes = try await self.routes(from: from, to: to, mode: mode)
+
+    guard let route = routes[getOrNil: tripIdx] else {
+      assertionFailure("route at idx was unexpectedly nil")
+      guard let firstRoute = routes.first else {
+        throw DirectionsError.noneFound
+      }
+      return firstRoute
+    }
+
+    return route
   }
 
   private func routeOptions(from: Place, to: Place, mode: TravelMode) -> RouteOptions {
@@ -68,7 +71,7 @@ struct DirectionsService {
     } else if mlnDirections == Env.current.mapboxDirectionsService {
       options = NavigationRouteOptions(waypoints: waypoints, profileIdentifier: mode)
     } else {
-      fatalError("unknown directions service: \(String(describing: directions))")
+      fatalError("unknown directions service: \(String(describing: mlnDirections))")
     }
     options.shapeFormat = .polyline6
     options.distanceMeasurementSystem = .imperial

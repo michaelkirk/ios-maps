@@ -42,7 +42,7 @@ struct TripList: View {
                     Task {
                       do {
                         self.tripPlan.selectedRoute = .success(
-                          try await DirectionsService().directions(
+                          try await DirectionsService().route(
                             from: trip.from, to: trip.to, mode: tripPlan.mode, tripIdx: tripIdx))
                       } catch {
                         self.tripPlan.selectedRoute = .failure(error)
