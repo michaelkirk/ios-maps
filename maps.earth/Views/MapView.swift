@@ -21,53 +21,6 @@ enum UserLocationState {
   case denied
 }
 
-class MapTapper: NSObject {
-  weak var coordinator: MapView.Coordinator?
-  init(coordinator: MapView.Coordinator) {
-    self.coordinator = coordinator
-  }
-  @objc
-  func handleMapTap(sender: UITapGestureRecognizer) {
-    guard let coordinator = self.coordinator else {
-      // coordinator has been gc'd
-      return
-    }
-    guard let view = sender.view else {
-      assertionFailure("gesture was not in view")
-      return
-    }
-    guard let mapView = view as? MLNMapView else {
-      assertionFailure("view hosting gesture was not an MLNMapView")
-      return
-    }
-
-    let touchPoint = sender.location(in: mapView)
-    // `visibleFeatures(at: point)` requires a very precise tap.
-    //
-    // Anecdotally, I find myself tapping multiple times before I successfully select the route.
-    // so we add some slop and use a Rect selector rather than the point selector
-    let slop: CGFloat = 10
-    let touchRect = CGRect(
-      x: touchPoint.x - slop, y: touchPoint.y - slop, width: slop * 2, height: slop * 2)
-
-    // styleLayerIdentifiers:
-    let features = mapView.visibleFeatures(in: touchRect)
-
-    for feature in features {
-      guard let featureId = feature.identifier as? String else {
-        continue
-      }
-      guard let tripLegId = try? TripLegId(string: featureId) else {
-        // We might want to handle other feature taps - e.g. tapping a trashcan or bus depot
-        continue
-      }
-      // If there are multiple features, we return whichever is first, not necessarily which is closest.
-      // If this proves problematc, we can sort the results by distance from touchPoint.
-      coordinator.mapView(mapView, didTapTripLegId: tripLegId)
-    }
-  }
-}
-
 extension UserLocationState: CustomStringConvertible {
   var description: String {
     switch self {
@@ -190,6 +143,8 @@ extension MapView: UIViewRepresentable {
     // create the mapview
     let mapView = NavigationMapView(frame: .zero, styleURL: styleURL)
     context.coordinator.mlnNavigationMapView = mapView
+    assert(mapView.navigationMapDelegate == nil)
+    mapView.navigationMapDelegate = context.coordinator
     mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     mapView.logoView.isHidden = true
     Env.current.getMapFocus = { LngLat(coord: mapView.centerCoordinate) }
@@ -211,15 +166,6 @@ extension MapView: UIViewRepresentable {
     let originalLocationManagerDelegate = mapView.locationManager.delegate
     mapView.locationManager.delegate = context.coordinator
     context.coordinator.originalLocationManagerDelegate = originalLocationManagerDelegate
-
-    let mapTapper = MapTapper(coordinator: context.coordinator)
-    let featureTapper = UITapGestureRecognizer(
-      target: mapTapper, action: #selector(MapTapper.handleMapTap(sender:)))
-    for recognizer in mapView.gestureRecognizers! where recognizer is UITapGestureRecognizer {
-      featureTapper.require(toFail: recognizer)
-    }
-    mapView.addGestureRecognizer(featureTapper)
-    context.coordinator.mapTapper = mapTapper
 
     do {
       let controlsUIView = context.coordinator.topControlsController.view!
@@ -375,8 +321,6 @@ extension MapView: UIViewRepresentable {
     let mapView: MapView
     weak var mlnNavigationMapView: NavigationMapView?
 
-    var mapTapper: MapTapper? = nil
-
     var mapContents: MapContents = .empty
 
     var topControlsController: UIHostingController<TopControls>
@@ -517,6 +461,46 @@ extension MapView.Coordinator: MLNMapViewDelegate {
           assertionFailure("unexpected MLNUserTrackingModeL \(String(describing: mode))")
         }
       }
+    }
+  }
+}
+
+extension MapView.Coordinator: NavigationMapViewDelegate {
+  func navigationMapView(
+    _ mapView: NavigationMapView, didReceiveUnhandledTap sender: UITapGestureRecognizer
+  ) {
+    guard let view = sender.view else {
+      assertionFailure("gesture was not in view")
+      return
+    }
+    guard let mapView = view as? MLNMapView else {
+      assertionFailure("view hosting gesture was not an MLNMapView")
+      return
+    }
+
+    let touchPoint = sender.location(in: mapView)
+    // `visibleFeatures(at: point)` requires a very precise tap.
+    //
+    // Anecdotally, I find myself tapping multiple times before I successfully select the route.
+    // so we add some slop and use a Rect selector rather than the point selector
+    let slop: CGFloat = 10
+    let touchRect = CGRect(
+      x: touchPoint.x - slop, y: touchPoint.y - slop, width: slop * 2, height: slop * 2)
+
+    // styleLayerIdentifiers:
+    let features = mapView.visibleFeatures(in: touchRect)
+
+    for feature in features {
+      guard let featureId = feature.identifier as? String else {
+        continue
+      }
+      guard let tripLegId = try? TripLegId(string: featureId) else {
+        // We might want to handle other feature taps - e.g. tapping a trashcan or bus depot
+        continue
+      }
+      // If there are multiple features, we return whichever is first, not necessarily which is closest.
+      // If this proves problematc, we can sort the results by distance from touchPoint.
+      self.mapView(mapView, didTapTripLegId: tripLegId)
     }
   }
 }
