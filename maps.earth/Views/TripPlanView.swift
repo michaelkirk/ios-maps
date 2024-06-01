@@ -39,7 +39,20 @@ struct TripPlanView: View {
   @State var tripDate: TripDateMode = .departNow
 
   var body: some View {
-    VStack(alignment: .leading) {
+    let showRouteSheet = Binding(
+      get: {
+        if case .success(_) = $tripPlan.selectedRoute.wrappedValue {
+          return true
+        } else {
+          return false
+        }
+      },
+      set: { newValue in
+        print("new value for showRouteSheet: \(newValue)")
+      }
+    )
+
+    return VStack(alignment: .leading) {
       HStack(spacing: 20) {
         // Disable transit for now
         ModeButton(mode: .transit, selectedMode: $tripPlan.mode)
@@ -142,6 +155,12 @@ struct TripPlanView: View {
       queryIfReady()
     }.onDisappear {
       self.tripPlan.selectedTrip = nil
+    }.fullScreenCover(isPresented: showRouteSheet, onDismiss: { tripPlan.selectedRoute = nil }) {
+      if case let .success(route) = self.tripPlan.selectedRoute {
+        MENavigationViewController(route: route, onDismiss: { tripPlan.selectedRoute = nil })
+      } else {
+        let _ = assertionFailure("showing route sheet without a successful route.")
+      }
     }
   }
   func queryIfReady() {

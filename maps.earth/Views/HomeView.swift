@@ -41,31 +41,7 @@ struct HomeView: View {
   }
 
   var body: some View {
-    let showSearchSheet = Binding(
-      get: {
-        if case .success(_) = $tripPlan.selectedRoute.wrappedValue {
-          return false
-        } else {
-          return true
-        }
-      },
-      set: { newValue in
-        print("new value for showSearchSheet: \(newValue)")
-      }
-    )
-    let showRouteSheet = Binding(
-      get: {
-        if case .success(_) = $tripPlan.selectedRoute.wrappedValue {
-          return true
-        } else {
-          return false
-        }
-      },
-      set: { newValue in
-        print("new value for showRouteSheet: \(newValue)")
-      }
-    )
-    return MapView(
+    MapView(
       searchResults: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
       userLocationState: $userLocationState,
       mostRecentUserLocation: $userLocationManager.mostRecentUserLocation,
@@ -73,17 +49,7 @@ struct HomeView: View {
       tripPlan: tripPlan
     )
     .edgesIgnoringSafeArea(.all)
-    .sheet(isPresented: showRouteSheet) {
-      if case let .success(route) = self.tripPlan.selectedRoute {
-        MENavigationViewController(route: route, onDismiss: { tripPlan.selectedRoute = nil })
-          // Disable interactive dismiss to ensure the `onDismiss` handler above is called.
-          .interactiveDismissDisabled(true)
-      } else {
-        let _ = assertionFailure("showing route sheet without a successful route.")
-      }
-    }
-    .sheet(isPresented: showSearchSheet) {
-      let _ = assert(self.tripPlan.selectedRoute == nil)
+    .sheet(isPresented: .constant(true)) {
       FrontPageSearch(
         hasPendingQuery: searchQueue.hasPendingQuery,
         places: $searchQueue.mostRecentResults,
