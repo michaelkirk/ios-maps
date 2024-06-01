@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import MapLibre
 import MapboxCoreNavigation
 import MapboxDirections
 import MapboxNavigation
@@ -70,6 +71,11 @@ struct MENavigationViewController: UIViewControllerRepresentable {
 }
 
 extension MENavigationViewController.Coordinator: NavigationViewControllerDelegate {
+  // e.g. after style is applied
+  func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
+    add3DBuildingsLayer(mapView: mapView)
+  }
+
   @objc func navigationViewControllerDidDismiss(
     _ navigationViewController: NavigationViewController, byCanceling canceled: Bool
   ) {

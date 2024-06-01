@@ -127,6 +127,35 @@ struct MapView {
   @ObservedObject var tripPlan: TripPlan
 }
 
+func add3DBuildingsLayer(mapView: MLNMapView) {
+  guard let style = mapView.style else {
+    assertionFailure("mapView.style was unexpectedly nil")
+    return
+  }
+
+  assert(style.layers.first { $0.identifier == "subtle_3d_buildings" } == nil)
+
+  guard let source = (style.sources.first { $0.identifier == "openmaptiles" }) else {
+    assertionFailure("openmaptiles source was unexpectedly missing")
+    return
+  }
+
+  let buildingsLayer = MLNFillExtrusionStyleLayer(identifier: "subtle_3d_buildings", source: source)
+  buildingsLayer.sourceLayerIdentifier = "building"
+
+  // Set the fill extrusion color, height, and base.
+  buildingsLayer.fillExtrusionColor = NSExpression(forConstantValue: UIColor.lightGray)
+  buildingsLayer.fillExtrusionHeight = NSExpression(forKeyPath: "render_height")
+  buildingsLayer.fillExtrusionBase = NSExpression(forKeyPath: "render_min_height")
+  buildingsLayer.fillExtrusionOpacity = NSExpression(forConstantValue: 0.6)
+
+  guard let symbolLayer = (style.layers.first { $0 is MLNSymbolStyleLayer }) else {
+    assertionFailure("symbolLayer was unexpectedly nil")
+    return
+  }
+  style.insertLayer(buildingsLayer, below: symbolLayer)
+}
+
 extension MapView: UIViewRepresentable {
   func makeCoordinator() -> Coordinator {
     let topControls = TopControls(
@@ -401,6 +430,10 @@ extension MapView: UIViewRepresentable {
 }
 
 extension MapView.Coordinator: MLNMapViewDelegate {
+  // e.g. after style is applied
+  func mapViewDidFinishLoadingMap(_ mapView: MLNMapView) {
+    add3DBuildingsLayer(mapView: mapView)
+  }
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
     switch self.mapContents {
     case .trips, .empty:
