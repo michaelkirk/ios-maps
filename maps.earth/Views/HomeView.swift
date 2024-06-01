@@ -96,25 +96,6 @@ struct HomeView: View {
         searchQueue.textDidChange(newValue: newValue)
       }
     }.onAppear {
-      guard Env.current.simulateLocationForTesting else {
-        return
-      }
-
-      // When testing routing, pop up a route immediately.
-      let from = FixtureData.places[.zeitgeist]
-      let to = FixtureData.places[.realfine]
-      Task {
-        do {
-          self.tripPlan.selectedRoute = .success(
-            try await DirectionsService().route(
-              from: from, to: to, mode: .bike, transitWithBike: false, tripIdx: 0))
-
-        } catch {
-          self.tripPlan.selectedRoute = .failure(error)
-          print("error when getting directions: \(error)")
-        }
-      }
-    }.onAppear {
       switch CLLocationManager().authorizationStatus {
       case .notDetermined:
         break
