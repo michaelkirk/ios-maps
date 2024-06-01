@@ -212,18 +212,15 @@ struct MapTrip: MapContent {
       return
     }
 
-    // Insert the route line behind the annotation layer to keep the "end" markers above the routes.
-    //     identifier = com.mapbox.annotations.points; sourceIdentifier = com.mapbox.annotations; sourceLayerIdentifier = com.mapbox.annotations.points
-    let annotationsLayer = style.layers.first(where: {
-      $0.identifier == "com.mapbox.annotations.points"
-    })
+    // Insert the route line behind the symbol layer to keep the routes below the "end" markers and street labels
+    let firstSymbolLayer = style.firstSymbolLayer
 
     for legLayer in tripLayers.legLayers {
       style.addSource(legLayer.source)
-      if let annotationsLayer = annotationsLayer {
-        style.insertLayer(legLayer.styleLayer, below: annotationsLayer)
+      if let firstSymbolLayer {
+        style.insertLayer(legLayer.styleLayer, below: firstSymbolLayer)
       } else {
-        assertionFailure("couldn't find annotationsLayer layer. Did maplibre change their API?")
+        assertionFailure("couldn't find firstSymbolLayer layer. Did maplibre change their API?")
         style.addLayer(legLayer.styleLayer)
       }
     }

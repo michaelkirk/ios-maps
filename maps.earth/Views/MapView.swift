@@ -135,7 +135,7 @@ func add3DBuildingsLayer(mapView: MLNMapView) {
 
   assert(style.layers.first { $0.identifier == "subtle_3d_buildings" } == nil)
 
-  guard let source = (style.sources.first { $0.identifier == "openmaptiles" }) else {
+  guard let source = style.openMapTilesSource else {
     assertionFailure("openmaptiles source was unexpectedly missing")
     return
   }
@@ -149,11 +149,11 @@ func add3DBuildingsLayer(mapView: MLNMapView) {
   buildingsLayer.fillExtrusionBase = NSExpression(forKeyPath: "render_min_height")
   buildingsLayer.fillExtrusionOpacity = NSExpression(forConstantValue: 0.6)
 
-  guard let symbolLayer = (style.layers.first { $0 is MLNSymbolStyleLayer }) else {
+  guard let firstSymbolLayer = style.firstSymbolLayer else {
     assertionFailure("symbolLayer was unexpectedly nil")
     return
   }
-  style.insertLayer(buildingsLayer, below: symbolLayer)
+  style.insertLayer(buildingsLayer, below: firstSymbolLayer)
 }
 
 extension MapView: UIViewRepresentable {
@@ -646,6 +646,20 @@ func debugString(_ trackingMode: MLNUserTrackingMode) -> String {
 extension Bounds {
   var mlnBounds: MLNCoordinateBounds {
     MLNCoordinateBounds(sw: self.min.asCoordinate, ne: self.max.asCoordinate)
+  }
+}
+
+extension MLNStyle {
+  var openMapTilesSource: MLNSource? {
+    guard let source = (self.sources.first { $0.identifier == "openmaptiles" }) else {
+      assertionFailure("openmaptiles source was unexpectedly missing")
+      return nil
+    }
+    return source
+  }
+
+  var firstSymbolLayer: MLNSymbolStyleLayer? {
+    self.layers.compactMap { $0 as? MLNSymbolStyleLayer }.first
   }
 }
 
