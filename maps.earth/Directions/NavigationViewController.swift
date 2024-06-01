@@ -56,6 +56,10 @@ struct MENavigationViewController: UIViewControllerRepresentable {
       locationManager: simulatedLocationManager
     )
     assert(vc.delegate == nil)
+    // The built-in attribution control is positioned relative to the contentInset, which means it'll appear in the middle of the screen.
+    // Instead attribution is handled in a custom control.
+    vc.mapView!.attributionButton.isHidden = true
+    vc.mapView!.logoView.alpha = 0
     vc.delegate = context.coordinator
     return vc
   }
