@@ -197,6 +197,12 @@ class TravelmuxNavigationRouteOptions: NavigationRouteOptions {
       from: from, to: to, modes: self.modes, measurementSystem: self.distanceMeasurementSystem)
     return params
   }
+
+  override func copy(with zone: NSZone? = nil) -> Any {
+    let options = super.copy(with: zone) as! TravelmuxNavigationRouteOptions
+    options.modes = self.modes
+    return options
+  }
 }
 
 extension URL {
