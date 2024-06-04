@@ -11,6 +11,7 @@ struct AppConfig {
   let serverBase = "https://maps.earth"
   // let serverBase = "https://seattle.maps.earth"
   // let serverBase = "http://localhost:9000"
+  // let serverBase = "https://dev.maps.earth"
   var peliasEndpoint: URL {
     URL(string: "\(self.serverBase)/pelias/v1/autocomplete")!
   }

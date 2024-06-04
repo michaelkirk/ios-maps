@@ -12,6 +12,9 @@ struct maps_earthApp: App {
   var body: some Scene {
     WindowGroup {
       HomeView()
+        .onOpenURL { url in
+          print("opened URL: \(url)")
+        }
     }
   }
 }
