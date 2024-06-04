@@ -27,9 +27,8 @@ struct GeocodeClient {
       switch self {
       case .autocomplete(_, _):
         return "autocomplete"
-      case .place(let placeId):
-        // REVIEW: is this already encoced?
-        return "place/\(placeId)"
+      case .place(_):
+        return "place"
       }
     }
 
@@ -42,8 +41,8 @@ struct GeocodeClient {
           queryParams.append(URLQueryItem(name: "focus.point.lat", value: String(focus.lat)))
         }
         return queryParams
-      case .place(_):
-        return nil
+      case .place(let placeId):
+        return [URLQueryItem(name: "ids", value: placeId.serialized)]
       }
     }
   }

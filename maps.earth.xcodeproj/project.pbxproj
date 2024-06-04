@@ -60,6 +60,8 @@
 		45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */; };
 		45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B502B9B5B4300A64AEE /* TripPlan.swift */; };
 		45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* MarkerViews.swift */; };
+		45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BC2C0FC005007145CE /* UniversalLink.swift */; };
+		45BB39BF2C0FC0DC007145CE /* UniversalLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */; };
 		45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */; };
@@ -152,6 +154,8 @@
 		45992B542B9B651900A64AEE /* maps-earth-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "maps-earth-Info.plist"; sourceTree = SOURCE_ROOT; };
 		45992B552B9BC3BC00A64AEE /* MarkerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerViews.swift; sourceTree = "<group>"; };
 		45BB39BB2C0F8C6D007145CE /* maps.earth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = maps.earth.entitlements; sourceTree = "<group>"; };
+		45BB39BC2C0FC005007145CE /* UniversalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLink.swift; sourceTree = "<group>"; };
+		45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkTest.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceField.swift; sourceTree = "<group>"; };
 		45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiModalTripDetails.swift; sourceTree = "<group>"; };
@@ -264,6 +268,7 @@
 				45831E322BC8A4C3007E7AA4 /* MapContentsTest.swift */,
 				450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */,
 				4571DB902BD9BE9F00C919D8 /* FormatRelativeDateTests.swift */,
+				45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */,
 			);
 			path = maps.earthTests;
 			sourceTree = "<group>";
@@ -340,6 +345,7 @@
 				4545AA6D2BA3934000958306 /* Maneuver.swift */,
 				45831E302BC8A3A1007E7AA4 /* MapContents.swift */,
 				45831E362BCDC8DB007E7AA4 /* SearchQueue.swift */,
+				45BB39BC2C0FC005007145CE /* UniversalLink.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -570,6 +576,7 @@
 				45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */,
 				4545AA682BA373B500958306 /* Env.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
+				45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
 				45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */,
@@ -607,6 +614,7 @@
 				450C5F1F2B963B5700394697 /* TripTest.swift in Sources */,
 				4563BA042B687AA5005A677A /* maps_earthTests.swift in Sources */,
 				456C6CF32B7306D000AAFBE6 /* PlaceTest.swift in Sources */,
+				45BB39BF2C0FC0DC007145CE /* UniversalLinkTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
