@@ -13,7 +13,7 @@ struct AppConfig {
   // let serverBase = "http://localhost:9000"
   // let serverBase = "https://dev.maps.earth"
   var peliasEndpoint: URL {
-    URL(string: "\(self.serverBase)/pelias/v1/autocomplete")!
+    URL(string: "\(self.serverBase)/pelias/v1/")!
   }
 
   var travelmuxEndpoint: URL {

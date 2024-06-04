@@ -31,8 +31,9 @@ extension Place {
   }
 }
 
+typealias PlaceID = String
 extension Place: Identifiable {
-  var id: String { self.properties.id }
+  var id: PlaceID { self.properties.id }
 }
 
 extension Place {
