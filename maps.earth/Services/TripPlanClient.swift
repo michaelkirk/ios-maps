@@ -318,7 +318,7 @@ struct TripPlanResponse: Decodable {
   }
 }
 
-enum TravelMode: String, Decodable {
+enum TravelMode: String, Decodable, Equatable {
   case walk = "WALK"
   case bike = "BICYCLE"
   case car = "CAR"

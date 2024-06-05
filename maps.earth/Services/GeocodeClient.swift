@@ -8,30 +8,66 @@
 import Foundation
 
 struct GeocodeClient {
-  let config = AppConfig()
-  func autocomplete(text: String, focus: LngLat? = nil) async throws -> [Place] {
-    assert(focus != nil, "missing focus. env set up?")
+  enum Endpoint {
+    var config: AppConfig {
+      AppConfig()
+    }
 
-    let test = false
-    if test {
-      return FixtureData.places.all
-    } else {
-      var queryParams = ["text": text]
-      if let focus = focus {
-        queryParams["focus.point.lon"] = String(focus.lng)
-        queryParams["focus.point.lat"] = String(focus.lat)
-      }
-      guard let url = buildURL(baseUrl: config.peliasEndpoint, queryParams: queryParams) else {
-        throw URLError(.badURL)
-      }
+    case autocomplete(text: String, focus: LngLat?)
+    case place(PlaceID)
 
-      // print("GET \(url)")
-      let response = try await fetchData(from: url)
-      return response.places
+    var url: URL {
+      let baseURL = config.peliasEndpoint.appendingPathComponent(self.path)
+      var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)!
+      components.queryItems = queryItems
+      return components.url!
+    }
+
+    var path: String {
+      switch self {
+      case .autocomplete(_, _):
+        return "autocomplete"
+      case .place(_):
+        return "place"
+      }
+    }
+
+    var queryItems: [URLQueryItem]? {
+      switch self {
+      case .autocomplete(let text, let focus):
+        var queryParams = [URLQueryItem(name: "text", value: text)]
+        if let focus = focus {
+          queryParams.append(URLQueryItem(name: "focus.point.lon", value: String(focus.lng)))
+          queryParams.append(URLQueryItem(name: "focus.point.lat", value: String(focus.lat)))
+        }
+        return queryParams
+      case .place(let placeId):
+        return [URLQueryItem(name: "ids", value: placeId.serialized)]
+      }
     }
   }
 
+  func autocomplete(text: String, focus: LngLat? = nil) async throws -> [Place] {
+    assert(focus != nil, "missing focus. env set up?")
+    let endpoint = Endpoint.autocomplete(text: text, focus: focus)
+    let response = try await fetchData(from: endpoint.url)
+    return response.places
+  }
+
+  func details(placeID: PlaceID) async throws -> Place? {
+    let endpoint = Endpoint.place(placeID)
+    let response = try await fetchData(from: endpoint.url)
+    guard let place = response.places.first else {
+      assertionFailure("places.first was unexpectedly nil")
+      return nil
+    }
+    assert(response.places.count == 1)
+    return place
+  }
+
   private func fetchData(from url: URL) async throws -> AutocompleteResponse {
+    print("GET \(url)")
+
     let (data, response) = try await URLSession.shared.data(from: url)
 
     guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -40,16 +76,6 @@ struct GeocodeClient {
 
     let decodedResponse = try JSONDecoder().decode(AutocompleteResponse.self, from: data)
     return decodedResponse
-  }
-
-  private func buildURL(baseUrl: URL, queryParams: [String: String]) -> URL? {
-    var components = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
-
-    components?.queryItems = queryParams.map { key, value in
-      URLQueryItem(name: key, value: value)
-    }
-
-    return components?.url
   }
 }
 

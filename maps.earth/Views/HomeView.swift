@@ -142,6 +142,69 @@ struct HomeView: View {
           self.pendingMapFocus = .searchResults(mostRecentResults)
         }
       }
+    }.onOpenURL { url in
+      self.handleUniversalLink(url: url)
+    }
+    // For testing universal links you can feed a URL directly.
+    // You can also run: `$ xcrun simctl openurl booted "https://dev.maps.earth/directions/foo"`
+    // But then you are subject to any caching of the www hosted `.well-known/apple-app-site-association` that Apple's CDN might do (allegedly up to 24 hours of caching)
+    //
+    //    .onAppear {
+    //      let placeUrl = URL(string:"https://maps.earth/place/openstreetmap%3Avenue%3Anode%2F2485251324")!
+    //      let directionsUrl = URL(string:"https://maps.earth/directions/bicycle/openstreetmap%3Avenue%3Anode%2F2485251324/openstreetmap%3Avenue%3Away%2F12903132")!
+    //      let url = directionsUrl
+    //      self.handleUniversalLink(url: url)
+    //    }
+  }
+
+  func handleUniversalLink(url: URL) {
+    logger.debug("opened URL: \(url)")
+    guard let universalLink = UniversalLink(url: url) else {
+      assertionFailure("failed to build universalLink for \(url)")
+      return
+    }
+
+    logger.debug("received universalLink: \(String(describing: universalLink))")
+    switch universalLink {
+    case .home:
+      // do nothing, probably best not to destroy any current state.
+      break
+    case .place(let placeID):
+      Task {
+        do {
+          guard let place = try await GeocodeClient().details(placeID: placeID) else {
+            assertionFailure("unable to find place from url: \(url), placeID: \(placeID)")
+            return
+          }
+          self.tripPlan.clear()
+          self.selectedPlace = place
+        } catch {
+          logger.error("error while fetching place from url: \(url), error: \(error)")
+        }
+      }
+    case .directions(let travelMode, let from, let to):
+      Task {
+        self.tripPlan.clear()
+        do {
+          self.tripPlan.mode = travelMode
+          if let from {
+            let fromPlace = try await GeocodeClient().details(placeID: from)
+            self.tripPlan.navigateFrom = fromPlace
+          }
+          if let to {
+            let toPlace = try await GeocodeClient().details(placeID: to)
+            // This is a bit problematic, and I will probably regret it.
+            // selectedPlace must be non-nil to present the route sheet.
+            // *but* it might be disorienting to clobber an existing selected place.
+            if selectedPlace == nil {
+              selectedPlace = toPlace
+            }
+            self.tripPlan.navigateTo = toPlace
+          }
+        } catch {
+          logger.error("error while fetching places from url: \(url), error: \(error)")
+        }
+      }
     }
   }
 }

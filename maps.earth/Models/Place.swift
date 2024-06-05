@@ -31,7 +31,16 @@ extension Place {
   }
 }
 
+struct PlaceID: Equatable, Hashable {
+  let source: String
+  let id: UInt64
+  var serialized: String {
+    "\(source)/\(id)"
+  }
+}
+
 extension Place: Identifiable {
+  // Should be parseable as a PlaceID, but I don't think there's a reason to enforce that.
   var id: String { self.properties.id }
 }
 
