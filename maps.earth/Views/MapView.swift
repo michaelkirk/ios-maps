@@ -426,6 +426,25 @@ extension MapView: UIViewRepresentable {
       }
       self.mapView.tripPlan.selectedTrip = selectedTrip
     }
+
+    func mapView(_ mapView: MLNMapView, didTapPOI place: MLNPointFeature) {
+      let initialSelectedPlace = self.mapView.selectedPlace
+      Task {
+        do {
+          let newPlace = try await GeocodeClient().details(
+            placeID: .lngLat(LngLat(coord: place.coordinate)))
+          await MainActor.run {
+            guard initialSelectedPlace == self.mapView.selectedPlace else {
+              print("ignoring tapped place since user has since selected another place.")
+              return
+            }
+            self.mapView.selectedPlace = newPlace
+          }
+        } catch {
+          assertionFailure("geocoding failed: \(error)")
+        }
+      }
+    }
   }
 }
 
@@ -512,28 +531,43 @@ extension MapView.Coordinator: NavigationMapViewDelegate {
     }
 
     let touchPoint = sender.location(in: mapView)
-    // `visibleFeatures(at: point)` requires a very precise tap.
-    //
-    // Anecdotally, I find myself tapping multiple times before I successfully select the route.
-    // so we add some slop and use a Rect selector rather than the point selector
-    let slop: CGFloat = 10
-    let touchRect = CGRect(
-      x: touchPoint.x - slop, y: touchPoint.y - slop, width: slop * 2, height: slop * 2)
 
-    // styleLayerIdentifiers:
-    let features = mapView.visibleFeatures(in: touchRect)
+    if self.mapView.tripPlan.isEmpty {
+      // to get layerIds: print(">>>> mapView layers: \(mapView.style!.layers)")
+      let poiLayers = Set(["poi_z14", "poi_z15", "poi_z16"])
+      if let tappedPOI = mapView.visibleFeatures(at: touchPoint, styleLayerIdentifiers: poiLayers)
+        .first
+      {
+        guard let point = tappedPOI as? MLNPointFeature else {
+          assertionFailure("unexpected poi: \(tappedPOI)")
+          return
+        }
+        self.mapView(mapView, didTapPOI: point)
+      }
+    } else {
+      // `visibleFeatures(at: point)` requires a very precise tap.
+      //
+      // Anecdotally, I find myself tapping multiple times before I successfully select the route.
+      // so we add some slop and use a Rect selector rather than the point selector
+      let slop: CGFloat = 10
+      let touchRect = CGRect(
+        x: touchPoint.x - slop, y: touchPoint.y - slop, width: slop * 2, height: slop * 2)
 
-    for feature in features {
-      guard let featureId = feature.identifier as? String else {
-        continue
+      // styleLayerIdentifiers:
+      let features = mapView.visibleFeatures(in: touchRect)
+
+      for feature in features {
+        guard let featureId = feature.identifier as? String else {
+          continue
+        }
+        guard let tripLegId = try? TripLegId(string: featureId) else {
+          // We might want to handle other feature taps - e.g. tapping a trashcan or bus depot
+          continue
+        }
+        // If there are multiple features, we return whichever is first, not necessarily which is closest.
+        // If this proves problematc, we can sort the results by distance from touchPoint.
+        self.mapView(mapView, didTapTripLegId: tripLegId)
       }
-      guard let tripLegId = try? TripLegId(string: featureId) else {
-        // We might want to handle other feature taps - e.g. tapping a trashcan or bus depot
-        continue
-      }
-      // If there are multiple features, we return whichever is first, not necessarily which is closest.
-      // If this proves problematc, we can sort the results by distance from touchPoint.
-      self.mapView(mapView, didTapTripLegId: tripLegId)
     }
   }
 }

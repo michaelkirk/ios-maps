@@ -154,6 +154,7 @@ struct PlaceProperties: Codable, Equatable, Hashable {
   var countryCode: String?
   var addendum: Addendum?
   var country: String?
+  var layer: String?
 }
 
 struct Addendum: Codable, Equatable, Hashable {

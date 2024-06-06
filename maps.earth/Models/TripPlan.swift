@@ -40,6 +40,22 @@ class TripPlan: ObservableObject {
     self.bounds = bounds
   }
 
+  var isEmpty: Bool {
+    if self.navigateFrom == nil && self.navigateTo == nil {
+      assert(self.bounds == nil)
+      switch self.trips {
+      case .success([]):
+        break
+      default:
+        assertionFailure("unexpected trips: \(self.trips)")
+      }
+      assert(self.selectedTrip == nil)
+      return true
+    } else {
+      return false
+    }
+  }
+
   func clear() {
     self.navigateFrom = nil
     self.navigateTo = nil

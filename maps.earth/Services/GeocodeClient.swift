@@ -69,11 +69,16 @@ struct GeocodeClient {
   func details(placeID: PlaceID) async throws -> Place? {
     let endpoint = Endpoint.place(placeID)
     let response = try await fetchData(from: endpoint.url)
-    guard let place = response.places.first else {
+    if case .venue = placeID {
+      assert(response.places.count == 1)
+    }
+    guard
+      let place = response.places.first(where: { $0.properties.layer == "venue" })
+        ?? response.places.first
+    else {
       assertionFailure("places.first was unexpectedly nil")
       return nil
     }
-    assert(response.places.count == 1)
     return place
   }
 
