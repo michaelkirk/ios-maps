@@ -25,10 +25,12 @@ struct GeocodeClient {
 
     var path: String {
       switch self {
-      case .autocomplete(_, _):
+      case .autocomplete:
         return "autocomplete"
-      case .place(_):
+      case .place(.venue):
         return "place"
+      case .place(.lngLat):
+        return "reverse"
       }
     }
 
@@ -42,7 +44,17 @@ struct GeocodeClient {
         }
         return queryParams
       case .place(let placeId):
-        return [URLQueryItem(name: "ids", value: placeId.serialized)]
+        switch placeId {
+        case .venue:
+          return [URLQueryItem(name: "ids", value: placeId.serialized)]
+        case .lngLat(let lngLat):
+          return [
+            URLQueryItem(name: "point.lat", value: String(lngLat.lat)),
+            URLQueryItem(name: "point.lon", value: String(lngLat.lng)),
+            URLQueryItem(name: "boundary.circle.radius", value: "0.1"),
+            URLQueryItem(name: "sources", value: "osm"),
+          ]
+        }
       }
     }
   }

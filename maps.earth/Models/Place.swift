@@ -33,10 +33,70 @@ extension Place {
 
 enum PlaceID: Equatable, Hashable {
   case venue(source: String, id: UInt64)
+  case lngLat(LngLat)
+
+  init?(pathComponents: inout IndexingIterator<[String]>) {
+    guard let firstComponent: String = pathComponents.next() else {
+      assertionFailure("expected at least one path component for PathID")
+      return nil
+    }
+
+    if firstComponent == "_" {
+      return nil
+    }
+
+    let coords = firstComponent.split(separator: ",")
+    if coords.count == 2 {
+      // Looks like LngLat
+      guard let lng = Double(coords[0]),
+        let lat = Double(coords[1])
+      else {
+        assertionFailure(
+          "comma separated pathComponent was expected to be LngLat, but it was not parsable as one: \(firstComponent)"
+        )
+        return nil
+      }
+
+      self = .lngLat(LngLat(lng: lng, lat: lat))
+      return
+    }
+
+    // Looks like venue ID
+    let source = firstComponent
+    guard let placeSourceID = pathComponents.next() else {
+      assertionFailure("expecting another component for venue id after \(firstComponent)")
+      return nil
+    }
+    guard let id = UInt64(placeSourceID) else {
+      assertionFailure("invalid non-numeric place id")
+      return nil
+    }
+    self = .venue(source: source, id: id)
+  }
+
+  init?(string: String) {
+    let components = string.split(separator: "/")
+    if components.count == 2, let id = UInt64(components[1]) {
+      self = .venue(source: String(components[0]), id: id)
+    } else {
+      let components = string.split(separator: ",")
+      if components.count == 2,
+        let lat = Double(components[0]),
+        let lng = Double(components[1])
+      {
+        self = .lngLat(LngLat(lng: lng, lat: lat))
+      }
+    }
+    assertionFailure("failed to parse placeid: \(string)")
+    return nil
+  }
+
   var serialized: String {
     switch self {
     case .venue(let source, let id):
       return "\(source)/\(id)"
+    case .lngLat(let lngLat):
+      return "\(lngLat.lng),\(lngLat.lat)"
     }
   }
 }

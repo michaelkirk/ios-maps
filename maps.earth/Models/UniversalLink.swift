@@ -27,19 +27,12 @@ enum UniversalLink: Equatable {
     case nil:
       self = .home
     case "place":
-      guard let placeSource = components.next() else {
+      guard let placeID = PlaceID(pathComponents: &components) else {
         assertionFailure("no handler for URL: \(url)")
         return nil
       }
-      guard let placeSourceID = components.next() else {
-        assertionFailure("no handler for URL: \(url)")
-        return nil
-      }
-      guard let id = UInt64(placeSourceID) else {
-        assertionFailure("invalid non-numeric place id")
-        return nil
-      }
-      self = .place(placeID: PlaceID.venue(source: placeSource, id: id))
+      // TODO: Once we support long-press to highlight, don't do a geocode at all and just open the details page for that exact coord?
+      self = .place(placeID: placeID)
     case "directions":
       guard let travelModeString = components.next() else {
         assertionFailure("travelModeString was unexpectedly nil")
@@ -50,44 +43,9 @@ enum UniversalLink: Equatable {
         return nil
       }
 
-      var to: PlaceID?
-      guard let toSourceID = components.next() else {
-        assertionFailure("missing 'to' component in directions URL")
-        return nil
-      }
-      if toSourceID == "_" {
-        to = nil
-      } else {
-        guard let placeSourceID = components.next() else {
-          assertionFailure("missing numeric portion of place 'to' id")
-          return nil
-        }
-        guard let id = UInt64(placeSourceID) else {
-          assertionFailure("invalid non-numeric place 'to' id")
-          return nil
-        }
-        to = PlaceID.venue(source: toSourceID, id: id)
-      }
-
-      var from: PlaceID?
-      guard let fromSourceID = components.next() else {
-        assertionFailure("missing 'from' component in directions URL")
-        return nil
-      }
-      if fromSourceID == "_" {
-        from = nil
-      } else {
-        guard let placeSourceID = components.next() else {
-          assertionFailure("missing numeric portion of place 'from' id")
-          return nil
-        }
-        guard let id = UInt64(placeSourceID) else {
-          assertionFailure("invalid non-numeric place 'from' id")
-          return nil
-        }
-        from = PlaceID.venue(source: fromSourceID, id: id)
-      }
-
+      let to = PlaceID(pathComponents: &components)
+      let from = PlaceID(pathComponents: &components)
+      assert(to != nil || from != nil, "expecting at least one of to/from set")
       self = .directions(travelMode: travelMode, from: from, to: to)
     default:
       assertionFailure("no handler for URL: \(url)")
