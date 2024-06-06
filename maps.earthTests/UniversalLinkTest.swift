@@ -22,7 +22,7 @@ final class UniversalLinkTest: XCTestCase {
     }
   }
 
-  func testPlace() throws {
+  func testPlaceWithVenueID() throws {
     // Place Details (Fremont Troll)
     let url = URL(string: "https://maps.earth/place/openstreetmap%3Avenue%3Anode%2F2485251324")!
     let expected = UniversalLink.place(

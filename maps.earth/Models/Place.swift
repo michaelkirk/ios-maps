@@ -31,11 +31,13 @@ extension Place {
   }
 }
 
-struct PlaceID: Equatable, Hashable {
-  let source: String
-  let id: UInt64
+enum PlaceID: Equatable, Hashable {
+  case venue(source: String, id: UInt64)
   var serialized: String {
-    "\(source)/\(id)"
+    switch self {
+    case .venue(let source, let id):
+      return "\(source)/\(id)"
+    }
   }
 }
 

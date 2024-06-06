@@ -39,7 +39,7 @@ enum UniversalLink: Equatable {
         assertionFailure("invalid non-numeric place id")
         return nil
       }
-      self = .place(placeID: PlaceID(source: placeSource, id: id))
+      self = .place(placeID: PlaceID.venue(source: placeSource, id: id))
     case "directions":
       guard let travelModeString = components.next() else {
         assertionFailure("travelModeString was unexpectedly nil")
@@ -66,7 +66,7 @@ enum UniversalLink: Equatable {
           assertionFailure("invalid non-numeric place 'to' id")
           return nil
         }
-        to = PlaceID(source: toSourceID, id: id)
+        to = PlaceID.venue(source: toSourceID, id: id)
       }
 
       var from: PlaceID?
@@ -85,7 +85,7 @@ enum UniversalLink: Equatable {
           assertionFailure("invalid non-numeric place 'from' id")
           return nil
         }
-        from = PlaceID(source: fromSourceID, id: id)
+        from = PlaceID.venue(source: fromSourceID, id: id)
       }
 
       self = .directions(travelMode: travelMode, from: from, to: to)
