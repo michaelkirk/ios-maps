@@ -252,7 +252,15 @@ extension MapView: UIViewRepresentable {
             if self.userLocationState == .following {
               self.userLocationState = .showing
             }
-            mapView.setCenter(place.location.asCoordinate, zoomLevel: 14, animated: true)
+            if let bbox = place.bbox {
+              let bounds = Bounds(bbox: bbox).mlnBounds
+              context.coordinator.zoom(
+                mapView: mapView, bounds: bounds, bufferMeters: 200,
+                animated: true)
+            } else {
+              context.coordinator.zoom(
+                mapView: mapView, center: place.location, bufferMeters: 100, animated: true)
+            }
           case .trip(let trip):
             self.pendingMapFocus = nil
             if self.userLocationState == .following {
@@ -374,9 +382,10 @@ extension MapView: UIViewRepresentable {
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
-    func zoom(mapView: MLNMapView, center: LngLat, animated isAnimated: Bool) {
+    func zoom(mapView: MLNMapView, center: LngLat, bufferMeters: Float64, animated isAnimated: Bool)
+    {
       let bounds = MLNCoordinateBounds(sw: center.asCoordinate, ne: center.asCoordinate)
-      self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 1000, animated: isAnimated)
+      self.zoom(mapView: mapView, bounds: bounds, bufferMeters: bufferMeters, animated: isAnimated)
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the bounds

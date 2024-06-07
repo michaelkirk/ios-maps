@@ -95,12 +95,22 @@ struct GeocodeClient {
   }
 }
 
-struct BBox: Codable {
+struct BBox: Equatable, Hashable {
   var top: Float64
   var right: Float64
   var bottom: Float64
   var left: Float64
 
+  var min: LngLat {
+    LngLat(lng: left, lat: bottom)
+  }
+
+  var max: LngLat {
+    LngLat(lng: right, lat: top)
+  }
+}
+
+extension BBox: Codable {
   // Decode from an array format
   init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
@@ -120,6 +130,13 @@ struct BBox: Codable {
   }
 }
 
+extension BBox {
+  init(bounds: Bounds) {
+    self.init(
+      top: bounds.max.lat, right: bounds.max.lng, bottom: bounds.min.lat, left: bounds.min.lng)
+  }
+}
+
 struct PlaceResponse: Decodable {
   var bbox: BBox?
   private(set) var places: [Place] = []
@@ -133,8 +150,8 @@ struct PlaceResponse: Decodable {
     let featureCollectionContainer = try decoder.container(
       keyedBy: CodingKeys.self)
     self.bbox = try featureCollectionContainer.decodeIfPresent(BBox.self, forKey: .bbox)
-    var featuresContainer = try featureCollectionContainer.nestedUnkeyedContainer(forKey: .features)
 
+    var featuresContainer = try featureCollectionContainer.nestedUnkeyedContainer(forKey: .features)
     while !featuresContainer.isAtEnd {
       let place = try featuresContainer.decode(Place.self)
       places.append(place)

@@ -13,6 +13,7 @@ let phoneNumberKit = PhoneNumberKit()
 
 struct Place: Equatable, Hashable {
   var location: LngLat
+  var bbox: BBox?
   var lng: Float64 {
     location.lng
   }
@@ -178,10 +179,12 @@ extension Place: Decodable {
   private enum FeatureCodingKeys: String, CodingKey {
     case geometry
     case properties
+    case bbox
   }
 
   init(from decoder: Decoder) throws {
     let featureContainer = try decoder.container(keyedBy: FeatureCodingKeys.self)
+    self.bbox = try featureContainer.decodeIfPresent(BBox.self, forKey: .bbox)
     self.location = try featureContainer.decode(LngLat.self, forKey: .geometry)
     self.properties = try featureContainer.decode(PlaceProperties.self, forKey: .properties)
   }
