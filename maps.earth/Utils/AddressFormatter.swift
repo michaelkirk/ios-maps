@@ -9,7 +9,7 @@ import Contacts
 import Foundation
 
 struct AddressFormatter {
-  func format(place: Place) -> String {
+  func format(place: Place, includeCountry: Bool = false) -> String? {
     let address = CNMutablePostalAddress()
 
     if let houseNumber = place.housenumber {
@@ -35,8 +35,14 @@ struct AddressFormatter {
     if let countryCode = place.countryCode {
       address.isoCountryCode = countryCode
     }
-    // TODO: locality
-
-    return CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
+    let formatted = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
+    guard !formatted.isEmpty else {
+      return nil
+    }
+    if includeCountry, let country = place.country {
+      return "\(formatted)\n\(country)"
+    } else {
+      return formatted
+    }
   }
 }

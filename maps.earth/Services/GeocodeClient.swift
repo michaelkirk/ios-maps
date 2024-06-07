@@ -25,10 +25,12 @@ struct GeocodeClient {
 
     var path: String {
       switch self {
-      case .autocomplete(_, _):
+      case .autocomplete:
         return "autocomplete"
-      case .place(_):
+      case .place(.venue):
         return "place"
+      case .place(.lngLat):
+        return "reverse"
       }
     }
 
@@ -42,7 +44,17 @@ struct GeocodeClient {
         }
         return queryParams
       case .place(let placeId):
-        return [URLQueryItem(name: "ids", value: placeId.serialized)]
+        switch placeId {
+        case .venue:
+          return [URLQueryItem(name: "ids", value: placeId.serialized)]
+        case .lngLat(let lngLat):
+          return [
+            URLQueryItem(name: "point.lat", value: String(lngLat.lat)),
+            URLQueryItem(name: "point.lon", value: String(lngLat.lng)),
+            URLQueryItem(name: "boundary.circle.radius", value: "0.1"),
+            URLQueryItem(name: "sources", value: "osm"),
+          ]
+        }
       }
     }
   }
@@ -57,11 +69,15 @@ struct GeocodeClient {
   func details(placeID: PlaceID) async throws -> Place? {
     let endpoint = Endpoint.place(placeID)
     let response = try await fetchData(from: endpoint.url)
-    guard let place = response.places.first else {
-      assertionFailure("places.first was unexpectedly nil")
+    if case .venue = placeID {
+      assert(response.places.count == 1)
+    }
+    guard
+      let place = response.places.first(where: { $0.properties.layer == "venue" })
+        ?? response.places.first
+    else {
       return nil
     }
-    assert(response.places.count == 1)
     return place
   }
 
@@ -79,19 +95,29 @@ struct GeocodeClient {
   }
 }
 
-struct BBox: Codable {
+struct BBox: Equatable, Hashable {
   var top: Float64
   var right: Float64
   var bottom: Float64
   var left: Float64
 
+  var min: LngLat {
+    LngLat(lng: left, lat: bottom)
+  }
+
+  var max: LngLat {
+    LngLat(lng: right, lat: top)
+  }
+}
+
+extension BBox: Codable {
   // Decode from an array format
   init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
-    self.top = try container.decode(Float64.self)
-    self.right = try container.decode(Float64.self)
-    self.bottom = try container.decode(Float64.self)
     self.left = try container.decode(Float64.self)
+    self.bottom = try container.decode(Float64.self)
+    self.right = try container.decode(Float64.self)
+    self.top = try container.decode(Float64.self)
   }
 
   // Encode to an array format
@@ -101,6 +127,13 @@ struct BBox: Codable {
     try container.encode(right)
     try container.encode(bottom)
     try container.encode(left)
+  }
+}
+
+extension BBox {
+  init(bounds: Bounds) {
+    self.init(
+      top: bounds.max.lat, right: bounds.max.lng, bottom: bounds.min.lat, left: bounds.min.lng)
   }
 }
 
@@ -117,8 +150,8 @@ struct PlaceResponse: Decodable {
     let featureCollectionContainer = try decoder.container(
       keyedBy: CodingKeys.self)
     self.bbox = try featureCollectionContainer.decodeIfPresent(BBox.self, forKey: .bbox)
-    var featuresContainer = try featureCollectionContainer.nestedUnkeyedContainer(forKey: .features)
 
+    var featuresContainer = try featureCollectionContainer.nestedUnkeyedContainer(forKey: .features)
     while !featuresContainer.isAtEnd {
       let place = try featuresContainer.decode(Place.self)
       places.append(place)

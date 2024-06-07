@@ -176,6 +176,14 @@ extension MapView: UIViewRepresentable {
     mapView.navigationMapDelegate = context.coordinator
     mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     mapView.logoView.isHidden = true
+
+    let longPress = UILongPressGestureRecognizer(
+      target: context.coordinator, action: #selector(context.coordinator.mapView(didLongPress:)))
+    for recognizer in mapView.gestureRecognizers! where recognizer is UITapGestureRecognizer {
+      longPress.require(toFail: recognizer)
+    }
+    mapView.addGestureRecognizer(longPress)
+
     Env.current.getMapFocus = { LngLat(coord: mapView.centerCoordinate) }
     do {
       var padding = UIEdgeInsets.zero
@@ -244,7 +252,15 @@ extension MapView: UIViewRepresentable {
             if self.userLocationState == .following {
               self.userLocationState = .showing
             }
-            mapView.setCenter(place.location.asCoordinate, zoomLevel: 14, animated: true)
+            if let bbox = place.bbox {
+              let bounds = Bounds(bbox: bbox).mlnBounds
+              context.coordinator.zoom(
+                mapView: mapView, bounds: bounds, bufferMeters: 200,
+                animated: true)
+            } else {
+              context.coordinator.zoom(
+                mapView: mapView, center: place.location, bufferMeters: 100, animated: true)
+            }
           case .trip(let trip):
             self.pendingMapFocus = nil
             if self.userLocationState == .following {
@@ -295,7 +311,9 @@ extension MapView: UIViewRepresentable {
         PlaceMarker(place: $0.intoMarkerLocation, style: .pin)
       }
       mapContents = .pins(selected: selected, unselected: unselected)
-      // TODO zoom to search results bbox (add to focus enum)
+    } else if let selectedPlace {
+      mapContents = .pins(
+        selected: PlaceMarker(place: selectedPlace.intoMarkerLocation, style: .pin), unselected: [])
     } else {
       mapContents = .empty
     }
@@ -364,9 +382,10 @@ extension MapView: UIViewRepresentable {
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
-    func zoom(mapView: MLNMapView, center: LngLat, animated isAnimated: Bool) {
+    func zoom(mapView: MLNMapView, center: LngLat, bufferMeters: Float64, animated isAnimated: Bool)
+    {
       let bounds = MLNCoordinateBounds(sw: center.asCoordinate, ne: center.asCoordinate)
-      self.zoom(mapView: mapView, bounds: bounds, bufferMeters: 1000, animated: isAnimated)
+      self.zoom(mapView: mapView, bounds: bounds, bufferMeters: bufferMeters, animated: isAnimated)
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the bounds
@@ -425,6 +444,55 @@ extension MapView: UIViewRepresentable {
         return
       }
       self.mapView.tripPlan.selectedTrip = selectedTrip
+    }
+
+    func mapView(_ mapView: MLNMapView, didTapPOI place: MLNPointFeature) {
+      let initialSelectedPlace = self.mapView.selectedPlace
+      Task {
+        do {
+          let newPlace = try await GeocodeClient().details(
+            placeID: .lngLat(LngLat(coord: place.coordinate)))
+          await MainActor.run {
+            guard initialSelectedPlace == self.mapView.selectedPlace else {
+              print("ignoring tapped place since user has since selected another place.")
+              return
+            }
+            self.mapView.selectedPlace = newPlace
+          }
+        } catch {
+          assertionFailure("geocoding failed: \(error)")
+        }
+      }
+    }
+
+    @objc
+    func mapView(didLongPress gesture: UILongPressGestureRecognizer) {
+      guard let mapView: MLNMapView = gesture.view as? MLNMapView else {
+        assertionFailure("mapView was unexpectedly nil")
+        return
+      }
+      guard gesture.state == .began else {
+        return
+      }
+
+      let initialSelectedPlace = self.mapView.selectedPlace
+
+      let point = gesture.location(in: mapView)
+      let lngLat = LngLat(coord: mapView.convert(point, toCoordinateFrom: mapView))
+
+      Task {
+        let place =
+          try await GeocodeClient().details(placeID: .lngLat(lngLat))
+          ?? Place(location: lngLat.asCLLocation)
+
+        await MainActor.run {
+          guard initialSelectedPlace == self.mapView.selectedPlace else {
+            print("ignoring longpressed place since user has since selected another place.")
+            return
+          }
+          self.mapView.selectedPlace = place
+        }
+      }
     }
   }
 }
@@ -512,28 +580,43 @@ extension MapView.Coordinator: NavigationMapViewDelegate {
     }
 
     let touchPoint = sender.location(in: mapView)
-    // `visibleFeatures(at: point)` requires a very precise tap.
-    //
-    // Anecdotally, I find myself tapping multiple times before I successfully select the route.
-    // so we add some slop and use a Rect selector rather than the point selector
-    let slop: CGFloat = 10
-    let touchRect = CGRect(
-      x: touchPoint.x - slop, y: touchPoint.y - slop, width: slop * 2, height: slop * 2)
 
-    // styleLayerIdentifiers:
-    let features = mapView.visibleFeatures(in: touchRect)
+    if self.mapView.tripPlan.isEmpty {
+      // to get layerIds: print(">>>> mapView layers: \(mapView.style!.layers)")
+      let poiLayers = Set(["poi_z14", "poi_z15", "poi_z16"])
+      if let tappedPOI = mapView.visibleFeatures(at: touchPoint, styleLayerIdentifiers: poiLayers)
+        .first
+      {
+        guard let point = tappedPOI as? MLNPointFeature else {
+          assertionFailure("unexpected poi: \(tappedPOI)")
+          return
+        }
+        self.mapView(mapView, didTapPOI: point)
+      }
+    } else {
+      // `visibleFeatures(at: point)` requires a very precise tap.
+      //
+      // Anecdotally, I find myself tapping multiple times before I successfully select the route.
+      // so we add some slop and use a Rect selector rather than the point selector
+      let slop: CGFloat = 10
+      let touchRect = CGRect(
+        x: touchPoint.x - slop, y: touchPoint.y - slop, width: slop * 2, height: slop * 2)
 
-    for feature in features {
-      guard let featureId = feature.identifier as? String else {
-        continue
+      // styleLayerIdentifiers:
+      let features = mapView.visibleFeatures(in: touchRect)
+
+      for feature in features {
+        guard let featureId = feature.identifier as? String else {
+          continue
+        }
+        guard let tripLegId = try? TripLegId(string: featureId) else {
+          // We might want to handle other feature taps - e.g. tapping a trashcan or bus depot
+          continue
+        }
+        // If there are multiple features, we return whichever is first, not necessarily which is closest.
+        // If this proves problematc, we can sort the results by distance from touchPoint.
+        self.mapView(mapView, didTapTripLegId: tripLegId)
       }
-      guard let tripLegId = try? TripLegId(string: featureId) else {
-        // We might want to handle other feature taps - e.g. tapping a trashcan or bus depot
-        continue
-      }
-      // If there are multiple features, we return whichever is first, not necessarily which is closest.
-      // If this proves problematc, we can sort the results by distance from touchPoint.
-      self.mapView(mapView, didTapTripLegId: tripLegId)
     }
   }
 }

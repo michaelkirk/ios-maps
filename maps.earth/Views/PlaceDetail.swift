@@ -57,15 +57,10 @@ struct PlaceDetail: View {
           Link(websiteURL.absoluteString, destination: websiteURL)
           Divider()
         }
-        let formattedAddress = {
-          if let country = place.country {
-            return "\(addressFormatter.format(place: place))\n\(country)"
-          } else {
-            return addressFormatter.format(place: place)
-          }
-        }()
-        Text("Address").foregroundColor(.secondary)
-        Text(formattedAddress)
+        if let formattedAddress = addressFormatter.format(place: place, includeCountry: true) {
+          Text("Address").foregroundColor(.secondary)
+          Text(formattedAddress)
+        }
       }.padding().background(Color.white).cornerRadius(8)
     }.scenePadding(.leading)
       .scenePadding(.trailing)
