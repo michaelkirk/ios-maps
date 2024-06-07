@@ -29,6 +29,13 @@ extension Place {
       id: "current-location", name: "Current Location", label: "Current Location")
     self.init(location: location, properties: properties)
   }
+
+  init(location: CLLocation) {
+    let lngLat = LngLat(coord: location.coordinate)
+    let name = location.coordinate.formattedString(includeCardinalDirections: true)
+    let properties = PlaceProperties(id: "location", name: name, label: name)
+    self.init(location: lngLat, properties: properties)
+  }
 }
 
 enum PlaceID: Equatable, Hashable {
@@ -177,5 +184,23 @@ extension Place: Decodable {
     let featureContainer = try decoder.container(keyedBy: FeatureCodingKeys.self)
     self.location = try featureContainer.decode(LngLat.self, forKey: .geometry)
     self.properties = try featureContainer.decode(PlaceProperties.self, forKey: .properties)
+  }
+}
+
+extension CLLocationCoordinate2D {
+  func formattedString(includeCardinalDirections: Bool = false) -> String {
+    let latitudeDegrees = fabs(latitude)
+    let latitudeDirection = latitude >= 0 ? "N" : "S"
+
+    let longitudeDegrees = fabs(longitude)
+    let longitudeDirection = longitude >= 0 ? "E" : "W"
+
+    if includeCardinalDirections {
+      return String(
+        format: "%.6f° %@, %.6f° %@", latitudeDegrees, latitudeDirection, longitudeDegrees,
+        longitudeDirection)
+    } else {
+      return String(format: "%.6f°, %.6f°", latitudeDegrees, longitudeDegrees)
+    }
   }
 }

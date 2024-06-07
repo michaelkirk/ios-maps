@@ -76,7 +76,6 @@ struct GeocodeClient {
       let place = response.places.first(where: { $0.properties.layer == "venue" })
         ?? response.places.first
     else {
-      assertionFailure("places.first was unexpectedly nil")
       return nil
     }
     return place

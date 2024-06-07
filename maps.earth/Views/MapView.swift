@@ -176,6 +176,14 @@ extension MapView: UIViewRepresentable {
     mapView.navigationMapDelegate = context.coordinator
     mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     mapView.logoView.isHidden = true
+
+    let longPress = UILongPressGestureRecognizer(
+      target: context.coordinator, action: #selector(context.coordinator.mapView(didLongPress:)))
+    for recognizer in mapView.gestureRecognizers! where recognizer is UITapGestureRecognizer {
+      longPress.require(toFail: recognizer)
+    }
+    mapView.addGestureRecognizer(longPress)
+
     Env.current.getMapFocus = { LngLat(coord: mapView.centerCoordinate) }
     do {
       var padding = UIEdgeInsets.zero
@@ -295,7 +303,9 @@ extension MapView: UIViewRepresentable {
         PlaceMarker(place: $0.intoMarkerLocation, style: .pin)
       }
       mapContents = .pins(selected: selected, unselected: unselected)
-      // TODO zoom to search results bbox (add to focus enum)
+    } else if let selectedPlace {
+      mapContents = .pins(
+        selected: PlaceMarker(place: selectedPlace.intoMarkerLocation, style: .pin), unselected: [])
     } else {
       mapContents = .empty
     }
@@ -442,6 +452,36 @@ extension MapView: UIViewRepresentable {
           }
         } catch {
           assertionFailure("geocoding failed: \(error)")
+        }
+      }
+    }
+
+    @objc
+    func mapView(didLongPress gesture: UILongPressGestureRecognizer) {
+      guard let mapView: MLNMapView = gesture.view as? MLNMapView else {
+        assertionFailure("mapView was unexpectedly nil")
+        return
+      }
+      guard gesture.state == .began else {
+        return
+      }
+
+      let initialSelectedPlace = self.mapView.selectedPlace
+
+      let point = gesture.location(in: mapView)
+      let lngLat = LngLat(coord: mapView.convert(point, toCoordinateFrom: mapView))
+
+      Task {
+        let place =
+          try await GeocodeClient().details(placeID: .lngLat(lngLat))
+          ?? Place(location: lngLat.asCLLocation)
+
+        await MainActor.run {
+          guard initialSelectedPlace == self.mapView.selectedPlace else {
+            print("ignoring longpressed place since user has since selected another place.")
+            return
+          }
+          self.mapView.selectedPlace = place
         }
       }
     }
