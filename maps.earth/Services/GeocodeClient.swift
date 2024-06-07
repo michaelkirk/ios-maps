@@ -114,10 +114,10 @@ extension BBox: Codable {
   // Decode from an array format
   init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
-    self.top = try container.decode(Float64.self)
-    self.right = try container.decode(Float64.self)
-    self.bottom = try container.decode(Float64.self)
     self.left = try container.decode(Float64.self)
+    self.bottom = try container.decode(Float64.self)
+    self.right = try container.decode(Float64.self)
+    self.top = try container.decode(Float64.self)
   }
 
   // Encode to an array format
