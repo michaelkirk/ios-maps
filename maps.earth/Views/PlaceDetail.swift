@@ -11,6 +11,40 @@ import SwiftUI
 
 let addressFormatter = AddressFormatter()
 
+struct PlaceDetailSheet: View {
+  var place: Place
+  @ObservedObject var tripPlan: TripPlan
+  @Binding var placeDetailsDetent: PresentationDetent
+  var onClose: () -> Void
+
+  @EnvironmentObject var userLocationManager: UserLocationManager
+
+  var body: some View {
+    SheetContents(
+      title: place.name,
+      onClose: onClose,
+      currentDetent: $placeDetailsDetent
+    ) {
+      ScrollView {
+        PlaceDetail(
+          place: place, tripPlan: tripPlan,
+          didSelectNavigateTo: { place in
+            tripPlan.navigateTo = place
+            if let mostRecentUserLocation = self.userLocationManager
+              .mostRecentUserLocation
+            {
+              tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
+            }
+          })
+      }
+      // This is arguably useful.
+      // Usually I just want to swipe down to get a better look at the map without closing out
+      // of the place. If I actually want to dismiss, it's easy enough to hit the X
+      .interactiveDismissDisabled(true)
+    }
+  }
+}
+
 struct PlaceDetail: View {
   var place: Place
   @ObservedObject var tripPlan: TripPlan
