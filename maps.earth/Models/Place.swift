@@ -27,24 +27,24 @@ extension Place {
   init(currentLocation: CLLocation) {
     let location = LngLat(coord: currentLocation.coordinate)
     let properties = PlaceProperties(
-      id: "current-location", name: "Current Location", label: "Current Location")
+      gid: "current-location-\(currentLocation)", name: "Current Location", label: "Current Location")
     self.init(location: location, properties: properties)
   }
 
   init(location: CLLocation) {
     let lngLat = LngLat(coord: location.coordinate)
     let name = location.coordinate.formattedString(includeCardinalDirections: true)
-    let properties = PlaceProperties(id: "location", name: name, label: name)
+    let properties = PlaceProperties(gid: "location-\(location.coordinate)", name: name, label: name)
     self.init(location: lngLat, properties: properties)
   }
 }
 
 enum PlaceID: Equatable, Hashable {
-  case venue(source: String, id: UInt64)
+  case venue(gid: String)
   case lngLat(LngLat)
 
   init?(pathComponents: inout IndexingIterator<[String]>) {
-    guard let firstComponent: String = pathComponents.next() else {
+    guard let firstComponent = pathComponents.next() else {
       assertionFailure("expected at least one path component for PathID")
       return nil
     }
@@ -64,45 +64,30 @@ enum PlaceID: Equatable, Hashable {
         )
         return nil
       }
-
       self = .lngLat(LngLat(lng: lng, lat: lat))
-      return
+    } else {
+      self = .venue(gid: firstComponent)
     }
-
-    // Looks like venue ID
-    let source = firstComponent
-    guard let placeSourceID = pathComponents.next() else {
-      assertionFailure("expecting another component for venue id after \(firstComponent)")
-      return nil
-    }
-    guard let id = UInt64(placeSourceID) else {
-      assertionFailure("invalid non-numeric place id")
-      return nil
-    }
-    self = .venue(source: source, id: id)
   }
 
-  init?(string: String) {
-    let components = string.split(separator: "/")
-    if components.count == 2, let id = UInt64(components[1]) {
-      self = .venue(source: String(components[0]), id: id)
-    } else {
-      let components = string.split(separator: ",")
-      if components.count == 2,
+  init(string: String) {
+    let components = string.split(separator: ",")
+    if components.count == 2, 
         let lat = Double(components[0]),
         let lng = Double(components[1])
-      {
-        self = .lngLat(LngLat(lng: lng, lat: lat))
-      }
+    {
+      self = .lngLat(LngLat(lng: lng, lat: lat))
+      return
+    } else {
+      assert(string.filter { $0  == "/" }.count <= 1)
+      self = .venue(gid: string)
     }
-    assertionFailure("failed to parse placeid: \(string)")
-    return nil
   }
 
   var serialized: String {
     switch self {
-    case .venue(let source, let id):
-      return "\(source)/\(id)"
+    case .venue(let gid):
+      return gid
     case .lngLat(let lngLat):
       return "\(lngLat.lng),\(lngLat.lat)"
     }
@@ -110,11 +95,13 @@ enum PlaceID: Equatable, Hashable {
 }
 
 extension Place: Identifiable {
-  // Should be parseable as a PlaceID, but I don't think there's a reason to enforce that.
-  var id: String { self.properties.id }
+  var id: PlaceID {
+    PlaceID(string: self.properties.gid)
+  }
 }
 
 extension Place {
+  var gid: String { self.properties.gid }
   var name: String { self.properties.name }
   var label: String { self.properties.label }
   // matches weird spelling in api response
@@ -148,7 +135,8 @@ extension Place {
 }
 
 struct PlaceProperties: Codable, Equatable, Hashable {
-  var id: String
+//  var id: String
+  var gid: String
   var name: String
   var label: String
   var address: String?

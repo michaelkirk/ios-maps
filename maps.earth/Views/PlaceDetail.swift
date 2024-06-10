@@ -14,16 +14,32 @@ let addressFormatter = AddressFormatter()
 struct PlaceDetailSheet: View {
   var place: Place
   @ObservedObject var tripPlan: TripPlan
-  @Binding var placeDetailsDetent: PresentationDetent
+  @Binding var presentationDetent: PresentationDetent
   var onClose: () -> Void
 
   @EnvironmentObject var userLocationManager: UserLocationManager
 
   var body: some View {
-    SheetContents(
+    let shareButton = ShareLink(item: .place(placeID: place.id).url) {
+      // Copied from SheetButton. Using a SheetButton directly, looks fine, but
+      // it seems like the button handler overrides the ShareLink tap behavior - no share sheet is presented.
+      // So instead we just copy the styling.
+      let width: CGFloat = 32
+      return ZStack {
+        Circle().frame(width: width - 2)
+        Image(systemName: "square.and.arrow.up.circle.fill")
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: width, height: width)
+          .tint(.hw_sheetCloseBackground)
+      }.tint(Color.hw_sheetCloseForeground)
+    }
+    .padding(.trailing)
+    return SheetContents(
       title: place.name,
       onClose: onClose,
-      currentDetent: $placeDetailsDetent
+      currentDetent: $presentationDetent,
+      navigationAccessoryContent: { shareButton }
     ) {
       ScrollView {
         PlaceDetail(
@@ -101,12 +117,10 @@ struct PlaceDetail: View {
   }
 }
 
-#Preview {
-  PlaceDetail(
-    place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(), didSelectNavigateTo: { _ in })
-}
-
-#Preview("showing sheet") {
-  PlaceDetail(
-    place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(), didSelectNavigateTo: { _ in })
+#Preview("Place Sheet") {
+  Text("").sheet(isPresented: .constant(true)) {
+    PlaceDetailSheet(
+      place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(),
+      presentationDetent: .constant(.medium), onClose: {})
+  }
 }

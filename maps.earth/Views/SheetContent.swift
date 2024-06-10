@@ -25,10 +25,10 @@ where Content: View, NavigationAccessoryContent: View {
     onClose: @escaping () -> Void,
     presentationDetents: Set<PresentationDetent> = [.large, .medium, minDetentHeight],
     currentDetent: Binding<PresentationDetent>,
-    @ViewBuilder _ content: @escaping () -> Content,
     @ViewBuilder navigationAccessoryContent: @escaping () -> NavigationAccessoryContent = {
       EmptyView()
-    }
+    },
+    @ViewBuilder _ content: @escaping () -> Content
   ) {
     self.title = title
     self.onClose = onClose
@@ -43,6 +43,7 @@ where Content: View, NavigationAccessoryContent: View {
       HStack(alignment: .top) {
         Text(title).font(.title).bold()
         Spacer()
+        navigationAccessoryContent()
         CloseButton {
           onClose()
         }

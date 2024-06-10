@@ -29,7 +29,7 @@ struct FrontPageSearch: View {
       }
     ).sheet(item: $selectedPlace) { place in
       PlaceDetailSheet(
-        place: place, tripPlan: tripPlan, placeDetailsDetent: $placeDetailsDetent,
+        place: place, tripPlan: tripPlan, presentationDetent: $placeDetailsDetent,
         onClose: { selectedPlace = nil }
       )
       // This is arguably useful.
