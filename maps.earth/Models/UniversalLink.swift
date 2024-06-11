@@ -16,7 +16,8 @@ enum UniversalLink: Equatable {
 
   init?(url: URL) {
     // Don't use `url.pathComponents` because it unnecessarily escapes the %2F (slash) in the PlaceID, causing the PlaceID to span two path components when a slash is present in the ID. Which it only is some of the times (e.g. polyline IDs contain no slash)
-    var components = url.path().split(separator: "/").map { $0.removingPercentEncoding! }.makeIterator()
+    var components = url.path().split(separator: "/").map { $0.removingPercentEncoding! }
+      .makeIterator()
 
     switch components.next() {
     case nil:
@@ -51,11 +52,11 @@ enum UniversalLink: Equatable {
     switch self {
     case .home:
       AppConfig().serverBase
-    case .place(placeID: let placeID):
+    case .place(let placeID):
       AppConfig().serverBase
         .appending(component: "place")
         .appending(component: placeID.serialized)
-    case .directions(travelMode: let travelMode, from: let from, to: let to):
+    case .directions(let travelMode, let from, let to):
       AppConfig().serverBase
         .appending(component: "directions")
         .appending(component: travelMode.rawValue.lowercased())

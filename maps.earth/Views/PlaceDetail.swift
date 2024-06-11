@@ -20,7 +20,7 @@ struct PlaceDetailSheet: View {
   @EnvironmentObject var userLocationManager: UserLocationManager
 
   var body: some View {
-    let shareButton = ShareLink(item: .place(placeID: place.id).url) {
+    let shareButton = ShareLink(item: UniversalLink.place(placeID: place.id).url) {
       // Copied from SheetButton. Using a SheetButton directly, looks fine, but
       // it seems like the button handler overrides the ShareLink tap behavior - no share sheet is presented.
       // So instead we just copy the styling.

@@ -27,14 +27,16 @@ extension Place {
   init(currentLocation: CLLocation) {
     let location = LngLat(coord: currentLocation.coordinate)
     let properties = PlaceProperties(
-      gid: "current-location-\(currentLocation)", name: "Current Location", label: "Current Location")
+      gid: "current-location-\(currentLocation)", name: "Current Location",
+      label: "Current Location")
     self.init(location: location, properties: properties)
   }
 
   init(location: CLLocation) {
     let lngLat = LngLat(coord: location.coordinate)
     let name = location.coordinate.formattedString(includeCardinalDirections: true)
-    let properties = PlaceProperties(gid: "location-\(location.coordinate)", name: name, label: name)
+    let properties = PlaceProperties(
+      gid: "location-\(location.coordinate)", name: name, label: name)
     self.init(location: lngLat, properties: properties)
   }
 }
@@ -72,14 +74,14 @@ enum PlaceID: Equatable, Hashable {
 
   init(string: String) {
     let components = string.split(separator: ",")
-    if components.count == 2, 
-        let lat = Double(components[0]),
-        let lng = Double(components[1])
+    if components.count == 2,
+      let lat = Double(components[0]),
+      let lng = Double(components[1])
     {
       self = .lngLat(LngLat(lng: lng, lat: lat))
       return
     } else {
-      assert(string.filter { $0  == "/" }.count <= 1)
+      assert(string.filter { $0 == "/" }.count <= 1)
       self = .venue(gid: string)
     }
   }
@@ -135,7 +137,7 @@ extension Place {
 }
 
 struct PlaceProperties: Codable, Equatable, Hashable {
-//  var id: String
+  //  var id: String
   var gid: String
   var name: String
   var label: String

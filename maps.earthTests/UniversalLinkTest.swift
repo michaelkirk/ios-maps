@@ -96,13 +96,16 @@ final class UniversalLinkTest: XCTestCase {
   }
 
   func testUrlForDirections() throws {
-    let url = URL(string: "https://maps.earth/directions/bicycle/openstreetmap:venue:node%2F2485251324/-122.1,47.6")!
+    let url = URL(
+      string:
+        "https://maps.earth/directions/bicycle/openstreetmap:venue:node%2F2485251324/-122.1,47.6")!
     let link = UniversalLink(url: url)!
     XCTAssertEqual(url, link.url)
   }
 
   func testUrlForDirectionsWithMissingFrom() throws {
-    let url = URL(string: "https://maps.earth/directions/bicycle/openstreetmap:venue:node%2F2485251324/_")!
+    let url = URL(
+      string: "https://maps.earth/directions/bicycle/openstreetmap:venue:node%2F2485251324/_")!
     let link = UniversalLink(url: url)!
     XCTAssertEqual(url, link.url)
   }
