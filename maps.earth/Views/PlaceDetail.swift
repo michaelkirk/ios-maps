@@ -11,6 +11,56 @@ import SwiftUI
 
 let addressFormatter = AddressFormatter()
 
+struct PlaceDetailSheet: View {
+  var place: Place
+  @ObservedObject var tripPlan: TripPlan
+  @Binding var presentationDetent: PresentationDetent
+  var onClose: () -> Void
+
+  @EnvironmentObject var userLocationManager: UserLocationManager
+
+  var body: some View {
+    let shareButton = ShareLink(item: .place(placeID: place.id).url) {
+      // Copied from SheetButton. Using a SheetButton directly, looks fine, but
+      // it seems like the button handler overrides the ShareLink tap behavior - no share sheet is presented.
+      // So instead we just copy the styling.
+      let width: CGFloat = 32
+      return ZStack {
+        Circle().frame(width: width - 2)
+        Image(systemName: "square.and.arrow.up.circle.fill")
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: width, height: width)
+          .tint(.hw_sheetCloseBackground)
+      }.tint(Color.hw_sheetCloseForeground)
+    }
+    .padding(.trailing)
+    return SheetContents(
+      title: place.name,
+      onClose: onClose,
+      currentDetent: $presentationDetent,
+      navigationAccessoryContent: { shareButton }
+    ) {
+      ScrollView {
+        PlaceDetail(
+          place: place, tripPlan: tripPlan,
+          didSelectNavigateTo: { place in
+            tripPlan.navigateTo = place
+            if let mostRecentUserLocation = self.userLocationManager
+              .mostRecentUserLocation
+            {
+              tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
+            }
+          })
+      }
+      // This is arguably useful.
+      // Usually I just want to swipe down to get a better look at the map without closing out
+      // of the place. If I actually want to dismiss, it's easy enough to hit the X
+      .interactiveDismissDisabled(true)
+    }
+  }
+}
+
 struct PlaceDetail: View {
   var place: Place
   @ObservedObject var tripPlan: TripPlan
@@ -67,12 +117,10 @@ struct PlaceDetail: View {
   }
 }
 
-#Preview {
-  PlaceDetail(
-    place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(), didSelectNavigateTo: { _ in })
-}
-
-#Preview("showing sheet") {
-  PlaceDetail(
-    place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(), didSelectNavigateTo: { _ in })
+#Preview("Place Sheet") {
+  Text("").sheet(isPresented: .constant(true)) {
+    PlaceDetailSheet(
+      place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(),
+      presentationDetent: .constant(.medium), onClose: {})
+  }
 }

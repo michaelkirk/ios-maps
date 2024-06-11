@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct SheetContents<Content>: View where Content: View {
+struct SheetContents<Content, NavigationAccessoryContent>: View
+where Content: View, NavigationAccessoryContent: View {
   var title: String
   var onClose: () -> Void
   var presentationDetents: Set<PresentationDetent> = [.large, .medium, minDetentHeight]
@@ -16,11 +17,33 @@ struct SheetContents<Content>: View where Content: View {
   @ViewBuilder
   var content: () -> Content
 
+  @ViewBuilder
+  var navigationAccessoryContent: () -> NavigationAccessoryContent
+
+  init(
+    title: String,
+    onClose: @escaping () -> Void,
+    presentationDetents: Set<PresentationDetent> = [.large, .medium, minDetentHeight],
+    currentDetent: Binding<PresentationDetent>,
+    @ViewBuilder navigationAccessoryContent: @escaping () -> NavigationAccessoryContent = {
+      EmptyView()
+    },
+    @ViewBuilder _ content: @escaping () -> Content
+  ) {
+    self.title = title
+    self.onClose = onClose
+    self.presentationDetents = presentationDetents
+    self._currentDetent = currentDetent
+    self.content = content
+    self.navigationAccessoryContent = navigationAccessoryContent
+  }
+
   var body: some View {
     VStack(spacing: 0) {
       HStack(alignment: .top) {
         Text(title).font(.title).bold()
         Spacer()
+        navigationAccessoryContent()
         CloseButton {
           onClose()
         }

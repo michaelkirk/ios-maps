@@ -8,23 +8,24 @@
 import Foundation
 
 struct AppConfig {
-  let serverBase = "https://maps.earth"
-  // let serverBase = "https://seattle.maps.earth"
-  // let serverBase = "http://localhost:9000"
-  //  let serverBase = "https://dev.maps.earth"
+  let serverBase = URL(string: "https://maps.earth")!
+  // let serverBase = URL(string: "https://seattle.maps.earth")!
+  // let serverBase = URL(string: "http://localhost:9000")!
+  // let serverBase = URL(string: "https://dev.maps.earth")!
+
   var peliasEndpoint: URL {
-    URL(string: "\(self.serverBase)/pelias/v1/")!
+    self.serverBase.appending(path: "/pelias/v1/")
   }
 
   var travelmuxEndpoint: URL {
-    URL(string: "\(self.serverBase)/travelmux/v6/plan")!
+    self.serverBase.appending(path: "travelmux/v6/plan")
   }
 
   var valhallaEndpoint: URL {
-    URL(string: "\(self.serverBase)/valhalla/route")!
+    self.serverBase.appending(path: "/valhalla/route")
   }
 
   var tileserverStyleUrl: URL {
-    URL(string: "\(self.serverBase)/tileserver/styles/basic/style.json")!
+    self.serverBase.appending(path: "/tileserver/styles/basic/style.json")
   }
 }

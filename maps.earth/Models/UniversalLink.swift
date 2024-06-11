@@ -15,13 +15,8 @@ enum UniversalLink: Equatable {
   case directions(travelMode: TravelMode, from: PlaceID?, to: PlaceID?)
 
   init?(url: URL) {
-    var components = url.pathComponents.makeIterator()
-
-    guard let root = components.next() else {
-      self = .home
-      return
-    }
-    assert(root == "/")
+    // Don't use `url.pathComponents` because it unnecessarily escapes the %2F (slash) in the PlaceID, causing the PlaceID to span two path components when a slash is present in the ID. Which it only is some of the times (e.g. polyline IDs contain no slash)
+    var components = url.path().split(separator: "/").map { $0.removingPercentEncoding! }.makeIterator()
 
     switch components.next() {
     case nil:
@@ -31,7 +26,6 @@ enum UniversalLink: Equatable {
         assertionFailure("no handler for URL: \(url)")
         return nil
       }
-      // TODO: Once we support long-press to highlight, don't do a geocode at all and just open the details page for that exact coord?
       self = .place(placeID: placeID)
     case "directions":
       guard let travelModeString = components.next() else {
@@ -50,6 +44,23 @@ enum UniversalLink: Equatable {
     default:
       assertionFailure("no handler for URL: \(url)")
       return nil
+    }
+  }
+
+  var url: URL {
+    switch self {
+    case .home:
+      AppConfig().serverBase
+    case .place(placeID: let placeID):
+      AppConfig().serverBase
+        .appending(component: "place")
+        .appending(component: placeID.serialized)
+    case .directions(travelMode: let travelMode, from: let from, to: let to):
+      AppConfig().serverBase
+        .appending(component: "directions")
+        .appending(component: travelMode.rawValue.lowercased())
+        .appending(component: to?.serialized ?? "_")
+        .appending(component: from?.serialized ?? "_")
     }
   }
 }
