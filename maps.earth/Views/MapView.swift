@@ -552,10 +552,10 @@ extension MapView: UIViewRepresentable {
 }
 
 extension MapView.Coordinator: MLNMapViewDelegate {
-  // e.g. after style is applied
-  func mapViewDidFinishLoadingMap(_ mapView: MLNMapView) {
+  func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
     add3DBuildingsLayer(mapView: mapView)
   }
+
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
     switch self.mapContents {
     case .trips, .empty:
