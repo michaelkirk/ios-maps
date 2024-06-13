@@ -81,7 +81,6 @@ enum PlaceID: Equatable, Hashable {
       self = .lngLat(LngLat(lng: lng, lat: lat))
       return
     } else {
-      assert(string.filter { $0 == "/" }.count <= 1)
       self = .venue(gid: string)
     }
   }

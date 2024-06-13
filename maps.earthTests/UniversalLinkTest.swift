@@ -87,10 +87,19 @@ final class UniversalLinkTest: XCTestCase {
     XCTAssertEqual(UniversalLink(url: url)!, expected)
   }
 
-  func testUrlForPlace() throws {
+  func testUrlForPlace_osm_venue_node() throws {
     // Note that the maps.earth web app unnecessarily escapes the ":" from the path portion. This distinction is insignificant.
     // It is significant, however, that they both escape the "/" between node and the node id
     let url = URL(string: "https://maps.earth/place/openstreetmap:venue:node%2F2485251324")!
+    let link = UniversalLink(url: url)!
+    XCTAssertEqual(url, link.url)
+  }
+
+  func testUrlForPlace_oa_address_us_wa_king() throws {
+    // Note that the maps.earth web app unnecessarily escapes the ":" from the path portion. This distinction is insignificant.
+    // It is significant, however, that they both escape the "/" between node and the node id
+    let url = URL(
+      string: "https://maps.earth/place/openaddresses:address:us%2Fwa%2Fking:fb5f1693e02e7b67")!
     let link = UniversalLink(url: url)!
     XCTAssertEqual(url, link.url)
   }
