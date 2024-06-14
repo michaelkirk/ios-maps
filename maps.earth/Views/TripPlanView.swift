@@ -158,6 +158,8 @@ struct TripPlanView: View {
     }.fullScreenCover(isPresented: showRouteSheet, onDismiss: { tripPlan.selectedRoute = nil }) {
       if case let .success(route) = self.tripPlan.selectedRoute {
         MENavigationViewController(route: route, onDismiss: { tripPlan.selectedRoute = nil })
+          // Otherwise Navigation UI stops abruptly above the home button. It is very noticeable in night mode.
+          .ignoresSafeArea()
       } else {
         let _ = assertionFailure("showing route sheet without a successful route.")
       }
