@@ -61,6 +61,8 @@ struct MENavigationViewController: UIViewControllerRepresentable {
     // Instead attribution is handled in a custom control.
     vc.mapView!.attributionButton.isHidden = true
     vc.mapView!.logoView.alpha = 0
+    // We don't support this feature
+    vc.showsReportFeedback = false
     vc.delegate = context.coordinator
     return vc
   }
