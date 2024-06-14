@@ -67,7 +67,7 @@ struct DirectionsService {
   private func routeOptions(from: Place, to: Place, mode: TravelMode, transitWithBike: Bool)
     -> RouteOptions
   {
-    let waypoints = [from, to].map { Waypoint(location: $0.location.asCLLocation) }
+    let waypoints = [from, to].map { Waypoint(location: $0.location.asCLLocation, name: $0.name) }
 
     let options: RouteOptions
     let profileIdentifier = mode.asMBDirectionsProfileIdentifier
