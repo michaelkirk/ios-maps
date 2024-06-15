@@ -50,12 +50,14 @@ struct MENavigationViewController: UIViewControllerRepresentable {
     } else {
       simulatedLocationManager = nil
     }
+    let dayStyle = MEStyle(mapStyleURL: AppConfig().tileserverStyleUrl)
     let vc = MapboxNavigation.NavigationViewController(
       for: route,
-      dayStyleURL: AppConfig().tileserverStyleUrl,
+      dayStyle: dayStyle,
       directions: mlnDirections,
       locationManager: simulatedLocationManager
     )
+    vc.mapView?.setZoomLevel(17, animated: false)
     assert(vc.delegate == nil)
     // The built-in attribution control is positioned relative to the contentInset, which means it'll appear in the middle of the screen.
     // Instead attribution is handled in a custom control.
@@ -92,5 +94,15 @@ extension MENavigationViewController.Coordinator: SimulatedLocationManagerDelega
   ) -> CLLocation {
     let offsetCoordinate = originalLocation.coordinate.coordinate(at: 100, facing: 90)
     return CLLocation(latitude: offsetCoordinate.latitude, longitude: offsetCoordinate.longitude)
+  }
+}
+
+class MEStyle: DayStyle {
+  override open func apply() {
+    super.apply()
+    EndOfRouteButton.appearance().backgroundColor = Color(hexString: "FF3B30")!.uiColor
+    EndOfRouteButton.appearance().cornerRadius = 10
+    EndOfRouteButton.appearance().textColor = .white
+    EndOfRouteButton.appearance().textFont = .systemFont(ofSize: 20, weight: .bold)
   }
 }
