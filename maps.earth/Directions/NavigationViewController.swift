@@ -50,21 +50,18 @@ struct MENavigationViewController: UIViewControllerRepresentable {
     } else {
       simulatedLocationManager = nil
     }
-    let dayStyle = MEStyle(mapStyleURL: AppConfig().tileserverStyleUrl)
+    let dayStyle = MEDayStyle(mapStyleURL: AppConfig().tileserverStyleUrl)
     let vc = MapboxNavigation.NavigationViewController(
-      for: route,
       dayStyle: dayStyle,
-      directions: mlnDirections,
-      locationManager: simulatedLocationManager
+      directions: mlnDirections
     )
-    vc.mapView?.setZoomLevel(17, animated: false)
+    vc.mapView.setZoomLevel(17, animated: false)
+    vc.startNavigation(with: route, locationManager: simulatedLocationManager)
     assert(vc.delegate == nil)
     // The built-in attribution control is positioned relative to the contentInset, which means it'll appear in the middle of the screen.
     // Instead attribution is handled in a custom control.
-    vc.mapView!.attributionButton.isHidden = true
-    vc.mapView!.logoView.alpha = 0
-    // We don't support this feature
-    vc.showsReportFeedback = false
+    vc.mapView.attributionButton.isHidden = true
+    vc.mapView.logoView.alpha = 0
     vc.delegate = context.coordinator
     return vc
   }
@@ -76,12 +73,14 @@ struct MENavigationViewController: UIViewControllerRepresentable {
 
 extension MENavigationViewController.Coordinator: NavigationViewControllerDelegate {
   // e.g. after style is applied
-  func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
-    add3DBuildingsLayer(mapView: mapView)
+  func navigationViewController(
+    _ navigationViewController: NavigationViewController, didFinishLoading style: MLNStyle
+  ) {
+    add3DBuildingsLayer(mapView: navigationViewController.mapView)
   }
 
-  @objc func navigationViewControllerDidDismiss(
-    _ navigationViewController: NavigationViewController, byCanceling canceled: Bool
+  @objc func navigationViewControllerDidFinishRouting(
+    _ navigationViewController: NavigationViewController
   ) {
     onDismiss()
   }
@@ -97,7 +96,7 @@ extension MENavigationViewController.Coordinator: SimulatedLocationManagerDelega
   }
 }
 
-class MEStyle: DayStyle {
+class MEDayStyle: DayStyle {
   override open func apply() {
     super.apply()
     EndOfRouteButton.appearance().backgroundColor = Color(hexString: "FF3B30")!.uiColor
