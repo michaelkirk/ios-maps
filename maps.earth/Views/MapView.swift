@@ -187,6 +187,7 @@ extension MapView: UIViewRepresentable {
     mapView.addGestureRecognizer(longPressGesture)
 
     Env.current.getMapFocus = { LngLat(coord: mapView.centerCoordinate) }
+    Env.current.getMapCamera = { (mapView.camera.copy() as! MLNMapCamera) }
     do {
       var padding = UIEdgeInsets.zero
       // This is a conservative estimate for notched devices.

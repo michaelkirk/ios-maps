@@ -40,16 +40,6 @@ struct MENavigationViewController: UIViewControllerRepresentable {
   }
 
   func makeUIViewController(context: Context) -> Self.UIViewControllerType {
-    let simulatedLocationManager: SimulatedLocationManager?
-    if Env.current.simulateLocationForTesting {
-      let manager = SimulatedLocationManager(route: route)
-      manager.speedMultiplier = 10
-      // Uncomment to go off route and test re-route
-      // manager.simulatedLocationManagerDelegate = context.coordinator
-      simulatedLocationManager = manager
-    } else {
-      simulatedLocationManager = nil
-    }
     let dayStyle = MEDayStyle(mapStyleURL: AppConfig().tileserverStyleUrl)
     let nightStyle = MENightStyle(mapStyleURL: AppConfig().tileserverStyleUrl)
     let vc = MapboxNavigation.NavigationViewController(
@@ -57,8 +47,20 @@ struct MENavigationViewController: UIViewControllerRepresentable {
       nightStyle: nightStyle,
       directions: mlnDirections
     )
-    vc.mapView.setZoomLevel(17, animated: false)
-    vc.startNavigation(with: route, locationManager: simulatedLocationManager)
+    // avoid zooming in from outer space by starting at the same context the user was in.
+    vc.pendingCamera = Env.current.getMapCamera()
+
+    if Env.current.simulateLocationForTesting {
+      let locationManager = SimulatedLocationManager(route: route)
+      locationManager.speedMultiplier = 10
+      // Uncomment to go off route and test re-route
+      // locationManager.simulatedLocationManagerDelegate = context.coordinator
+
+      vc.startNavigation(with: route, animated: false, locationManager: locationManager)
+    } else {
+      vc.startNavigation(with: route, animated: false)
+    }
+
     assert(vc.delegate == nil)
     // The built-in attribution control is positioned relative to the contentInset, which means it'll appear in the middle of the screen.
     // Instead attribution is handled in a custom control.

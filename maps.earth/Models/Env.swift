@@ -58,4 +58,17 @@ class Env {
     }
   }
   private var _getMapFocus: () -> LngLat? = { nil }
+
+  /// Main thread only
+  var getMapCamera: () -> MLNMapCamera? {
+    get {
+      AssertMainThread()
+      return self._getMapCamera
+    }
+    set {
+      AssertMainThread()
+      self._getMapCamera = newValue
+    }
+  }
+  private var _getMapCamera: () -> MLNMapCamera? = { nil }
 }
