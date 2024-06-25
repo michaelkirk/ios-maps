@@ -51,8 +51,10 @@ struct MENavigationViewController: UIViewControllerRepresentable {
       simulatedLocationManager = nil
     }
     let dayStyle = MEDayStyle(mapStyleURL: AppConfig().tileserverStyleUrl)
+    let nightStyle = MENightStyle(mapStyleURL: AppConfig().tileserverStyleUrl)
     let vc = MapboxNavigation.NavigationViewController(
       dayStyle: dayStyle,
+      nightStyle: nightStyle,
       directions: mlnDirections
     )
     vc.mapView.setZoomLevel(17, animated: false)
@@ -99,9 +101,20 @@ extension MENavigationViewController.Coordinator: SimulatedLocationManagerDelega
 class MEDayStyle: DayStyle {
   override open func apply() {
     super.apply()
-    EndOfRouteButton.appearance().backgroundColor = Color(hexString: "FF3B30")!.uiColor
-    EndOfRouteButton.appearance().cornerRadius = 10
-    EndOfRouteButton.appearance().textColor = .white
-    EndOfRouteButton.appearance().textFont = .systemFont(ofSize: 20, weight: .bold)
+    applyCommonMEStyle()
   }
+}
+
+class MENightStyle: NightStyle {
+  override open func apply() {
+    super.apply()
+    applyCommonMEStyle()
+  }
+}
+
+func applyCommonMEStyle() {
+  EndOfRouteButton.appearance().backgroundColor = Color(hexString: "FF3B30")!.uiColor
+  EndOfRouteButton.appearance().cornerRadius = 10
+  EndOfRouteButton.appearance().textColor = .white
+  EndOfRouteButton.appearance().textFont = .systemFont(ofSize: 20, weight: .bold)
 }
