@@ -22,7 +22,7 @@ struct FrontPageSearch: View {
   var body: some View {
     PlaceSearch(
       placeholder: "Where to?", hasPendingQuery: hasPendingQuery, places: $places,
-      queryText: $queryText, didDismissSearch: didDismissSearch,
+      queryText: $queryText, canPickCurrentLocation: false, didDismissSearch: didDismissSearch,
       didSubmitSearch: didSubmitSearch,
       didSelectPlace: { place in
         selectedPlace = place

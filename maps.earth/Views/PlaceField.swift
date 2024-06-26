@@ -42,6 +42,7 @@ struct PlaceField: View {
             hasPendingQuery: searchQueue.hasPendingQuery,
             places: $searchQueue.mostRecentResults,
             queryText: $queryText,
+            canPickCurrentLocation: true,
             didDismissSearch: {
               searchIsPresented = false
             },

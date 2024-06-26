@@ -12,12 +12,14 @@ struct PlaceSearch: View {
   var hasPendingQuery: Bool
   @Binding var places: [Place]?
   @Binding var queryText: String
+  var canPickCurrentLocation: Bool
   var didDismissSearch: () -> Void
   var didSubmitSearch: () -> Void
   var didSelectPlace: (Place) -> Void
 
   @StateObject var preferences = Env.current.preferencesController.preferences
   @State private var scrollViewOffset: CGFloat = 0
+  @EnvironmentObject var userLocationManager: UserLocationManager
 
   var preferencesController: PreferencesController {
     Env.current.preferencesController
@@ -64,7 +66,7 @@ struct PlaceSearch: View {
         Divider()
       }
       ScrollView {
-        VStack {
+        VStack(spacing: 16) {
           if let places = places {
             if places.isEmpty && !hasPendingQuery {
               Text("No results. 😢")
@@ -78,8 +80,19 @@ struct PlaceSearch: View {
                 didSelectPlace(place)
               }
             )
-            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
           } else {
+            Spacer(minLength: 16)
+            if canPickCurrentLocation,
+              let currentLocation = userLocationManager.mostRecentUserLocation
+            {
+              let currentPlace = Place(currentLocation: currentLocation)
+              HStack {
+                Button(action: { didSelectPlace(currentPlace) }) {
+                  Text(currentPlace.name)
+                }
+                Spacer()
+              }
+            }
             if !preferences.recentSearches.isEmpty {
               VStack(alignment: .leading, spacing: 8) {
                 HStack {
@@ -100,11 +113,13 @@ struct PlaceSearch: View {
                     Spacer()
                   }
                 }
-              }.padding().padding(.top, 16)
+              }
             }
           }
           Spacer()
-        }.overlay(
+        }
+        .padding()
+        .overlay(
           GeometryReader { proxy in
             Color.clear
               .preference(

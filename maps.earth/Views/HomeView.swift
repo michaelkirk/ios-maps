@@ -44,10 +44,10 @@ struct HomeView: View {
     MapView(
       searchResults: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
       userLocationState: $userLocationState,
-      mostRecentUserLocation: $userLocationManager.mostRecentUserLocation,
       pendingMapFocus: $pendingMapFocus,
       tripPlan: tripPlan
     )
+    .environmentObject(userLocationManager)
     .edgesIgnoringSafeArea(.all)
     .sheet(isPresented: .constant(true)) {
       FrontPageSearch(

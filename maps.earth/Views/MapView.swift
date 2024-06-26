@@ -122,9 +122,9 @@ struct MapView {
   @Binding var searchResults: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var userLocationState: UserLocationState
-  @Binding var mostRecentUserLocation: CLLocation?
   @Binding var pendingMapFocus: MapFocus?
   @ObservedObject var tripPlan: TripPlan
+  @EnvironmentObject var userLocationManager: UserLocationManager
 }
 
 func add3DBuildingsLayer(mapView: MLNMapView) {
@@ -287,7 +287,7 @@ extension MapView: UIViewRepresentable {
             context.coordinator.zoom(
               mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
           case .userLocation:
-            guard let location = self.mostRecentUserLocation else {
+            guard let location = self.userLocationManager.mostRecentUserLocation else {
               // still waiting for user location
               return
             }
@@ -635,7 +635,7 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
       logger.error("mostRecentLocation was unexpectedly nil in locationManger(_:didUpdate)")
       return
     }
-    self.mapView.mostRecentUserLocation = mostRecentLocation
+    self.mapView.userLocationManager.mostRecentUserLocation = mostRecentLocation
   }
 
   // Explicit objc bindings avoid an error while compiling preview
@@ -753,8 +753,6 @@ extension MLNStyle {
   return MapView(
     searchResults: searchQueue.mostRecentResults, selectedPlace: tripPlan.projectedValue.navigateTo,
     userLocationState: .constant(.initial),
-    mostRecentUserLocation: .constant(
-      CLLocation(latitude: currentLocation.lat, longitude: currentLocation.lng)),
     pendingMapFocus: .constant(nil),
     tripPlan: tripPlan.wrappedValue
   )
