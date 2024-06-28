@@ -14,10 +14,6 @@ func AssertMainThread() {
   assert(Thread.isMainThread)
 }
 
-class UserLocationManager: ObservableObject {
-  var mostRecentUserLocation: CLLocation?
-}
-
 let minDetentHeight = PresentationDetent.height(68)
 struct HomeView: View {
   @State var selectedPlace: Place?
@@ -29,7 +25,6 @@ struct HomeView: View {
   @State var searchDetent: PresentationDetent = minDetentHeight
   @State var placeDetailsDetent: PresentationDetent = .medium
 
-  @State var userLocationState: UserLocationState = .initial
   @StateObject var userLocationManager = UserLocationManager()
   // start by zooming to the user's current location if we have it
   @State var pendingMapFocus: MapFocus? = .userLocation {
@@ -43,7 +38,6 @@ struct HomeView: View {
   var body: some View {
     MapView(
       searchResults: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
-      userLocationState: $userLocationState,
       pendingMapFocus: $pendingMapFocus,
       tripPlan: tripPlan
     )
@@ -100,9 +94,9 @@ struct HomeView: View {
       case .notDetermined:
         break
       case .denied, .restricted:
-        self.userLocationState = .denied
+        self.userLocationManager.state = .denied
       case .authorizedAlways, .authorizedWhenInUse:
-        self.userLocationState = .showing
+        self.userLocationManager.state = .showing
       @unknown default:
         break
       }

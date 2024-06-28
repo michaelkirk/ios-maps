@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TopControls: View {
-  @Binding var userLocationState: UserLocationState
   @Binding var pendingMapFocus: MapFocus?
   static let controlHeight: CGFloat = 38
 
@@ -17,7 +16,7 @@ struct TopControls: View {
       AppInfoButton()
         .frame(width: Self.controlHeight, height: Self.controlHeight)
       Divider()
-      LocateMeButton(state: $userLocationState, pendingMapFocus: $pendingMapFocus)
+      LocateMeButton(pendingMapFocus: $pendingMapFocus)
         .frame(width: Self.controlHeight, height: Self.controlHeight)
     }
     .imageScale(.medium)
@@ -109,7 +108,7 @@ struct AppInfoSheetContents: View {
 }
 
 #Preview("Controls") {
-  TopControls(userLocationState: .constant(.following), pendingMapFocus: .constant(nil))
+  TopControls(pendingMapFocus: .constant(nil))
 }
 #Preview("App Info") {
   AppInfoSheetContents()

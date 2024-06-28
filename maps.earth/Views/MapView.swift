@@ -121,7 +121,6 @@ extension TripPlace: IntoMarkerLocation {
 struct MapView {
   @Binding var searchResults: [Place]?
   @Binding var selectedPlace: Place?
-  @Binding var userLocationState: UserLocationState
   @Binding var pendingMapFocus: MapFocus?
   @ObservedObject var tripPlan: TripPlan
   @EnvironmentObject var userLocationManager: UserLocationManager
@@ -158,11 +157,9 @@ func add3DBuildingsLayer(mapView: MLNMapView) {
 
 extension MapView: UIViewRepresentable {
   func makeCoordinator() -> Coordinator {
-    let topControls = TopControls(
-      userLocationState: $userLocationState, pendingMapFocus: $pendingMapFocus)
+    let topControls = TopControls(pendingMapFocus: $pendingMapFocus)
     let topControlsController = UIHostingController(rootView: topControls)
-    return Coordinator(
-      self, topControlsController: topControlsController)
+    return Coordinator(self, topControlsController: topControlsController)
   }
 
   typealias UIViewType = NavigationMapView
@@ -252,8 +249,8 @@ extension MapView: UIViewRepresentable {
           switch pendingMapFocus {
           case .place(let place):
             self.pendingMapFocus = nil
-            if self.userLocationState == .following {
-              self.userLocationState = .showing
+            if self.userLocationManager.state == .following {
+              self.userLocationManager.state = .showing
             }
             if let bbox = place.bbox {
               let bounds = Bounds(bbox: bbox).mlnBounds
@@ -266,8 +263,8 @@ extension MapView: UIViewRepresentable {
             }
           case .trip(let trip):
             self.pendingMapFocus = nil
-            if self.userLocationState == .following {
-              self.userLocationState = .showing
+            if self.userLocationManager.state == .following {
+              self.userLocationManager.state = .showing
             }
             let bounds = trip.raw.bounds
             context.coordinator.zoom(
@@ -280,8 +277,8 @@ extension MapView: UIViewRepresentable {
               return
             }
             self.pendingMapFocus = nil
-            if self.userLocationState == .following {
-              self.userLocationState = .showing
+            if self.userLocationManager.state == .following {
+              self.userLocationManager.state = .showing
             }
 
             context.coordinator.zoom(
@@ -322,14 +319,10 @@ extension MapView: UIViewRepresentable {
     }
     context.coordinator.reconcile(newContents: mapContents, mapView: mapView)
 
-    switch userLocationState {
+    switch userLocationManager.state {
     case .initial:
-      DispatchQueue.main.async {
-        // This will prompt for location permission on first load.
-        // If the user accepts, their blue dot will be shown and we'll have their location ready for routing.
-        // If the user denies, no problem. This state will be updated such that the "locate me" control will be disabled.
-        userLocationState = .showing
-      }
+      // This should be transitory - UserLocationManager prompts for location upon launch.
+      break
     case .showing:
       if !mapView.showsUserLocation {
         mapView.showsUserLocation = true
@@ -606,12 +599,12 @@ extension MapView.Coordinator: MLNMapViewDelegate {
         logger.debug("MLNUserTrackingMode didChange: \(debugString(mode))")
         switch mode {
         case .none:
-          if self.mapView.userLocationState == .following {
-            self.mapView.userLocationState = .showing
+          if self.mapView.userLocationManager.state == .following {
+            self.mapView.userLocationManager.state = .showing
           }
         case .follow, .followWithHeading, .followWithCourse:
-          if self.mapView.userLocationState != .following {
-            self.mapView.userLocationState = .following
+          if self.mapView.userLocationManager.state != .following {
+            self.mapView.userLocationManager.state = .following
           }
         @unknown default:
           assertionFailure("unexpected MLNUserTrackingModeL \(String(describing: mode))")
@@ -661,8 +654,11 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
     dispatchPrecondition(condition: .onQueue(.main))
     self.originalLocationManagerDelegate?.locationManagerDidChangeAuthorization(manager)
 
+    logger.info(
+      "locationManagerDidChangeAuthorization. manager.authorizationStatus \(format(authorizationStatus: manager.authorizationStatus))"
+    )
     if manager.authorizationStatus == .denied {
-      self.topControlsController.rootView.userLocationState = .denied
+      self.mapView.userLocationManager.state = .denied
     }
   }
 }
@@ -746,13 +742,29 @@ extension MLNStyle {
   }
 }
 
+private func format(authorizationStatus status: CLAuthorizationStatus) -> String {
+  switch status {
+  case .notDetermined:
+    "notDetermined"
+  case .restricted:
+    "restricted"
+  case .denied:
+    "denied"
+  case .authorizedAlways:
+    "authorizedAlways"
+  case .authorizedWhenInUse:
+    "authorizedWhenInUse"
+  @unknown default:
+    "unknown: \(status)"
+  }
+}
+
 #Preview("MapView") {
   let tripPlan = ObservedObject(initialValue: FixtureData.transitTripPlan)
   let searchQueue = Binding.constant(SearchQueue(mostRecentResults: FixtureData.places.all))
   let currentLocation = FixtureData.places[.zeitgeist].location
   return MapView(
     searchResults: searchQueue.mostRecentResults, selectedPlace: tripPlan.projectedValue.navigateTo,
-    userLocationState: .constant(.initial),
     pendingMapFocus: .constant(nil),
     tripPlan: tripPlan.wrappedValue
   )

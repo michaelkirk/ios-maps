@@ -10,11 +10,11 @@ import SwiftUI
 private let logger = FileLogger()
 
 struct LocateMeButton: View {
-  @Binding var state: UserLocationState
   @Binding var pendingMapFocus: MapFocus?
+  @EnvironmentObject var userLocationManager: UserLocationManager
 
   var systemImageName: String {
-    switch self.state {
+    switch self.userLocationManager.state {
     case .initial, .showing:
       return "location"
     case .following:
@@ -32,12 +32,12 @@ struct LocateMeButton: View {
     }
     // FIXME (minor): A "disabled" button makes sense for this state, but it means that taps "pass through" so if a confused
     // user repeatedly taps the disabled button the map will zoom in.
-    .disabled(state == .denied)
+    .disabled(userLocationManager.state == .denied)
   }
 
   func tapped() {
     let newState: UserLocationState
-    switch self.state {
+    switch self.userLocationManager.state {
     case .initial:
       newState = .showing
       self.pendingMapFocus = .userLocation
@@ -50,26 +50,28 @@ struct LocateMeButton: View {
     case .denied:
       newState = .denied
     }
-    logger.debug("tapped LocateMeButton with state \(state) -> \(newState)")
-    self.state = newState
+    logger.debug("tapped LocateMeButton with state \(userLocationManager.state) -> \(newState)")
+    self.userLocationManager.state = newState
   }
 }
 
-enum LocateMeButtonState {
-  case neverAsked
-  case pending
-  case showing
-  case denied
-}
-
 #Preview("initial/on") {
-  LocateMeButton(state: .constant(.initial), pendingMapFocus: .constant(nil))
+  let userLocationManager = UserLocationManager()
+  userLocationManager.state = .initial
+  return LocateMeButton(pendingMapFocus: .constant(nil))
+    .environmentObject(userLocationManager)
 }
 
 #Preview("following") {
-  LocateMeButton(state: .constant(.following), pendingMapFocus: .constant(nil))
+  let userLocationManager = UserLocationManager()
+  userLocationManager.state = .following
+  return LocateMeButton(pendingMapFocus: .constant(nil))
+    .environmentObject(userLocationManager)
 }
 
 #Preview("denied") {
-  LocateMeButton(state: .constant(.denied), pendingMapFocus: .constant(nil))
+  let userLocationManager = UserLocationManager()
+  userLocationManager.state = .denied
+  return LocateMeButton(pendingMapFocus: .constant(nil))
+    .environmentObject(userLocationManager)
 }
