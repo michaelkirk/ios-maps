@@ -124,6 +124,15 @@ struct Trip: Identifiable {
     self.legs[1...].map { $0.fromPlace }
   }
 
+  var firstTransitLeg: TransitLeg? {
+    for leg in self.legs {
+      if case let .transit(transitLeg) = leg.modeLeg {
+        return transitLeg
+      }
+    }
+    return nil
+  }
+
   init(itinerary: Itinerary, from: Place, to: Place) {
     self.id = UUID()
     self.raw = itinerary

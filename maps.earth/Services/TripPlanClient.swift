@@ -8,11 +8,6 @@
 import Foundation
 import MapboxDirections
 
-struct NamedPlace: Decodable {
-  var place: LngLat
-  var name: String
-}
-
 typealias TransitLeg = OTPTransitLeg
 
 extension TransitLeg {

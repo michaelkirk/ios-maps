@@ -33,6 +33,16 @@ struct TransitPlanItem: View {
       VStack(alignment: .leading, spacing: 8) {
         Text(trip.timeSpanFormatted).font(.headline).dynamicTypeSize(.xxLarge)
         Text(routeEmojiSummary(trip: trip))
+        if let firstTransitLeg = trip.firstTransitLeg {
+          HStack {
+            if firstTransitLeg.realTime {
+              Image(systemName: "dot.radiowaves.up.forward")
+            }
+            if let departureText = departureText(transitLeg: firstTransitLeg) {
+              Text(departureText)
+            }
+          }
+        }
         TripButton("Steps", action: onShowNavigation)
       }
       Spacer()
@@ -81,4 +91,61 @@ func routeEmojiSummary(trip: Trip) -> String {
   }
 
   return output
+}
+
+func departureText(transitLeg: TransitLeg) -> AttributedString? {
+  var output = AttributedString()
+  let boldFont = Font.body.bold()
+
+  if let startTime = formattedDurationUntilStart(start: transitLeg.startDate, boldFont: boldFont) {
+    output.append(startTime)
+  }
+
+  if let departFrom = formattedDepatureName(tripPlace: transitLeg.from, boldFont: boldFont) {
+    if !output.characters.isEmpty {
+      output.append(AttributedString(" "))
+    }
+    output.append(departFrom)
+  }
+
+  return output
+}
+
+func formattedDurationUntilStart(start: Date, now: Date = .now, boldFont: Font) -> AttributedString?
+{
+  var output = AttributedString()
+  if start > now {
+    output.append(AttributedString("in "))
+    var duration = AttributedString(formatDuration(from: now, to: start))
+    duration.font = UIFont.boldSystemFont(ofSize: 16)
+    output.append(duration)
+  } else {
+    var duration = AttributedString(formatDuration(from: start, to: now))
+    duration.font = UIFont.boldSystemFont(ofSize: 16)
+    output.append(duration)
+    output.append(AttributedString(" ago"))
+  }
+  if output.characters.count > 0 {
+    return output
+  } else {
+    return nil
+  }
+}
+
+func formattedDepatureName(tripPlace: TripPlace, boldFont: Font) -> AttributedString? {
+  guard let name = tripPlace.name else {
+    return nil
+  }
+  var output = AttributedString("from ")
+  var place = AttributedString(name)
+  place.font = boldFont
+  output.append(place)
+  return output
+}
+
+#Preview {
+  let trip = FixtureData.transitTripPlan.selectedTrip!
+  return TransitPlanItem(trip: trip) {
+    let _ = print("tapped")
+  }
 }

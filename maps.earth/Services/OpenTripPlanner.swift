@@ -56,18 +56,22 @@ enum OTPTravelMode: String, Decodable {
 }
 
 struct OTPTransitLeg: Decodable {
-  //  var startTime: Int64
+  var startTime: Int64
   //  var endTime: Int64
   var mode: OTPTravelMode
   //  var transitLeg: Bool
-  //  var realTime: Bool
+
+  /// Whether there is real-time data about this Leg
+  var realTime: Bool
+
   // Not always set - e.g. 1-Line in seattle has it set, but not bus lines
   var route: String?
   var routeShortName: String?
   //  var routeLongName: String?
   var routeColor: String?
-  //  var from: NamedPlace  //{ name: string; lat: number; lon: number };
-  //  var to: NamedPlace  // { name: string; lat: number; lon: number };
+
+  var from: TripPlace  //{ name: string; lat: number; lon: number };
+  //  var to: TripPlace  // { name: string; lat: number; lon: number };
   //  var alerts: OTPAlert[];
 
   var routeSummaryName: String {
@@ -80,4 +84,10 @@ struct OTPTransitLeg: Decodable {
       return ""
     }
   }
+
+  var startDate: Date {
+    Date(millisSince1970: UInt64(startTime))
+  }
+
+  var departureName: String? { from.name }
 }
