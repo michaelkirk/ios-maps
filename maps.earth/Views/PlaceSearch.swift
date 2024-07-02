@@ -81,7 +81,6 @@ struct PlaceSearch: View {
               }
             )
           } else {
-            Spacer(minLength: 16)
             if canPickCurrentLocation,
               let currentLocation = userLocationManager.mostRecentUserLocation
             {
@@ -95,6 +94,8 @@ struct PlaceSearch: View {
                 }
                 Spacer()
               }
+            } else {
+              Spacer(minLength: 16)
             }
             if !preferences.recentSearches.isEmpty {
               VStack(alignment: .leading, spacing: 8) {
