@@ -88,7 +88,10 @@ struct PlaceSearch: View {
               let currentPlace = Place(currentLocation: currentLocation)
               HStack {
                 Button(action: { didSelectPlace(currentPlace) }) {
-                  Text(currentPlace.name)
+                  HStack {
+                    Image(systemName: "location")
+                    Text(currentPlace.name)
+                  }
                 }
                 Spacer()
               }
