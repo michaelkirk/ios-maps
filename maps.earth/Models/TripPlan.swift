@@ -13,7 +13,11 @@ import MapboxDirections
 class TripPlan: ObservableObject {
   @Published var navigateFrom: Place?
   @Published var navigateTo: Place?
-  @Published var mode: TravelMode
+  @Published var mode: TravelMode {
+    didSet {
+      Env.current.preferencesController.setPreferredTravelMode(mode)
+    }
+  }
   @Published var transitWithBike: Bool = false
   @Published var bounds: Bounds?
   @Published var trips: Result<[Trip], Error>
@@ -23,7 +27,7 @@ class TripPlan: ObservableObject {
   init(
     from fromPlace: Place? = nil,
     to toPlace: Place? = nil,
-    mode: TravelMode = .walk,
+    mode: TravelMode = Env.current.preferencesController.preferences.preferredTravelMode,
     trips: Result<[Trip], Error> = .success([]),
     selectedTrip: Trip? = nil,
     bounds: Bounds? = nil

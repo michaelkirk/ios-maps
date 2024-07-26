@@ -9,32 +9,69 @@ import Foundation
 
 private let logger = FileLogger()
 
-class Preferences: ObservableObject, Codable {
+class Preferences: ObservableObject, Decodable {
   @Published
   var recentSearches: [String]
+  var preferredTravelMode: TravelMode
 
   init() {
     self.recentSearches = []
+    self.preferredTravelMode = .walk
   }
 
-  init(recentSearches: [String]) {
+  init(recentSearches: [String], preferredMode: TravelMode) {
     self.recentSearches = recentSearches
+    self.preferredTravelMode = preferredMode
+  }
+
+  init(record: Record) {
+    self.recentSearches = record.recentSearches
+    self.preferredTravelMode = record.preferredTravelMode
+  }
+
+  required init(from decoder: any Decoder) throws {
+    let record: Record
+    do {
+      record = try Record.init(from: decoder)
+      assert(record.hasLatestSchemaVersion)
+    } catch {
+      let legacyRecord = try Record.LegacyRecord.init(from: decoder)
+      record = Record(legacy: legacyRecord)
+      print("Migrated legacy Preferences record \(legacyRecord), newRecord: \(record)")
+    }
+    self.recentSearches = record.recentSearches
+    self.preferredTravelMode = record.preferredTravelMode
+  }
+
+  var asRecord: Record {
+    dispatchPrecondition(condition: .onQueue(.main))
+    return Record(
+      schemaVersion: Record.schemaVersion, recentSearches: recentSearches,
+      preferredTravelMode: preferredTravelMode)
   }
 
   // MARK: Codable
   // Annoying boiler plate betweeen ObservableObject and Codable
   struct Record: Codable {
+    struct RecordV1: Codable {
+      var recentSearches: [String] = []
+    }
+    typealias LegacyRecord = RecordV1
+    static let schemaVersion: UInt = 2
+    var schemaVersion: UInt
     var recentSearches: [String] = []
+    var preferredTravelMode: TravelMode
+    var hasLatestSchemaVersion: Bool {
+      self.schemaVersion == Self.schemaVersion
+    }
   }
+}
 
-  required init(from decoder: any Decoder) throws {
-    let record = try Record.init(from: decoder)
-    self.recentSearches = record.recentSearches
-  }
-
-  func encode(to encoder: any Encoder) throws {
-    let record = Record(recentSearches: recentSearches)
-    try record.encode(to: encoder)
+extension Preferences.Record {
+  init(legacy: Self.LegacyRecord) {
+    self.recentSearches = legacy.recentSearches
+    self.preferredTravelMode = .walk
+    self.schemaVersion = Self.schemaVersion
   }
 }
 
@@ -59,9 +96,26 @@ class PreferencesController {
   func clear() {
     AssertMainThread()
     preferences.recentSearches = []
+    let record = preferences.asRecord
     self.serialQueue.async {
       do {
-        try self.storageController.write(preferences: self.preferences)
+        try self.storageController.write(preferences: record)
+      } catch {
+        logger.error("error saving preferences: \(error)")
+      }
+    }
+  }
+
+  func setPreferredTravelMode(_ travelMode: TravelMode) {
+    dispatchPrecondition(condition: .onQueue(.main))
+    guard self.preferences.preferredTravelMode != travelMode else {
+      return
+    }
+    self.preferences.preferredTravelMode = travelMode
+    let record = self.preferences.asRecord
+    self.serialQueue.async {
+      do {
+        try self.storageController.write(preferences: record)
       } catch {
         logger.error("error saving preferences: \(error)")
       }
@@ -83,14 +137,15 @@ class PreferencesController {
         recentSearches.reverse()
 
         // Only keep some of the most recent searches
-        recentSearches = Array(recentSearches.prefix(10))
-        logger.debug("New recents: \(recentSearches)")
+        let mostRecentSearches = Array(recentSearches.prefix(10))
+        logger.debug("New recents: \(mostRecentSearches)")
 
         DispatchQueue.main.async {
-          self.preferences.recentSearches = recentSearches
+          self.preferences.recentSearches = mostRecentSearches
+          let record = self.preferences.asRecord
           self.serialQueue.async {
             do {
-              try self.storageController.write(preferences: self.preferences)
+              try self.storageController.write(preferences: record)
               continuation.resume()
             } catch {
               logger.error("error saving preferences: \(error)")
