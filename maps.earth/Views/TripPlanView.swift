@@ -203,6 +203,7 @@ struct TripSearchManager {
     var navigateTo: Place
   }
 
+  @MainActor
   var tripPlanClient: TripPlanClient {
     Env.current.tripPlanClient
   }

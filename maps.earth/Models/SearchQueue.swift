@@ -12,7 +12,10 @@ private let logger = FileLogger()
 class SearchQueue: ObservableObject {
   @Published var mostRecentResults: [Place]?
 
+  @MainActor
   var env = Env.current
+
+  @MainActor
   var focus: LngLat? {
     env.getMapFocus()
   }
@@ -49,6 +52,7 @@ class SearchQueue: ObservableObject {
   }
 
   // TODO debounce
+  @MainActor
   func textDidChange(newValue: String) {
     search(text: newValue, focus: focus)
   }

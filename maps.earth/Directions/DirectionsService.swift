@@ -10,6 +10,7 @@ import MapboxDirections
 import MapboxDirectionsObjc
 
 struct DirectionsService {
+  @MainActor
   var mlnDirections: Directions {
     Env.current.mlnDirections
   }
@@ -17,6 +18,7 @@ struct DirectionsService {
     case noneFound
   }
 
+  @MainActor
   func routes(from: Place, to: Place, mode: TravelMode, transitWithBike: Bool) async throws
     -> [Route]
   {
@@ -64,6 +66,7 @@ struct DirectionsService {
     return route
   }
 
+  @MainActor
   private func routeOptions(from: Place, to: Place, mode: TravelMode, transitWithBike: Bool)
     -> RouteOptions
   {

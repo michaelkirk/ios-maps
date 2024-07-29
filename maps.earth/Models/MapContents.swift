@@ -193,7 +193,7 @@ struct MapTrip: MapContent {
 
   static var allTripLayers: [MapTrip: TripLayers] = [:]
   var tripLayers: TripLayers {
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     if let annotation = Self.allTripLayers[self] {
       return annotation
     } else {
@@ -262,7 +262,7 @@ struct PlaceMarker: MapContent {
   static var markerLookup: [MLNPointAnnotation: PlaceMarker] = [:]
 
   var annotation: MLNPointAnnotation {
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     if let annotation = PlaceMarker.annotations[self] {
       return annotation
     } else {
@@ -275,7 +275,7 @@ struct PlaceMarker: MapContent {
 
   func add(to mapView: MLNMapView) {
     //    print("Adding to map: \(self)")
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     Self.markerLookup[self.annotation] = self
     mapView.addAnnotation(self.annotation)
   }
@@ -283,7 +283,7 @@ struct PlaceMarker: MapContent {
   func remove(from mapView: MLNMapView) {
     //    print("Removing from map: \(self)")
     mapView.removeAnnotation(self.annotation)
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     Self.markerLookup[self.annotation] = nil
     Self.annotations[self] = nil
   }

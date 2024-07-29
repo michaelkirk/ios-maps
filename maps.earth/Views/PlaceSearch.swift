@@ -21,6 +21,7 @@ struct PlaceSearch: View {
   @State private var scrollViewOffset: CGFloat = 0
   @EnvironmentObject var userLocationManager: UserLocationManager
 
+  @MainActor
   var preferencesController: PreferencesController {
     Env.current.preferencesController
   }
@@ -75,7 +76,7 @@ struct PlaceSearch: View {
               places: $places,
               didSelectPlace: { place in
                 Task {
-                  try await preferencesController.addSearch(text: queryText)
+                  await preferencesController.addSearch(text: queryText)
                 }
                 didSelectPlace(place)
               }

@@ -10,6 +10,7 @@ import MapLibre
 import MapboxDirections
 
 class Env {
+  @MainActor
   static var current = Env()
 
   let isMock: Bool
@@ -30,6 +31,7 @@ class Env {
 
   let simulateLocationForTesting: Bool
 
+  @MainActor
   init() {
     isMock = false
     simulateLocationForTesting = Platform.isSimulator
@@ -38,6 +40,7 @@ class Env {
     preferencesController = PreferencesController(fromStorage: storageController)
   }
 
+  @MainActor
   init(offlineWithMockData: ()) {
     isMock = true
     simulateLocationForTesting = true

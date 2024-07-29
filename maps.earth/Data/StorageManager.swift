@@ -11,15 +11,17 @@ protocol StorageController {
   typealias OnDisk = OnDiskStorage
   typealias InMemoryForTesting = InMemoryStorage
 
-  func write(preferences: Preferences) throws
+  func write(preferences: Preferences.Record) throws
   func readPreferences() throws -> Preferences?
 }
 
 class InMemoryStorage: StorageController {
   var preferences: Preferences? = nil
 
-  func write(preferences: Preferences) throws {
-    self.preferences = preferences
+  @MainActor
+  func write(preferences: Preferences.Record) throws {
+    dispatchPrecondition(condition: .notOnQueue(.main))
+    self.preferences = Preferences(record: preferences)
   }
 
   func readPreferences() throws -> Preferences? {
@@ -44,13 +46,15 @@ class OnDiskStorage: StorageController {
     fileRoot.appending(path: "preferences.dat")
   }
 
-  func write(preferences: Preferences) throws {
+  func write(preferences: Preferences.Record) throws {
+    dispatchPrecondition(condition: .notOnQueue(.main))
     try Bench(title: "write preferences") {
       try self.write(codable: preferences, to: preferencesURL)
     }
   }
 
   private func write<C: Codable>(codable: C, to url: URL) throws {
+    dispatchPrecondition(condition: .notOnQueue(.main))
     precondition(url.isFileURL)
 
     let parentDir = url.deletingLastPathComponent()
