@@ -429,6 +429,7 @@ extension MapView: UIViewRepresentable {
       self.mapContents = newContents
     }
 
+    @MainActor
     func mapView(_ mapView: MLNMapView, didTapTripLegId tripLegId: TripLegId) {
       AssertMainThread()
       guard case Result.success(let trips) = self.mapView.tripPlan.trips else {
@@ -442,6 +443,7 @@ extension MapView: UIViewRepresentable {
       self.mapView.tripPlan.selectedTrip = selectedTrip
     }
 
+    @MainActor
     func mapView(_ mapView: MLNMapView, didTapPOI place: MLNPointFeature) {
       let initialSelectedPlace = self.mapView.selectedPlace
       Task {
@@ -462,6 +464,7 @@ extension MapView: UIViewRepresentable {
     }
 
     @objc
+    @MainActor
     func mapView(didTap sender: UITapGestureRecognizer) {
       guard let view = sender.view else {
         assertionFailure("gesture was not in view")

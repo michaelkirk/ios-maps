@@ -26,11 +26,11 @@ final class PreferencesControllerTests: XCTestCase {
       let preferencesController = PreferencesController(
         fromStorage: StorageController.InMemoryForTesting())
       XCTAssertEqual(preferencesController.preferences.recentSearches, [])
-      try! await preferencesController.addSearch(text: "coffee")
+      await preferencesController.addSearch(text: "coffee")
       XCTAssertEqual(preferencesController.preferences.recentSearches, ["coffee"])
-      try! await preferencesController.addSearch(text: "books")
+      await preferencesController.addSearch(text: "books")
       XCTAssertEqual(preferencesController.preferences.recentSearches, ["books", "coffee"])
-      try! await preferencesController.addSearch(text: "coffee")
+      await preferencesController.addSearch(text: "coffee")
       XCTAssertEqual(preferencesController.preferences.recentSearches, ["coffee", "books"])
       expectation.fulfill()
     }
@@ -43,9 +43,9 @@ final class PreferencesControllerTests: XCTestCase {
       let preferencesController = PreferencesController(
         fromStorage: StorageController.InMemoryForTesting())
       XCTAssertEqual(preferencesController.preferences.recentSearches, [])
-      try! await preferencesController.addSearch(text: "coffee")
+      await preferencesController.addSearch(text: "coffee")
       XCTAssertEqual(preferencesController.preferences.recentSearches, ["coffee"])
-      try! await preferencesController.addSearch(text: "Coffee")
+      await preferencesController.addSearch(text: "Coffee")
       XCTAssertEqual(preferencesController.preferences.recentSearches, ["Coffee"])
       expectation.fulfill()
     }
@@ -57,22 +57,22 @@ final class PreferencesControllerTests: XCTestCase {
     Task { @MainActor in
       let preferencesController = PreferencesController(
         fromStorage: StorageController.InMemoryForTesting())
-      try! await preferencesController.addSearch(text: "one")
+      await preferencesController.addSearch(text: "one")
       XCTAssertEqual(preferencesController.preferences.recentSearches, ["one"])
-      try! await preferencesController.addSearch(text: "two")
+      await preferencesController.addSearch(text: "two")
       XCTAssertEqual(preferencesController.preferences.recentSearches, ["two", "one"])
-      try! await preferencesController.addSearch(text: "three")
-      try! await preferencesController.addSearch(text: "four")
-      try! await preferencesController.addSearch(text: "five")
-      try! await preferencesController.addSearch(text: "six")
-      try! await preferencesController.addSearch(text: "seven")
-      try! await preferencesController.addSearch(text: "eight")
-      try! await preferencesController.addSearch(text: "nine")
-      try! await preferencesController.addSearch(text: "ten")
+      await preferencesController.addSearch(text: "three")
+      await preferencesController.addSearch(text: "four")
+      await preferencesController.addSearch(text: "five")
+      await preferencesController.addSearch(text: "six")
+      await preferencesController.addSearch(text: "seven")
+      await preferencesController.addSearch(text: "eight")
+      await preferencesController.addSearch(text: "nine")
+      await preferencesController.addSearch(text: "ten")
       XCTAssertEqual(
         preferencesController.preferences.recentSearches,
         ["ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"])
-      try! await preferencesController.addSearch(text: "eleven")
+      await preferencesController.addSearch(text: "eleven")
       XCTAssertEqual(
         preferencesController.preferences.recentSearches,
         ["eleven", "ten", "nine", "eight", "seven", "six", "five", "four", "three", "two"])

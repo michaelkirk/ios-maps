@@ -176,7 +176,7 @@ struct ManeuverListSheetContents: View {
 }
 
 #Preview("All Maneuvers") {
-  var trip = FixtureData.walkTrips[0]
+  let trip = FixtureData.walkTrips[0]
   let maneuvers = ManeuverType.allCases.map { maneuver in
     Maneuver(
       instruction: "maneuver: \(maneuver)", type: maneuver,

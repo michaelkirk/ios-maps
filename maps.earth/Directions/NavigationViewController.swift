@@ -30,6 +30,7 @@ struct MENavigationViewController: UIViewControllerRepresentable {
     }
   }
 
+  @MainActor
   var mlnDirections: Directions {
     Env.current.mlnDirections
   }

@@ -17,7 +17,7 @@ func AssertMainThread() {
 let minDetentHeight = PresentationDetent.height(68)
 struct HomeView: View {
   @State var selectedPlace: Place?
-  @ObservedObject var tripPlan: TripPlan = TripPlan()
+  @ObservedObject @MainActor var tripPlan: TripPlan = TripPlan()
 
   @StateObject var searchQueue: SearchQueue = SearchQueue()
   @State var queryText: String = ""
