@@ -418,7 +418,7 @@ extension MapView: UIViewRepresentable {
     }
 
     func reconcile(newContents: MapContents, mapView: MLNMapView) {
-      dispatchPrecondition(condition: .onQueue(.main))
+      AssertMainThread()
       let diff = mapContents.diff(newContents: newContents)
       for remove in diff.removes {
         remove.remove(from: mapView)
@@ -621,7 +621,7 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
   // Otherwise there's a conflict between method names
   @objc(locationManager:didUpdateLocations:)
   func locationManager(_ manager: any MLNLocationManager, didUpdate locations: [CLLocation]) {
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     self.originalLocationManagerDelegate?.locationManager(manager, didUpdate: locations)
 
     guard let mostRecentLocation = locations.last else {
@@ -635,23 +635,23 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
   // Otherwise there's a conflict between method names
   @objc(locationManager:didUpdateHeading:)
   func locationManager(_ manager: any MLNLocationManager, didUpdate newHeading: CLHeading) {
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     self.originalLocationManagerDelegate?.locationManager(manager, didUpdate: newHeading)
   }
 
   func locationManagerShouldDisplayHeadingCalibration(_ manager: any MLNLocationManager) -> Bool {
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     return self.originalLocationManagerDelegate?.locationManagerShouldDisplayHeadingCalibration(
       manager) ?? false
   }
 
   func locationManager(_ manager: any MLNLocationManager, didFailWithError error: any Error) {
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     self.originalLocationManagerDelegate?.locationManager(manager, didFailWithError: error)
   }
 
   func locationManagerDidChangeAuthorization(_ manager: any MLNLocationManager) {
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     self.originalLocationManagerDelegate?.locationManagerDidChangeAuthorization(manager)
 
     logger.info(

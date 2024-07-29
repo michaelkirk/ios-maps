@@ -9,42 +9,50 @@ import Foundation
 
 private let logger = FileLogger()
 
+// This fancy "immutable record" pattern has broken the "press clear" functionality in that the screen isn't updated (if you restart the app though, the choices are gone)
 class Preferences: ObservableObject, Decodable {
-  @Published
-  var recentSearches: [String]
-  var preferredTravelMode: TravelMode
-
-  init() {
-    self.recentSearches = []
-    self.preferredTravelMode = .walk
+  var _record: Record
+  var record: Record {
+    get {
+      AssertMainThread()
+      return self._record
+    }
+    set {
+      AssertMainThread()
+      self._record = newValue
+    }
   }
 
-  init(recentSearches: [String], preferredMode: TravelMode) {
-    self.recentSearches = recentSearches
-    self.preferredTravelMode = preferredMode
+  var recentSearches: [String] {
+    get { self.record.recentSearches }
+    set { self.record.recentSearches = newValue }
+  }
+
+  var preferredTravelMode: TravelMode {
+    get { self.record.preferredTravelMode }
+    set { self.record.preferredTravelMode = newValue }
+  }
+
+  init() {
+    self._record = Record()
   }
 
   init(record: Record) {
-    self.recentSearches = record.recentSearches
-    self.preferredTravelMode = record.preferredTravelMode
+    self._record = record
   }
 
   required init(from decoder: any Decoder) throws {
-    let record: Record
     do {
-      record = try Record.init(from: decoder)
+      _record = try Record.init(from: decoder)
       assert(record.hasLatestSchemaVersion)
     } catch {
       let legacyRecord = try Record.LegacyRecord.init(from: decoder)
-      record = Record(legacy: legacyRecord)
+      _record = Record(legacy: legacyRecord)
       print("Migrated legacy Preferences record \(legacyRecord), newRecord: \(record)")
     }
-    self.recentSearches = record.recentSearches
-    self.preferredTravelMode = record.preferredTravelMode
   }
 
   var asRecord: Record {
-    dispatchPrecondition(condition: .onQueue(.main))
     return Record(
       schemaVersion: Record.schemaVersion, recentSearches: recentSearches,
       preferredTravelMode: preferredTravelMode)
@@ -68,6 +76,12 @@ class Preferences: ObservableObject, Decodable {
 }
 
 extension Preferences.Record {
+  init() {
+    self.recentSearches = []
+    self.preferredTravelMode = .walk
+    self.schemaVersion = Self.schemaVersion
+  }
+
   init(legacy: Self.LegacyRecord) {
     self.recentSearches = legacy.recentSearches
     self.preferredTravelMode = .walk
@@ -107,7 +121,7 @@ class PreferencesController {
   }
 
   func setPreferredTravelMode(_ travelMode: TravelMode) {
-    dispatchPrecondition(condition: .onQueue(.main))
+    AssertMainThread()
     guard self.preferences.preferredTravelMode != travelMode else {
       return
     }
@@ -122,35 +136,32 @@ class PreferencesController {
     }
   }
 
-  func addSearch(text: String) async throws {
+  func addSearch(text: String) {
     let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
-    try await withCheckedThrowingContinuation { continuation in
-      self.serialQueue.async {
-        var recentSearches = self.preferences.recentSearches
-        if let existing = recentSearches.firstIndex(where: {
-          $0.lowercased() == text.lowercased()
-        }) {
-          recentSearches.remove(at: existing)
-        }
-        recentSearches.reverse()
-        recentSearches.append(text)
-        recentSearches.reverse()
+    var recentSearches = self.preferences.recentSearches
+    self.serialQueue.async {
+      if let existing = recentSearches.firstIndex(where: {
+        $0.lowercased() == text.lowercased()
+      }) {
+        recentSearches.remove(at: existing)
+      }
+      recentSearches.reverse()
+      recentSearches.append(text)
+      recentSearches.reverse()
 
-        // Only keep some of the most recent searches
-        let mostRecentSearches = Array(recentSearches.prefix(10))
-        logger.debug("New recents: \(mostRecentSearches)")
+      // Only keep some of the most recent searches
+      let mostRecentSearches = Array(recentSearches.prefix(10))
+      logger.debug("New recents: \(mostRecentSearches)")
 
-        DispatchQueue.main.async {
-          self.preferences.recentSearches = mostRecentSearches
-          let record = self.preferences.asRecord
-          self.serialQueue.async {
-            do {
-              try self.storageController.write(preferences: record)
-              continuation.resume()
-            } catch {
-              logger.error("error saving preferences: \(error)")
-              continuation.resume(throwing: error)
-            }
+      DispatchQueue.main.async {
+        self.preferences.recentSearches = mostRecentSearches
+        let record = self.preferences.asRecord
+
+        self.serialQueue.async {
+          do {
+            try self.storageController.write(preferences: record)
+          } catch {
+            logger.error("error saving preferences: \(error)")
           }
         }
       }
