@@ -37,6 +37,7 @@
 		456A19DB2C825AA300E7E7EA /* FerrostarCore in Frameworks */ = {isa = PBXBuildFile; productRef = 456A19DA2C825AA300E7E7EA /* FerrostarCore */; };
 		456A19DD2C825AA300E7E7EA /* FerrostarMapLibreUI in Frameworks */ = {isa = PBXBuildFile; productRef = 456A19DC2C825AA300E7E7EA /* FerrostarMapLibreUI */; };
 		456A19DF2C825AA300E7E7EA /* FerrostarSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 456A19DE2C825AA300E7E7EA /* FerrostarSwiftUI */; };
+		456A19E12C825C9900E7E7EA /* MENavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A19E02C825C9900E7E7EA /* MENavigationView.swift */; };
 		456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */; };
 		456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */; };
 		456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */; };
@@ -130,6 +131,7 @@
 		4563BA092B687AA5005A677A /* maps.earthUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = maps.earthUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563BA0D2B687AA5005A677A /* maps_earthUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthUITests.swift; sourceTree = "<group>"; };
 		4563BA0F2B687AA5005A677A /* maps_earthUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		456A19E02C825C9900E7E7EA /* MENavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MENavigationView.swift; sourceTree = "<group>"; };
 		456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceList.swift; sourceTree = "<group>"; };
 		456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetail.swift; sourceTree = "<group>"; };
 		456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */,
 				45DD17132BE598260085D2B1 /* PlaceSearch.swift */,
 				45E0C3AC2BFFD44B00C6388C /* TripList.swift */,
+				456A19E02C825C9900E7E7EA /* MENavigationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				4545AA682BA373B500958306 /* Env.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
 				45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */,
+				456A19E12C825C9900E7E7EA /* MENavigationView.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
 				45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */,
