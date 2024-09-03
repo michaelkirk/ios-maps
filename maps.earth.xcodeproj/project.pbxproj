@@ -175,6 +175,7 @@
 		45E0C3B22C0017A900C6388C /* west_seattle_water_taxi_place.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = west_seattle_water_taxi_place.json; sourceTree = "<group>"; };
 		45E456982BED96C200D95DFD /* mapbox-directions-swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "mapbox-directions-swift"; sourceTree = "<group>"; };
 		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
+		45F151532C87C90C003D6F24 /* ferrostar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ferrostar; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		45F5ECC92BA11046007A4657 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
@@ -409,6 +410,7 @@
 		45DFFD5F2BED949E00C27041 /* DevDependencies */ = {
 			isa = PBXGroup;
 			children = (
+				45F151532C87C90C003D6F24 /* ferrostar */,
 				45D6B1142BF2D4E10052D400 /* maplibre-navigation-ios */,
 				45E456982BED96C200D95DFD /* mapbox-directions-swift */,
 				45DFFD5E2BED949E00C27041 /* README.md */,

@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "ferrostar",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/stadiamaps/ferrostar",
-      "state" : {
-        "revision" : "89f73c288f82e16ff4786f007ebced678a7b1ea5",
-        "version" : "0.9.1"
-      }
-    },
-    {
       "identity" : "maplibre-gl-native-distribution",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/maplibre/maplibre-gl-native-distribution",
@@ -79,6 +70,15 @@
       "state" : {
         "revision" : "c2b96f2d5fb7f835b91cefac5e83101f54643901",
         "version" : "3.0.1"
+      }
+    },
+    {
+      "identity" : "swift-snapshot-testing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
+      "state" : {
+        "revision" : "6d932a79e7173b275b96c600c86c603cf84f153c",
+        "version" : "1.17.4"
       }
     },
     {
