@@ -191,6 +191,7 @@ struct MENavigationView: View {
   //  let initialLocation: CLLocation
   let styleURL: URL
   let stopNavigation: () -> Void
+  let destinationName: String?
 
   private var locationProvider: LocationProviding
   @ObservedObject private var ferrostarCore: FerrostarCore
@@ -205,8 +206,10 @@ struct MENavigationView: View {
     locationProvider: LocationProviding? = nil,
     ferrostarCore: FerrostarCore? = nil
   ) {
+    self.destinationName = route.legs.last?.destination.name
     self.route = FerrostarCoreFFI.Route(mapboxRoute: route)
     if let simulatedLocationProvider = Env.current.locationProvider as? SimulatedLocationProvider {
+      simulatedLocationProvider.warpFactor = 4
       try! simulatedLocationProvider.setSimulatedRoute(self.route)
       simulatedLocationProvider.startUpdating()
     }
@@ -222,10 +225,11 @@ struct MENavigationView: View {
   }
 
   var body: some View {
-    DynamicallyOrientingNavigationView(
+    var mapView = DynamicallyOrientingNavigationView(
       styleURL: styleURL,
       camera: $camera,
       navigationState: ferrostarCore.state,
+      destinationName: destinationName,
       onTapExit: { stopNavigation() },
       makeMapContent: {
         let source = ShapeSource(identifier: "userLocation") {
@@ -238,7 +242,7 @@ struct MENavigationView: View {
         CircleStyleLayer(identifier: "foo", source: source)
       }
     )
-    .onAppear {
+    return mapView.onAppear {
       // TODO: waiting for simulated location to take effect.
       DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
         try! Env.current.ferrostarCore.startNavigation(route: self.route)
