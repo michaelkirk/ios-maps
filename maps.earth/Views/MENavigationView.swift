@@ -191,7 +191,7 @@ struct MENavigationView: View {
   //  let initialLocation: CLLocation
   let styleURL: URL
   let stopNavigation: () -> Void
-  let destinationName: String?
+  let destination: MapboxDirections.Waypoint
   let locationProvider: LocationProviding
 
   @ObservedObject private var ferrostarCore: FerrostarCore
@@ -203,7 +203,7 @@ struct MENavigationView: View {
     route: MapboxDirections.Route,
     stopNavigation: @escaping () -> Void
   ) {
-    self.destinationName = route.legs.last?.destination.name
+    self.destination = route.legs.last!.destination
     self.route = FerrostarCoreFFI.Route(mapboxRoute: route)
     self.stopNavigation = stopNavigation
     self.styleURL = AppConfig().tileserverStyleUrl
@@ -251,9 +251,8 @@ struct MENavigationView: View {
       customRouteProvider: routeProvider, locationProvider: locationProvider,
       navigationControllerConfig: config)
 
-      let currentCamera = Env.current.getMapCamera()!
-//      let zoom = log2(156543.03392 / currentCamera.altitude)
-      self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
+    let currentCamera = Env.current.getMapCamera()!
+    self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
   }
 
   var body: some View {
@@ -261,7 +260,7 @@ struct MENavigationView: View {
       styleURL: styleURL,
       camera: $camera,
       navigationState: ferrostarCore.state,
-      destinationName: destinationName,
+      destinationName: self.destination.name,
       onTapExit: { stopNavigation() },
       makeMapContent: {
         let source = ShapeSource(identifier: "userLocation") {
@@ -273,7 +272,24 @@ struct MENavigationView: View {
         }
         CircleStyleLayer(identifier: "foo", source: source)
       }
-    )
+    ).onChange(
+      of: ferrostarCore.state,
+      perform: { (value: NavigationState?) in
+        guard let tripState = value?.tripState else {
+          return
+        }
+
+        if case .complete = tripState {
+          let coordinate = self.route.geometry.last!.clLocationCoordinate2D
+          let bbox = MLNCoordinateBounds(sw: coordinate, ne: coordinate).extend(bufferMeters: 100)
+
+          self.camera.setPitch(0)
+          // HACKY way to get the destination *centered* in the screen
+          // rather than centered towards the bottom where the puck lives
+          self.camera = .boundingBox(
+            bbox, edgePadding: UIEdgeInsets(top: 0, left: 0, bottom: 400, right: 0))
+        }
+      })
     return mapView.onAppear {
       try! ferrostarCore.startNavigation(route: self.route)
     }

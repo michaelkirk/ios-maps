@@ -65,6 +65,7 @@
 		45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */; };
 		45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B502B9B5B4300A64AEE /* TripPlan.swift */; };
 		45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* MarkerViews.swift */; };
+		45A33C792C8919E9007FB635 /* MLNBounds+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */; };
 		45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BC2C0FC005007145CE /* UniversalLink.swift */; };
 		45BB39BF2C0FC0DC007145CE /* UniversalLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
@@ -160,6 +161,7 @@
 		45992B502B9B5B4300A64AEE /* TripPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlan.swift; sourceTree = "<group>"; };
 		45992B542B9B651900A64AEE /* maps-earth-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "maps-earth-Info.plist"; sourceTree = SOURCE_ROOT; };
 		45992B552B9BC3BC00A64AEE /* MarkerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerViews.swift; sourceTree = "<group>"; };
+		45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MLNBounds+Extensions.swift"; sourceTree = "<group>"; };
 		45BB39BB2C0F8C6D007145CE /* maps.earth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = maps.earth.entitlements; sourceTree = "<group>"; };
 		45BB39BC2C0FC005007145CE /* UniversalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLink.swift; sourceTree = "<group>"; };
 		45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkTest.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				45831E302BC8A3A1007E7AA4 /* MapContents.swift */,
 				45831E362BCDC8DB007E7AA4 /* SearchQueue.swift */,
 				45BB39BC2C0FC005007145CE /* UniversalLink.swift */,
+				45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -620,6 +623,7 @@
 				45E0C3AD2BFFD44B00C6388C /* TripList.swift in Sources */,
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
 				45DD17122BE2E2170085D2B1 /* LabeledCheckbox.swift in Sources */,
+				45A33C792C8919E9007FB635 /* MLNBounds+Extensions.swift in Sources */,
 				4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */,
 				4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */,
 				450855232BCF36BF00B7678C /* Bench.swift in Sources */,
