@@ -192,36 +192,68 @@ struct MENavigationView: View {
   let styleURL: URL
   let stopNavigation: () -> Void
   let destinationName: String?
+  let locationProvider: LocationProviding
 
-  private var locationProvider: LocationProviding
   @ObservedObject private var ferrostarCore: FerrostarCore
 
   @State private var camera: MapViewCamera
-  @State private var snappedCamera = true
 
   @MainActor
   init(
     route: MapboxDirections.Route,
-    stopNavigation: @escaping () -> Void,
-    locationProvider: LocationProviding? = nil,
-    ferrostarCore: FerrostarCore? = nil
+    stopNavigation: @escaping () -> Void
   ) {
     self.destinationName = route.legs.last?.destination.name
     self.route = FerrostarCoreFFI.Route(mapboxRoute: route)
-    if let simulatedLocationProvider = Env.current.locationProvider as? SimulatedLocationProvider {
+    self.stopNavigation = stopNavigation
+    self.styleURL = AppConfig().tileserverStyleUrl
+
+    // TODO
+    let travelMode: TravelMode = .bike
+    // TODO
+    let measurementSystem: MeasurementSystem = .metric
+
+    if Env.current.simulateLocationForTesting {
+      let simulatedLocationProvider = SimulatedLocationProvider(
+        coordinate: route.coordinates!.first!)
       simulatedLocationProvider.warpFactor = 4
       try! simulatedLocationProvider.setSimulatedRoute(self.route)
       simulatedLocationProvider.startUpdating()
+      self.locationProvider = simulatedLocationProvider
+    } else {
+      let coreLocationProvider = Env.current.coreLocationProvider
+      let newActivityType: CLActivityType =
+        switch travelMode {
+        case .car:
+          .automotiveNavigation
+        default:
+          .otherNavigation
+        }
+      if newActivityType != coreLocationProvider.activityType {
+        coreLocationProvider.activityType = newActivityType
+      }
+      self.locationProvider = coreLocationProvider
     }
-    // TODO: revisit initialLocation - what is it actually? If I can infer it from route, maybe the param should be removed and inferred interneally rather than externally
-    //    self.initialLocation =  CLLocation(coordinate: route.coordinates!.first!)
-    self.stopNavigation = stopNavigation
-    self.styleURL = AppConfig().tileserverStyleUrl
-    self.locationProvider = locationProvider ?? Env.current.locationProvider
-    self.ferrostarCore = ferrostarCore ?? Env.current.ferrostarCore
 
-    let initialCoordinate: CLLocationCoordinate2D = route.coordinates!.first!
-    self.camera = .center(initialCoordinate, zoom: 14)
+    // TODO: remove as!
+    let routeProvider = TripPlanClientFerrostarAdapter(
+      tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
+      travelMode: travelMode, measurementSystem: measurementSystem)
+    // Configure the navigation session.
+    // You have a lot of flexibility here based on your use case.
+    let config = SwiftNavigationControllerConfig(
+      stepAdvance: .relativeLineStringDistance(
+        minimumHorizontalAccuracy: 32, automaticAdvanceDistance: 10),
+      routeDeviationTracking: .staticThreshold(
+        minimumHorizontalAccuracy: 25, maxAcceptableDeviation: 20)
+    )
+    self.ferrostarCore = FerrostarCore(
+      customRouteProvider: routeProvider, locationProvider: locationProvider,
+      navigationControllerConfig: config)
+
+      let currentCamera = Env.current.getMapCamera()!
+//      let zoom = log2(156543.03392 / currentCamera.altitude)
+      self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
   }
 
   var body: some View {
@@ -243,10 +275,7 @@ struct MENavigationView: View {
       }
     )
     return mapView.onAppear {
-      // TODO: waiting for simulated location to take effect.
-      DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-        try! Env.current.ferrostarCore.startNavigation(route: self.route)
-      }
+      try! ferrostarCore.startNavigation(route: self.route)
     }
   }
 }

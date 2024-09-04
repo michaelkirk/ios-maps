@@ -97,6 +97,8 @@ struct HomeView: View {
         self.userLocationManager.state = .denied
       case .authorizedAlways, .authorizedWhenInUse:
         self.userLocationManager.state = .showing
+        // TODO: on change? Consolidate location managers?
+        Env.current.coreLocationProvider.startUpdating()
       @unknown default:
         break
       }
