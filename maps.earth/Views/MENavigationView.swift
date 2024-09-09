@@ -256,8 +256,10 @@ struct MENavigationView: View {
   }
 
   var body: some View {
-    var mapView = DynamicallyOrientingNavigationView(
+    let mapView = DynamicallyOrientingNavigationView(
       styleURL: styleURL,
+      // I'm not sure why this is a binding exactly, since we soon override it in onStyleLoaded.
+      // I guess so that we can transition to/from the navigation mode?
       camera: $camera,
       navigationState: ferrostarCore.state,
       destinationName: self.destination.name,
