@@ -263,6 +263,9 @@ struct MENavigationView: View {
       camera: $camera,
       navigationState: ferrostarCore.state,
       destinationName: self.destination.name,
+      onStyleLoaded: { style in
+        add3DBuildingsLayer(style: style)
+      },
       onTapExit: { stopNavigation() },
       makeMapContent: {
         let source = ShapeSource(identifier: "userLocation") {

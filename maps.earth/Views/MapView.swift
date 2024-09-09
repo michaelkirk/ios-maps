@@ -126,12 +126,7 @@ struct MapView {
   @EnvironmentObject var userLocationManager: UserLocationManager
 }
 
-func add3DBuildingsLayer(mapView: MLNMapView) {
-  guard let style = mapView.style else {
-    assertionFailure("mapView.style was unexpectedly nil")
-    return
-  }
-
+func add3DBuildingsLayer(style: MLNStyle) {
   assert(style.layers.first { $0.identifier == "subtle_3d_buildings" } == nil)
 
   guard let source = style.openMapTilesSource else {
@@ -533,7 +528,7 @@ extension MapView: UIViewRepresentable {
 
 extension MapView.Coordinator: MLNMapViewDelegate {
   func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
-    add3DBuildingsLayer(mapView: mapView)
+    add3DBuildingsLayer(style: style)
   }
 
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
