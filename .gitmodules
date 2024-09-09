@@ -4,3 +4,6 @@
 [submodule "DevDependencies/maplibre-navigation-ios"]
 	path = DevDependencies/maplibre-navigation-ios
 	url = https://github.com/maplibre/maplibre-navigation-ios
+[submodule "DevDependencies/ferrostar"]
+	path = DevDependencies/ferrostar
+	url = https://github.com/michaelkirk/ferrostar
