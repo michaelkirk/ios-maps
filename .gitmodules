@@ -7,3 +7,6 @@
 [submodule "DevDependencies/ferrostar"]
 	path = DevDependencies/ferrostar
 	url = https://github.com/michaelkirk/ferrostar
+[submodule "DevDependencies/maplibre-swiftui-dsl-playground"]
+	path = DevDependencies/maplibre-swiftui-dsl-playground
+	url = https://github.com/stadiamaps/maplibre-swiftui-dsl-playground
