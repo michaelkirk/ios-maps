@@ -163,8 +163,12 @@ extension FerrostarCoreFFI.RouteStep {
 
 extension FerrostarCoreFFI.Route {
   init(mapboxRoute route: MapboxDirections.Route) {
-    let waypoints = route.legs.map { $0.source }.map {
+
+    var waypoints = route.legs.map { $0.source }.map {
       FerrostarCoreFFI.Waypoint(mapboxWaypoint: $0)
+    }
+    if let destination = route.legs.last?.destination {
+      waypoints.append(FerrostarCoreFFI.Waypoint(mapboxWaypoint: destination))
     }
 
     let geometry: [GeographicCoordinate] = route.coordinates!.map {
