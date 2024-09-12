@@ -14,6 +14,7 @@ import MapLibreSwiftDSL
 import MapLibreSwiftUI
 import MapboxDirections
 import SwiftUI
+import Turf
 
 extension FerrostarCoreFFI.Waypoint {
   init(mapboxWaypoint waypoint: MapboxDirections.Waypoint) {
@@ -219,7 +220,13 @@ struct MENavigationView: View {
       simulatedLocationProvider.warpFactor = 4
       try! simulatedLocationProvider.setSimulatedRoute(self.route)
       simulatedLocationProvider.startUpdating()
-      self.locationProvider = simulatedLocationProvider
+      let goOffTrack = true
+      if goOffTrack {
+        self.locationProvider = OffTrackSimulatedLocationProvider(
+          simulatedLocationProvider: simulatedLocationProvider)
+      } else {
+        self.locationProvider = simulatedLocationProvider
+      }
     } else {
       let coreLocationProvider = Env.current.coreLocationProvider
       let newActivityType: CLActivityType =
@@ -306,5 +313,48 @@ struct MENavigationView: View {
         try! ferrostarCore.startNavigation(route: self.route)
       }
     }
+  }
+}
+
+class OffTrackSimulatedLocationProvider: LocationProviding {
+  var simulatedLocationProvider: SimulatedLocationProvider
+
+  init(simulatedLocationProvider: SimulatedLocationProvider) {
+    self.simulatedLocationProvider = simulatedLocationProvider
+  }
+
+  var delegate: (any LocationManagingDelegate)? {
+    get {
+      simulatedLocationProvider.delegate
+    }
+    set {
+      simulatedLocationProvider.delegate = newValue
+    }
+  }
+
+  var authorizationStatus: CLAuthorizationStatus {
+    simulatedLocationProvider.authorizationStatus
+  }
+
+  var lastLocation: FerrostarCoreFFI.UserLocation? {
+    let offsetMeters: CGFloat = 100
+    let offsetDirection: CGFloat = 90
+    return simulatedLocationProvider.lastLocation.map { location in
+      let clCoord = location.clLocation.coordinate
+      let translated = clCoord.coordinate(at: offsetMeters, facing: offsetDirection)
+      return UserLocation(clCoordinateLocation2D: translated)
+    }
+  }
+
+  var lastHeading: FerrostarCoreFFI.Heading? {
+    simulatedLocationProvider.lastHeading
+  }
+
+  func startUpdating() {
+    simulatedLocationProvider.startUpdating()
+  }
+
+  func stopUpdating() {
+    simulatedLocationProvider.stopUpdating()
   }
 }
