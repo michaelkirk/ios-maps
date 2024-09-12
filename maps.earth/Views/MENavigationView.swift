@@ -296,7 +296,15 @@ struct MENavigationView: View {
         }
       })
     return mapView.onAppear {
-      try! ferrostarCore.startNavigation(route: self.route)
+      // last refuge of a scoundrel.
+      // Setting the camera pitch upon init, before the map is visible, is a no-op.
+      // Setting the camera pitch range seems to move the pitch part way.
+      // I'm not sure what exactly the threshold - after layout? or something else?
+      // Anyway, this terrible delay hack seems to work around the problem - the map
+      // is presented and has the appropriate pitch once navigationStarts.
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        try! ferrostarCore.startNavigation(route: self.route)
+      }
     }
   }
 }
