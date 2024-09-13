@@ -345,12 +345,17 @@ class OffTrackSimulatedLocationProvider: LocationProviding {
   }
 
   var lastLocation: FerrostarCoreFFI.UserLocation? {
-    let offsetMeters: CGFloat = 100
-    let offsetDirection: CGFloat = 90
-    return simulatedLocationProvider.lastLocation.map { location in
-      let clCoord = location.clLocation.coordinate
-      let translated = clCoord.coordinate(at: offsetMeters, facing: offsetDirection)
-      return UserLocation(clCoordinateLocation2D: translated)
+    let goOffTrack = false
+    if goOffTrack {
+      let offsetMeters: CGFloat = 100
+      let offsetDirection: CGFloat = 90
+      return simulatedLocationProvider.lastLocation.map { location in
+        let clCoord = location.clLocation.coordinate
+        let translated = clCoord.coordinate(at: offsetMeters, facing: offsetDirection)
+        return UserLocation(clCoordinateLocation2D: translated)
+      }
+    } else {
+      return simulatedLocationProvider.lastLocation
     }
   }
 
