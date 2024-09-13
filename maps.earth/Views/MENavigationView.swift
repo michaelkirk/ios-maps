@@ -313,9 +313,13 @@ struct MENavigationView: View {
       // I'm not sure what exactly the threshold - after layout? or something else?
       // Anyway, this terrible delay hack seems to work around the problem - the map
       // is presented and has the appropriate pitch once navigationStarts.
+      UIApplication.shared.isIdleTimerDisabled = true
+
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
         try! ferrostarCore.startNavigation(route: self.route)
       }
+    }.onDisappear {
+      UIApplication.shared.isIdleTimerDisabled = false
     }
   }
 }
