@@ -206,6 +206,7 @@ struct MENavigationView: View {
   @MainActor
   init(
     route: MapboxDirections.Route,
+    travelMode: TravelMode,
     stopNavigation: @escaping () -> Void
   ) {
     self.destination = route.legs.last!.destination
@@ -213,8 +214,6 @@ struct MENavigationView: View {
     self.stopNavigation = stopNavigation
     self.styleURL = AppConfig().tileserverStyleUrl
 
-    // TODO
-    let travelMode: TravelMode = .bike
     // TODO
     let measurementSystem: MeasurementSystem = .metric
 

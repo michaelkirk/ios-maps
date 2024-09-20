@@ -184,6 +184,7 @@ struct TripPlanView: View {
       if case let .success(route) = self.tripPlan.selectedRoute {
         MENavigationView(
           route: route,
+          travelMode: tripPlan.mode,
           stopNavigation: { tripPlan.selectedRoute = nil }
         )
       } else {
