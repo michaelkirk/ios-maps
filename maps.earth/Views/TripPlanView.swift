@@ -185,6 +185,7 @@ struct TripPlanView: View {
         MENavigationView(
           route: route,
           travelMode: tripPlan.mode,
+          measurementSystem: searcher.measurementSystem,
           stopNavigation: { tripPlan.selectedRoute = nil }
         )
       } else {
@@ -235,9 +236,13 @@ struct TripSearchManager {
     Env.current.tripPlanClient
   }
 
-  var distanceMeasurementSystem: Locale.MeasurementSystem {
+  var measurementSystem: MapboxDirections.MeasurementSystem {
     // This matches the logic in MapboxDirections.DirectionsOptions.distanceMeasurementSystem
-    Locale.autoupdatingCurrent.measurementSystem
+    if Locale.autoupdatingCurrent.measurementSystem == .metric {
+      .metric
+    } else {
+      .imperial
+    }
   }
 
   var pendingQueries: [TripQuery] = []
@@ -248,13 +253,6 @@ struct TripSearchManager {
   ) async throws
     -> Result<[Trip], TripPlanError>
   {
-    let measurementSystem: MeasurementSystem
-    if self.distanceMeasurementSystem == .metric {
-      measurementSystem = .metric
-    } else {
-      measurementSystem = .imperial
-    }
-
     var modes = [mode]
     if mode == .transit && transitWithBike {
       modes.append(.bike)

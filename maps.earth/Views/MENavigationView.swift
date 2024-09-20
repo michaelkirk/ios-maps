@@ -207,15 +207,13 @@ struct MENavigationView: View {
   init(
     route: MapboxDirections.Route,
     travelMode: TravelMode,
+    measurementSystem: MeasurementSystem,
     stopNavigation: @escaping () -> Void
   ) {
     self.destination = route.legs.last!.destination
     self.route = FerrostarCoreFFI.Route(mapboxRoute: route)
     self.stopNavigation = stopNavigation
     self.styleURL = AppConfig().tileserverStyleUrl
-
-    // TODO
-    let measurementSystem: MeasurementSystem = .metric
 
     if Env.current.simulateLocationForTesting {
       let simulatedLocationProvider = SimulatedLocationProvider(
