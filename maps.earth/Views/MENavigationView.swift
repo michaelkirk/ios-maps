@@ -249,18 +249,29 @@ struct MENavigationView: View {
     // TODO: remove as!
     let routeProvider = TripPlanClientFerrostarAdapter(
       tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
-      travelMode: travelMode, measurementSystem: measurementSystem)
+      travelMode: travelMode,
+      measurementSystem: measurementSystem
+    )
+
     // Configure the navigation session.
     // You have a lot of flexibility here based on your use case.
     let config = SwiftNavigationControllerConfig(
       stepAdvance: .relativeLineStringDistance(
-        minimumHorizontalAccuracy: 32, automaticAdvanceDistance: 10),
+        minimumHorizontalAccuracy: 32,
+        automaticAdvanceDistance: 10
+      ),
       routeDeviationTracking: .staticThreshold(
-        minimumHorizontalAccuracy: 25, maxAcceptableDeviation: 20)
+        minimumHorizontalAccuracy: 25,
+        maxAcceptableDeviation: 20
+      ),
+      snappedLocationCourseFiltering: .snapToRoute
     )
+
     self.ferrostarCore = FerrostarCore(
-      customRouteProvider: routeProvider, locationProvider: locationProvider,
-      navigationControllerConfig: config)
+      customRouteProvider: routeProvider,
+      locationProvider: locationProvider,
+      navigationControllerConfig: config
+    )
 
     let currentCamera = Env.current.getMapCamera()!
     self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
