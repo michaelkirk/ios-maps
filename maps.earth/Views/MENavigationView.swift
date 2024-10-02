@@ -157,7 +157,8 @@ extension FerrostarCoreFFI.RouteStep {
     self.init(
       geometry: geometry, distance: routeStep.distance, duration: routeStep.expectedTravelTime,
       roadName: routeStep.names?.first, instruction: routeStep.instructions,
-      visualInstructions: visualInstructions, spokenInstructions: spokenInstructions)
+      visualInstructions: visualInstructions, spokenInstructions: spokenInstructions,
+      annotations: [])
   }
 }
 
