@@ -81,7 +81,7 @@ extension MENavigationViewController.Coordinator: NavigationViewControllerDelega
   func navigationViewController(
     _ navigationViewController: NavigationViewController, didFinishLoading style: MLNStyle
   ) {
-    add3DBuildingsLayer(mapView: navigationViewController.mapView)
+    add3DBuildingsLayer(style: style)
   }
 
   @objc func navigationViewControllerDidFinishRouting(

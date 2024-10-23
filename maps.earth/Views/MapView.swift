@@ -126,12 +126,7 @@ struct MapView {
   @EnvironmentObject var userLocationManager: UserLocationManager
 }
 
-func add3DBuildingsLayer(mapView: MLNMapView) {
-  guard let style = mapView.style else {
-    assertionFailure("mapView.style was unexpectedly nil")
-    return
-  }
-
+func add3DBuildingsLayer(style: MLNStyle) {
   assert(style.layers.first { $0.identifier == "subtle_3d_buildings" } == nil)
 
   guard let source = style.openMapTilesSource else {
@@ -389,24 +384,7 @@ extension MapView: UIViewRepresentable {
       mapView: MLNMapView, bounds: MLNCoordinateBounds, bufferMeters: Float64,
       animated isAnimated: Bool
     ) {
-      func extend(bounds: MLNCoordinateBounds, bufferMeters: Float64) -> MLNCoordinateBounds {
-        let earthRadius = 6378137.0  // Earth's radius in meters
-        let deltaLatitude = bufferMeters / earthRadius
-
-        let deltaMinLongitude = bufferMeters / (earthRadius * cos(.pi * bounds.sw.latitude / 180))
-        let minLatitude = bounds.sw.latitude - deltaLatitude * (180 / .pi)
-        let minLongitude = bounds.sw.longitude - deltaMinLongitude * (180 / .pi)
-
-        let deltaMaxLongitude = bufferMeters / (earthRadius * cos(.pi * bounds.ne.latitude / 180))
-        let maxLongitude = bounds.ne.longitude + deltaMaxLongitude * (180 / .pi)
-        let maxLatitude = bounds.ne.latitude + deltaLatitude * (180 / .pi)
-
-        let sw = CLLocationCoordinate2D(latitude: minLatitude, longitude: minLongitude)
-        let ne = CLLocationCoordinate2D(latitude: maxLatitude, longitude: maxLongitude)
-        return MLNCoordinateBounds(sw: sw, ne: ne)
-      }
-
-      let bufferedBounds = extend(bounds: bounds, bufferMeters: bufferMeters)
+      let bufferedBounds = bounds.extend(bufferMeters: bufferMeters)
 
       let inset: CGFloat = 30
       let extraBottomInset: CGFloat = 20
@@ -550,7 +528,7 @@ extension MapView: UIViewRepresentable {
 
 extension MapView.Coordinator: MLNMapViewDelegate {
   func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
-    add3DBuildingsLayer(mapView: mapView)
+    add3DBuildingsLayer(style: style)
   }
 
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {

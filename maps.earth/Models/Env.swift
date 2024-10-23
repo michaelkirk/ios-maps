@@ -5,6 +5,7 @@
 //  Created by Michael Kirk on 3/14/24.
 //
 
+import FerrostarCore
 import Foundation
 import MapLibre
 import MapboxDirections
@@ -30,6 +31,8 @@ class Env {
     accessToken: "fake-token", host: AppConfig().valhallaEndpoint.host())
 
   let simulateLocationForTesting: Bool
+  lazy var coreLocationProvider: CoreLocationProvider = CoreLocationProvider(
+    activityType: .other, allowBackgroundLocationUpdates: false)
 
   @MainActor
   init() {

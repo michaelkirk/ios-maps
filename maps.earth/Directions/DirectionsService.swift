@@ -196,9 +196,10 @@ class TravelmuxNavigationRouteOptions: NavigationRouteOptions {
     let from = LngLat(coord: self.waypoints[0].coordinate)
     let to = LngLat(coord: self.waypoints[1].coordinate)
 
-    let params = TripPlanClient.RealClient.queryParams(
-      from: from, to: to, modes: self.modes, measurementSystem: self.distanceMeasurementSystem)
-    return params
+    let params = TripPlanClient.RealClient.QueryParams(
+      from: from, to: to, modes: self.modes, measurementSystem: self.distanceMeasurementSystem,
+      tripDate: .departNow)
+    return params.asQueryItems
   }
 
   override func copy(with zone: NSZone? = nil) -> Any {
