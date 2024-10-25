@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "maplibre-navigation-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/maplibre/maplibre-navigation-ios",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f91faffa1aa03be16fc588dc5076b7811d1c5166"
+      }
+    },
+    {
       "identity" : "maplibre-swift-macros",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stadiamaps/maplibre-swift-macros.git",
@@ -79,15 +88,6 @@
       "state" : {
         "revision" : "64889f0c732f210a935a0ad7cda38f77f876262d",
         "version" : "509.1.1"
-      }
-    },
-    {
-      "identity" : "swiftformat",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nicklockwood/SwiftFormat.git",
-      "state" : {
-        "revision" : "05cb325003a673b3d177c711b3bc909cfee07622",
-        "version" : "0.53.9"
       }
     },
     {

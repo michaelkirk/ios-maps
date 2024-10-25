@@ -168,7 +168,6 @@
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceField.swift; sourceTree = "<group>"; };
 		45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiModalTripDetails.swift; sourceTree = "<group>"; };
-		45D6B1142BF2D4E10052D400 /* maplibre-navigation-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "maplibre-navigation-ios"; sourceTree = "<group>"; };
 		45DD17112BE2E2170085D2B1 /* LabeledCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledCheckbox.swift; sourceTree = "<group>"; };
 		45DD17132BE598260085D2B1 /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
 		45DFFD5E2BED949E00C27041 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -414,7 +413,6 @@
 			isa = PBXGroup;
 			children = (
 				45F151532C87C90C003D6F24 /* ferrostar */,
-				45D6B1142BF2D4E10052D400 /* maplibre-navigation-ios */,
 				45E456982BED96C200D95DFD /* mapbox-directions-swift */,
 				45DFFD5E2BED949E00C27041 /* README.md */,
 			);

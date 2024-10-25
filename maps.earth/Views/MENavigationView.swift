@@ -129,7 +129,7 @@ extension FerrostarCoreFFI.VisualInstruction {
       FerrostarCoreFFI.VisualInstructionContent(mapboxVisualInstruction: secondaryInstruction)
     }
 
-    // TODO:
+    // TODO: Integrate a reasonable default upstream
     let triggerDistanceBeforeManeuver: Double = 100
 
     self.init(
@@ -153,7 +153,6 @@ extension FerrostarCoreFFI.RouteStep {
     // TODO
     let spokenInstructions: [FerrostarCoreFFI.SpokenInstruction] = []
 
-    // REVIEW: roadName - is it *this* road or the next road?
     self.init(
       geometry: geometry, distance: routeStep.distance, duration: routeStep.expectedTravelTime,
       roadName: routeStep.names?.first, instruction: routeStep.instructions,
