@@ -120,6 +120,7 @@ struct TripPlanView: View {
   var searcher = TripSearchManager()
   @State var showSteps: Bool
   @State var tripDate: TripDateMode = .departNow
+  var didCompleteTrip: () -> Void
 
   var body: some View {
     let showRouteSheet = Binding(
@@ -186,7 +187,15 @@ struct TripPlanView: View {
           route: route,
           travelMode: tripPlan.mode,
           measurementSystem: searcher.measurementSystem,
-          stopNavigation: { tripPlan.selectedRoute = nil }
+          stopNavigation: { didComplete in
+            tripPlan.selectedRoute = nil
+            if didComplete {
+              self.tripPlan.selectedTrip = nil
+              self.tripPlan.navigateTo = nil
+              self.tripPlan.navigateFrom = nil
+              self.didCompleteTrip()
+            }
+          }
         )
       } else {
         let _ = assertionFailure("showing route sheet without a successful route.")
@@ -266,6 +275,7 @@ struct TripSearchManager {
 struct TripPlanSheetContents: View {
   @ObservedObject var tripPlan: TripPlan
   @State var showSteps: Bool = false
+  var didCompleteTrip: () -> Void
 
   var body: some View {
     SheetContents(
@@ -273,7 +283,7 @@ struct TripPlanSheetContents: View {
     ) {
       GeometryReader { geometry in
         ScrollView {
-          TripPlanView(tripPlan: tripPlan, showSteps: showSteps)
+          TripPlanView(tripPlan: tripPlan, showSteps: showSteps, didCompleteTrip: didCompleteTrip)
             .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             .frame(minHeight: geometry.size.height)
         }
@@ -285,14 +295,14 @@ struct TripPlanSheetContents: View {
 #Preview("Walk Trips") {
   let tripPlan = FixtureData.walkTripPlan
   return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan)
+    TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
 }
 
 #Preview("Transit Trips") {
   let tripPlan = FixtureData.transitTripPlan
   return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan)
+    TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
 }
 
@@ -301,27 +311,27 @@ struct TripPlanSheetContents: View {
   let tripPlan = FixtureData.tripPlan
   tripPlan.trips = .failure(FixtureData.bikeTripError)
   return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan)
+    TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
 }
 
 #Preview("Steps") {
   let tripPlan = FixtureData.tripPlan
   return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan, showSteps: true)
+    TripPlanSheetContents(tripPlan: tripPlan, showSteps: true, didCompleteTrip: {})
   }
 }
 
 #Preview("Only 'to' selected") {
   let tripPlan = TripPlan(to: FixtureData.places[.zeitgeist])
   return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan)
+    TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
 }
 
 #Preview("Only 'from' selected") {
   let tripPlan = TripPlan(from: FixtureData.places[.dubsea])
   return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan)
+    TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
 }

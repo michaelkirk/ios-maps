@@ -30,7 +30,8 @@ struct FrontPageSearch: View {
     ).sheet(item: $selectedPlace) { place in
       PlaceDetailSheet(
         place: place, tripPlan: tripPlan, presentationDetent: $placeDetailsDetent,
-        onClose: { selectedPlace = nil }
+        onClose: { selectedPlace = nil },
+        didCompleteTrip: { didDismissSearch() }  // better name for didDismissSearch
       )
       // This is arguably useful.
       // Usually I just want to swipe down to get a better look at the map without closing out
