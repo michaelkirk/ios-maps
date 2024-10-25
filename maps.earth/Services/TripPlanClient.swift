@@ -5,6 +5,8 @@
 //  Created by Michael Kirk on 3/5/24.
 //
 
+import FerrostarCore
+import FerrostarCoreFFI
 import Foundation
 import MapboxDirections
 
@@ -368,38 +370,67 @@ struct TripPlanMockClient: TripPlanClient {
 struct TripPlanNetworkClient: TripPlanClient {
   let config = AppConfig()
 
-  static var dateFormatter: DateFormatter = {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "YYYY-MM-dd"
-    return dateFormatter
-  }()
+  struct QueryParams {
+    static var timeFormatter: DateFormatter = {
+      let timeFormatter = DateFormatter()
+      timeFormatter.dateFormat = "HH:mm"
+      return timeFormatter
+    }()
 
-  static var timeFormatter: DateFormatter = {
-    let timeFormatter = DateFormatter()
-    timeFormatter.dateFormat = "HH:mm"
-    return timeFormatter
-  }()
+    static var dateFormatter: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "YYYY-MM-dd"
+      return dateFormatter
+    }()
 
-  static func queryParams(
-    from: LngLat, to: LngLat, modes: [TravelMode], measurementSystem: MeasurementSystem
-  )
-    -> [URLQueryItem]
-  {
-    assert(!modes.isEmpty)
+    var from: LngLat
+    var to: LngLat
+    var modes: [TravelMode]
+    var measurementSystem: MeasurementSystem
+    var tripDate: TripDateMode
 
-    let preferredDistanceUnits =
-      switch measurementSystem {
-      case .metric: "kilometers"
-      case .imperial: "miles"
+    var asQueryItems: [URLQueryItem] {
+      assert(!modes.isEmpty)
+
+      let preferredDistanceUnits =
+        switch measurementSystem {
+        case .metric: "kilometers"
+        case .imperial: "miles"
+        }
+
+      var queryItems = [
+        URLQueryItem(name: "fromPlace", value: "\(from.lat),\(from.lng)"),
+        URLQueryItem(name: "toPlace", value: "\(to.lat),\(to.lng)"),
+        URLQueryItem(name: "numItineraries", value: "5"),
+        URLQueryItem(name: "mode", value: modes.map { $0.rawValue }.joined(separator: ",")),
+        URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
+      ]
+
+      if modes[0] == .transit {
+        switch tripDate {
+        case .departNow:
+          break
+        case .departAt(let date):
+          // time=16%3A50&date=2024-04-24
+          let time = Self.timeFormatter.string(from: date)
+          queryItems.append(URLQueryItem(name: "time", value: time))
+
+          let date = Self.dateFormatter.string(from: date)
+          queryItems.append(URLQueryItem(name: "date", value: date))
+        case .arriveBy(let date):
+          // time=16%3A50&date=2024-04-24&arriveBy=true
+          let time = Self.timeFormatter.string(from: date)
+          queryItems.append(URLQueryItem(name: "time", value: time))
+
+          let date = Self.dateFormatter.string(from: date)
+          queryItems.append(URLQueryItem(name: "date", value: date))
+
+          queryItems.append(URLQueryItem(name: "arriveBy", value: "true"))
+        }
       }
 
-    return [
-      URLQueryItem(name: "fromPlace", value: "\(from.lat),\(from.lng)"),
-      URLQueryItem(name: "toPlace", value: "\(to.lat),\(to.lng)"),
-      URLQueryItem(name: "numItineraries", value: "5"),
-      URLQueryItem(name: "mode", value: modes.map { $0.rawValue }.joined(separator: ",")),
-      URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
-    ]
+      return queryItems
+    }
   }
 
   func query(
@@ -410,36 +441,14 @@ struct TripPlanNetworkClient: TripPlanClient {
       [Trip], TripPlanError
     >
   {
+    let params = Self.QueryParams(
+      from: from.location, to: to.location, modes: modes, measurementSystem: measurementSystem,
+      tripDate: tripDate)
+
     // URL: https://maps.earth/travelmux/v2/plan?fromPlace=47.575837%2C-122.339414&toPlace=47.622687%2C-122.312892&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
     var url = config.travelmuxEndpoint
+    url.append(queryItems: params.asQueryItems)
 
-    var params = Self.queryParams(
-      from: from.location, to: to.location, modes: modes, measurementSystem: measurementSystem)
-
-    if modes[0] == .transit {
-      switch tripDate {
-      case .departNow:
-        break
-      case .departAt(let date):
-        // time=16%3A50&date=2024-04-24
-        let time = Self.timeFormatter.string(from: date)
-        params.append(URLQueryItem(name: "time", value: time))
-
-        let date = Self.dateFormatter.string(from: date)
-        params.append(URLQueryItem(name: "date", value: date))
-      case .arriveBy(let date):
-        // time=16%3A50&date=2024-04-24&arriveBy=true
-        let time = Self.timeFormatter.string(from: date)
-        params.append(URLQueryItem(name: "time", value: time))
-
-        let date = Self.dateFormatter.string(from: date)
-        params.append(URLQueryItem(name: "date", value: date))
-
-        params.append(URLQueryItem(name: "arriveBy", value: "true"))
-      }
-    }
-
-    url.append(queryItems: params)
     print("travelmux assembled url: \(url)")
 
     let result: Result<[Trip], TripPlanErrorResponse> = try await fetchData(from: url).map {
@@ -451,7 +460,7 @@ struct TripPlanNetworkClient: TripPlanClient {
     return result.mapError { $0.error }
   }
 
-  private func fetchData<T: Decodable, E: Decodable>(from url: URL) async throws -> Result<T, E> {
+  internal func fetchData<T: Decodable, E: Decodable>(from url: URL) async throws -> Result<T, E> {
     let (data, response) = try await URLSession.shared.data(from: url)
 
     guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -461,5 +470,35 @@ struct TripPlanNetworkClient: TripPlanClient {
 
     let decodedResponse = try JSONDecoder().decode(T.self, from: data)
     return .success(decodedResponse)
+  }
+}
+
+struct TripPlanClientFerrostarAdapter {
+  let tripPlanNetworkClient: TripPlanNetworkClient
+  let travelMode: TravelMode
+  let measurementSystem: MeasurementSystem
+}
+
+extension TripPlanClientFerrostarAdapter: CustomRouteProvider {
+  func getRoutes(
+    userLocation: FerrostarCoreFFI.UserLocation, waypoints: [FerrostarCoreFFI.Waypoint]
+  ) async throws -> [FerrostarCoreFFI.Route] {
+    guard let toWaypoint = waypoints.last else {
+      fatalError("TODO: handle missing waypoint gracefully")
+    }
+    assert(waypoints.count == 1, "only 1 waypoint is supported")
+    // TODO: handle destinationName
+    let to = Place(location: toWaypoint.coordinate.lngLat.asCLLocation)
+    let from = Place(currentLocation: userLocation.clLocation)
+
+    let routes = try await DirectionsService().routes(
+      from: from, to: to, mode: self.travelMode, transitWithBike: false)
+    return routes.map { FerrostarCoreFFI.Route(mapboxRoute: $0) }
+  }
+}
+
+extension GeographicCoordinate {
+  var lngLat: LngLat {
+    LngLat(lng: self.lng, lat: self.lat)
   }
 }

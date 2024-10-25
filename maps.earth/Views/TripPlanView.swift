@@ -5,9 +5,94 @@
 //  Created by Michael Kirk on 2/15/24.
 //
 
+import CoreLocation
 import Foundation
 import MapboxDirections
 import SwiftUI
+
+struct ModePicker: View {
+  @Binding var selectedMode: TravelMode
+
+  var body: some View {
+    HStack(spacing: 20) {
+      ModeButton(mode: .transit, selectedMode: $selectedMode)
+      ModeButton(mode: .car, selectedMode: $selectedMode)
+      ModeButton(mode: .bike, selectedMode: $selectedMode)
+      ModeButton(mode: .walk, selectedMode: $selectedMode)
+    }
+  }
+}
+
+struct OriginDestinationFieldSet: View {
+  @Binding var navigateFrom: Place?
+  @Binding var navigateTo: Place?
+  var body: some View {
+    VStack {
+      PlaceField(header: "From", place: $navigateFrom)
+      Divider().padding(.bottom, 4)
+      PlaceField(header: "To", place: $navigateTo)
+    }
+    .padding(.top, 10)
+    .padding(.bottom, 10)
+    .background(Color.hw_lightGray)
+    .cornerRadius(8)
+  }
+}
+
+struct TransitFilters: View {
+  @State var showTimePicker: Bool = false
+  @Binding var tripDate: TripDateMode
+  @Binding var transitWithBike: Bool
+
+  var body: some View {
+    HStack(spacing: 16) {
+      Button(action: { showTimePicker = true }) {
+        switch tripDate {
+        case .departNow:
+          Text("Leave now")
+        case .departAt(let date):
+          Text("Leave at \(formatRelativeDate(date))")
+        case .arriveBy(let date):
+          Text("Arrive by \(formatRelativeDate(date))")
+        }
+        Image(systemName: "chevron.down").imageScale(.small)
+          .padding(.top, 3)
+      }
+      .foregroundColor(.black)
+      .padding(.horizontal, 8)
+      .padding(.vertical, 4)
+      .roundedBorder(.black, cornerRadius: 8)
+      .sheet(isPresented: $showTimePicker) {
+        SheetContentsWithoutTitle(currentDetent: .constant(.medium)) {
+          VStack {
+            TripDatePicker(mode: $tripDate)
+            HStack(spacing: 60) {
+              Button(
+                "Cancel",
+                action: {
+                  // maybe we should restore to previous value rather than always reset to now
+                  tripDate = .departNow
+                  showTimePicker = false
+                }
+              ).foregroundColor(.black)
+              Button("Done", action: { showTimePicker = false })
+            }.font(.title3)
+          }.padding()
+        }
+      }
+
+      LabeledCheckbox(isChecked: $transitWithBike) {
+        HStack(spacing: 2) {
+          Text("🚲").padding(.top, -6)  // bike baseline is super low for some reason
+          Text("Bring a bike")
+        }
+      }
+      .padding(.horizontal, 8)
+      .padding(.vertical, 4)
+      .roundedBorder(.black, cornerRadius: 8)
+    }
+  }
+}
 
 struct ModeButton: View {
   let mode: TravelMode
@@ -33,9 +118,7 @@ struct ModeButton: View {
 struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
   var searcher = TripSearchManager()
-
   @State var showSteps: Bool
-  @State var showTimePicker: Bool = false
   @State var tripDate: TripDateMode = .departNow
 
   var body: some View {
@@ -53,75 +136,17 @@ struct TripPlanView: View {
     )
 
     return VStack(alignment: .leading) {
-      HStack(spacing: 20) {
-        // Disable transit for now
-        ModeButton(mode: .transit, selectedMode: $tripPlan.mode)
-        ModeButton(mode: .car, selectedMode: $tripPlan.mode)
-        ModeButton(mode: .bike, selectedMode: $tripPlan.mode)
-        ModeButton(mode: .walk, selectedMode: $tripPlan.mode)
-      }.onChange(of: tripPlan.mode) { newValue in
+      ModePicker(selectedMode: $tripPlan.mode).onChange(of: tripPlan.mode) { newValue in
         // clear trips for previous mode
         tripPlan.selectedTrip = nil
         tripPlan.trips = .success([])
       }
 
-      VStack {
-        PlaceField(header: "From", place: $tripPlan.navigateFrom)
-        Divider().padding(.bottom, 4)
-        PlaceField(header: "To", place: $tripPlan.navigateTo)
-      }
-      .padding(.top, 10)
-      .padding(.bottom, 10)
-      .background(Color.hw_lightGray)
-      .cornerRadius(8)
+      OriginDestinationFieldSet(
+        navigateFrom: $tripPlan.navigateFrom, navigateTo: $tripPlan.navigateTo)
 
       if tripPlan.mode == .transit {
-        HStack(spacing: 16) {
-          Button(action: { showTimePicker = true }) {
-            switch tripDate {
-            case .departNow:
-              Text("Leave now")
-            case .departAt(let date):
-              Text("Leave at \(formatRelativeDate(date))")
-            case .arriveBy(let date):
-              Text("Arrive by \(formatRelativeDate(date))")
-            }
-            Image(systemName: "chevron.down").imageScale(.small)
-              .padding(.top, 3)
-          }
-          .foregroundColor(.black)
-          .padding(.horizontal, 8)
-          .padding(.vertical, 4)
-          .roundedBorder(.black, cornerRadius: 8)
-          .sheet(isPresented: $showTimePicker) {
-            SheetContentsWithoutTitle(currentDetent: .constant(.medium)) {
-              VStack {
-                TripDatePicker(mode: $tripDate)
-                HStack(spacing: 60) {
-                  Button(
-                    "Cancel",
-                    action: {
-                      // maybe we should restore to previous value rather than always reset to now
-                      tripDate = .departNow
-                      showTimePicker = false
-                    }
-                  ).foregroundColor(.black)
-                  Button("Done", action: { showTimePicker = false })
-                }.font(.title3)
-              }.padding()
-            }
-          }
-
-          LabeledCheckbox(isChecked: $tripPlan.transitWithBike) {
-            HStack(spacing: 2) {
-              Text("🚲").padding(.top, -6)  // bike baseline is super low for some reason
-              Text("Bring a bike")
-            }
-          }
-          .padding(.horizontal, 8)
-          .padding(.vertical, 4)
-          .roundedBorder(.black, cornerRadius: 8)
-        }
+        TransitFilters(tripDate: $tripDate, transitWithBike: $tripPlan.transitWithBike)
       }
 
       switch tripPlan.trips {
@@ -157,9 +182,12 @@ struct TripPlanView: View {
       self.tripPlan.selectedTrip = nil
     }.fullScreenCover(isPresented: showRouteSheet, onDismiss: { tripPlan.selectedRoute = nil }) {
       if case let .success(route) = self.tripPlan.selectedRoute {
-        MENavigationViewController(route: route, onDismiss: { tripPlan.selectedRoute = nil })
-          // Otherwise Navigation UI stops abruptly above the home button. It is very noticeable in night mode.
-          .ignoresSafeArea()
+        MENavigationView(
+          route: route,
+          travelMode: tripPlan.mode,
+          measurementSystem: searcher.measurementSystem,
+          stopNavigation: { tripPlan.selectedRoute = nil }
+        )
       } else {
         let _ = assertionFailure("showing route sheet without a successful route.")
       }
@@ -208,9 +236,13 @@ struct TripSearchManager {
     Env.current.tripPlanClient
   }
 
-  var distanceMeasurementSystem: Locale.MeasurementSystem {
+  var measurementSystem: MapboxDirections.MeasurementSystem {
     // This matches the logic in MapboxDirections.DirectionsOptions.distanceMeasurementSystem
-    Locale.autoupdatingCurrent.measurementSystem
+    if Locale.autoupdatingCurrent.measurementSystem == .metric {
+      .metric
+    } else {
+      .imperial
+    }
   }
 
   var pendingQueries: [TripQuery] = []
@@ -221,13 +253,6 @@ struct TripSearchManager {
   ) async throws
     -> Result<[Trip], TripPlanError>
   {
-    let measurementSystem: MeasurementSystem
-    if self.distanceMeasurementSystem == .metric {
-      measurementSystem = .metric
-    } else {
-      measurementSystem = .imperial
-    }
-
     var modes = [mode]
     if mode == .transit && transitWithBike {
       modes.append(.bike)

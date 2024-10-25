@@ -34,6 +34,10 @@
 		4563BA042B687AA5005A677A /* maps_earthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563BA032B687AA5005A677A /* maps_earthTests.swift */; };
 		4563BA0E2B687AA5005A677A /* maps_earthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563BA0D2B687AA5005A677A /* maps_earthUITests.swift */; };
 		4563BA102B687AA5005A677A /* maps_earthUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4563BA0F2B687AA5005A677A /* maps_earthUITestsLaunchTests.swift */; };
+		456A19DB2C825AA300E7E7EA /* FerrostarCore in Frameworks */ = {isa = PBXBuildFile; productRef = 456A19DA2C825AA300E7E7EA /* FerrostarCore */; };
+		456A19DD2C825AA300E7E7EA /* FerrostarMapLibreUI in Frameworks */ = {isa = PBXBuildFile; productRef = 456A19DC2C825AA300E7E7EA /* FerrostarMapLibreUI */; };
+		456A19DF2C825AA300E7E7EA /* FerrostarSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 456A19DE2C825AA300E7E7EA /* FerrostarSwiftUI */; };
+		456A19E12C825C9900E7E7EA /* MENavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456A19E02C825C9900E7E7EA /* MENavigationView.swift */; };
 		456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */; };
 		456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */; };
 		456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */; };
@@ -61,6 +65,7 @@
 		45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */; };
 		45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B502B9B5B4300A64AEE /* TripPlan.swift */; };
 		45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* MarkerViews.swift */; };
+		45A33C792C8919E9007FB635 /* MLNBounds+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */; };
 		45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BC2C0FC005007145CE /* UniversalLink.swift */; };
 		45BB39BF2C0FC0DC007145CE /* UniversalLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
@@ -127,6 +132,7 @@
 		4563BA092B687AA5005A677A /* maps.earthUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = maps.earthUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563BA0D2B687AA5005A677A /* maps_earthUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthUITests.swift; sourceTree = "<group>"; };
 		4563BA0F2B687AA5005A677A /* maps_earthUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = maps_earthUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		456A19E02C825C9900E7E7EA /* MENavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MENavigationView.swift; sourceTree = "<group>"; };
 		456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceList.swift; sourceTree = "<group>"; };
 		456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetail.swift; sourceTree = "<group>"; };
 		456C6CF02B71BBD200AAFBE6 /* AddressFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormatter.swift; sourceTree = "<group>"; };
@@ -155,13 +161,13 @@
 		45992B502B9B5B4300A64AEE /* TripPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlan.swift; sourceTree = "<group>"; };
 		45992B542B9B651900A64AEE /* maps-earth-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "maps-earth-Info.plist"; sourceTree = SOURCE_ROOT; };
 		45992B552B9BC3BC00A64AEE /* MarkerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerViews.swift; sourceTree = "<group>"; };
+		45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MLNBounds+Extensions.swift"; sourceTree = "<group>"; };
 		45BB39BB2C0F8C6D007145CE /* maps.earth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = maps.earth.entitlements; sourceTree = "<group>"; };
 		45BB39BC2C0FC005007145CE /* UniversalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLink.swift; sourceTree = "<group>"; };
 		45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkTest.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceField.swift; sourceTree = "<group>"; };
 		45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiModalTripDetails.swift; sourceTree = "<group>"; };
-		45D6B1142BF2D4E10052D400 /* maplibre-navigation-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "maplibre-navigation-ios"; sourceTree = "<group>"; };
 		45DD17112BE2E2170085D2B1 /* LabeledCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledCheckbox.swift; sourceTree = "<group>"; };
 		45DD17132BE598260085D2B1 /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
 		45DFFD5E2BED949E00C27041 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -170,6 +176,7 @@
 		45E0C3B22C0017A900C6388C /* west_seattle_water_taxi_place.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = west_seattle_water_taxi_place.json; sourceTree = "<group>"; };
 		45E456982BED96C200D95DFD /* mapbox-directions-swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "mapbox-directions-swift"; sourceTree = "<group>"; };
 		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
+		45F151532C87C90C003D6F24 /* ferrostar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ferrostar; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		45F5ECC72BA011C9007A4657 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		45F5ECC92BA11046007A4657 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
@@ -183,7 +190,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				455363EE2B687D90006DF291 /* MapLibre in Frameworks */,
+				456A19DF2C825AA300E7E7EA /* FerrostarSwiftUI in Frameworks */,
 				45F8A6452BED720E00CA83B4 /* MapboxNavigation in Frameworks */,
+				456A19DD2C825AA300E7E7EA /* FerrostarMapLibreUI in Frameworks */,
+				456A19DB2C825AA300E7E7EA /* FerrostarCore in Frameworks */,
 				455CDFF42BAA5E4A00D72FF6 /* PhoneNumberKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +351,7 @@
 				4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */,
 				45DD17132BE598260085D2B1 /* PlaceSearch.swift */,
 				45E0C3AC2BFFD44B00C6388C /* TripList.swift */,
+				456A19E02C825C9900E7E7EA /* MENavigationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -357,6 +368,7 @@
 				45831E302BC8A3A1007E7AA4 /* MapContents.swift */,
 				45831E362BCDC8DB007E7AA4 /* SearchQueue.swift */,
 				45BB39BC2C0FC005007145CE /* UniversalLink.swift */,
+				45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -400,7 +412,7 @@
 		45DFFD5F2BED949E00C27041 /* DevDependencies */ = {
 			isa = PBXGroup;
 			children = (
-				45D6B1142BF2D4E10052D400 /* maplibre-navigation-ios */,
+				45F151532C87C90C003D6F24 /* ferrostar */,
 				45E456982BED96C200D95DFD /* mapbox-directions-swift */,
 				45DFFD5E2BED949E00C27041 /* README.md */,
 			);
@@ -436,6 +448,9 @@
 				455363ED2B687D90006DF291 /* MapLibre */,
 				455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */,
 				45F8A6442BED720E00CA83B4 /* MapboxNavigation */,
+				456A19DA2C825AA300E7E7EA /* FerrostarCore */,
+				456A19DC2C825AA300E7E7EA /* FerrostarMapLibreUI */,
+				456A19DE2C825AA300E7E7EA /* FerrostarSwiftUI */,
 			);
 			productName = maps.earth;
 			productReference = 4563B9EF2B687AA4005A677A /* maps.earth.app */;
@@ -513,6 +528,7 @@
 				455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 				4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 				45F8A6432BED709E00CA83B4 /* XCRemoteSwiftPackageReference "maplibre-navigation-ios" */,
+				456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */,
 			);
 			productRefGroup = 4563B9F02B687AA4005A677A /* Products */;
 			projectDirPath = "";
@@ -589,6 +605,7 @@
 				4545AA682BA373B500958306 /* Env.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
 				45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */,
+				456A19E12C825C9900E7E7EA /* MENavigationView.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
 				45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */,
@@ -604,6 +621,7 @@
 				45E0C3AD2BFFD44B00C6388C /* TripList.swift in Sources */,
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
 				45DD17122BE2E2170085D2B1 /* LabeledCheckbox.swift in Sources */,
+				45A33C792C8919E9007FB635 /* MLNBounds+Extensions.swift in Sources */,
 				4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */,
 				4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */,
 				450855232BCF36BF00B7678C /* Bench.swift in Sources */,
@@ -799,7 +817,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -833,7 +851,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -976,6 +994,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stadiamaps/ferrostar";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.1;
+			};
+		};
 		45F8A6432BED709E00CA83B4 /* XCRemoteSwiftPackageReference "maplibre-navigation-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maplibre/maplibre-navigation-ios";
@@ -996,6 +1022,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
 			productName = PhoneNumberKit;
+		};
+		456A19DA2C825AA300E7E7EA /* FerrostarCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */;
+			productName = FerrostarCore;
+		};
+		456A19DC2C825AA300E7E7EA /* FerrostarMapLibreUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */;
+			productName = FerrostarMapLibreUI;
+		};
+		456A19DE2C825AA300E7E7EA /* FerrostarSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */;
+			productName = FerrostarSwiftUI;
 		};
 		45F8A6442BED720E00CA83B4 /* MapboxNavigation */ = {
 			isa = XCSwiftPackageProductDependency;
