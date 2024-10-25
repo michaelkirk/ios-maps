@@ -195,7 +195,7 @@ struct MENavigationView: View {
   var route: FerrostarCoreFFI.Route
   //  let initialLocation: CLLocation
   let styleURL: URL
-  let stopNavigation: () -> Void
+  let stopNavigation: (_ didComplete: Bool) -> Void
   let destination: MapboxDirections.Waypoint
   let locationProvider: LocationProviding
 
@@ -208,7 +208,7 @@ struct MENavigationView: View {
     route: MapboxDirections.Route,
     travelMode: TravelMode,
     measurementSystem: MeasurementSystem,
-    stopNavigation: @escaping () -> Void
+    stopNavigation: @escaping (_ didComplete: Bool) -> Void
   ) {
     self.destination = route.legs.last!.destination
     self.route = FerrostarCoreFFI.Route(mapboxRoute: route)
@@ -285,7 +285,7 @@ struct MENavigationView: View {
       onStyleLoaded: { style in
         add3DBuildingsLayer(style: style)
       },
-      onTapExit: { stopNavigation() },
+      onTapExit: stopNavigation,
       makeMapContent: {
         let source = ShapeSource(identifier: "userLocation") {
           // Demonstrate how to add a dynamic overlay;

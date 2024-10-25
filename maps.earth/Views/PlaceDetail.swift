@@ -16,6 +16,7 @@ struct PlaceDetailSheet: View {
   @ObservedObject var tripPlan: TripPlan
   @Binding var presentationDetent: PresentationDetent
   var onClose: () -> Void
+  var didCompleteTrip: () -> Void
 
   @EnvironmentObject var userLocationManager: UserLocationManager
 
@@ -43,7 +44,8 @@ struct PlaceDetailSheet: View {
     ) {
       ScrollView {
         PlaceDetail(
-          place: place, tripPlan: tripPlan,
+          place: place,
+          tripPlan: tripPlan,
           didSelectNavigateTo: { place in
             tripPlan.navigateTo = place
             if let mostRecentUserLocation = self.userLocationManager
@@ -51,7 +53,9 @@ struct PlaceDetailSheet: View {
             {
               tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
             }
-          })
+          },
+          didCompleteTrip: didCompleteTrip
+        )
       }
       // This is arguably useful.
       // Usually I just want to swipe down to get a better look at the map without closing out
@@ -65,6 +69,7 @@ struct PlaceDetail: View {
   var place: Place
   @ObservedObject var tripPlan: TripPlan
   var didSelectNavigateTo: (Place) -> Void
+  var didCompleteTrip: () -> Void
 
   var body: some View {
     let isShowingDirections = Binding(
@@ -85,7 +90,7 @@ struct PlaceDetail: View {
         .background(.blue)
         .cornerRadius(4)
         .sheet(isPresented: isShowingDirections) {
-          TripPlanSheetContents(tripPlan: tripPlan)
+          TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: didCompleteTrip)
             .interactiveDismissDisabled()
         }
         Spacer()
@@ -121,6 +126,6 @@ struct PlaceDetail: View {
   Text("").sheet(isPresented: .constant(true)) {
     PlaceDetailSheet(
       place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(),
-      presentationDetent: .constant(.medium), onClose: {})
+      presentationDetent: .constant(.medium), onClose: {}, didCompleteTrip: {})
   }
 }
