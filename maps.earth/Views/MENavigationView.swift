@@ -114,7 +114,8 @@ extension FerrostarCoreFFI.VisualInstructionContent {
 
     self.init(
       text: visualInstruction.text ?? "TODO: missing text", maneuverType: maneuverType,
-      maneuverModifier: maneuverModifier, roundaboutExitDegrees: roundaboutExitDegrees)
+      maneuverModifier: maneuverModifier, roundaboutExitDegrees: roundaboutExitDegrees,
+      laneInfo: nil)
   }
 }
 
@@ -133,7 +134,7 @@ extension FerrostarCoreFFI.VisualInstruction {
     let triggerDistanceBeforeManeuver: Double = 100
 
     self.init(
-      primaryContent: primaryContent, secondaryContent: secondaryContent,
+      primaryContent: primaryContent, secondaryContent: secondaryContent, subContent: nil,
       triggerDistanceBeforeManeuver: triggerDistanceBeforeManeuver)
   }
 }
@@ -205,19 +206,19 @@ struct MENavigationView: View {
 
   @MainActor
   init(
-    route: MapboxDirections.Route,
+    route mlnRoute: MapboxDirections.Route,
     travelMode: TravelMode,
     measurementSystem: MeasurementSystem,
     stopNavigation: @escaping (_ didComplete: Bool) -> Void
   ) {
-    self.destination = route.legs.last!.destination
-    self.route = FerrostarCoreFFI.Route(mapboxRoute: route)
+    self.destination = mlnRoute.legs.last!.destination
+    self.route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
     self.stopNavigation = stopNavigation
     self.styleURL = AppConfig().tileserverStyleUrl
 
     if Env.current.simulateLocationForTesting {
       let simulatedLocationProvider = SimulatedLocationProvider(
-        coordinate: route.coordinates!.first!)
+        coordinate: mlnRoute.coordinates!.first!)
       simulatedLocationProvider.warpFactor = 4
       try! simulatedLocationProvider.setSimulatedRoute(self.route)
       simulatedLocationProvider.startUpdating()
@@ -281,11 +282,13 @@ struct MENavigationView: View {
       // I guess so that we can transition to/from the navigation mode?
       camera: $camera,
       navigationState: ferrostarCore.state,
+      isMuted: true,
       destinationName: self.destination.name,
       onStyleLoaded: { style in
         add3DBuildingsLayer(style: style)
       },
-      onTapExit: stopNavigation,
+      onTapMute: { assertionFailure("muting not implemented") },
+      onTapExit: { tripComplete in stopNavigation(tripComplete) },
       makeMapContent: {
         let source = ShapeSource(identifier: "userLocation") {
           // Demonstrate how to add a dynamic overlay;
