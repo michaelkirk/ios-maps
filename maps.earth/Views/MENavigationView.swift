@@ -109,12 +109,18 @@ extension FerrostarCoreFFI.VisualInstructionContent {
     let maneuverModifier = FerrostarCoreFFI.ManeuverModifier(
       mapboxManeuverDirection: visualInstruction.maneuverDirection)
 
-    // TODO:
-    let roundaboutExitDegrees: UInt16? = nil
+    // Note: this is relative to your entry into the roundabout, so 180 would be "straight".
+    // REVIEW: ferrostar allows this to be optional, but mapbox defaults to 180.
+    let roundaboutExitDegrees: UInt16 = UInt16(visualInstruction.finalHeading)
+
+    // TODO: added to ferrostar, but doesn't seem to exist in MapboxDirections.VisualInstruction
+    // Presumably Mapbox has *some* concept of exitNumbers - not sure where they exist yet.
+    let exitNumbers: [String] = []
 
     self.init(
       text: visualInstruction.text ?? "TODO: missing text", maneuverType: maneuverType,
-      maneuverModifier: maneuverModifier, roundaboutExitDegrees: roundaboutExitDegrees)
+      maneuverModifier: maneuverModifier, roundaboutExitDegrees: roundaboutExitDegrees,
+      laneInfo: nil, exitNumbers: exitNumbers)
   }
 }
 
@@ -133,7 +139,7 @@ extension FerrostarCoreFFI.VisualInstruction {
     let triggerDistanceBeforeManeuver: Double = 100
 
     self.init(
-      primaryContent: primaryContent, secondaryContent: secondaryContent,
+      primaryContent: primaryContent, secondaryContent: secondaryContent, subContent: nil,
       triggerDistanceBeforeManeuver: triggerDistanceBeforeManeuver)
   }
 }
@@ -153,11 +159,16 @@ extension FerrostarCoreFFI.RouteStep {
     // TODO
     let spokenInstructions: [FerrostarCoreFFI.SpokenInstruction] = []
 
+    // TODO: added to ferrostar, but I'm not sure yet the corresponding fields from mapbox
+    let exits: [String] = []
+    let annotations: [String] = []
+    let incidents: [Incident] = []
+
     self.init(
       geometry: geometry, distance: routeStep.distance, duration: routeStep.expectedTravelTime,
-      roadName: routeStep.names?.first, instruction: routeStep.instructions,
+      roadName: routeStep.names?.first, exits: exits, instruction: routeStep.instructions,
       visualInstructions: visualInstructions, spokenInstructions: spokenInstructions,
-      annotations: [])
+      annotations: annotations, incidents: incidents)
   }
 }
 
@@ -205,19 +216,19 @@ struct MENavigationView: View {
 
   @MainActor
   init(
-    route: MapboxDirections.Route,
+    route mlnRoute: MapboxDirections.Route,
     travelMode: TravelMode,
     measurementSystem: MeasurementSystem,
     stopNavigation: @escaping (_ didComplete: Bool) -> Void
   ) {
-    self.destination = route.legs.last!.destination
-    self.route = FerrostarCoreFFI.Route(mapboxRoute: route)
+    self.destination = mlnRoute.legs.last!.destination
+    self.route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
     self.stopNavigation = stopNavigation
     self.styleURL = AppConfig().tileserverStyleUrl
 
     if Env.current.simulateLocationForTesting {
       let simulatedLocationProvider = SimulatedLocationProvider(
-        coordinate: route.coordinates!.first!)
+        coordinate: mlnRoute.coordinates!.first!)
       simulatedLocationProvider.warpFactor = 4
       try! simulatedLocationProvider.setSimulatedRoute(self.route)
       simulatedLocationProvider.startUpdating()
@@ -255,7 +266,7 @@ struct MENavigationView: View {
     let config = SwiftNavigationControllerConfig(
       stepAdvance: .relativeLineStringDistance(
         minimumHorizontalAccuracy: 32,
-        automaticAdvanceDistance: 10
+        specialAdvanceConditions: .advanceAtDistanceFromEnd(10)
       ),
       routeDeviationTracking: .staticThreshold(
         minimumHorizontalAccuracy: 25,
@@ -269,9 +280,9 @@ struct MENavigationView: View {
       locationProvider: locationProvider,
       navigationControllerConfig: config
     )
-
     let currentCamera = Env.current.getMapCamera()!
     self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
+    try! ferrostarCore.startNavigation(route: self.route)
   }
 
   var body: some View {
@@ -281,21 +292,13 @@ struct MENavigationView: View {
       // I guess so that we can transition to/from the navigation mode?
       camera: $camera,
       navigationState: ferrostarCore.state,
+      isMuted: true,
       destinationName: self.destination.name,
       onStyleLoaded: { style in
         add3DBuildingsLayer(style: style)
       },
-      onTapExit: stopNavigation,
-      makeMapContent: {
-        let source = ShapeSource(identifier: "userLocation") {
-          // Demonstrate how to add a dynamic overlay;
-          // also incidentally shows the extent of puck lag
-          if let userLocation = locationProvider.lastLocation {
-            MLNPointFeature(coordinate: userLocation.clLocation.coordinate)
-          }
-        }
-        CircleStyleLayer(identifier: "foo", source: source)
-      }
+      onTapMute: { assertionFailure("muting not implemented") },
+      onTapExit: { tripComplete in stopNavigation(tripComplete) }
     ).onChange(
       of: ferrostarCore.state,
       perform: { (value: NavigationState?) in
@@ -315,17 +318,11 @@ struct MENavigationView: View {
         }
       })
     return mapView.onAppear {
-      // last refuge of a scoundrel.
-      // Setting the camera pitch upon init, before the map is visible, is a no-op.
-      // Setting the camera pitch range seems to move the pitch part way.
-      // I'm not sure what exactly the threshold - after layout? or something else?
-      // Anyway, this terrible delay hack seems to work around the problem - the map
-      // is presented and has the appropriate pitch once navigationStarts.
       UIApplication.shared.isIdleTimerDisabled = true
 
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-        try! ferrostarCore.startNavigation(route: self.route)
-      }
+      // Set the camera to follow the user
+      // I'm not sure why this isn't already happening - is this a bug in my app? in ferrostar? Or is it just a surprising default?
+      camera = .automotiveNavigation(zoom: 18)
     }.onDisappear {
       UIApplication.shared.isIdleTimerDisabled = false
     }
