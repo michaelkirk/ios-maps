@@ -79,7 +79,8 @@ struct DirectionsService {
         assert(mode == .transit)
         modes.append(.bike)
       }
-      let travelmuxOptions = TravelmuxRouteOptions(waypoints: waypoints, profileIdentifier: profileIdentifier)
+      let travelmuxOptions = TravelmuxRouteOptions(
+        waypoints: waypoints, profileIdentifier: profileIdentifier)
       travelmuxOptions.modes = modes
       options = travelmuxOptions
     } else if mlnDirections == Env.current.valhallaDirectionsService {

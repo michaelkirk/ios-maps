@@ -229,10 +229,10 @@ struct MENavigationView: View {
     if Env.current.simulateLocationForTesting {
       let simulatedLocationProvider = SimulatedLocationProvider(
         coordinate: mlnRoute.coordinates!.first!)
-      simulatedLocationProvider.warpFactor = 4
+      simulatedLocationProvider.warpFactor = 1
       try! simulatedLocationProvider.setSimulatedRoute(self.route)
       simulatedLocationProvider.startUpdating()
-      let goOffTrack = true
+      let goOffTrack = false
       if goOffTrack {
         self.locationProvider = OffTrackSimulatedLocationProvider(
           simulatedLocationProvider: simulatedLocationProvider)
@@ -264,6 +264,7 @@ struct MENavigationView: View {
     // Configure the navigation session.
     // You have a lot of flexibility here based on your use case.
     let config = SwiftNavigationControllerConfig(
+      waypointAdvance: .waypointWithinRange(20),
       stepAdvance: .relativeLineStringDistance(
         minimumHorizontalAccuracy: 32,
         specialAdvanceConditions: .advanceAtDistanceFromEnd(10)
@@ -286,20 +287,45 @@ struct MENavigationView: View {
   }
 
   var body: some View {
-    let mapView = DynamicallyOrientingNavigationView(
+    var mapView = DynamicallyOrientingNavigationView(
       styleURL: styleURL,
       // I'm not sure why this is a binding exactly, since we soon override it in onStyleLoaded.
       // I guess so that we can transition to/from the navigation mode?
       camera: $camera,
       navigationState: ferrostarCore.state,
       isMuted: true,
-      destinationName: self.destination.name,
-      onStyleLoaded: { style in
-        add3DBuildingsLayer(style: style)
-      },
       onTapMute: { assertionFailure("muting not implemented") },
-      onTapExit: { tripComplete in stopNavigation(tripComplete) }
-    ).onChange(
+      onTapExit: { stopNavigation(false) }
+    )
+    mapView.onStyleLoaded = { style in
+      add3DBuildingsLayer(style: style)
+    }
+    mapView.progressView = {
+      (navigationState: NavigationState?, onTapExit: (() -> Void)?) -> AnyView in
+      if case .navigating = navigationState?.tripState,
+        let progress = navigationState?.currentProgress
+      {
+        let _ = print(">>> 1. progress")
+        return AnyView(
+          TripProgressView(
+            progress: progress,
+            onTapExit: onTapExit
+          ))
+      } else if case .complete = navigationState?.tripState {
+        // No longer showing...
+        let _ = print(">>> 2. COMPLETE!")
+        return AnyView(
+          TripCompleteBanner(
+            destinationName: self.destination.name, onTapExit: { stopNavigation(true) }
+          )
+          .padding(.horizontal, 16))
+      } else {
+        let _ = print(">>> 3. other!")
+        return AnyView(EmptyView())
+      }
+    }
+
+    return mapView.onChange(
       of: ferrostarCore.state,
       perform: { (value: NavigationState?) in
         guard let tripState = value?.tripState else {
@@ -307,6 +333,7 @@ struct MENavigationView: View {
         }
 
         if case .complete = tripState {
+          print(">>>> Zooming in on complete")
           let coordinate = self.route.geometry.last!.clLocationCoordinate2D
           let bbox = MLNCoordinateBounds(sw: coordinate, ne: coordinate).extend(bufferMeters: 100)
 
@@ -316,8 +343,8 @@ struct MENavigationView: View {
           self.camera = .boundingBox(
             bbox, edgePadding: UIEdgeInsets(top: 0, left: 0, bottom: 400, right: 0))
         }
-      })
-    return mapView.onAppear {
+      }
+    ).onAppear {
       UIApplication.shared.isIdleTimerDisabled = true
 
       // Set the camera to follow the user
