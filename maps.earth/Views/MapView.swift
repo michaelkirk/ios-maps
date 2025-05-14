@@ -7,9 +7,7 @@
 
 import Foundation
 import MapLibre
-import MapboxCoreNavigation
 import MapboxDirections
-import MapboxNavigation
 import SwiftUI
 
 private let logger = FileLogger()
@@ -157,29 +155,29 @@ extension MapView: UIViewRepresentable {
     return Coordinator(self, topControlsController: topControlsController)
   }
 
-  typealias UIViewType = NavigationMapView
-  func makeUIView(context: Context) -> NavigationMapView {
+  typealias UIViewType = MLNMapView
+  func makeUIView(context: Context) -> Self.UIViewType {
     let styleURL = AppConfig().tileserverStyleUrl
 
     // create the mapview
-    let mapView = NavigationMapView(frame: .zero, styleURL: styleURL)
-    context.coordinator.mlnNavigationMapView = mapView
+    let mlnMapView = MLNMapView(frame: .zero, styleURL: styleURL)
+    context.coordinator.mlnMapView = mlnMapView
 
-    mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    mapView.logoView.isHidden = true
+    mlnMapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    mlnMapView.logoView.isHidden = true
 
     let tapGesture = UITapGestureRecognizer(
       target: context.coordinator, action: #selector(context.coordinator.mapView(didTap:)))
-    mapView.gestureRecognizers?.forEach(tapGesture.require(toFail:))
-    mapView.addGestureRecognizer(tapGesture)
+    mlnMapView.gestureRecognizers?.forEach(tapGesture.require(toFail:))
+    mlnMapView.addGestureRecognizer(tapGesture)
 
     let longPressGesture = UILongPressGestureRecognizer(
       target: context.coordinator, action: #selector(context.coordinator.mapView(didLongPress:)))
-    mapView.gestureRecognizers?.forEach(longPressGesture.require(toFail:))
-    mapView.addGestureRecognizer(longPressGesture)
+    mlnMapView.gestureRecognizers?.forEach(longPressGesture.require(toFail:))
+    mlnMapView.addGestureRecognizer(longPressGesture)
 
-    Env.current.getMapFocus = { LngLat(coord: mapView.centerCoordinate) }
-    Env.current.getMapCamera = { (mapView.camera.copy() as! MLNMapCamera) }
+    Env.current.getMapFocus = { LngLat(coord: mlnMapView.centerCoordinate) }
+    Env.current.getMapCamera = { (mlnMapView.camera.copy() as! MLNMapCamera) }
     do {
       var padding = UIEdgeInsets.zero
       // This is a conservative estimate for notched devices.
@@ -188,51 +186,52 @@ extension MapView: UIViewRepresentable {
 
       // TODO: calculate this dynamically based on wether a sheet is presented and bottom safe area insets
       padding.bottom += UIScreen.main.bounds.height / 2
-      mapView.setContentInset(padding, animated: false, completionHandler: nil)
+      mlnMapView.setContentInset(padding, animated: false, completionHandler: nil)
 
       // The built-in attribution control is positioned relative to the contentInset, which means it'll appear in the middle of the screen.
       // Instead attribution is handled in a custom control.
-      mapView.attributionButton.isHidden = true
+      mlnMapView.attributionButton.isHidden = true
     }
 
-    let originalLocationManagerDelegate = mapView.locationManager.delegate
-    mapView.locationManager.delegate = context.coordinator
+    let originalLocationManagerDelegate = mlnMapView.locationManager.delegate
+    mlnMapView.locationManager.delegate = context.coordinator
     context.coordinator.originalLocationManagerDelegate = originalLocationManagerDelegate
 
     do {
       let controlsUIView = context.coordinator.topControlsController.view!
       controlsUIView.translatesAutoresizingMaskIntoConstraints = false
       controlsUIView.backgroundColor = .clear
-      mapView.addSubview(controlsUIView)
+      mlnMapView.addSubview(controlsUIView)
 
       let controlMargin: CGFloat = 8
       NSLayoutConstraint.activate([
         controlsUIView.trailingAnchor.constraint(
-          equalTo: mapView.safeAreaLayoutGuide.trailingAnchor, constant: -controlMargin),
+          equalTo: mlnMapView.safeAreaLayoutGuide.trailingAnchor, constant: -controlMargin),
         controlsUIView.topAnchor.constraint(
-          equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 2 * controlMargin),
+          equalTo: mlnMapView.safeAreaLayoutGuide.topAnchor, constant: 2 * controlMargin),
       ])
 
       // We want the compass to appear below our controls,
       // To Debug:
       //     mapView.compassView.compassVisibility = .visible
       // This math is a bit fickle and might not be semantically correct, but looks about right emperically.
-      let bottomOfTopControl = TopControls.controlHeight * 2 - mapView.contentInset.top + 16
+      let bottomOfTopControl = TopControls.controlHeight * 2 - mlnMapView.contentInset.top + 16
 
-      mapView.compassViewMargins = CGPoint(x: controlMargin, y: bottomOfTopControl + controlMargin)
+      mlnMapView.compassViewMargins = CGPoint(
+        x: controlMargin, y: bottomOfTopControl + controlMargin)
     }
 
     // FIXME: pull from storage, else start somewhere interesting.
-    mapView.setCenter(
+    mlnMapView.setCenter(
       CLLocationCoordinate2D(latitude: 47.6, longitude: -122.3),
       zoomLevel: 10,
       animated: false)
 
-    mapView.delegate = context.coordinator
-    return mapView
+    mlnMapView.delegate = context.coordinator
+    return mlnMapView
   }
 
-  func updateUIView(_ mapView: NavigationMapView, context: Context) {
+  func updateUIView(_ mapView: Self.UIViewType, context: Context) {
     logger.debug("in MapView.updateUIView")
     if self.pendingMapFocus != nil {
       Task {
@@ -357,7 +356,7 @@ extension MapView: UIViewRepresentable {
     weak var originalLocationManagerDelegate: MLNLocationManagerDelegate?
 
     let mapView: MapView
-    weak var mlnNavigationMapView: NavigationMapView?
+    weak var mlnMapView: MLNMapView?
 
     var mapContents: MapContents = .empty
 
@@ -641,50 +640,6 @@ extension MapView.Coordinator: MLNLocationManagerDelegate {
     if manager.authorizationStatus == .denied {
       self.mapView.userLocationManager.state = .denied
     }
-  }
-}
-
-extension MapView.Coordinator: RouteControllerDelegate {
-  @objc public func routeController(
-    _ routeController: RouteController, didUpdate locations: [CLLocation]
-  ) {
-    let camera = MLNMapCamera(
-      lookingAtCenter: locations.first!.coordinate,
-      acrossDistance: 500,
-      pitch: 0,
-      heading: 0
-    )
-
-    mlnNavigationMapView?.setCamera(camera, animated: true)
-  }
-
-  @objc func didPassVisualInstructionPoint(notification: NSNotification) {
-    guard
-      let currentVisualInstruction = currentStepProgress(from: notification)?
-        .currentVisualInstruction
-    else { return }
-
-    //    print(
-    //      String(
-    //        format: "didPassVisualInstructionPoint primary text: %@ and secondary text: %@",
-    //        String(describing: currentVisualInstruction.primaryInstruction.text),
-    //        String(describing: currentVisualInstruction.secondaryInstruction?.text)))
-  }
-
-  @objc func didPassSpokenInstructionPoint(notification: NSNotification) {
-    guard
-      let currentSpokenInstruction = currentStepProgress(from: notification)?
-        .currentSpokenInstruction
-    else { return }
-
-    //    print("didPassSpokenInstructionPoint text: \(currentSpokenInstruction.text)")
-  }
-
-  private func currentStepProgress(from notification: NSNotification) -> RouteStepProgress? {
-    let routeProgress =
-      notification.userInfo?[RouteControllerNotificationUserInfoKey.routeProgressKey]
-      as? RouteProgress
-    return routeProgress?.currentLegProgress.currentStepProgress
   }
 }
 

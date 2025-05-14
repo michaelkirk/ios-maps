@@ -5,7 +5,6 @@
 //  Created by Michael Kirk on 5/20/24.
 //
 
-import MapboxCoreNavigation
 import MapboxDirections
 import MapboxDirectionsObjc
 
@@ -80,15 +79,14 @@ struct DirectionsService {
         assert(mode == .transit)
         modes.append(.bike)
       }
-      let travelmuxOptions = TravelmuxNavigationRouteOptions(
-        waypoints: waypoints, profileIdentifier: profileIdentifier)
+      let travelmuxOptions = TravelmuxRouteOptions(waypoints: waypoints, profileIdentifier: profileIdentifier)
       travelmuxOptions.modes = modes
       options = travelmuxOptions
     } else if mlnDirections == Env.current.valhallaDirectionsService {
-      options = ValhallaNavigationRouteOptions(
+      options = ValhallaRouteOptions(
         waypoints: waypoints, profileIdentifier: profileIdentifier)
     } else if mlnDirections == Env.current.mapboxDirectionsService {
-      options = NavigationRouteOptions(waypoints: waypoints, profileIdentifier: profileIdentifier)
+      options = RouteOptions(waypoints: waypoints, profileIdentifier: profileIdentifier)
     } else {
       fatalError("unknown directions service: \(String(describing: mlnDirections))")
     }
@@ -115,7 +113,7 @@ extension TravelMode {
   }
 }
 
-class ValhallaNavigationRouteOptions: NavigationRouteOptions {
+class ValhallaRouteOptions: RouteOptions {
   override var path: String {
     AppConfig().valhallaEndpoint.path()
   }
@@ -183,7 +181,7 @@ class ValhallaNavigationRouteOptions: NavigationRouteOptions {
   }
 }
 
-class TravelmuxNavigationRouteOptions: NavigationRouteOptions {
+class TravelmuxRouteOptions: RouteOptions {
   override var path: String {
     AppConfig().travelmuxEndpoint.replacingLastPathComponent(with: "directions").path()
   }
@@ -203,7 +201,7 @@ class TravelmuxNavigationRouteOptions: NavigationRouteOptions {
   }
 
   override func copy(with zone: NSZone? = nil) -> Any {
-    let options = super.copy(with: zone) as! TravelmuxNavigationRouteOptions
+    let options = super.copy(with: zone) as! TravelmuxRouteOptions
     options.modes = self.modes
     return options
   }
