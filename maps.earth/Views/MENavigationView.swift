@@ -234,11 +234,8 @@ struct MENavigationView: View {
     if let existingRouteNavigation = Env.current.activeRouteNavigation,
       existingRouteNavigation.route == route
     {
-      print("using existing routeNavigation")
       routeNavigation = existingRouteNavigation
     } else {
-      print("creating new routeNavigation")
-
       // TODO: remove as!
       let routeProvider = TripPlanClientFerrostarAdapter(
         tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
@@ -325,7 +322,6 @@ struct MENavigationView: View {
       if case .navigating = navigationState?.tripState,
         let progress = navigationState?.currentProgress
       {
-        let _ = print(">>> 1. progress")
         return AnyView(
           TripProgressView(
             progress: progress,
@@ -333,14 +329,12 @@ struct MENavigationView: View {
           ))
       } else if case .complete = navigationState?.tripState {
         // No longer showing...
-        let _ = print(">>> 2. COMPLETE!")
         return AnyView(
           TripCompleteBanner(
             destinationName: self.destination.name, onTapExit: { stopNavigation(true) }
           )
           .padding(.horizontal, 16))
       } else {
-        let _ = print(">>> 3. other!")
         return AnyView(EmptyView())
       }
     }
