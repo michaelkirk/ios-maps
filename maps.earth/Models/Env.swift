@@ -77,4 +77,17 @@ class Env {
     }
   }
   private var _getMapCamera: () -> MLNMapCamera? = { nil }
+
+  private var _activeRouteNavigation: RouteNavigation? = nil
+  var activeRouteNavigation: RouteNavigation? {
+    get {
+      AssertMainThread()
+      return _activeRouteNavigation
+    }
+    set {
+      AssertMainThread()
+      _activeRouteNavigation = newValue
+    }
+  }
+
 }

@@ -202,13 +202,17 @@ extension FerrostarCoreFFI.Route {
   }
 }
 
+struct RouteNavigation {
+  let route: FerrostarCoreFFI.Route
+  let ferrostarCore: FerrostarCore
+}
+
 struct MENavigationView: View {
   var route: FerrostarCoreFFI.Route
   //  let initialLocation: CLLocation
   let styleURL: URL
   let stopNavigation: (_ didComplete: Bool) -> Void
   let destination: MapboxDirections.Waypoint
-  let locationProvider: LocationProviding
 
   @ObservedObject private var ferrostarCore: FerrostarCore
 
@@ -222,65 +226,81 @@ struct MENavigationView: View {
     stopNavigation: @escaping (_ didComplete: Bool) -> Void
   ) {
     self.destination = mlnRoute.legs.last!.destination
-    self.route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
+    let route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
     self.stopNavigation = stopNavigation
     self.styleURL = AppConfig().tileserverStyleUrl
 
-    if Env.current.simulateLocationForTesting {
-      let simulatedLocationProvider = SimulatedLocationProvider(
-        coordinate: mlnRoute.coordinates!.first!)
-      simulatedLocationProvider.warpFactor = 1
-      try! simulatedLocationProvider.setSimulatedRoute(self.route)
-      simulatedLocationProvider.startUpdating()
-      let goOffTrack = false
-      if goOffTrack {
-        self.locationProvider = OffTrackSimulatedLocationProvider(
-          simulatedLocationProvider: simulatedLocationProvider)
-      } else {
-        self.locationProvider = simulatedLocationProvider
-      }
+    let routeNavigation: RouteNavigation
+    if let existingRouteNavigation = Env.current.activeRouteNavigation,
+      existingRouteNavigation.route == route
+    {
+      print("using existing routeNavigation")
+      routeNavigation = existingRouteNavigation
     } else {
-      let coreLocationProvider = Env.current.coreLocationProvider
-      let newActivityType: CLActivityType =
-        switch travelMode {
-        case .car:
-          .automotiveNavigation
-        default:
-          .otherNavigation
+      print("creating new routeNavigation")
+
+      // TODO: remove as!
+      let routeProvider = TripPlanClientFerrostarAdapter(
+        tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
+        travelMode: travelMode,
+        measurementSystem: measurementSystem
+      )
+
+      let locationProvider: LocationProviding
+      if Env.current.simulateLocationForTesting {
+        let simulatedLocationProvider = SimulatedLocationProvider(
+          coordinate: mlnRoute.coordinates!.first!)
+        simulatedLocationProvider.warpFactor = 1
+        try! simulatedLocationProvider.setSimulatedRoute(route)
+        simulatedLocationProvider.startUpdating()
+        let goOffTrack = false
+        if goOffTrack {
+          locationProvider = OffTrackSimulatedLocationProvider(
+            simulatedLocationProvider: simulatedLocationProvider)
+        } else {
+          locationProvider = simulatedLocationProvider
         }
-      if newActivityType != coreLocationProvider.activityType {
-        coreLocationProvider.activityType = newActivityType
+      } else {
+        let coreLocationProvider = Env.current.coreLocationProvider
+        let newActivityType: CLActivityType =
+          switch travelMode {
+          case .car:
+            .automotiveNavigation
+          default:
+            .otherNavigation
+          }
+        if newActivityType != coreLocationProvider.activityType {
+          coreLocationProvider.activityType = newActivityType
+        }
+        locationProvider = coreLocationProvider
       }
-      self.locationProvider = coreLocationProvider
+
+      // Configure the navigation session.
+      // You have a lot of flexibility here based on your use case.
+      let config = SwiftNavigationControllerConfig(
+        waypointAdvance: .waypointWithinRange(20),
+        stepAdvance: .relativeLineStringDistance(
+          minimumHorizontalAccuracy: 32,
+          specialAdvanceConditions: .advanceAtDistanceFromEnd(10)
+        ),
+        routeDeviationTracking: .staticThreshold(
+          minimumHorizontalAccuracy: 25,
+          maxAcceptableDeviation: 20
+        ),
+        snappedLocationCourseFiltering: .snapToRoute
+      )
+
+      let ferrostarCore = FerrostarCore(
+        customRouteProvider: routeProvider,
+        locationProvider: locationProvider,
+        navigationControllerConfig: config
+      )
+      routeNavigation = RouteNavigation(route: route, ferrostarCore: ferrostarCore)
+      Env.current.activeRouteNavigation = routeNavigation
     }
+    self.route = routeNavigation.route
+    self.ferrostarCore = routeNavigation.ferrostarCore
 
-    // TODO: remove as!
-    let routeProvider = TripPlanClientFerrostarAdapter(
-      tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
-      travelMode: travelMode,
-      measurementSystem: measurementSystem
-    )
-
-    // Configure the navigation session.
-    // You have a lot of flexibility here based on your use case.
-    let config = SwiftNavigationControllerConfig(
-      waypointAdvance: .waypointWithinRange(20),
-      stepAdvance: .relativeLineStringDistance(
-        minimumHorizontalAccuracy: 32,
-        specialAdvanceConditions: .advanceAtDistanceFromEnd(10)
-      ),
-      routeDeviationTracking: .staticThreshold(
-        minimumHorizontalAccuracy: 25,
-        maxAcceptableDeviation: 20
-      ),
-      snappedLocationCourseFiltering: .snapToRoute
-    )
-
-    self.ferrostarCore = FerrostarCore(
-      customRouteProvider: routeProvider,
-      locationProvider: locationProvider,
-      navigationControllerConfig: config
-    )
     let currentCamera = Env.current.getMapCamera()!
     self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
     try! ferrostarCore.startNavigation(route: self.route)
