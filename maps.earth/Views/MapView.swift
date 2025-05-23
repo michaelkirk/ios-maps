@@ -494,12 +494,17 @@ extension MapView: UIViewRepresentable {
     }
 
     @objc
+    @MainActor
     func mapView(didLongPress gesture: UILongPressGestureRecognizer) {
       guard let mapView: MLNMapView = gesture.view as? MLNMapView else {
         assertionFailure("mapView was unexpectedly nil")
         return
       }
       guard gesture.state == .began else {
+        return
+      }
+      guard self.mapView.tripPlan.isEmpty else {
+        print("Ignoring long press gesture while trip plan is not empty.")
         return
       }
 
