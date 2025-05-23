@@ -300,6 +300,12 @@ struct MENavigationView: View {
     self.ferrostarCore = routeNavigation.ferrostarCore
 
     let currentCamera = Env.current.getMapCamera()!
+    // I'd prefer to start navigation from "within" the current map, rather than popping a sheet with a new modal on it,
+    // but to at least keep up the illusion of consistency, we start the new map with the same camera as the old camera.
+    // NOTE: This still feels a little glitchy, beyond just the animation of presenting the sheet, the new map has to load
+    // in all the layers, so there's a little delay as the image in the newlyl popped "navigation" map catches up visually
+    // with the presented "MapView".
+    // Adding to this, there's also a zoom as we start the trip: zomming from "trip overview" to the "current location".
     self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
   }
 
@@ -347,7 +353,6 @@ struct MENavigationView: View {
         }
 
         if case .complete = tripState {
-          print(">>>> Zooming in on complete")
           let coordinate = self.route.geometry.last!.clLocationCoordinate2D
           let bbox = MLNCoordinateBounds(sw: coordinate, ne: coordinate).extend(bufferMeters: 100)
 
@@ -360,10 +365,6 @@ struct MENavigationView: View {
       }
     ).onAppear {
       UIApplication.shared.isIdleTimerDisabled = true
-
-      // Set the camera to follow the user
-      // I'm not sure why this isn't already happening - is this a bug in my app? in ferrostar? Or is it just a surprising default?
-      camera = .automotiveNavigation(zoom: 18)
     }.onDisappear {
       UIApplication.shared.isIdleTimerDisabled = false
     }

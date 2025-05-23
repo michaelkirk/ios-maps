@@ -65,7 +65,9 @@ class Env {
   }
   private var _getMapFocus: () -> LngLat? = { nil }
 
-  /// Main thread only
+  /// `mlnMap.camera` is copy. So to get a camera that represents the current camera, we need a dynamic closure, rather than just assigning the camera "by reference" once upon initialization.
+  ///
+  /// NOTE: Main thread only
   var getMapCamera: () -> MLNMapCamera? {
     get {
       AssertMainThread()
