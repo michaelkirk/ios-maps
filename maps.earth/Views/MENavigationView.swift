@@ -294,13 +294,13 @@ struct MENavigationView: View {
       )
       routeNavigation = RouteNavigation(route: route, ferrostarCore: ferrostarCore)
       Env.current.activeRouteNavigation = routeNavigation
+      try! ferrostarCore.startNavigation(route: routeNavigation.route)
     }
     self.route = routeNavigation.route
     self.ferrostarCore = routeNavigation.ferrostarCore
 
     let currentCamera = Env.current.getMapCamera()!
     self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
-    try! ferrostarCore.startNavigation(route: self.route)
   }
 
   var body: some View {
