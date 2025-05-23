@@ -10,30 +10,12 @@
       }
     },
     {
-      "identity" : "maplibre-navigation-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/maplibre/maplibre-navigation-ios",
-      "state" : {
-        "branch" : "main",
-        "revision" : "f91faffa1aa03be16fc588dc5076b7811d1c5166"
-      }
-    },
-    {
-      "identity" : "maplibre-swift-macros",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/stadiamaps/maplibre-swift-macros.git",
-      "state" : {
-        "revision" : "9e27e62dff7fd727aebd0a7c8aa74e7635a5583e",
-        "version" : "0.0.5"
-      }
-    },
-    {
       "identity" : "mockable",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Kolos65/Mockable.git",
       "state" : {
-        "revision" : "203336d0ccb7ff03a8a03db54a4fa18fc2b0c771",
-        "version" : "0.3.0"
+        "revision" : "118a0b8934e585b80952586db30bcb72aef45a74",
+        "version" : "0.3.2"
       }
     },
     {
@@ -64,15 +46,6 @@
       }
     },
     {
-      "identity" : "solar",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ceeK/Solar.git",
-      "state" : {
-        "revision" : "c2b96f2d5fb7f835b91cefac5e83101f54643901",
-        "version" : "3.0.1"
-      }
-    },
-    {
       "identity" : "swift-custom-dump",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-custom-dump",
@@ -86,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "revision" : "f5bfff796ee8e3bc9a685b7ffba1bf20663eb370",
-        "version" : "1.18.0"
+        "revision" : "1be8144023c367c5de701a6313ed29a3a10bf59b",
+        "version" : "1.18.3"
       }
     },
     {
@@ -104,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/maplibre/swiftui-dsl",
       "state" : {
-        "revision" : "61cffb65b6d58289c152ae1aaed526b75bb13ade",
-        "version" : "0.5.1"
+        "revision" : "5bc0284ee86bee29d922c8fac0ea1069dc11227a",
+        "version" : "0.12.0"
       }
     },
     {
@@ -113,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/turf-swift.git",
       "state" : {
-        "revision" : "213050191cfcb3d5aa76e1fa90c6ff1e182a42ca",
-        "version" : "2.8.0"
+        "revision" : "bf840e6b9529d105687840fe2c9dcd74197d46d1",
+        "version" : "4.0.0"
       }
     },
     {

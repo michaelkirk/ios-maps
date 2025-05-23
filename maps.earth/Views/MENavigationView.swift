@@ -202,13 +202,17 @@ extension FerrostarCoreFFI.Route {
   }
 }
 
+struct RouteNavigation {
+  let route: FerrostarCoreFFI.Route
+  let ferrostarCore: FerrostarCore
+}
+
 struct MENavigationView: View {
   var route: FerrostarCoreFFI.Route
   //  let initialLocation: CLLocation
   let styleURL: URL
   let stopNavigation: (_ didComplete: Bool) -> Void
   let destination: MapboxDirections.Waypoint
-  let locationProvider: LocationProviding
 
   @ObservedObject private var ferrostarCore: FerrostarCore
 
@@ -222,84 +226,126 @@ struct MENavigationView: View {
     stopNavigation: @escaping (_ didComplete: Bool) -> Void
   ) {
     self.destination = mlnRoute.legs.last!.destination
-    self.route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
+    let route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
     self.stopNavigation = stopNavigation
     self.styleURL = AppConfig().tileserverStyleUrl
 
-    if Env.current.simulateLocationForTesting {
-      let simulatedLocationProvider = SimulatedLocationProvider(
-        coordinate: mlnRoute.coordinates!.first!)
-      simulatedLocationProvider.warpFactor = 4
-      try! simulatedLocationProvider.setSimulatedRoute(self.route)
-      simulatedLocationProvider.startUpdating()
-      let goOffTrack = true
-      if goOffTrack {
-        self.locationProvider = OffTrackSimulatedLocationProvider(
-          simulatedLocationProvider: simulatedLocationProvider)
-      } else {
-        self.locationProvider = simulatedLocationProvider
-      }
+    let routeNavigation: RouteNavigation
+    if let existingRouteNavigation = Env.current.activeRouteNavigation,
+      existingRouteNavigation.route == route
+    {
+      routeNavigation = existingRouteNavigation
     } else {
-      let coreLocationProvider = Env.current.coreLocationProvider
-      let newActivityType: CLActivityType =
-        switch travelMode {
-        case .car:
-          .automotiveNavigation
-        default:
-          .otherNavigation
+      // TODO: remove as!
+      let routeProvider = TripPlanClientFerrostarAdapter(
+        tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
+        travelMode: travelMode,
+        measurementSystem: measurementSystem
+      )
+
+      let locationProvider: LocationProviding
+      if Env.current.simulateLocationForTesting {
+        let simulatedLocationProvider = SimulatedLocationProvider(
+          coordinate: mlnRoute.coordinates!.first!)
+        simulatedLocationProvider.warpFactor = 1
+        try! simulatedLocationProvider.setSimulatedRoute(route)
+        simulatedLocationProvider.startUpdating()
+        let goOffTrack = false
+        if goOffTrack {
+          locationProvider = OffTrackSimulatedLocationProvider(
+            simulatedLocationProvider: simulatedLocationProvider)
+        } else {
+          locationProvider = simulatedLocationProvider
         }
-      if newActivityType != coreLocationProvider.activityType {
-        coreLocationProvider.activityType = newActivityType
+      } else {
+        let coreLocationProvider = Env.current.coreLocationProvider
+        let newActivityType: CLActivityType =
+          switch travelMode {
+          case .car:
+            .automotiveNavigation
+          default:
+            .otherNavigation
+          }
+        if newActivityType != coreLocationProvider.activityType {
+          coreLocationProvider.activityType = newActivityType
+        }
+        locationProvider = coreLocationProvider
       }
-      self.locationProvider = coreLocationProvider
+
+      // Configure the navigation session.
+      // You have a lot of flexibility here based on your use case.
+      let config = SwiftNavigationControllerConfig(
+        waypointAdvance: .waypointWithinRange(20),
+        stepAdvance: .relativeLineStringDistance(
+          minimumHorizontalAccuracy: 32,
+          specialAdvanceConditions: .advanceAtDistanceFromEnd(10)
+        ),
+        routeDeviationTracking: .staticThreshold(
+          minimumHorizontalAccuracy: 25,
+          maxAcceptableDeviation: 20
+        ),
+        snappedLocationCourseFiltering: .snapToRoute
+      )
+
+      let ferrostarCore = FerrostarCore(
+        customRouteProvider: routeProvider,
+        locationProvider: locationProvider,
+        navigationControllerConfig: config
+      )
+      routeNavigation = RouteNavigation(route: route, ferrostarCore: ferrostarCore)
+      Env.current.activeRouteNavigation = routeNavigation
+      try! ferrostarCore.startNavigation(route: routeNavigation.route)
     }
+    self.route = routeNavigation.route
+    self.ferrostarCore = routeNavigation.ferrostarCore
 
-    // TODO: remove as!
-    let routeProvider = TripPlanClientFerrostarAdapter(
-      tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
-      travelMode: travelMode,
-      measurementSystem: measurementSystem
-    )
-
-    // Configure the navigation session.
-    // You have a lot of flexibility here based on your use case.
-    let config = SwiftNavigationControllerConfig(
-      stepAdvance: .relativeLineStringDistance(
-        minimumHorizontalAccuracy: 32,
-        specialAdvanceConditions: .advanceAtDistanceFromEnd(10)
-      ),
-      routeDeviationTracking: .staticThreshold(
-        minimumHorizontalAccuracy: 25,
-        maxAcceptableDeviation: 20
-      ),
-      snappedLocationCourseFiltering: .snapToRoute
-    )
-
-    self.ferrostarCore = FerrostarCore(
-      customRouteProvider: routeProvider,
-      locationProvider: locationProvider,
-      navigationControllerConfig: config
-    )
     let currentCamera = Env.current.getMapCamera()!
+    // I'd prefer to start navigation from "within" the current map, rather than popping a sheet with a new modal on it,
+    // but to at least keep up the illusion of consistency, we start the new map with the same camera as the old camera.
+    // NOTE: This still feels a little glitchy, beyond just the animation of presenting the sheet, the new map has to load
+    // in all the layers, so there's a little delay as the image in the newlyl popped "navigation" map catches up visually
+    // with the presented "MapView".
+    // Adding to this, there's also a zoom as we start the trip: zomming from "trip overview" to the "current location".
     self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
-    try! ferrostarCore.startNavigation(route: self.route)
   }
 
   var body: some View {
-    let mapView = DynamicallyOrientingNavigationView(
+    var mapView = DynamicallyOrientingNavigationView(
       styleURL: styleURL,
       // I'm not sure why this is a binding exactly, since we soon override it in onStyleLoaded.
       // I guess so that we can transition to/from the navigation mode?
       camera: $camera,
       navigationState: ferrostarCore.state,
       isMuted: true,
-      destinationName: self.destination.name,
-      onStyleLoaded: { style in
-        add3DBuildingsLayer(style: style)
-      },
       onTapMute: { assertionFailure("muting not implemented") },
-      onTapExit: { tripComplete in stopNavigation(tripComplete) }
-    ).onChange(
+      onTapExit: { stopNavigation(false) }
+    )
+    mapView.onStyleLoaded = { style in
+      add3DBuildingsLayer(style: style)
+    }
+    mapView.progressView = {
+      (navigationState: NavigationState?, onTapExit: (() -> Void)?) -> AnyView in
+      if case .navigating = navigationState?.tripState,
+        let progress = navigationState?.currentProgress
+      {
+        return AnyView(
+          TripProgressView(
+            progress: progress,
+            onTapExit: onTapExit
+          ))
+      } else if case .complete = navigationState?.tripState {
+        // No longer showing...
+        return AnyView(
+          TripCompleteBanner(
+            destinationName: self.destination.name, onTapExit: { stopNavigation(true) }
+          )
+          .padding(.horizontal, 16))
+      } else {
+        return AnyView(EmptyView())
+      }
+    }
+
+    return mapView.onChange(
       of: ferrostarCore.state,
       perform: { (value: NavigationState?) in
         guard let tripState = value?.tripState else {
@@ -316,13 +362,9 @@ struct MENavigationView: View {
           self.camera = .boundingBox(
             bbox, edgePadding: UIEdgeInsets(top: 0, left: 0, bottom: 400, right: 0))
         }
-      })
-    return mapView.onAppear {
+      }
+    ).onAppear {
       UIApplication.shared.isIdleTimerDisabled = true
-
-      // Set the camera to follow the user
-      // I'm not sure why this isn't already happening - is this a bug in my app? in ferrostar? Or is it just a surprising default?
-      camera = .automotiveNavigation(zoom: 18)
     }.onDisappear {
       UIApplication.shared.isIdleTimerDisabled = false
     }

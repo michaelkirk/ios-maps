@@ -53,6 +53,7 @@
 		45831E392BCDC940007E7AA4 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E382BCDC940007E7AA4 /* Logging.swift */; };
 		45831E3D2BCDFDAD007E7AA4 /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45831E3C2BCDFDAD007E7AA4 /* PreferencesController.swift */; };
 		4586A33B2C2F55E100AC7825 /* UserLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4586A33A2C2F55E100AC7825 /* UserLocationManager.swift */; };
+		4587A4632DD54F9700C2822F /* MapboxDirections in Frameworks */ = {isa = PBXBuildFile; productRef = 4587A4622DD54F9700C2822F /* MapboxDirections */; };
 		45971ABB2B71995D0050BECE /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971ABA2B71995D0050BECE /* Place.swift */; };
 		45971ABF2B719C620050BECE /* LngLat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971ABE2B719C620050BECE /* LngLat.swift */; };
 		45971AC32B719DD90050BECE /* GeocodeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45971AC22B719DD90050BECE /* GeocodeClient.swift */; };
@@ -68,6 +69,8 @@
 		45A33C792C8919E9007FB635 /* MLNBounds+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */; };
 		45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BC2C0FC005007145CE /* UniversalLink.swift */; };
 		45BB39BF2C0FC0DC007145CE /* UniversalLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */; };
+		45BFF55E2DD5533800810E0D /* Turf in Frameworks */ = {isa = PBXBuildFile; productRef = 45BFF55D2DD5533800810E0D /* Turf */; };
+		45BFF5602DD5585E00810E0D /* TripCompleteBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BFF55F2DD5585E00810E0D /* TripCompleteBanner.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */; };
 		45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */; };
@@ -80,7 +83,6 @@
 		45F5ECC62B9FC95C007A4657 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC52B9FC95C007A4657 /* UIHelper.swift */; };
 		45F5ECC82BA011C9007A4657 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC72BA011C9007A4657 /* CloseButton.swift */; };
 		45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5ECC92BA11046007A4657 /* LocateMeButton.swift */; };
-		45F8A6452BED720E00CA83B4 /* MapboxNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 45F8A6442BED720E00CA83B4 /* MapboxNavigation */; };
 		45FA80F02BFBFFB3009C0415 /* DirectionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FA80EF2BFBFFB3009C0415 /* DirectionsService.swift */; };
 /* End PBXBuildFile section */
 
@@ -147,6 +149,7 @@
 		45831E382BCDC940007E7AA4 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		45831E3C2BCDFDAD007E7AA4 /* PreferencesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
 		4586A33A2C2F55E100AC7825 /* UserLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationManager.swift; sourceTree = "<group>"; };
+		4587A4642DD5509C00C2822F /* mapbox-directions-swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "mapbox-directions-swift"; sourceTree = "<group>"; };
 		45971ABA2B71995D0050BECE /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		45971ABE2B719C620050BECE /* LngLat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LngLat.swift; sourceTree = "<group>"; };
 		45971AC22B719DD90050BECE /* GeocodeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodeClient.swift; sourceTree = "<group>"; };
@@ -164,6 +167,7 @@
 		45BB39BB2C0F8C6D007145CE /* maps.earth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = maps.earth.entitlements; sourceTree = "<group>"; };
 		45BB39BC2C0FC005007145CE /* UniversalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLink.swift; sourceTree = "<group>"; };
 		45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkTest.swift; sourceTree = "<group>"; };
+		45BFF55F2DD5585E00810E0D /* TripCompleteBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCompleteBanner.swift; sourceTree = "<group>"; };
 		45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanView.swift; sourceTree = "<group>"; };
 		45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceField.swift; sourceTree = "<group>"; };
 		45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiModalTripDetails.swift; sourceTree = "<group>"; };
@@ -173,7 +177,6 @@
 		45E0C3AA2BFFD26900C6388C /* UtilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
 		45E0C3AC2BFFD44B00C6388C /* TripList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripList.swift; sourceTree = "<group>"; };
 		45E0C3B22C0017A900C6388C /* west_seattle_water_taxi_place.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = west_seattle_water_taxi_place.json; sourceTree = "<group>"; };
-		45E456982BED96C200D95DFD /* mapbox-directions-swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "mapbox-directions-swift"; sourceTree = "<group>"; };
 		45E474702BB3562500018120 /* bicycle_plan_error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan_error.json; sourceTree = "<group>"; };
 		45F151532C87C90C003D6F24 /* ferrostar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ferrostar; sourceTree = "<group>"; };
 		45F5ECC52B9FC95C007A4657 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
@@ -188,8 +191,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				455363EE2B687D90006DF291 /* MapLibre in Frameworks */,
+				45BFF55E2DD5533800810E0D /* Turf in Frameworks */,
+				4587A4632DD54F9700C2822F /* MapboxDirections in Frameworks */,
 				456A19DF2C825AA300E7E7EA /* FerrostarSwiftUI in Frameworks */,
-				45F8A6452BED720E00CA83B4 /* MapboxNavigation in Frameworks */,
 				456A19DD2C825AA300E7E7EA /* FerrostarMapLibreUI in Frameworks */,
 				456A19DB2C825AA300E7E7EA /* FerrostarCore in Frameworks */,
 				455CDFF42BAA5E4A00D72FF6 /* PhoneNumberKit in Frameworks */,
@@ -329,6 +333,7 @@
 		45971AC62B71A7050050BECE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				45BFF55F2DD5585E00810E0D /* TripCompleteBanner.swift */,
 				4571DB892BD87B3B00C919D8 /* UtilityViews */,
 				45971AC42B71A6FF0050BECE /* PlaceRow.swift */,
 				455363EF2B687EF0006DF291 /* MapView.swift */,
@@ -411,7 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				45F151532C87C90C003D6F24 /* ferrostar */,
-				45E456982BED96C200D95DFD /* mapbox-directions-swift */,
+				4587A4642DD5509C00C2822F /* mapbox-directions-swift */,
 				45DFFD5E2BED949E00C27041 /* README.md */,
 			);
 			path = DevDependencies;
@@ -444,10 +449,11 @@
 			packageProductDependencies = (
 				455363ED2B687D90006DF291 /* MapLibre */,
 				455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */,
-				45F8A6442BED720E00CA83B4 /* MapboxNavigation */,
 				456A19DA2C825AA300E7E7EA /* FerrostarCore */,
 				456A19DC2C825AA300E7E7EA /* FerrostarMapLibreUI */,
 				456A19DE2C825AA300E7E7EA /* FerrostarSwiftUI */,
+				4587A4622DD54F9700C2822F /* MapboxDirections */,
+				45BFF55D2DD5533800810E0D /* Turf */,
 			);
 			productName = maps.earth;
 			productReference = 4563B9EF2B687AA4005A677A /* maps.earth.app */;
@@ -524,8 +530,9 @@
 			packageReferences = (
 				455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 				4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
-				45F8A6432BED709E00CA83B4 /* XCRemoteSwiftPackageReference "maplibre-navigation-ios" */,
 				456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */,
+				4587A4612DD54F9700C2822F /* XCRemoteSwiftPackageReference "mapbox-directions-swift" */,
+				45BFF55C2DD5533800810E0D /* XCRemoteSwiftPackageReference "turf-swift" */,
 			);
 			productRefGroup = 4563B9F02B687AA4005A677A /* Products */;
 			projectDirPath = "";
@@ -601,6 +608,7 @@
 				4545AA682BA373B500958306 /* Env.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
 				45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */,
+				45BFF5602DD5585E00810E0D /* TripCompleteBanner.swift in Sources */,
 				456A19E12C825C9900E7E7EA /* MENavigationView.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
@@ -795,7 +803,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = maps.earth/maps.earth.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"maps.earth/Preview Content\"";
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				ENABLE_PREVIEWS = YES;
@@ -813,7 +821,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -829,7 +837,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = maps.earth/maps.earth.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"maps.earth/Preview Content\"";
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				ENABLE_PREVIEWS = YES;
@@ -847,7 +855,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -998,12 +1006,20 @@
 				minimumVersion = 0.9.1;
 			};
 		};
-		45F8A6432BED709E00CA83B4 /* XCRemoteSwiftPackageReference "maplibre-navigation-ios" */ = {
+		4587A4612DD54F9700C2822F /* XCRemoteSwiftPackageReference "mapbox-directions-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/maplibre/maplibre-navigation-ios";
+			repositoryURL = "https://github.com/flitsmeister/mapbox-directions-swift";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.23.3;
+			};
+		};
+		45BFF55C2DD5533800810E0D /* XCRemoteSwiftPackageReference "turf-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mapbox/turf-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1034,10 +1050,15 @@
 			package = 456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */;
 			productName = FerrostarSwiftUI;
 		};
-		45F8A6442BED720E00CA83B4 /* MapboxNavigation */ = {
+		4587A4622DD54F9700C2822F /* MapboxDirections */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 45F8A6432BED709E00CA83B4 /* XCRemoteSwiftPackageReference "maplibre-navigation-ios" */;
-			productName = MapboxNavigation;
+			package = 4587A4612DD54F9700C2822F /* XCRemoteSwiftPackageReference "mapbox-directions-swift" */;
+			productName = MapboxDirections;
+		};
+		45BFF55D2DD5533800810E0D /* Turf */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45BFF55C2DD5533800810E0D /* XCRemoteSwiftPackageReference "turf-swift" */;
+			productName = Turf;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
