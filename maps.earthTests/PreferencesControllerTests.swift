@@ -21,63 +21,56 @@ final class PreferencesControllerTests: XCTestCase {
   }
 
   func noRepeats() async {
-    let expectation = XCTestExpectation(description: "Open a file asynchronously.")
-    Task { @MainActor in
-      let preferencesController = PreferencesController(
-        fromStorage: StorageController.InMemoryForTesting())
-      XCTAssertEqual(preferencesController.preferences.recentSearches, [])
-      await preferencesController.addSearch(text: "coffee")
-      XCTAssertEqual(preferencesController.preferences.recentSearches, ["coffee"])
-      await preferencesController.addSearch(text: "books")
-      XCTAssertEqual(preferencesController.preferences.recentSearches, ["books", "coffee"])
-      await preferencesController.addSearch(text: "coffee")
-      XCTAssertEqual(preferencesController.preferences.recentSearches, ["coffee", "books"])
-      expectation.fulfill()
-    }
-    await fulfillment(of: [expectation], timeout: 10)
+    let preferencesController = PreferencesController(
+      fromStorage: StorageController.InMemoryForTesting())
+
+    var recentSearches = try! await preferencesController.load().recentSearches
+    XCTAssertEqual(recentSearches, [])
+
+    recentSearches = await preferencesController.addSearch(text: "coffee")
+    XCTAssertEqual(recentSearches, ["coffee"])
+
+    recentSearches = await preferencesController.addSearch(text: "books")
+    XCTAssertEqual(recentSearches, ["books", "coffee"])
+
+    recentSearches = await preferencesController.addSearch(text: "coffee")
+    XCTAssertEqual(recentSearches, ["coffee", "books"])
   }
 
   func testCaseInsensitive() async {
-    let expectation = XCTestExpectation(description: "Open a file asynchronously.")
-    Task { @MainActor in
-      let preferencesController = PreferencesController(
-        fromStorage: StorageController.InMemoryForTesting())
-      XCTAssertEqual(preferencesController.preferences.recentSearches, [])
-      await preferencesController.addSearch(text: "coffee")
-      XCTAssertEqual(preferencesController.preferences.recentSearches, ["coffee"])
-      await preferencesController.addSearch(text: "Coffee")
-      XCTAssertEqual(preferencesController.preferences.recentSearches, ["Coffee"])
-      expectation.fulfill()
-    }
-    await fulfillment(of: [expectation], timeout: 10)
+    let preferencesController = PreferencesController(
+      fromStorage: StorageController.InMemoryForTesting())
+
+    var recentSearches = try! await preferencesController.load().recentSearches
+    XCTAssertEqual(recentSearches, [])
+    recentSearches = await preferencesController.addSearch(text: "coffee")
+    XCTAssertEqual(recentSearches, ["coffee"])
+    recentSearches = await preferencesController.addSearch(text: "Coffee")
+    XCTAssertEqual(recentSearches, ["Coffee"])
   }
 
   func testOnly10() async {
-    let expectation = XCTestExpectation(description: "Open a file asynchronously.")
-    Task { @MainActor in
-      let preferencesController = PreferencesController(
-        fromStorage: StorageController.InMemoryForTesting())
-      await preferencesController.addSearch(text: "one")
-      XCTAssertEqual(preferencesController.preferences.recentSearches, ["one"])
-      await preferencesController.addSearch(text: "two")
-      XCTAssertEqual(preferencesController.preferences.recentSearches, ["two", "one"])
-      await preferencesController.addSearch(text: "three")
-      await preferencesController.addSearch(text: "four")
-      await preferencesController.addSearch(text: "five")
-      await preferencesController.addSearch(text: "six")
-      await preferencesController.addSearch(text: "seven")
-      await preferencesController.addSearch(text: "eight")
-      await preferencesController.addSearch(text: "nine")
-      await preferencesController.addSearch(text: "ten")
-      XCTAssertEqual(
-        preferencesController.preferences.recentSearches,
-        ["ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"])
-      await preferencesController.addSearch(text: "eleven")
-      XCTAssertEqual(
-        preferencesController.preferences.recentSearches,
-        ["eleven", "ten", "nine", "eight", "seven", "six", "five", "four", "three", "two"])
-      expectation.fulfill()
-    }
-    await fulfillment(of: [expectation], timeout: 10)
+    let preferencesController = PreferencesController(
+      fromStorage: StorageController.InMemoryForTesting())
+
+    var recentSearches = await preferencesController.addSearch(text: "one")
+    XCTAssertEqual(recentSearches, ["one"])
+    recentSearches = await preferencesController.addSearch(text: "two")
+    XCTAssertEqual(recentSearches, ["two", "one"])
+    recentSearches = await preferencesController.addSearch(text: "three")
+    recentSearches = await preferencesController.addSearch(text: "four")
+    recentSearches = await preferencesController.addSearch(text: "five")
+    recentSearches = await preferencesController.addSearch(text: "six")
+    recentSearches = await preferencesController.addSearch(text: "seven")
+    recentSearches = await preferencesController.addSearch(text: "eight")
+    recentSearches = await preferencesController.addSearch(text: "nine")
+    recentSearches = await preferencesController.addSearch(text: "ten")
+    XCTAssertEqual(
+      recentSearches,
+      ["ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"])
+    recentSearches = await preferencesController.addSearch(text: "eleven")
+    XCTAssertEqual(
+      recentSearches,
+      ["eleven", "ten", "nine", "eight", "seven", "six", "five", "four", "three", "two"])
   }
 }

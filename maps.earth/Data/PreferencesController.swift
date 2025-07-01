@@ -9,39 +9,49 @@ import Foundation
 
 private let logger = FileLogger()
 
-class Preferences: ObservableObject, Decodable {
+class Preferences: ObservableObject {
+
+  let controller: PreferencesController
+
   @MainActor
-  @Published
-  var recentSearches: [String]
+  static let shared: Preferences = Preferences(controller: Env.current.preferencesController)
 
   @MainActor
   @Published
-  var preferredTravelMode: TravelMode
+  var recentSearches: [String] = ["Loading..."]
 
   @MainActor
-  convenience init() {
-    self.init(record: Record())
-  }
+  @Published
+  var preferredTravelMode: TravelMode = .walk
 
   @MainActor
-  init(record: Record) {
-    self.recentSearches = record.recentSearches
-    self.preferredTravelMode = record.preferredTravelMode
-  }
-
-  @MainActor
-  required convenience init(from decoder: any Decoder) throws {
-    let record: Record
-    do {
-      record = try Record.init(from: decoder)
-      assert(record.hasLatestSchemaVersion)
-    } catch {
-      let legacyRecord = try Record.LegacyRecord.init(from: decoder)
-      record = Record(legacy: legacyRecord)
-      print("Migrated legacy Preferences record \(legacyRecord), newRecord: \(record)")
+  init(controller: PreferencesController) {
+    self.controller = controller
+    Task {
+      let record = try await self.controller.load()
+      self.recentSearches = record.recentSearches
+      self.preferredTravelMode = record.preferredTravelMode
     }
-    self.init(record: record)
   }
+
+  @MainActor
+  func addSearch(text: String) async {
+    self.recentSearches = await self.controller.addSearch(text: text)
+  }
+
+  @MainActor
+  func clearSearch() async {
+    self.recentSearches = []
+    await self.controller.save(record: self.asRecord)
+  }
+
+  @MainActor
+  func setPreferredTravelMode(_ travelMode: TravelMode) async {
+    self.preferredTravelMode = travelMode
+    await self.controller.save(record: self.asRecord)
+  }
+
+  // MARK: Codable
 
   @MainActor
   var asRecord: Record {
@@ -50,8 +60,6 @@ class Preferences: ObservableObject, Decodable {
       preferredTravelMode: preferredTravelMode)
   }
 
-  // MARK: Codable
-  // Annoying boiler plate betweeen ObservableObject and Codable
   struct Record: Codable {
     typealias LegacyRecord = RecordV1
     struct RecordV1: Codable {
@@ -64,6 +72,21 @@ class Preferences: ObservableObject, Decodable {
     var preferredTravelMode: TravelMode
     var hasLatestSchemaVersion: Bool {
       self.schemaVersion == Self.schemaVersion
+    }
+
+    /// Decodes, migrating if necessary
+    static func load(jsonData: Data) throws -> Self {
+      let jsonDecoder = JSONDecoder()
+      let record: Record
+      do {
+        record = try jsonDecoder.decode(Self.self, from: jsonData)
+        assert(record.hasLatestSchemaVersion)
+      } catch {
+        let legacyRecord = try jsonDecoder.decode(Self.LegacyRecord.self, from: jsonData)
+        record = Record(legacy: legacyRecord)
+        print("Migrated legacy Preferences record \(legacyRecord), newRecord: \(record)")
+      }
+      return record
     }
   }
 }
@@ -82,90 +105,62 @@ extension Preferences.Record {
   }
 }
 
-class PreferencesController {
-  let serialQueue = DispatchQueue(label: "RecentsController")
+actor PreferencesController {
   var storageController: StorageController
 
-  @MainActor
-  var preferences: Preferences
+  var preferences: Preferences.Record = Preferences.Record()
 
-  @MainActor
   init(fromStorage storageController: StorageController) {
-    AssertMainThread()
     self.storageController = storageController
+  }
+
+  func save(record: Preferences.Record) async {
+    self.preferences = record
     do {
-      self.preferences = try storageController.readPreferences() ?? Preferences()
+      try self.storageController.write(preferences: record)
     } catch {
-      assertionFailure("error loading preferences. \(error)")
-      logger.error("error loading preferences. \(error)")
-      self.preferences = Preferences()
+      logger.error("error saving preferences: \(error)")
     }
   }
 
-  @MainActor
-  func clear() {
+  func clearSearch() async {
     preferences.recentSearches = []
-    let record = preferences.asRecord
-    self.serialQueue.async {
-      do {
-        try self.storageController.write(preferences: record)
-      } catch {
-        logger.error("error saving preferences: \(error)")
-      }
-    }
+    await save(record: preferences)
   }
 
-  @MainActor
-  func setPreferredTravelMode(_ travelMode: TravelMode) {
-    guard self.preferences.preferredTravelMode != travelMode else {
+  func setPreferredTravelMode(_ travelMode: TravelMode) async {
+    guard preferences.preferredTravelMode != travelMode else {
       return
     }
-    self.preferences.preferredTravelMode = travelMode
-    let record = self.preferences.asRecord
-    self.serialQueue.async {
-      do {
-        try self.storageController.write(preferences: record)
-      } catch {
-        logger.error("error saving preferences: \(error)")
-      }
-    }
+    preferences.preferredTravelMode = travelMode
+    await save(record: preferences)
   }
 
-  @MainActor
-  func addSearch(text: String) async {
+  func addSearch(text: String) async -> [String] {
     var recentSearches = self.preferences.recentSearches
-    await withCheckedContinuation { continuation in
-      self.serialQueue.async {
-        let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        if let existing = recentSearches.firstIndex(where: {
-          $0.lowercased() == text.lowercased()
-        }) {
-          recentSearches.remove(at: existing)
-        }
-        recentSearches.reverse()
-        recentSearches.append(text)
-        recentSearches.reverse()
-
-        // Only keep some of the most recent searches
-        let mostRecentSearches = Array(recentSearches.prefix(10))
-        logger.debug("New recents: \(mostRecentSearches)")
-
-        DispatchQueue.main.async {
-          self.preferences.recentSearches = mostRecentSearches
-          let record = self.preferences.asRecord
-
-          self.serialQueue.async {
-            do {
-              try self.storageController.write(preferences: record)
-              continuation.resume()
-            } catch {
-              logger.error("error saving preferences: \(error)")
-              continuation.resume()
-            }
-          }
-        }
-      }
+    if let existing = recentSearches.firstIndex(where: {
+      $0.lowercased() == text.lowercased()
+    }) {
+      recentSearches.remove(at: existing)
     }
+    recentSearches.reverse()
+    recentSearches.append(text)
+    recentSearches.reverse()
+
+    // Only keep some of the most recent searches
+    let mostRecentSearches = Array(recentSearches.prefix(10))
+    logger.debug("New recents: \(mostRecentSearches)")
+    self.preferences.recentSearches = mostRecentSearches
+    await save(record: preferences)
+
+    return mostRecentSearches
+  }
+
+  func load() async throws -> Preferences.Record {
+    let preferences = try storageController.readPreferences() ?? Preferences.Record()
+    self.preferences = preferences
+    return preferences
   }
 }

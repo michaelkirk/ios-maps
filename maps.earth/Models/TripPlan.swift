@@ -13,37 +13,33 @@ import MapboxDirections
 @MainActor
 class TripPlan: ObservableObject {
   @Published
-  @MainActor
   var navigateFrom: Place?
 
   @Published
-  @MainActor
   var navigateTo: Place?
 
   @Published
-  @MainActor var mode: TravelMode {
-    didSet {
-      Env.current.preferencesController.setPreferredTravelMode(mode)
-    }
-  }
-  @Published @MainActor var transitWithBike: Bool = false
-  @Published @MainActor var bounds: Bounds?
-  @Published @MainActor var trips: Result<[Trip], Error>
-  @Published @MainActor var selectedTrip: Trip?
-  @Published @MainActor var selectedRoute: Result<Route, Error>?
+  var preferences: Preferences = Preferences.shared
 
-  @MainActor
+  var mode: TravelMode {
+    preferences.preferredTravelMode
+  }
+
+  @Published var transitWithBike: Bool = false
+  @Published var bounds: Bounds?
+  @Published var trips: Result<[Trip], Error>
+  @Published var selectedTrip: Trip?
+  @Published var selectedRoute: Result<Route, Error>?
+
   init(
     from fromPlace: Place? = nil,
     to toPlace: Place? = nil,
-    mode: TravelMode? = nil,
     trips: Result<[Trip], Error> = .success([]),
     selectedTrip: Trip? = nil,
     bounds: Bounds? = nil
   ) {
     self.navigateFrom = fromPlace
     self.navigateTo = toPlace
-    self.mode = mode ?? Env.current.preferencesController.preferences.preferredTravelMode
     self.trips = trips
     if case .success(let trips) = trips {
       self.selectedTrip = selectedTrip ?? trips.first
@@ -53,7 +49,6 @@ class TripPlan: ObservableObject {
     self.bounds = bounds
   }
 
-  @MainActor
   var isEmpty: Bool {
     if self.navigateFrom == nil && self.navigateTo == nil {
       assert(self.bounds == nil)
@@ -70,7 +65,6 @@ class TripPlan: ObservableObject {
     }
   }
 
-  @MainActor
   func clear() {
     self.navigateFrom = nil
     self.navigateTo = nil

@@ -182,7 +182,10 @@ struct HomeView: View {
       Task {
         self.tripPlan.clear()
         do {
-          self.tripPlan.mode = travelMode
+          Task {
+            // Will the user be surprised that the preferred travel mode is set here?
+            await Preferences.shared.setPreferredTravelMode(travelMode)
+          }
           if let from {
             let fromPlace = try await GeocodeClient().details(placeID: from)
             self.tripPlan.navigateFrom = fromPlace

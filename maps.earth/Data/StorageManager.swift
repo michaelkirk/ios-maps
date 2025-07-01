@@ -12,19 +12,18 @@ protocol StorageController {
   typealias InMemoryForTesting = InMemoryStorage
 
   func write(preferences: Preferences.Record) throws
-  func readPreferences() throws -> Preferences?
+  func readPreferences() throws -> Preferences.Record?
 }
 
 class InMemoryStorage: StorageController {
-  var preferences: Preferences? = nil
+  var preferences: Preferences.Record? = nil
 
-  @MainActor
   func write(preferences: Preferences.Record) throws {
     dispatchPrecondition(condition: .notOnQueue(.main))
-    self.preferences = Preferences(record: preferences)
+    self.preferences = preferences
   }
 
-  func readPreferences() throws -> Preferences? {
+  func readPreferences() throws -> Preferences.Record? {
     self.preferences
   }
 }
@@ -65,14 +64,13 @@ class OnDiskStorage: StorageController {
     try jsonData.write(to: preferencesURL, options: [.completeFileProtection])
   }
 
-  func readPreferences() throws -> Preferences? {
+  func readPreferences() throws -> Preferences.Record? {
     try Bench(title: "read preferences") {
-      let jsonDecoder = JSONDecoder()
       guard FileManager.default.fileExists(atPath: preferencesURL.path) else {
         return nil
       }
       let jsonData = try Data(contentsOf: preferencesURL)
-      return try jsonDecoder.decode(Preferences.self, from: jsonData)
+      return try Preferences.Record.load(jsonData: jsonData)
     }
   }
 }

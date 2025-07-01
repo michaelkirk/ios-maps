@@ -45,28 +45,23 @@ struct FixtureData {
 
   @MainActor
   static var tripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .walk,
-    trips: .success(Self.walkTrips))
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.walkTrips))
 
   @MainActor
   static var walkTripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .walk,
-    trips: .success(Self.walkTrips))
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.walkTrips))
 
   @MainActor
   static var bikeTripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike,
-    trips: .success(Self.bikeTrips))
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.bikeTrips))
 
   @MainActor
   static var driveTripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .car,
-    trips: .success(Self.driveTrips))
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.driveTrips))
 
   @MainActor
   static var transitTripPlan: TripPlan = TripPlan(
-    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .transit,
-    trips: .success(Self.transitTrips))
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.transitTrips))
 
   static func loadTrips(filename: String) -> [Trip] {
     let response: TripPlanResponse = load(filename)

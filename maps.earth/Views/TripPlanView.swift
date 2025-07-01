@@ -117,6 +117,7 @@ struct ModeButton: View {
 
 struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
+  @State var travelMode: TravelMode
   var searcher = TripSearchManager()
   @State var showSteps: Bool
   @State var tripDate: TripDateMode = .departNow
@@ -137,10 +138,11 @@ struct TripPlanView: View {
     )
 
     return VStack(alignment: .leading) {
-      ModePicker(selectedMode: $tripPlan.mode).onChange(of: tripPlan.mode) { newValue in
+      ModePicker(selectedMode: $travelMode).onChange(of: travelMode) { newValue in
         // clear trips for previous mode
         tripPlan.selectedTrip = nil
         tripPlan.trips = .success([])
+        Task { await Preferences.shared.setPreferredTravelMode(newValue) }
       }
 
       OriginDestinationFieldSet(
@@ -175,7 +177,7 @@ struct TripPlanView: View {
       queryIfReady()
     }.onChange(of: tripDate) { newValue in
       queryIfReady()
-    }.onChange(of: tripPlan.mode) { newValue in
+    }.onChange(of: travelMode) { newValue in
       queryIfReady()
     }.onChange(of: tripPlan.transitWithBike) { newValue in
       queryIfReady()
@@ -283,9 +285,12 @@ struct TripPlanSheetContents: View {
     ) {
       GeometryReader { geometry in
         ScrollView {
-          TripPlanView(tripPlan: tripPlan, showSteps: showSteps, didCompleteTrip: didCompleteTrip)
-            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-            .frame(minHeight: geometry.size.height)
+          TripPlanView(
+            tripPlan: tripPlan, travelMode: tripPlan.mode, showSteps: showSteps,
+            didCompleteTrip: didCompleteTrip
+          )
+          .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+          .frame(minHeight: geometry.size.height)
         }
       }
     }
@@ -324,14 +329,14 @@ struct TripPlanSheetContents: View {
 
 #Preview("Only 'to' selected") {
   let tripPlan = TripPlan(to: FixtureData.places[.zeitgeist])
-  return Text("").sheet(isPresented: .constant(true)) {
+  Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
 }
 
 #Preview("Only 'from' selected") {
   let tripPlan = TripPlan(from: FixtureData.places[.dubsea])
-  return Text("").sheet(isPresented: .constant(true)) {
+  Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
 }

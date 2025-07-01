@@ -703,7 +703,6 @@ private func format(authorizationStatus status: CLAuthorizationStatus) -> String
 #Preview("MapView") {
   let tripPlan = ObservedObject(initialValue: FixtureData.transitTripPlan)
   let searchQueue = Binding.constant(SearchQueue(mostRecentResults: FixtureData.places.all))
-  let currentLocation = FixtureData.places[.zeitgeist].location
   return MapView(
     searchResults: searchQueue.mostRecentResults, selectedPlace: tripPlan.projectedValue.navigateTo,
     pendingMapFocus: .constant(nil),

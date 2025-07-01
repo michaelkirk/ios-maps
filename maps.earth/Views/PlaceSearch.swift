@@ -17,14 +17,9 @@ struct PlaceSearch: View {
   var didSubmitSearch: () -> Void
   var didSelectPlace: (Place) -> Void
 
-  @StateObject var preferences = Env.current.preferencesController.preferences
   @State private var scrollViewOffset: CGFloat = 0
   @EnvironmentObject var userLocationManager: UserLocationManager
-
-  @MainActor
-  var preferencesController: PreferencesController {
-    Env.current.preferencesController
-  }
+  var preferences: Preferences = Preferences.shared
 
   var body: some View {
     VStack(spacing: 0) {
@@ -76,7 +71,7 @@ struct PlaceSearch: View {
               places: $places,
               didSelectPlace: { place in
                 Task {
-                  await preferencesController.addSearch(text: queryText)
+                  await preferences.addSearch(text: queryText)
                 }
                 didSelectPlace(place)
               }
@@ -104,7 +99,7 @@ struct PlaceSearch: View {
                   Text("Recent Searches").font(.headline)
                   Spacer()
                   Button(action: {
-                    preferencesController.clear()
+                    Task { await preferences.clearSearch() }
                   }) {
                     Text("Clear")
                   }
