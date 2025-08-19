@@ -150,9 +150,7 @@ func add3DBuildingsLayer(style: MLNStyle) {
 
 extension MapView: UIViewRepresentable {
   func makeCoordinator() -> Coordinator {
-    let topControls = TopControls(pendingMapFocus: $pendingMapFocus)
-    let topControlsController = UIHostingController(rootView: topControls)
-    return Coordinator(self, topControlsController: topControlsController)
+    return Coordinator(self)
   }
 
   typealias UIViewType = MLNMapView
@@ -198,9 +196,10 @@ extension MapView: UIViewRepresentable {
     context.coordinator.originalLocationManagerDelegate = originalLocationManagerDelegate
 
     do {
-      let controlsUIView = context.coordinator.topControlsController.view!
+      let controlsUIView = TopControlsView()
       controlsUIView.translatesAutoresizingMaskIntoConstraints = false
-      controlsUIView.backgroundColor = .clear
+      controlsUIView.backgroundColor = UIColor.clear
+      controlsUIView.delegate = context.coordinator
       mlnMapView.addSubview(controlsUIView)
 
       let controlMargin: CGFloat = 8
@@ -215,7 +214,7 @@ extension MapView: UIViewRepresentable {
       // To Debug:
       //     mapView.compassView.compassVisibility = .visible
       // This math is a bit fickle and might not be semantically correct, but looks about right emperically.
-      let bottomOfTopControl = TopControls.controlHeight * 2 - mlnMapView.contentInset.top + 16
+      let bottomOfTopControl = TopControlsView.controlHeight * 2 - mlnMapView.contentInset.top + 16
 
       mlnMapView.compassViewMargins = CGPoint(
         x: controlMargin, y: bottomOfTopControl + controlMargin)
@@ -360,15 +359,15 @@ extension MapView: UIViewRepresentable {
 
     var mapContents: MapContents = .empty
 
-    var topControlsController: UIHostingController<TopControls>
+    //    var topControlsController: UIHostingController<TopControls>
     var selectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
     init(
-      _ mapView: MapView, topControlsController: UIHostingController<TopControls>
+      _ mapView: MapView
     ) {
       self.mapView = mapView
-      self.topControlsController = topControlsController
+      //      self.topControlsController = topControlsController
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
@@ -596,6 +595,37 @@ extension MapView.Coordinator: MLNMapViewDelegate {
         }
       }
     }
+  }
+}
+
+extension MapView.Coordinator: TopControlsDelegate {
+  func topControlsDidUpdateMapFocus(_ topControls: TopControlsView, mapFocus: MapFocus?) {
+    self.mapView.pendingMapFocus = mapFocus
+  }
+
+  func topControlsDidRequestAppInfo(_ topControls: TopControlsView) {
+    print("Presenting")
+    self.mlnMapView!.findViewController()!.topPresentedViewController.present(
+      AppInfoSheetContents(), animated: true)
+  }
+}
+
+extension UIView {
+  func findViewController() -> UIViewController? {
+    var responder: UIResponder? = self
+    while responder != nil {
+      responder = responder?.next
+      if let viewController = responder as? UIViewController {
+        return viewController
+      }
+    }
+    return nil
+  }
+}
+
+extension UIViewController {
+  var topPresentedViewController: UIViewController {
+    presentedViewController?.topPresentedViewController ?? self
   }
 }
 

@@ -5,16 +5,37 @@
 //  Created by Michael Kirk on 3/12/24.
 //
 
-import SwiftUI
+import UIKit
 
 private let logger = FileLogger()
 
-struct LocateMeButton: View {
-  @Binding var pendingMapFocus: MapFocus?
-  @EnvironmentObject var userLocationManager: UserLocationManager
+class LocateMeButton: UIButton {
+  weak var delegate: LocateMeButtonDelegate?
+  weak var userLocationManager: UserLocationManager?
 
-  var systemImageName: String {
-    switch self.userLocationManager.state {
+  private var currentState: UserLocationState = .initial {
+    didSet {
+      updateAppearance()
+    }
+  }
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    setupButton()
+  }
+
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    setupButton()
+  }
+
+  private func setupButton() {
+    addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    updateAppearance()
+  }
+
+  private var systemImageName: String {
+    switch currentState {
     case .initial, .showing:
       return "location"
     case .following:
@@ -24,54 +45,48 @@ struct LocateMeButton: View {
     }
   }
 
-  var body: some View {
-    Button(action: {
-      self.tapped()
-    }) {
-      Image(systemName: self.systemImageName)
-    }
-    // FIXME (minor): A "disabled" button makes sense for this state, but it means that taps "pass through" so if a confused
-    // user repeatedly taps the disabled button the map will zoom in.
-    .disabled(userLocationManager.state == .denied)
+  private func updateAppearance() {
+    setImage(UIImage(systemName: systemImageName), for: .normal)
+    isEnabled = currentState != .denied
   }
 
-  func tapped() {
+  func updateUserLocationState(_ state: UserLocationState) {
+    currentState = state
+  }
+
+  @objc private func buttonTapped() {
     let newState: UserLocationState
-    switch self.userLocationManager.state {
+    let newMapFocus: MapFocus?
+
+    switch currentState {
     case .initial:
       newState = .showing
-      self.pendingMapFocus = .userLocation
+      newMapFocus = .userLocation
     case .showing:
       newState = .following
-      self.pendingMapFocus = .userLocation
+      newMapFocus = .userLocation
     case .following:
       newState = .showing
-      self.pendingMapFocus = .userLocation
+      newMapFocus = .userLocation
     case .denied:
       newState = .denied
+      newMapFocus = nil
     }
-    logger.debug("tapped LocateMeButton with state \(userLocationManager.state) -> \(newState)")
-    self.userLocationManager.state = newState
+
+    logger.debug("tapped LocateMeButton with state \(self.currentState) -> \(newState)")
+
+    currentState = newState
+    userLocationManager?.state = newState
+    delegate?.locateMeButtonTapped(newMapFocus: newMapFocus)
   }
 }
 
-#Preview("initial/on") {
-  let userLocationManager = UserLocationManager()
-  userLocationManager.state = .initial
-  return LocateMeButton(pendingMapFocus: .constant(nil))
-    .environmentObject(userLocationManager)
+protocol LocateMeButtonDelegate: AnyObject {
+  func locateMeButtonTapped(newMapFocus: MapFocus?)
 }
 
-#Preview("following") {
-  let userLocationManager = UserLocationManager()
-  userLocationManager.state = .following
-  return LocateMeButton(pendingMapFocus: .constant(nil))
-    .environmentObject(userLocationManager)
-}
-
-#Preview("denied") {
-  let userLocationManager = UserLocationManager()
-  userLocationManager.state = .denied
-  return LocateMeButton(pendingMapFocus: .constant(nil))
-    .environmentObject(userLocationManager)
+extension TopControlsView: LocateMeButtonDelegate {
+  func locateMeButtonTapped(newMapFocus: MapFocus?) {
+    pendingMapFocus = newMapFocus
+  }
 }
