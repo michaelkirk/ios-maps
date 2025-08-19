@@ -116,7 +116,42 @@ extension TripPlace: IntoMarkerLocation {
   }
 }
 
-struct MapView {
+struct MapView: View {
+  @Binding var searchResults: [Place]?
+  @Binding var selectedPlace: Place?
+  @Binding var pendingMapFocus: MapFocus?
+  @ObservedObject var tripPlan: TripPlan
+  @EnvironmentObject var userLocationManager: UserLocationManager
+
+  var topPadding: CGFloat {
+    guard let safeAreaInsets = UIApplication.shared.windows.first?.safeAreaInsets else {
+      assertionFailure("safe area insets was unexpectedly nil")
+      return 40
+    }
+    print("safeAreaInsets were: \(safeAreaInsets)")
+    return safeAreaInsets.top + 16
+  }
+
+  var body: some View {
+    ZStack(alignment: .topTrailing) {
+      MapViewWrapper(
+        searchResults: $searchResults, selectedPlace: $selectedPlace,
+        pendingMapFocus: $pendingMapFocus, tripPlan: tripPlan,
+        userLocationManager: _userLocationManager)
+      if #available(iOS 17.0, *) {
+        TopControls(pendingMapFocus: $pendingMapFocus).frame(width: 32)
+          // I'm not sure what I have to add safeAreaPadding to my topPadding calculation, but without it, the compass is placed behind the status bar,
+          // as if safeArea is being ignored for the top controls
+          .safeAreaPadding(.top, topPadding)
+          .safeAreaPadding(.trailing, 12)
+      } else {
+        TopControls(pendingMapFocus: $pendingMapFocus).frame(width: 32).padding(topPadding)
+      }
+    }
+  }
+}
+
+struct MapViewWrapper {
   @Binding var searchResults: [Place]?
   @Binding var selectedPlace: Place?
   @Binding var pendingMapFocus: MapFocus?
@@ -148,11 +183,9 @@ func add3DBuildingsLayer(style: MLNStyle) {
   style.insertLayer(buildingsLayer, below: firstSymbolLayer)
 }
 
-extension MapView: UIViewRepresentable {
+extension MapViewWrapper: UIViewRepresentable {
   func makeCoordinator() -> Coordinator {
-    let topControls = TopControls(pendingMapFocus: $pendingMapFocus)
-    let topControlsController = UIHostingController(rootView: topControls)
-    return Coordinator(self, topControlsController: topControlsController)
+    return Coordinator(self)
   }
 
   typealias UIViewType = MLNMapView
@@ -198,19 +231,7 @@ extension MapView: UIViewRepresentable {
     context.coordinator.originalLocationManagerDelegate = originalLocationManagerDelegate
 
     do {
-      let controlsUIView = context.coordinator.topControlsController.view!
-      controlsUIView.translatesAutoresizingMaskIntoConstraints = false
-      controlsUIView.backgroundColor = .clear
-      mlnMapView.addSubview(controlsUIView)
-
       let controlMargin: CGFloat = 8
-      NSLayoutConstraint.activate([
-        controlsUIView.trailingAnchor.constraint(
-          equalTo: mlnMapView.safeAreaLayoutGuide.trailingAnchor, constant: -controlMargin),
-        controlsUIView.topAnchor.constraint(
-          equalTo: mlnMapView.safeAreaLayoutGuide.topAnchor, constant: 2 * controlMargin),
-      ])
-
       // We want the compass to appear below our controls,
       // To Debug:
       //     mapView.compassView.compassVisibility = .visible
@@ -355,20 +376,17 @@ extension MapView: UIViewRepresentable {
   class Coordinator: NSObject {
     weak var originalLocationManagerDelegate: MLNLocationManagerDelegate?
 
-    let mapView: MapView
+    let mapView: MapViewWrapper
     weak var mlnMapView: MLNMapView?
 
     var mapContents: MapContents = .empty
-
-    var topControlsController: UIHostingController<TopControls>
     var selectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
     init(
-      _ mapView: MapView, topControlsController: UIHostingController<TopControls>
+      _ mapView: MapViewWrapper
     ) {
       self.mapView = mapView
-      self.topControlsController = topControlsController
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
@@ -530,7 +548,7 @@ extension MapView: UIViewRepresentable {
   }
 }
 
-extension MapView.Coordinator: MLNMapViewDelegate {
+extension MapViewWrapper.Coordinator: MLNMapViewDelegate {
   func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
     add3DBuildingsLayer(style: style)
   }
@@ -600,7 +618,7 @@ extension MapView.Coordinator: MLNMapViewDelegate {
 }
 
 // Extend default delegate implementation
-extension MapView.Coordinator: MLNLocationManagerDelegate {
+extension MapViewWrapper.Coordinator: MLNLocationManagerDelegate {
 
   // Explicit objc bindings avoid an error while compiling preview
   // Otherwise there's a conflict between method names
@@ -703,7 +721,7 @@ private func format(authorizationStatus status: CLAuthorizationStatus) -> String
 #Preview("MapView") {
   let tripPlan = ObservedObject(initialValue: FixtureData.transitTripPlan)
   let searchQueue = Binding.constant(SearchQueue(mostRecentResults: FixtureData.places.all))
-  return MapView(
+  return MapViewWrapper(
     searchResults: searchQueue.mostRecentResults, selectedPlace: tripPlan.projectedValue.navigateTo,
     pendingMapFocus: .constant(nil),
     tripPlan: tripPlan.wrappedValue
