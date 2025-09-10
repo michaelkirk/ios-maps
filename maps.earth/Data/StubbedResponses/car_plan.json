@@ -10,7 +10,7 @@
               "maneuvers": [
                 {
                   "begin_shape_index": 0,
-                  "cost": 246.056,
+                  "cost": 246.352,
                   "end_shape_index": 69,
                   "highway": true,
                   "instruction": "Drive northeast on Fauntleroy Way Southwest.",
@@ -28,13 +28,13 @@
                 },
                 {
                   "begin_shape_index": 69,
-                  "cost": 50.89,
-                  "end_shape_index": 76,
+                  "cost": 50.938,
+                  "end_shape_index": 77,
                   "highway": null,
                   "instruction": "Take the exit on the right toward 1st Avenue South.",
                   "length": 0.188,
                   "street_names": null,
-                  "time": 13.749,
+                  "time": 13.791,
                   "travel_mode": "drive",
                   "travel_type": "car",
                   "type": 20,
@@ -43,16 +43,16 @@
                   "verbal_succinct_transition_instruction": null
                 },
                 {
-                  "begin_shape_index": 76,
-                  "cost": 400.619,
+                  "begin_shape_index": 77,
+                  "cost": 400.451,
                   "end_shape_index": 224,
                   "highway": null,
                   "instruction": "Turn left onto 1st Avenue South.",
-                  "length": 1.925,
+                  "length": 1.923,
                   "street_names": [
                     "1st Avenue South"
                   ],
-                  "time": 273.53,
+                  "time": 275.352,
                   "travel_mode": "drive",
                   "travel_type": "car",
                   "type": 15,
@@ -95,19 +95,19 @@
                   "verbal_succinct_transition_instruction": null
                 }
               ],
-              "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AlAid@r@k]NsKOuoACeiAAaErAwHmPQ{CEsACiDIsO]sHS_LC{FAeNCcGAiNCmE?kSEkD?sMNaLLuCxAmDjByCA}OA}D@}UBiNI}@?gECiEBsCBuDBiE?cYAiNAii@BkJ?oIFoEDyDUcIe@uF?{A?cF?uI?sI?}H?qO?wH?kC?uD?{M@wDAgG@aDAkA?a[@sA?iF?kN?uB?se@@qB?eD?{@?gIAiE@sD?iI@oC?cE@gO@uI@k^D_J?oXDi@AmD@wHAu@?kD?aC?gGAi|@EkJAsHA}LAY@iGAoH?yJ?kB?eA?yC@eD?mN?eX?yI?{H?uD@aM?oDAoF@wHAsF@oz@?aK?eP?kK?}J?mG?ol@@}D?yk@?yD?aK@qH@aH?eQAaGDiIFq\\RuAD{EoB}EIeRIsE?uDB{XSsb@hAoADs@tAsAAiFMuNYiH?oFAsD?qOE}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
+              "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AlAid@r@k]NsKI}q@Ew\\CoiAAwDrAwHmPQoCE_BCiDIsO]sHS_LC{FAeNCcGAiNCmE?kSEkD?sMNaLLsCxAoDjBuC?aPC}D@}UBiNIy@?kECgEBuCBuDBiE?cYAiNAii@BkJ?mIHqEBsDSiIg@uF?{A?cF?uI?sI?}H?qO?wH?kC?uD?{M@wDAgG@aDAkA?a[@sA?iF?kN?uB?se@@qB?eD?{@?gIAiE@sD?iI@oC?cE@gO@uI@k^D_J?oXDi@AmD@wHAu@?kD?aC?gGAi|@EkJAsHA}LAY@iGAoH?yJ?kB?eA?yC@eD?mN?eX?yI?{H?uD@aM?oDAoF@wHAsF@oz@?aK?eP?kK?}J?mG?ol@@}D?yk@?yD?aK@qH@cH?cQAaGDiIFq\\RuAD{EoB}EIeRIsE?uDB{XSsb@TaA@uCjC{EMcOYiH?}BAyD?kB?qOEgHcBgCm@wCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
               "summary": {
-                "cost": 771.781,
+                "cost": 771.956,
                 "has_ferry": false,
                 "has_highway": true,
                 "has_time_restrictions": false,
                 "has_toll": false,
-                "length": 4.439,
+                "length": 4.438,
                 "max_lat": 47.599218,
                 "max_lon": -122.331855,
                 "min_lat": 47.563526,
                 "min_lon": -122.378442,
-                "time": 513.192
+                "time": 515.058
               }
             }
           ],
@@ -124,17 +124,17 @@
           "status": 0,
           "status_message": "Found route between points",
           "summary": {
-            "cost": 771.781,
+            "cost": 771.956,
             "has_ferry": false,
             "has_highway": true,
             "has_time_restrictions": false,
             "has_toll": false,
-            "length": 4.439,
+            "length": 4.438,
             "max_lat": 47.599218,
             "max_lon": -122.331855,
             "min_lat": 47.563526,
             "min_lon": -122.378442,
-            "time": 513.192
+            "time": 515.058
           },
           "units": "miles"
         }
@@ -147,7 +147,7 @@
               "maneuvers": [
                 {
                   "begin_shape_index": 0,
-                  "cost": 270.823,
+                  "cost": 271.119,
                   "end_shape_index": 72,
                   "highway": true,
                   "instruction": "Drive northeast on Fauntleroy Way Southwest.",
@@ -165,13 +165,13 @@
                 },
                 {
                   "begin_shape_index": 72,
-                  "cost": 28.629,
+                  "cost": 28.678,
                   "end_shape_index": 110,
                   "highway": null,
                   "instruction": "Keep right toward 4th Avenue South.",
-                  "length": 0.366,
+                  "length": 0.367,
                   "street_names": null,
-                  "time": 25.333,
+                  "time": 25.376,
                   "travel_mode": "drive",
                   "travel_type": "car",
                   "type": 23,
@@ -181,15 +181,15 @@
                 },
                 {
                   "begin_shape_index": 110,
-                  "cost": 439.697,
-                  "end_shape_index": 246,
+                  "cost": 439.87,
+                  "end_shape_index": 250,
                   "highway": null,
                   "instruction": "Turn right onto 4th Avenue South.",
-                  "length": 1.992,
+                  "length": 1.993,
                   "street_names": [
                     "4th Avenue South"
                   ],
-                  "time": 280.929,
+                  "time": 283.151,
                   "travel_mode": "drive",
                   "travel_type": "car",
                   "type": 10,
@@ -198,9 +198,9 @@
                   "verbal_succinct_transition_instruction": "Turn right."
                 },
                 {
-                  "begin_shape_index": 246,
+                  "begin_shape_index": 250,
                   "cost": 15.257,
-                  "end_shape_index": 255,
+                  "end_shape_index": 259,
                   "highway": null,
                   "instruction": "Keep left to take 2nd Avenue Extension South.",
                   "length": 0.06,
@@ -216,16 +216,16 @@
                   "verbal_succinct_transition_instruction": null
                 },
                 {
-                  "begin_shape_index": 255,
-                  "cost": 65.534,
-                  "end_shape_index": 265,
+                  "begin_shape_index": 259,
+                  "cost": 67.282,
+                  "end_shape_index": 269,
                   "highway": null,
                   "instruction": "Turn left onto South Jackson Street.",
-                  "length": 0.101,
+                  "length": 0.102,
                   "street_names": [
                     "South Jackson Street"
                   ],
-                  "time": 21.099,
+                  "time": 21.189,
                   "travel_mode": "drive",
                   "travel_type": "car",
                   "type": 15,
@@ -234,9 +234,9 @@
                   "verbal_succinct_transition_instruction": "Turn left."
                 },
                 {
-                  "begin_shape_index": 265,
+                  "begin_shape_index": 269,
                   "cost": 0.0,
-                  "end_shape_index": 265,
+                  "end_shape_index": 269,
                   "highway": null,
                   "instruction": "Your destination is on the left.",
                   "length": 0.0,
@@ -250,19 +250,19 @@
                   "verbal_succinct_transition_instruction": null
                 }
               ],
-              "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AiAynA@saCLovBx@iT@oPA_p@hEw|B^yNr@cKp@{FdAmHjAoG`DgPfA_EjBeExAoCxA}BlBcBpBkAvBk@zBUtBKhBBr\\|CdGb@dCr@dBhAjBvAzAtAjAjBtAtClAfD`AzD|@~ELlD?pA@f@@tA@|E?hABbJs@A}DAiEA_OE{AA{_@KaNGyFCoCB{FoDoHQgO@sD?ma@Dil@DsH`D}C@k@?uJBsL@}HJiA@oA@sPNgHFmE?yFB_XPcFBkULeB@yI?uTAsPAgVAmHA_VAaG?iIAaG?_D?eJAsPAiJA}FAs@?eHAaVCiC?{D?kVCgFAyF?sGEwD?eHAuBEwEBgICoGAqFAuE@aIBoHBgE@_VDkD@kC@OAeCBoHAi@?qd@@mZEyI?s@AgCAkA?iLAiWAeT@wG?yU@uA@wG?iO@kLByEAsLAsG?wI@_G?}TCaB?oF?qBAoG?sA?yHAwH?eDCul@OiCBiCByBM{KkF_I?k`@t@a`@t@{i@pAy~@By\\_@mMUyAXmH|AqHC}PAkPCsLCyE?uHAiLCgLAwKCmUE}J?aVEed@E_[EkQAsKEa^EaTCaD?_PFgc@TsBXoBl@mB~@eBrAoAdAeGjGcOrNaDzCm@j@?xLAtVAxEApa@AzE?bFAjQ?`FAtG?dH",
+              "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AiAynA@saCLovBx@iT@oPA_p@hEw|B^yNr@cKp@{FdAmHjAoG`DgPfA_EjBeExAoCxA}BlBcBpBkAvBk@zBUtBKhBBr\\|CdGb@dCr@dBhAjBvAzAtAjAjBtAtClAfD`AzD|@~ELlD?pA@f@@tA@|E?x@BrJs@AkDA{EA_OE{AA{_@KaNGyFCoCB{FoDsBE{DKgO@mD@sa@Bil@DsH`D}C@k@?uJBsL@}HJiA@oA@sPNkDD{B@mE?yFB_XPcFBkULeB@yI?uTAsPAgVAmHA_VAaG?iIAaG?_D?}FAgB?sPAiJA}FAs@?eHAaVCiC?{D?kVCgFAyF?sGEwD?eHAuBEwEBgICoGAqFAuE@aIBoHBgE@_VDkD@kC@OAeCBoHAi@?qd@@mZEyI?s@AgCAkA?uLAuA?gTAeT@wG?yU@uA@wG?iO@kLByEAsLAsG?wI@_G?}TCaB?oF?qBAoG?sA?yHAwH?eDCul@OiCBiCByBM{KkF_I?k`@t@a`@t@{i@pAy~@By\\_@mMUuBb@qGrAqHC}PAkPCsLCyE?uHAiLCgLAwKCmUE}J?aVEed@E_[EkQAsKEa^EaTCaD?_PFgc@TsBXoBl@mB~@eBrAoAdAeGjGcOrNaDzCm@j@?xLAtVAxEApa@AzE?bFAjQ?fFAnG?dH",
               "summary": {
-                "cost": 819.943,
+                "cost": 822.208,
                 "has_ferry": false,
                 "has_highway": true,
                 "has_time_restrictions": false,
                 "has_toll": false,
-                "length": 4.986,
+                "length": 4.988,
                 "max_lat": 47.599212,
                 "max_lon": -122.327881,
                 "min_lat": 47.563526,
                 "min_lon": -122.378442,
-                "time": 557.339
+                "time": 559.693
               }
             }
           ],
@@ -279,17 +279,17 @@
           "status": 0,
           "status_message": "Found route between points",
           "summary": {
-            "cost": 819.943,
+            "cost": 822.208,
             "has_ferry": false,
             "has_highway": true,
             "has_time_restrictions": false,
             "has_toll": false,
-            "length": 4.986,
+            "length": 4.988,
             "max_lat": 47.599212,
             "max_lon": -122.327881,
             "min_lat": 47.563526,
             "min_lon": -122.378442,
-            "time": 557.339
+            "time": 559.693
           },
           "units": "miles"
         }
@@ -302,7 +302,7 @@
           "maneuvers": [
             {
               "begin_shape_index": 0,
-              "cost": 187.436,
+              "cost": 187.731,
               "end_shape_index": 55,
               "highway": true,
               "instruction": "Drive northeast on Fauntleroy Way Southwest.",
@@ -320,8 +320,8 @@
             },
             {
               "begin_shape_index": 55,
-              "cost": 220.703,
-              "end_shape_index": 138,
+              "cost": 222.592,
+              "end_shape_index": 139,
               "highway": true,
               "instruction": "Take the WA 99 North exit on the right.",
               "length": 2.287,
@@ -329,7 +329,7 @@
                 "WA 99",
                 "SR 99"
               ],
-              "time": 186.053,
+              "time": 186.072,
               "travel_mode": "drive",
               "travel_type": "car",
               "type": 20,
@@ -338,9 +338,9 @@
               "verbal_succinct_transition_instruction": null
             },
             {
-              "begin_shape_index": 138,
+              "begin_shape_index": 139,
               "cost": 27.956,
-              "end_shape_index": 153,
+              "end_shape_index": 154,
               "highway": null,
               "instruction": "Keep right to take SR 99 OffRamp toward Downtown/Alaskan Way South.",
               "length": 0.367,
@@ -356,9 +356,9 @@
               "verbal_succinct_transition_instruction": null
             },
             {
-              "begin_shape_index": 153,
+              "begin_shape_index": 154,
               "cost": 61.276,
-              "end_shape_index": 156,
+              "end_shape_index": 158,
               "highway": null,
               "instruction": "Turn right onto South Dearborn Street/WA 519.",
               "length": 0.06,
@@ -366,7 +366,7 @@
                 "South Dearborn Street",
                 "WA 519"
               ],
-              "time": 19.633,
+              "time": 19.651,
               "travel_mode": "drive",
               "travel_type": "car",
               "type": 10,
@@ -375,16 +375,16 @@
               "verbal_succinct_transition_instruction": "Turn right. Then, in 300 feet, Turn left onto 1st Avenue South."
             },
             {
-              "begin_shape_index": 156,
-              "cost": 79.988,
-              "end_shape_index": 169,
+              "begin_shape_index": 158,
+              "cost": 79.987,
+              "end_shape_index": 170,
               "highway": null,
               "instruction": "Turn left onto 1st Avenue South.",
               "length": 0.192,
               "street_names": [
                 "1st Avenue South"
               ],
-              "time": 32.905,
+              "time": 32.96,
               "travel_mode": "drive",
               "travel_type": "car",
               "type": 15,
@@ -393,9 +393,9 @@
               "verbal_succinct_transition_instruction": "Turn left."
             },
             {
-              "begin_shape_index": 169,
+              "begin_shape_index": 170,
               "cost": 74.214,
-              "end_shape_index": 185,
+              "end_shape_index": 186,
               "highway": null,
               "instruction": "Turn right onto South Jackson Street.",
               "length": 0.107,
@@ -411,9 +411,9 @@
               "verbal_succinct_transition_instruction": "Turn right."
             },
             {
-              "begin_shape_index": 185,
+              "begin_shape_index": 186,
               "cost": 0.0,
-              "end_shape_index": 185,
+              "end_shape_index": 186,
               "highway": null,
               "instruction": "Your destination is on the right.",
               "length": 0.0,
@@ -427,19 +427,19 @@
               "verbal_succinct_transition_instruction": null
             }
           ],
-          "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Eh@aGZgDPmDFsJA_IHi|AIs`FSic@gAw^wDyq@yAe\\cAkXu@uXOkXS{d@uBqd@yBim@[iMq@{]SiIe@{SuAuf@Qes@F{ON{Eb@sEt@mEdA_EvAqDfB}CrBgC|BqBhCwAlCy@pC_@rCArCXnCt@hCrA~BjBtBbChBzCxAlDhA|Dx@jEd@rEPlEApESlEg@fEw@~DgApDwAbDeBpCoBzB{BdBaCjAcIxBgSrBsgARoiAjAkq@CyuC?kgBEop@g@s~CMqnC@ycAxBmRRkZmAiP_BkK{BkHeCkLkF_ToKmSqNuVyQs[}SoTcL}PyI{pBer@ic@eOmBs@qx@{b@mX{K{\\iI_DeAkGiBuu@wLeJiAqDSmIKkN`Aip@lEaSrA}KrAmGrAwF~A@kL@a_@Bib@}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
+          "shape": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Eh@aGZgDPmDFsJA_IHi|AIs`FSic@gAw^wDyq@yAe\\cAkXu@uXOkXS{d@uBqd@yBim@[iMq@{]SiIe@{SuAuf@Qes@F{ON{Eb@sEt@mEdA_EvAqDfB}CrBgC|BqBhCwAlCy@pC_@rCArCXnCt@hCrA~BjBtBbChBzCxAlDhA|Dx@jEd@rEPlEApESlEg@fEw@~DgApDwAbDeBpCoBzB{BdBaCjAcIxBmUtA{J`D_z@e@aiA@kq@CyuC?kgBEop@g@s~CMqnC@ycAxBmRRkZmAiP_BkK{BkHeCkLkF_ToKmSqNuVyQs[}SoTcL}PyI{pBer@ic@eOmBs@qx@{b@mX{K{\\iI_DeAkGiBuu@wLeJiAqDSmIKkN`Aip@lEaSrA}KrAmGrAwF~A@}J@wa@@}S@cLgHcBgCm@wCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
           "summary": {
-            "cost": 651.575,
+            "cost": 653.759,
             "has_ferry": false,
             "has_highway": true,
             "has_time_restrictions": false,
             "has_toll": false,
-            "length": 4.553,
+            "length": 4.554,
             "max_lat": 47.599218,
             "max_lon": -122.331855,
             "min_lat": 47.563526,
             "min_lon": -122.378442,
-            "time": 434.472
+            "time": 434.564
           }
         }
       ],
@@ -456,17 +456,17 @@
       "status": 0,
       "status_message": "Found route between points",
       "summary": {
-        "cost": 651.575,
+        "cost": 653.759,
         "has_ferry": false,
         "has_highway": true,
         "has_time_restrictions": false,
         "has_toll": false,
-        "length": 4.553,
+        "length": 4.554,
         "max_lat": 47.599218,
         "max_lon": -122.331855,
         "min_lat": 47.563526,
         "min_lon": -122.378442,
-        "time": 434.472
+        "time": 434.564
       },
       "units": "miles"
     }
@@ -484,23 +484,27 @@
             47.563526
           ]
         },
-        "distance": 4.553,
+        "distance": 4.554,
         "distanceUnits": "miles",
-        "duration": 434.472,
-        "endTime": 1715202930587,
+        "duration": 434.564,
+        "endTime": 1757544845791,
         "legs": [
           {
-            "endTime": 1715202930587,
+            "distance": 4.554,
+            "durationSeconds": 434.564,
+            "endTime": 1757544845791,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": null
             },
-            "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Eh@aGZgDPmDFsJA_IHi|AIs`FSic@gAw^wDyq@yAe\\cAkXu@uXOkXS{d@uBqd@yBim@[iMq@{]SiIe@{SuAuf@Qes@F{ON{Eb@sEt@mEdA_EvAqDfB}CrBgC|BqBhCwAlCy@pC_@rCArCXnCt@hCrA~BjBtBbChBzCxAlDhA|Dx@jEd@rEPlEApESlEg@fEw@~DgApDwAbDeBpCoBzB{BdBaCjAcIxBgSrBsgARoiAjAkq@CyuC?kgBEop@g@s~CMqnC@ycAxBmRRkZmAiP_BkK{BkHeCkLkF_ToKmSqNuVyQs[}SoTcL}PyI{pBer@ic@eOmBs@qx@{b@mX{K{\\iI_DeAkGiBuu@wLeJiAqDSmIKkN`Aip@lEaSrA}KrAmGrAwF~A@kL@a_@Bib@}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
+            "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Eh@aGZgDPmDFsJA_IHi|AIs`FSic@gAw^wDyq@yAe\\cAkXu@uXOkXS{d@uBqd@yBim@[iMq@{]SiIe@{SuAuf@Qes@F{ON{Eb@sEt@mEdA_EvAqDfB}CrBgC|BqBhCwAlCy@pC_@rCArCXnCt@hCrA~BjBtBbChBzCxAlDhA|Dx@jEd@rEPlEApESlEg@fEw@~DgApDwAbDeBpCoBzB{BdBaCjAcIxBmUtA{J`D_z@e@aiA@kq@CyuC?kgBEop@g@s~CMqnC@ycAxBmRRkZmAiP_BkK{BkHeCkLkF_ToKmSqNuVyQs[}SoTcL}PyI{pBer@ic@eOmBs@qx@{b@mX{K{\\iI_DeAkGiBuu@wLeJiAqDSmIKkN`Aip@lEaSrA}KrAmGrAwF~A@}J@wa@@}S@cLgHcBgCm@wCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
             "mode": "CAR",
             "nonTransitLeg": {
               "maneuvers": [
                 {
+                  "bearingAfter": 41,
+                  "bearingBefore": 41,
                   "distance": 1.539,
                   "instruction": "Drive northeast on Fauntleroy Way Southwest.",
                   "startPoint": {
@@ -514,6 +518,8 @@
                   "verbalPostTransitionInstruction": "Continue for 1.5 miles."
                 },
                 {
+                  "bearingAfter": 103,
+                  "bearingBefore": 89,
                   "distance": 2.287,
                   "instruction": "Take the WA 99 North exit on the right.",
                   "startPoint": {
@@ -528,6 +534,8 @@
                   "verbalPostTransitionInstruction": "Continue for 2 miles."
                 },
                 {
+                  "bearingAfter": 22,
+                  "bearingBefore": 17,
                   "distance": 0.367,
                   "instruction": "Keep right to take SR 99 OffRamp toward Downtown/Alaskan Way South.",
                   "startPoint": {
@@ -541,6 +549,8 @@
                   "verbalPostTransitionInstruction": null
                 },
                 {
+                  "bearingAfter": 90,
+                  "bearingBefore": 345,
                   "distance": 0.06,
                   "instruction": "Turn right onto South Dearborn Street/WA 519.",
                   "startPoint": {
@@ -555,6 +565,8 @@
                   "verbalPostTransitionInstruction": "Continue for 300 feet."
                 },
                 {
+                  "bearingAfter": 12,
+                  "bearingBefore": 90,
                   "distance": 0.192,
                   "instruction": "Turn left onto 1st Avenue South.",
                   "startPoint": {
@@ -568,6 +580,8 @@
                   "verbalPostTransitionInstruction": "Continue for a quarter mile."
                 },
                 {
+                  "bearingAfter": 122,
+                  "bearingBefore": 0,
                   "distance": 0.107,
                   "instruction": "Turn right onto South Jackson Street.",
                   "startPoint": {
@@ -581,6 +595,8 @@
                   "verbalPostTransitionInstruction": "Continue for 600 feet."
                 },
                 {
+                  "bearingAfter": 0,
+                  "bearingBefore": 90,
                   "distance": 0.0,
                   "instruction": "Your destination is on the right.",
                   "startPoint": {
@@ -598,7 +614,7 @@
                 "Fauntleroy Way Southwest"
               ]
             },
-            "startTime": 1715202496115,
+            "startTime": 1757544411227,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -607,7 +623,7 @@
           }
         ],
         "mode": "CAR",
-        "startTime": 1715202930587
+        "startTime": 1757544845791
       },
       {
         "bounds": {
@@ -620,23 +636,27 @@
             47.563526
           ]
         },
-        "distance": 4.439,
+        "distance": 4.438,
         "distanceUnits": "miles",
-        "duration": 513.192,
-        "endTime": 1715203009307,
+        "duration": 515.058,
+        "endTime": 1757544926285,
         "legs": [
           {
-            "endTime": 1715203009307,
+            "distance": 4.438,
+            "durationSeconds": 515.058,
+            "endTime": 1757544926285,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": null
             },
-            "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AlAid@r@k]NsKOuoACeiAAaErAwHmPQ{CEsACiDIsO]sHS_LC{FAeNCcGAiNCmE?kSEkD?sMNaLLuCxAmDjByCA}OA}D@}UBiNI}@?gECiEBsCBuDBiE?cYAiNAii@BkJ?oIFoEDyDUcIe@uF?{A?cF?uI?sI?}H?qO?wH?kC?uD?{M@wDAgG@aDAkA?a[@sA?iF?kN?uB?se@@qB?eD?{@?gIAiE@sD?iI@oC?cE@gO@uI@k^D_J?oXDi@AmD@wHAu@?kD?aC?gGAi|@EkJAsHA}LAY@iGAoH?yJ?kB?eA?yC@eD?mN?eX?yI?{H?uD@aM?oDAoF@wHAsF@oz@?aK?eP?kK?}J?mG?ol@@}D?yk@?yD?aK@qH@aH?eQAaGDiIFq\\RuAD{EoB}EIeRIsE?uDB{XSsb@hAoADs@tAsAAiFMuNYiH?oFAsD?qOE}GqBeBUk@IwCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
+            "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AlAid@r@k]NsKI}q@Ew\\CoiAAwDrAwHmPQoCE_BCiDIsO]sHS_LC{FAeNCcGAiNCmE?kSEkD?sMNaLLsCxAoDjBuC?aPC}D@}UBiNIy@?kECgEBuCBuDBiE?cYAiNAii@BkJ?mIHqEBsDSiIg@uF?{A?cF?uI?sI?}H?qO?wH?kC?uD?{M@wDAgG@aDAkA?a[@sA?iF?kN?uB?se@@qB?eD?{@?gIAiE@sD?iI@oC?cE@gO@uI@k^D_J?oXDi@AmD@wHAu@?kD?aC?gGAi|@EkJAsHA}LAY@iGAoH?yJ?kB?eA?yC@eD?mN?eX?yI?{H?uD@aM?oDAoF@wHAsF@oz@?aK?eP?kK?}J?mG?ol@@}D?yk@?yD?aK@qH@cH?cQAaGDiIFq\\RuAD{EoB}EIeRIsE?uDB{XSsb@TaA@uCjC{EMcOYiH?}BAyD?kB?qOEgHcBgCm@wCKqjAFiN?sE@_D?{U@cD@}I?kF?kD?t@_C^mAJsODoE@{@@{C@kFAsECgT?yDAqDIu\\e@iBk@uA?yH@yL",
             "mode": "CAR",
             "nonTransitLeg": {
               "maneuvers": [
                 {
+                  "bearingAfter": 41,
+                  "bearingBefore": 41,
                   "distance": 2.218,
                   "instruction": "Drive northeast on Fauntleroy Way Southwest.",
                   "startPoint": {
@@ -650,6 +670,8 @@
                   "verbalPostTransitionInstruction": "Continue for 2 miles."
                 },
                 {
+                  "bearingAfter": 95,
+                  "bearingBefore": 89,
                   "distance": 0.188,
                   "instruction": "Take the exit on the right toward 1st Avenue South.",
                   "startPoint": {
@@ -661,7 +683,9 @@
                   "verbalPostTransitionInstruction": null
                 },
                 {
-                  "distance": 1.925,
+                  "bearingAfter": 1,
+                  "bearingBefore": 111,
+                  "distance": 1.923,
                   "instruction": "Turn left onto 1st Avenue South.",
                   "startPoint": {
                     "lat": 47.571416,
@@ -674,6 +698,8 @@
                   "verbalPostTransitionInstruction": "Continue for 2 miles."
                 },
                 {
+                  "bearingAfter": 122,
+                  "bearingBefore": 0,
                   "distance": 0.107,
                   "instruction": "Turn right onto South Jackson Street.",
                   "startPoint": {
@@ -687,6 +713,8 @@
                   "verbalPostTransitionInstruction": "Continue for 600 feet."
                 },
                 {
+                  "bearingAfter": 0,
+                  "bearingBefore": 90,
                   "distance": 0.0,
                   "instruction": "Your destination is on the right.",
                   "startPoint": {
@@ -703,7 +731,7 @@
                 "1st Avenue South"
               ]
             },
-            "startTime": 1715202496115,
+            "startTime": 1757544411227,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -712,7 +740,7 @@
           }
         ],
         "mode": "CAR",
-        "startTime": 1715203009307
+        "startTime": 1757544926285
       },
       {
         "bounds": {
@@ -725,23 +753,27 @@
             47.563526
           ]
         },
-        "distance": 4.986,
+        "distance": 4.988,
         "distanceUnits": "miles",
-        "duration": 557.339,
-        "endTime": 1715203053454,
+        "duration": 559.693,
+        "endTime": 1757544970920,
         "legs": [
           {
-            "endTime": 1715203053454,
+            "distance": 4.988,
+            "durationSeconds": 559.693,
+            "endTime": 1757544970920,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": null
             },
-            "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AiAynA@saCLovBx@iT@oPA_p@hEw|B^yNr@cKp@{FdAmHjAoG`DgPfA_EjBeExAoCxA}BlBcBpBkAvBk@zBUtBKhBBr\\|CdGb@dCr@dBhAjBvAzAtAjAjBtAtClAfD`AzD|@~ELlD?pA@f@@tA@|E?hABbJs@A}DAiEA_OE{AA{_@KaNGyFCoCB{FoDoHQgO@sD?ma@Dil@DsH`D}C@k@?uJBsL@}HJiA@oA@sPNgHFmE?yFB_XPcFBkULeB@yI?uTAsPAgVAmHA_VAaG?iIAaG?_D?eJAsPAiJA}FAs@?eHAaVCiC?{D?kVCgFAyF?sGEwD?eHAuBEwEBgICoGAqFAuE@aIBoHBgE@_VDkD@kC@OAeCBoHAi@?qd@@mZEyI?s@AgCAkA?iLAiWAeT@wG?yU@uA@wG?iO@kLByEAsLAsG?wI@_G?}TCaB?oF?qBAoG?sA?yHAwH?eDCul@OiCBiCByBM{KkF_I?k`@t@a`@t@{i@pAy~@By\\_@mMUyAXmH|AqHC}PAkPCsLCyE?uHAiLCgLAwKCmUE}J?aVEed@E_[EkQAsKEa^EaTCaD?_PFgc@TsBXoBl@mB~@eBrAoAdAeGjGcOrNaDzCm@j@?xLAtVAxEApa@AzE?bFAjQ?`FAtG?dH",
+            "geometry": "mo`vyArkklhFaL}OyFmIoBoCaJ{MwCgEwI_Me@s@wBoHwGkLwCiFsJwTwBaFiBwEgBoEk[qx@sKuWkP_\\yD_GsFaG}FaGeNmL}NeImQqGsW_FygAoRadAoQoLsBsHmBgGsB}EeCmH}EuD}C{FkEgBuBgLcPmJ{R{EmO{DcQ{BcP}@iKo@sMMsd@MuvC`@eqJHyq@~@ef@jAuXbCuXrFej@bCsVnD__@tB{[~@e]LyXMo{Em@eSImuBBi|Ec@me@gCio@uEe}@uDkt@}GitAeCga@cAyT_@yMDwLd@gmAYq~AiAynA@saCLovBx@iT@oPA_p@hEw|B^yNr@cKp@{FdAmHjAoG`DgPfA_EjBeExAoCxA}BlBcBpBkAvBk@zBUtBKhBBr\\|CdGb@dCr@dBhAjBvAzAtAjAjBtAtClAfD`AzD|@~ELlD?pA@f@@tA@|E?x@BrJs@AkDA{EA_OE{AA{_@KaNGyFCoCB{FoDsBE{DKgO@mD@sa@Bil@DsH`D}C@k@?uJBsL@}HJiA@oA@sPNkDD{B@mE?yFB_XPcFBkULeB@yI?uTAsPAgVAmHA_VAaG?iIAaG?_D?}FAgB?sPAiJA}FAs@?eHAaVCiC?{D?kVCgFAyF?sGEwD?eHAuBEwEBgICoGAqFAuE@aIBoHBgE@_VDkD@kC@OAeCBoHAi@?qd@@mZEyI?s@AgCAkA?uLAuA?gTAeT@wG?yU@uA@wG?iO@kLByEAsLAsG?wI@_G?}TCaB?oF?qBAoG?sA?yHAwH?eDCul@OiCBiCByBM{KkF_I?k`@t@a`@t@{i@pAy~@By\\_@mMUuBb@qGrAqHC}PAkPCsLCyE?uHAiLCgLAwKCmUE}J?aVEed@E_[EkQAsKEa^EaTCaD?_PFgc@TsBXoBl@mB~@eBrAoAdAeGjGcOrNaDzCm@j@?xLAtVAxEApa@AzE?bFAjQ?fFAnG?dH",
             "mode": "CAR",
             "nonTransitLeg": {
               "maneuvers": [
                 {
+                  "bearingAfter": 41,
+                  "bearingBefore": 41,
                   "distance": 2.464,
                   "instruction": "Drive northeast on Fauntleroy Way Southwest.",
                   "startPoint": {
@@ -755,7 +787,9 @@
                   "verbalPostTransitionInstruction": "Continue for 2 miles."
                 },
                 {
-                  "distance": 0.366,
+                  "bearingAfter": 97,
+                  "bearingBefore": 90,
+                  "distance": 0.367,
                   "instruction": "Keep right toward 4th Avenue South.",
                   "startPoint": {
                     "lat": 47.571549,
@@ -766,7 +800,9 @@
                   "verbalPostTransitionInstruction": null
                 },
                 {
-                  "distance": 1.992,
+                  "bearingAfter": 1,
+                  "bearingBefore": 269,
+                  "distance": 1.993,
                   "instruction": "Turn right onto 4th Avenue South.",
                   "startPoint": {
                     "lat": 47.569653,
@@ -779,6 +815,8 @@
                   "verbalPostTransitionInstruction": "Continue for 2 miles."
                 },
                 {
+                  "bearingAfter": 351,
+                  "bearingBefore": 359,
                   "distance": 0.06,
                   "instruction": "Keep left to take 2nd Avenue Extension South.",
                   "startPoint": {
@@ -792,7 +830,9 @@
                   "verbalPostTransitionInstruction": "Continue for 300 feet."
                 },
                 {
-                  "distance": 0.101,
+                  "bearingAfter": 270,
+                  "bearingBefore": 327,
+                  "distance": 0.102,
                   "instruction": "Turn left onto South Jackson Street.",
                   "startPoint": {
                     "lat": 47.599206,
@@ -805,6 +845,8 @@
                   "verbalPostTransitionInstruction": "Continue for 500 feet."
                 },
                 {
+                  "bearingAfter": 0,
+                  "bearingBefore": 270,
                   "distance": 0.0,
                   "instruction": "Your destination is on the left.",
                   "startPoint": {
@@ -821,7 +863,7 @@
                 "4th Avenue South"
               ]
             },
-            "startTime": 1715202496115,
+            "startTime": 1757544411227,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -830,7 +872,7 @@
           }
         ],
         "mode": "CAR",
-        "startTime": 1715203053454
+        "startTime": 1757544970920
       }
     ]
   }

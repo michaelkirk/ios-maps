@@ -1,1687 +1,450 @@
 {
-  "_otp": null,
-  "_valhalla": {
-    "alternates": [
-      {
-        "trip": {
-          "language": "en-US",
-          "legs": [
-            {
-              "maneuvers": [
-                {
-                  "begin_shape_index": 0,
-                  "cost": 55.226,
-                  "end_shape_index": 6,
-                  "highway": null,
-                  "instruction": "Walk northeast on the walkway.",
-                  "length": 0.048,
-                  "street_names": null,
-                  "time": 55.226,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 2,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Walk northeast on the walkway.",
-                  "verbal_succinct_transition_instruction": "Walk northeast."
-                },
-                {
-                  "begin_shape_index": 6,
-                  "cost": 7.058,
-                  "end_shape_index": 9,
-                  "highway": null,
-                  "instruction": "Bear right onto the walkway.",
-                  "length": 0.006,
-                  "street_names": null,
-                  "time": 7.058,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 9,
-                  "verbal_post_transition_instruction": "Continue for 30 feet.",
-                  "verbal_pre_transition_instruction": "Bear right onto the walkway. Then, in 30 feet, Turn right toward Southwest Avalon Way.",
-                  "verbal_succinct_transition_instruction": "Bear right. Then, in 30 feet, Turn right toward Southwest Avalon Way."
-                },
-                {
-                  "begin_shape_index": 9,
-                  "cost": 894.235,
-                  "end_shape_index": 76,
-                  "highway": null,
-                  "instruction": "Turn right toward Southwest Avalon Way.",
-                  "length": 0.774,
-                  "street_names": [
-                    "Southwest Avalon Way"
-                  ],
-                  "time": 884.235,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 1 mile.",
-                  "verbal_pre_transition_instruction": "Turn right toward Southwest Avalon Way.",
-                  "verbal_succinct_transition_instruction": "Turn right toward Southwest Avalon Way."
-                },
-                {
-                  "begin_shape_index": 76,
-                  "cost": 411.823,
-                  "end_shape_index": 103,
-                  "highway": null,
-                  "instruction": "Keep right to take Harbor Avenue Southwest.",
-                  "length": 0.361,
-                  "street_names": [
-                    "Harbor Avenue Southwest"
-                  ],
-                  "time": 411.823,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 23,
-                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
-                  "verbal_pre_transition_instruction": "Keep right to take Harbor Avenue Southwest.",
-                  "verbal_succinct_transition_instruction": null
-                },
-                {
-                  "begin_shape_index": 103,
-                  "cost": 811.058,
-                  "end_shape_index": 139,
-                  "highway": null,
-                  "instruction": "Keep right to stay on Harbor Avenue Southwest.",
-                  "length": 0.713,
-                  "street_names": [
-                    "Harbor Avenue Southwest"
-                  ],
-                  "time": 811.058,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 23,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Keep right to stay on Harbor Avenue Southwest.",
-                  "verbal_succinct_transition_instruction": null
-                },
-                {
-                  "begin_shape_index": 139,
-                  "cost": 12.764,
-                  "end_shape_index": 140,
-                  "highway": null,
-                  "instruction": "Turn right.",
-                  "length": 0.006,
-                  "street_names": null,
-                  "time": 7.764,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 40 feet.",
-                  "verbal_pre_transition_instruction": "Turn right. Then Turn left onto Alki Trail.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto Alki Trail."
-                },
-                {
-                  "begin_shape_index": 140,
-                  "cost": 202.647,
-                  "end_shape_index": 148,
-                  "highway": null,
-                  "instruction": "Turn left onto Alki Trail.",
-                  "length": 0.173,
-                  "street_names": [
-                    "Alki Trail"
-                  ],
-                  "time": 197.647,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 900 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto Alki Trail.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 148,
-                  "cost": 55.764,
-                  "end_shape_index": 152,
-                  "highway": null,
-                  "instruction": "Turn left to stay on Alki Trail.",
-                  "length": 0.049,
-                  "street_names": [
-                    "Alki Trail"
-                  ],
-                  "time": 55.764,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Turn left to stay on Alki Trail.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 152,
-                  "cost": 51.529,
-                  "end_shape_index": 167,
-                  "highway": null,
-                  "instruction": "Turn right to stay on Alki Trail.",
-                  "length": 0.045,
-                  "street_names": [
-                    "Alki Trail"
-                  ],
-                  "time": 51.529,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 200 feet.",
-                  "verbal_pre_transition_instruction": "Turn right to stay on Alki Trail.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 167,
-                  "cost": 6.353,
-                  "end_shape_index": 168,
-                  "highway": null,
-                  "instruction": "Turn right to stay on Alki Trail.",
-                  "length": 0.005,
-                  "street_names": [
-                    "Alki Trail"
-                  ],
-                  "time": 6.353,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 30 feet.",
-                  "verbal_pre_transition_instruction": "Turn right to stay on Alki Trail. Then Continue on the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then Continue on the walkway."
-                },
-                {
-                  "begin_shape_index": 168,
-                  "cost": 57.941,
-                  "end_shape_index": 171,
-                  "highway": null,
-                  "instruction": "Continue on the walkway.",
-                  "length": 0.046,
-                  "street_names": null,
-                  "time": 52.941,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 8,
-                  "verbal_post_transition_instruction": "Continue for 200 feet.",
-                  "verbal_pre_transition_instruction": "Continue on the walkway.",
-                  "verbal_succinct_transition_instruction": null
-                },
-                {
-                  "begin_shape_index": 171,
-                  "cost": 617.915,
-                  "end_shape_index": 172,
-                  "highway": null,
-                  "instruction": "Take the West Seattle Water Taxi Ferry.",
-                  "length": 2.052,
-                  "street_names": [
-                    "West Seattle Water Taxi"
-                  ],
-                  "time": 925.831,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 28,
-                  "verbal_post_transition_instruction": "Continue for 2 miles.",
-                  "verbal_pre_transition_instruction": "Take the West Seattle Water Taxi Ferry.",
-                  "verbal_succinct_transition_instruction": null
-                },
-                {
-                  "begin_shape_index": 172,
-                  "cost": 64.294,
-                  "end_shape_index": 179,
-                  "highway": null,
-                  "instruction": "Walk southeast on the walkway.",
-                  "length": 0.052,
-                  "street_names": null,
-                  "time": 59.294,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 29,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Walk southeast on the walkway.",
-                  "verbal_succinct_transition_instruction": "Walk southeast."
-                },
-                {
-                  "begin_shape_index": 179,
-                  "cost": 96.0,
-                  "end_shape_index": 185,
-                  "highway": null,
-                  "instruction": "Turn right onto the walkway.",
-                  "length": 0.084,
-                  "street_names": null,
-                  "time": 96.0,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 400 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 185,
-                  "cost": 179.588,
-                  "end_shape_index": 201,
-                  "highway": null,
-                  "instruction": "Turn right onto the walkway.",
-                  "length": 0.157,
-                  "street_names": null,
-                  "time": 179.588,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 800 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 201,
-                  "cost": 38.941,
-                  "end_shape_index": 207,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.025,
-                  "street_names": null,
-                  "time": 38.941,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 100 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 207,
-                  "cost": 4.235,
-                  "end_shape_index": 208,
-                  "highway": null,
-                  "instruction": "Turn right onto the walkway.",
-                  "length": 0.003,
-                  "street_names": null,
-                  "time": 4.235,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 20 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the walkway. Then Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto the walkway."
-                },
-                {
-                  "begin_shape_index": 208,
-                  "cost": 62.411,
-                  "end_shape_index": 211,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.054,
-                  "street_names": null,
-                  "time": 62.411,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 211,
-                  "cost": 11.882,
-                  "end_shape_index": 213,
-                  "highway": null,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "length": 0.008,
-                  "street_names": null,
-                  "time": 11.882,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 50 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the crosswalk. Then, in 50 feet, Turn left onto the crosswalk.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then, in 50 feet, Turn left onto the crosswalk."
-                },
-                {
-                  "begin_shape_index": 213,
-                  "cost": 19.411,
-                  "end_shape_index": 217,
-                  "highway": null,
-                  "instruction": "Turn left onto the crosswalk.",
-                  "length": 0.011,
-                  "street_names": null,
-                  "time": 19.411,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 60 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the crosswalk.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 217,
-                  "cost": 0.705,
-                  "end_shape_index": 218,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.0,
-                  "street_names": null,
-                  "time": 0.705,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for less than 10 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the walkway."
-                },
-                {
-                  "begin_shape_index": 218,
-                  "cost": 124.468,
-                  "end_shape_index": 233,
-                  "highway": null,
-                  "instruction": "Turn right onto the walkway.",
-                  "length": 0.106,
-                  "street_names": null,
-                  "time": 124.468,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 600 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 233,
-                  "cost": 0.0,
-                  "end_shape_index": 233,
-                  "highway": null,
-                  "instruction": "You have arrived at your destination.",
-                  "length": 0.0,
-                  "street_names": null,
-                  "time": 0.0,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 4,
-                  "verbal_post_transition_instruction": null,
-                  "verbal_pre_transition_instruction": "You have arrived at your destination.",
-                  "verbal_succinct_transition_instruction": null
-                }
-              ],
-              "shape": "mk`vyAvdklhFsYcb@s@qAg@uAUaACq@Dk@Ni@[?iBJo@_F_CiXB_L@eC@cH@kEBqOBqF?kF@wDBqW@qGBkQNgkAEcLeAkLqAuJIe@sBeIgB{EmHuNqDoD]]eFoD}B_BiCqAaAe@}JaFkHqD{yBygAuOsHcIgDa@M_Bg@uCc@o@IqDg@wAC}ACsDCyFEwMIqHE{V]aP_@yCGaCGyKU_ACaEMmFQqGQ{BEkIMoKEqJEeAAoA@yBAwKDoTEeHBqHDcP\\U@qFXmDRoAwA{CJkJf@uKh@yGXoD|BaPz@wG^uHVoX~@}Pj@iKByIc@u^dDgr@zGwQdBwAtAa@b@eALw@eAmIh@oBlC_O|BaKlBkARwBb@yMnDcIv@cj@xXkn@nY{NtCkQv@yi@sB}HLqJpC}_AfVqFfBeDdAgH|B}FjBaHzBqIbEwGbEmCbBaIpGsJ|HaL|Iqb@v\\gLdJuFtEwPjNyVzSmRzO_GvEeEjDaShPqSxPUPyB~B}@~@uPbUs@~@{Vr`@eCmEiWja@_FxH}J~O}GpKsv@lmA_Ah@{@BuCSS~A_@bAc[zf@[|@iAm@{@s@_AiAu@s@cAi@wCo@mDNuC`@yAK_ADs@h@k@t@g@dAa@nAQ~AmB_DoAwBiJqPbOuUw|Uy|mAfAcAwHcVuHcSqAwDAq@@y@yA@DimA{@A?]@eT?aB?eFtJsIhCc@pKaGfCoBrBm@dDcAlCi@bKg@vF@hCBpEFfBgAlAu@dEB|IFle@I?yA?aE?gEAaF?wD?uErBYB{e@B}^Vq@bBBlCDJeCTgFDkA?o@QO?}Y?_D?}]Lg@XKn@?MyCEuBEaB?oA@}@c@[Qw@?c^?qV",
-              "summary": {
-                "cost": 3786.258,
-                "has_ferry": true,
-                "has_highway": false,
-                "has_time_restrictions": false,
-                "has_toll": false,
-                "length": 4.789,
-                "max_lat": 47.601552,
-                "max_lon": -122.331856,
-                "min_lat": 47.563462,
-                "min_lon": -122.3804,
-                "time": 4064.174
-              }
-            }
-          ],
-          "locations": [
-            {
-              "lat": 47.563412,
-              "lon": -122.378248
-            },
-            {
-              "lat": 47.599091,
-              "lon": -122.331856
-            }
-          ],
-          "status": 0,
-          "status_message": "Found route between points",
-          "summary": {
-            "cost": 3786.258,
-            "has_ferry": true,
-            "has_highway": false,
-            "has_time_restrictions": false,
-            "has_toll": false,
-            "length": 4.789,
-            "max_lat": 47.601552,
-            "max_lon": -122.331856,
-            "min_lat": 47.563462,
-            "min_lon": -122.3804,
-            "time": 4064.174
-          },
-          "units": "miles"
-        }
-      },
-      {
-        "trip": {
-          "language": "en-US",
-          "legs": [
-            {
-              "maneuvers": [
-                {
-                  "begin_shape_index": 0,
-                  "cost": 55.226,
-                  "end_shape_index": 6,
-                  "highway": null,
-                  "instruction": "Walk northeast on the walkway.",
-                  "length": 0.048,
-                  "street_names": null,
-                  "time": 55.226,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 2,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Walk northeast on the walkway.",
-                  "verbal_succinct_transition_instruction": "Walk northeast."
-                },
-                {
-                  "begin_shape_index": 6,
-                  "cost": 2.823,
-                  "end_shape_index": 8,
-                  "highway": null,
-                  "instruction": "Bear right onto the walkway.",
-                  "length": 0.002,
-                  "street_names": null,
-                  "time": 2.823,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 9,
-                  "verbal_post_transition_instruction": "Continue for 10 feet.",
-                  "verbal_pre_transition_instruction": "Bear right onto the walkway. Then Turn right onto the crosswalk.",
-                  "verbal_succinct_transition_instruction": "Bear right. Then Turn right onto the crosswalk."
-                },
-                {
-                  "begin_shape_index": 8,
-                  "cost": 71.47,
-                  "end_shape_index": 14,
-                  "highway": null,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "length": 0.06,
-                  "street_names": null,
-                  "time": 71.47,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the crosswalk.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 14,
-                  "cost": 0.705,
-                  "end_shape_index": 15,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.0,
-                  "street_names": null,
-                  "time": 0.705,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for less than 10 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the crosswalk.",
-                  "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the crosswalk."
-                },
-                {
-                  "begin_shape_index": 15,
-                  "cost": 18.529,
-                  "end_shape_index": 18,
-                  "highway": null,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "length": 0.013,
-                  "street_names": null,
-                  "time": 18.529,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 70 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the crosswalk.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 18,
-                  "cost": 213.058,
-                  "end_shape_index": 40,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.185,
-                  "street_names": null,
-                  "time": 213.058,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 1000 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 40,
-                  "cost": 1.411,
-                  "end_shape_index": 41,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.001,
-                  "street_names": null,
-                  "time": 1.411,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for less than 10 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the crosswalk.",
-                  "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the crosswalk."
-                },
-                {
-                  "begin_shape_index": 41,
-                  "cost": 14.705,
-                  "end_shape_index": 44,
-                  "highway": null,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "length": 0.011,
-                  "street_names": null,
-                  "time": 14.705,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 60 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the crosswalk. Then, in 60 feet, Keep left to take the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then, in 60 feet, Keep left to take the walkway."
-                },
-                {
-                  "begin_shape_index": 44,
-                  "cost": 222.647,
-                  "end_shape_index": 55,
-                  "highway": null,
-                  "instruction": "Keep left to take the walkway.",
-                  "length": 0.195,
-                  "street_names": null,
-                  "time": 222.647,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 24,
-                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
-                  "verbal_pre_transition_instruction": "Keep left to take the walkway.",
-                  "verbal_succinct_transition_instruction": null
-                },
-                {
-                  "begin_shape_index": 55,
-                  "cost": 14.117,
-                  "end_shape_index": 63,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.012,
-                  "street_names": null,
-                  "time": 14.117,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 70 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 63,
-                  "cost": 131.294,
-                  "end_shape_index": 69,
-                  "highway": null,
-                  "instruction": "Turn right onto the walkway.",
-                  "length": 0.115,
-                  "street_names": null,
-                  "time": 131.294,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 600 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 69,
-                  "cost": 315.882,
-                  "end_shape_index": 105,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.272,
-                  "street_names": null,
-                  "time": 315.882,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 105,
-                  "cost": 14.411,
-                  "end_shape_index": 108,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.011,
-                  "street_names": null,
-                  "time": 14.411,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 60 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 108,
-                  "cost": 18.529,
-                  "end_shape_index": 111,
-                  "highway": null,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "length": 0.013,
-                  "street_names": null,
-                  "time": 18.529,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 70 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the crosswalk.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 111,
-                  "cost": 427.176,
-                  "end_shape_index": 149,
-                  "highway": null,
-                  "instruction": "Turn left onto West Seattle Bridge Trail.",
-                  "length": 0.367,
-                  "street_names": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "time": 422.176,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for a quarter mile.",
-                  "verbal_pre_transition_instruction": "Turn left onto West Seattle Bridge Trail.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 149,
-                  "cost": 470.117,
-                  "end_shape_index": 170,
-                  "highway": null,
-                  "instruction": "Keep left to stay on West Seattle Bridge Trail.",
-                  "length": 0.413,
-                  "street_names": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "time": 470.117,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 24,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Keep left to stay on West Seattle Bridge Trail.",
-                  "verbal_succinct_transition_instruction": null
-                },
-                {
-                  "begin_shape_index": 170,
-                  "cost": 26.705,
-                  "end_shape_index": 178,
-                  "highway": null,
-                  "instruction": "Turn left to stay on West Seattle Bridge Trail.",
-                  "length": 0.021,
-                  "street_names": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "time": 26.705,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 100 feet.",
-                  "verbal_pre_transition_instruction": "Turn left to stay on West Seattle Bridge Trail.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 178,
-                  "cost": 17.117,
-                  "end_shape_index": 183,
-                  "highway": null,
-                  "instruction": "Turn left to stay on West Seattle Bridge Trail.",
-                  "length": 0.012,
-                  "street_names": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "time": 17.117,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 70 feet.",
-                  "verbal_pre_transition_instruction": "Turn left to stay on West Seattle Bridge Trail.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 183,
-                  "cost": 33.058,
-                  "end_shape_index": 192,
-                  "highway": null,
-                  "instruction": "Turn right to stay on West Seattle Bridge Trail.",
-                  "length": 0.027,
-                  "street_names": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "time": 33.058,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 100 feet.",
-                  "verbal_pre_transition_instruction": "Turn right to stay on West Seattle Bridge Trail.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 192,
-                  "cost": 434.294,
-                  "end_shape_index": 229,
-                  "highway": null,
-                  "instruction": "Turn right to stay on West Seattle Bridge Trail.",
-                  "length": 0.379,
-                  "street_names": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "time": 434.294,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Turn right to stay on West Seattle Bridge Trail.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 229,
-                  "cost": 783.47,
-                  "end_shape_index": 258,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.683,
-                  "street_names": null,
-                  "time": 778.47,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 258,
-                  "cost": 8.47,
-                  "end_shape_index": 259,
-                  "highway": null,
-                  "instruction": "Turn right.",
-                  "length": 0.007,
-                  "street_names": null,
-                  "time": 8.47,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 40 feet.",
-                  "verbal_pre_transition_instruction": "Turn right. Then Turn left onto East Marginal Way South.",
-                  "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto East Marginal Way South."
-                },
-                {
-                  "begin_shape_index": 259,
-                  "cost": 683.411,
-                  "end_shape_index": 276,
-                  "highway": null,
-                  "instruction": "Turn left onto East Marginal Way South.",
-                  "length": 0.592,
-                  "street_names": [
-                    "East Marginal Way South"
-                  ],
-                  "time": 673.411,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Turn left onto East Marginal Way South.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 276,
-                  "cost": 542.117,
-                  "end_shape_index": 300,
-                  "highway": null,
-                  "instruction": "Keep left to take Alaskan Way South.",
-                  "length": 0.477,
-                  "street_names": [
-                    "Alaskan Way South"
-                  ],
-                  "time": 542.117,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 24,
-                  "verbal_post_transition_instruction": "Continue for a half mile.",
-                  "verbal_pre_transition_instruction": "Keep left to take Alaskan Way South.",
-                  "verbal_succinct_transition_instruction": null
-                },
-                {
-                  "begin_shape_index": 300,
-                  "cost": 88.176,
-                  "end_shape_index": 304,
-                  "highway": null,
-                  "instruction": "Bear right onto South Dearborn Street/WA 519.",
-                  "length": 0.071,
-                  "street_names": [
-                    "South Dearborn Street",
-                    "WA 519"
-                  ],
-                  "time": 83.176,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 9,
-                  "verbal_post_transition_instruction": "Continue for 400 feet.",
-                  "verbal_pre_transition_instruction": "Bear right onto South Dearborn Street, WA 519.",
-                  "verbal_succinct_transition_instruction": "Bear right."
-                },
-                {
-                  "begin_shape_index": 304,
-                  "cost": 159.47,
-                  "end_shape_index": 312,
-                  "highway": null,
-                  "instruction": "Bear left onto 1st Avenue South.",
-                  "length": 0.134,
-                  "street_names": [
-                    "1st Avenue South"
-                  ],
-                  "time": 154.47,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 16,
-                  "verbal_post_transition_instruction": "Continue for 700 feet.",
-                  "verbal_pre_transition_instruction": "Bear left onto 1st Avenue South.",
-                  "verbal_succinct_transition_instruction": "Bear left."
-                },
-                {
-                  "begin_shape_index": 312,
-                  "cost": 79.0,
-                  "end_shape_index": 324,
-                  "highway": null,
-                  "instruction": "Turn right onto the walkway.",
-                  "length": 0.063,
-                  "street_names": null,
-                  "time": 74.0,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 324,
-                  "cost": 56.059,
-                  "end_shape_index": 326,
-                  "highway": null,
-                  "instruction": "Turn left onto the walkway.",
-                  "length": 0.048,
-                  "street_names": null,
-                  "time": 56.059,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 15,
-                  "verbal_post_transition_instruction": "Continue for 300 feet.",
-                  "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn left."
-                },
-                {
-                  "begin_shape_index": 326,
-                  "cost": 50.88,
-                  "end_shape_index": 330,
-                  "highway": null,
-                  "instruction": "Turn right onto the walkway.",
-                  "length": 0.043,
-                  "street_names": null,
-                  "time": 50.88,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 10,
-                  "verbal_post_transition_instruction": "Continue for 200 feet.",
-                  "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-                  "verbal_succinct_transition_instruction": "Turn right."
-                },
-                {
-                  "begin_shape_index": 330,
-                  "cost": 0.0,
-                  "end_shape_index": 330,
-                  "highway": null,
-                  "instruction": "You have arrived at your destination.",
-                  "length": 0.0,
-                  "street_names": null,
-                  "time": 0.0,
-                  "travel_mode": "pedestrian",
-                  "travel_type": "foot",
-                  "type": 4,
-                  "verbal_post_transition_instruction": null,
-                  "verbal_pre_transition_instruction": "You have arrived at your destination.",
-                  "verbal_succinct_transition_instruction": null
-                }
-              ],
-              "shape": "mk`vyAvdklhFsYcb@s@qAg@uAUaACq@Dk@Ni@[?]uEa@}E?{AAq_@AeH?cUUWLuFRcILSKg@?ms@?}qACoCM}CY}Ee@mFk@kEc@mCQcA{@yDkA{D}AwDgBqD_DkFwCyDcCgCeCoBaC_BcAc@MSG[[`@oB{AuCuBOa@UXYF[E}GgDgVyLGQwtBydAgB}@sBkAcB_ASw@OLSFQ?QE}DoB]QMMGWAQ?QA_IEsAIojCHq@KAiBDcBBK?K[OKo@Aq_@S?m@CeCE{C?}@]@QMO[E]Eyp@G}bBB_@F]FKHCh@?IcACqCCaDAy@W?OOGYA_@Cie@Ama@?g@Au`@NuB]MoBe@wD_AR{HLgE?s@[?{@MmA_@kAi@sCaBiBoA{N{JmE{CoGkEyXkReCkBa@]_@Y_As@kAaAgXsQmDmCcTePy@_Am@kAu@wBkBsHo@kAyIiKaBgCqAoC_C}IiK_YaAaD]}Cs@gQb@cTh@kRv@{i@x@_c@@yFHaCHwD@mLa@sE_A{Da@}BQ}EMcPa@uzAA}COce@GabA?gz@Fgk@AkNYslAKqv@Rc`@J}BR}@`@u@h@_@l@OOqAi@{Di@_EOg@[m@IgBEqA@iDW?{B|@oBv@e@@u@OUaBA}Hn@}JC]QOg@Is@I_@EcAGB}BMcEh@kPC]QIe@Gg@Ge@Ee@GYWW]Ka@CaAnBa[JiCNoENoE`@}KDyE?m@@aC?_BKkCGeAEwA?ew@?w~@@yL@aUEaEQwEYeEwPepBbG_\\@}RS_[uAgIs@eB]c@}TKoDoAiHBoGEqHq@e]c@cv@JeBd@eNzBaCAkSjDeD\\iCL}EDqD?{KEmDDgEDmM@s^Swt@C_^@q]F{hAB_TC{JZgrBZ?{HkNDoxFAke@a@iKq@cG}AuEaCqG}EwMcQiI{K_CmDcAkAqNgPoYcVqIeFaGiD}IaEwcAi_@yLuDaIeCcD_AeYaIyKa@aEMyOmDmSyH}t@u[cEiCuFkFkDmDuAyAaSoJcNuD}OcAwVMoU?klBCmEUeDqA_C}Bg@{AAuDBsM@kL@a_@Bib@}GqBeBUk@IwCKqjAFiN?sE@_D??w@@y@HYJq@?_]@o^?s@?yALg@]yB[mB?cCoTCsUCc@[Qw@?c^?qV",
-              "summary": {
-                "cost": 4954.342,
-                "has_ferry": false,
-                "has_highway": false,
-                "has_time_restrictions": false,
-                "has_toll": false,
-                "length": 4.289,
-                "max_lat": 47.599132,
-                "max_lon": -122.331856,
-                "min_lat": 47.563462,
-                "min_lon": -122.378332,
-                "time": 4919.342
-              }
-            }
-          ],
-          "locations": [
-            {
-              "lat": 47.563412,
-              "lon": -122.378248
-            },
-            {
-              "lat": 47.599091,
-              "lon": -122.331856
-            }
-          ],
-          "status": 0,
-          "status_message": "Found route between points",
-          "summary": {
-            "cost": 4954.342,
-            "has_ferry": false,
-            "has_highway": false,
-            "has_time_restrictions": false,
-            "has_toll": false,
-            "length": 4.289,
-            "max_lat": 47.599132,
-            "max_lon": -122.331856,
-            "min_lat": 47.563462,
-            "min_lon": -122.378332,
-            "time": 4919.342
-          },
-          "units": "miles"
-        }
+  "_otp": {
+    "debugOutput": {
+      "directStreetRouterTime": 30198765,
+      "filteringTime": 138018,
+      "precalculationTime": 20141,
+      "renderingTime": 176404,
+      "totalTime": 32917630,
+      "transitRouterTime": 2370647,
+      "transitRouterTimes": {
+        "accessEgressTime": 0,
+        "itineraryCreationTime": 0,
+        "raptorSearchTime": 0,
+        "tripPatternFilterTime": 0
       }
-    ],
-    "trip": {
-      "language": "en-US",
-      "legs": [
+    },
+    "elevationMetadata": {
+      "ellipsoidToGeoidDifference": -19.33382193706846,
+      "geoidElevation": false
+    },
+    "error": null,
+    "plan": {
+      "date": 1757544409000,
+      "from": {
+        "lat": 47.563412,
+        "lon": -122.378248,
+        "name": "Origin",
+        "vertexType": "NORMAL"
+      },
+      "itineraries": [
         {
-          "maneuvers": [
+          "arrivedAtDestinationWithRentedBicycle": false,
+          "duration": 5646,
+          "elevationGained": 111.26,
+          "elevationLost": 190.15,
+          "endTime": 1757550055000,
+          "fare": {
+            "details": {},
+            "fare": {}
+          },
+          "generalizedCost": 11064,
+          "legs": [
             {
-              "begin_shape_index": 0,
-              "cost": 30.184,
-              "end_shape_index": 2,
-              "highway": null,
-              "instruction": "Walk southwest on the walkway.",
-              "length": 0.026,
-              "street_names": null,
-              "time": 30.184,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 3,
-              "verbal_post_transition_instruction": "Continue for 100 feet.",
-              "verbal_pre_transition_instruction": "Walk southwest on the walkway. Then Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Walk southwest. Then Turn right onto the walkway."
-            },
-            {
-              "begin_shape_index": 2,
-              "cost": 11.294,
-              "end_shape_index": 4,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.009,
-              "street_names": null,
-              "time": 11.294,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 50 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway. Then Turn right onto 37th Avenue Southwest.",
-              "verbal_succinct_transition_instruction": "Turn right. Then Turn right onto 37th Avenue Southwest."
-            },
-            {
-              "begin_shape_index": 4,
-              "cost": 12.764,
-              "end_shape_index": 5,
-              "highway": null,
-              "instruction": "Turn right onto 37th Avenue Southwest.",
-              "length": 0.006,
-              "street_names": [
-                "37th Avenue Southwest"
+              "agencyTimeZoneOffset": -25200000,
+              "arrivalDelay": 0,
+              "departureDelay": 0,
+              "distance": 6903.36,
+              "duration": 5646.0,
+              "endTime": 1757550055000,
+              "from": {
+                "arrival": null,
+                "departure": 1757544409000,
+                "lat": 47.563412,
+                "lon": -122.378248,
+                "name": "Origin",
+                "vertexType": "NORMAL"
+              },
+              "generalizedCost": 11064,
+              "interlineWithPreviousLeg": false,
+              "legElevation": "0,73.1,7,73.1,17,72.9,27,72.1,37,71.4,47,70.9,57,70.5,67,70.0,78,69.6,80,69.6,81,69.6,87,69.2,96,69.0,106,69.0,116,68.5,127,68.0,137,67.5,143,67.2,153,67.2,163,66.9,173,66.7,183,66.3,195,65.7,197,65.6,205,65.4,211,65.2,212,65.2,222,65.0,232,64.5,242,64.0,251,63.8,261,63.6,271,63.3,281,63.1,291,62.6,301,62.1,311,61.8,321,61.6,331,61.1,341,60.3,351,59.7,361,59.2,371,58.6,381,57.9,391,57.1,401,56.2,411,55.6,421,55.3,431,55.0,441,54.7,451,54.1,461,53.3,471,52.7,481,52.3,482,52.3,485,52.3,489,52.0,493,51.7,495,51.7,497,51.5,505,51.1,515,50.6,525,50.1,535,49.6,545,49.3,555,48.8,565,48.1,575,47.4,585,47.1,595,46.7,605,46.4,615,45.8,625,45.2,635,44.7,645,44.5,655,44.1,665,43.6,675,42.8,685,41.8,695,41.0,705,40.5,715,40.2,725,39.7,735,38.8,745,38.0,755,37.5,765,37.2,775,37.2,785,36.6,795,35.9,805,35.6,815,35.2,825,34.6,833,34.3,835,34.3,840,34.0,851,33.5,859,33.1,869,31.2,879,29.2,889,27.8,899,26.5,910,25.3,920,24.4,930,23.5,940,22.5,954,21.3,964,20.3,974,19.7,984,19.2,994,17.9,1004,16.5,1014,15.4,1024,14.4,1034,13.4,1046,12.3,1055,11.7,1065,11.2,1075,10.7,1085,10.2,1095,9.5,1105,8.9,1115,8.2,1124,7.9,1133,7.6,1143,7.5,1153,7.1,1163,6.6,1173,6.5,1200,6.5,1210,6.4,1220,6.2,1230,6.0,1240,6.0,1250,6.1,1260,6.3,1270,6.6,1280,7.3,1290,8.0,1300,8.3,1310,8.5,1331,8.5,1341,9.2,1351,9.9,1361,10.0,1371,10.0,1381,10.2,1389,10.4,1399,10.8,1406,11.3,1416,11.9,1431,12.0,1441,12.3,1451,12.8,1463,13.5,1472,13.4,1482,13.9,1488,14.2,1498,14.2,1508,14.2,1518,14.1,1528,13.8,1536,13.6,1547,14.5,1556,14.2,1567,13.6,1579,13.5,1589,13.9,1597,13.9,1606,15.0,1616,14.5,1626,14.1,1636,14.1,1646,13.8,1658,13.7,1666,14.3,1668,14.4,1670,14.4,1674,14.8,1684,15.3,1694,15.5,1704,15.3,1714,15.6,1724,16.4,1734,17.2,1741,17.3,1751,16.8,1761,16.4,1771,16.2,1781,16.5,1791,16.9,1801,16.8,1810,16.7,1820,16.9,1830,16.7,1840,16.0,1850,17.0,1860,19.9,1867,21.6,1877,23.0,1887,23.6,1897,23.0,1907,22.2,1917,24.0,1927,24.9,1937,25.6,1947,25.6,1957,25.6,1967,25.2,1977,24.7,1987,24.8,1997,25.5,2007,25.9,2017,25.9,2027,26.0,2037,26.2,2047,25.0,2057,20.1,2067,16.0,2077,15.6,2085,15.3,2095,14.7,2106,14.2,2116,14.0,2126,13.9,2136,11.5,2146,8.1,2151,6.6,2282,4.6,2288,4.6,2414,60.0,6903,60.0",
+              "legGeometry": {
+                "length": 328.0,
+                "points": "svhaHr_}iVsAqBEGCGAE?E?C@CC?I@CWMoA@i@Q??mB?C?A?WAO?A?A@C?Q?mA?}@?A?uGAYAWCWEYGWIUKUMQMOACOMA???CAGEEEAAEAKGaPaIA?AEGCB[?WAgC?sBAsF?WS?gB?C?KICU?{C?}IAwC?o@?aA?uAO?A[?EAC?CAACA[KMGMGQOFYOKOKSO[WFUqA}@MKCAAAEEGEqA{@OMcAw@EECGEKI]EGa@g@IKGOKa@g@sAEOCOEy@BcAB}@DgCDsB?W@M?Q?k@ASGSAKAUAu@CeH?OAyB?uE?}D?mC?o@AyFAqDBgBCAI@K@C@KAAB?o@@G?m@?C@CBEAIA_@De@?AAACAE?A?GA?K?SBw@?AAAC?CAC?C?ACCA?C?EHyA@M@S@U@g@@U?C?M?IAM?EAI?sD?kE?k@?eA?SAUAQw@cJ?G@ETkA?M?aDAKEKCGAAC?eA?QIY?C?YC]CoA?E?{D?KBo@LK?i@HQBWBc@BkA?Q?m@?gW?A@{A?C@qH?q@?u[?G?OAICOASIOIUMOMMMMOS[EGEIOY]a@m@q@SSe@a@GEA?ABACKIIGC??CACAAmB_AWMeEyA]Iw@WICU?C@CBACUEa@ICBAGIEIEa@IEAWOmEcB]QSOQQEACGOMOKSKUMUGQEUEWAQAO?U?_AB_@?}C@sFEEAECQ]AAAAQ?W?Q@YBmAL[DY@]@S?QAC@GDG?I?Ic@Ei@?W?QEeB?S?uA?U?[?O@aB?}@?g@?]O?eA?AWgA?CCAC?cB?kA"
+              },
+              "mode": "WALK",
+              "pathway": false,
+              "realTime": false,
+              "rentedBike": false,
+              "route": "",
+              "routeColor": null,
+              "startTime": 1757544409000,
+              "steps": [
+                {
+                  "absoluteDirection": "NORTHEAST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 87.24,
+                  "elevation": "0,73.1,7,73.1,17,72.9,27,72.1,37,71.4,47,70.9,57,70.5,67,70.0,78,69.6,158,69.6,159,69.6,165,69.2",
+                  "exit": null,
+                  "lat": 47.5634626,
+                  "lon": -122.3783322,
+                  "relativeDirection": "DEPART",
+                  "stayOn": false,
+                  "streetName": "sidewalk",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 55.63,
+                  "elevation": "0,69.2,9,69.0,19,69.0,29,68.5,40,68.0,50,67.5,56,67.2",
+                  "exit": null,
+                  "lat": 47.5640038,
+                  "lon": -122.3775908,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": false,
+                  "streetName": "Southwest Avalon Way",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTH",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 9.75,
+                  "elevation": "0,67.2,10,67.2",
+                  "exit": null,
+                  "lat": 47.5640899,
+                  "lon": -122.3768659,
+                  "relativeDirection": "LEFT",
+                  "stayOn": false,
+                  "streetName": "service road",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 44.02,
+                  "elevation": "0,67.2,10,66.9,20,66.7,30,66.3,43,65.7,44,65.6",
+                  "exit": null,
+                  "lat": 47.5641776,
+                  "lon": -122.376865,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": true,
+                  "streetName": "sidewalk",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 643.66,
+                  "elevation": "0,65.6,9,65.4,15,65.2,16,65.2,25,65.0,35,64.5,45,64.0,55,63.8,65,63.6,75,63.3,85,63.1,95,62.6,105,62.1,115,61.8,125,61.6,135,61.1,145,60.3,155,59.7,165,59.2,175,58.6,185,57.9,195,57.1,205,56.2,215,55.6,225,55.3,235,55.0,245,54.7,255,54.1,265,53.3,274,52.7,284,52.3,286,52.3,288,52.3,293,52.0,296,51.7,298,51.7,301,51.5,309,51.1,319,50.6,329,50.1,339,49.6,349,49.3,359,48.8,369,48.1,379,47.4,389,47.1,399,46.7,409,46.4,419,45.8,429,45.2,439,44.7,449,44.5,459,44.1,469,43.6,479,42.8,489,41.8,499,41.0,509,40.5,519,40.2,529,39.7,539,38.8,549,38.0,559,37.5,569,37.2,579,37.2,589,36.6,599,35.9,609,35.6,619,35.2,629,34.6,636,34.3,639,34.3,644,34.0",
+                  "exit": null,
+                  "lat": 47.5641701,
+                  "lon": -122.3762843,
+                  "relativeDirection": "LEFT",
+                  "stayOn": true,
+                  "streetName": "path",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 10.23,
+                  "elevation": "0,34.0,10,33.5",
+                  "exit": null,
+                  "lat": 47.5676142,
+                  "lon": -122.3709602,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": false,
+                  "streetName": "Southwest Andover Street",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 204.49,
+                  "elevation": "0,33.5,9,33.1,19,31.2,29,29.2,39,27.8,49,26.5,60,25.3,70,24.4,80,23.5,90,22.5,104,21.3,114,20.3,124,19.7,134,19.2,144,17.9,154,16.5,164,15.4,174,14.4,184,13.4,195,12.3,204,11.7",
+                  "exit": null,
+                  "lat": 47.5675988,
+                  "lon": -122.3708258,
+                  "relativeDirection": "CONTINUE",
+                  "stayOn": false,
+                  "streetName": "Southwest Yancy Street",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTH",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 78.1,
+                  "elevation": "0,11.7,10,11.2,20,10.7,30,10.2,40,9.5,50,8.9,60,8.2,69,7.9,78,7.6",
+                  "exit": null,
+                  "lat": 47.5676195,
+                  "lon": -122.3681005,
+                  "relativeDirection": "LEFT",
+                  "stayOn": false,
+                  "streetName": "28th Avenue Southwest",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 330.2,
+                  "elevation": "0,7.6,10,7.5,20,7.1,30,6.6,40,6.5,67,6.5,77,6.4,87,6.2,97,6.0,107,6.0,117,6.1,127,6.3,137,6.6,147,7.3,157,8.0,167,8.3,177,8.5,198,8.5,208,9.2,218,9.9,228,10.0,238,10.0,248,10.2,256,10.4,266,10.8,273,11.3,283,11.9,298,12.0,308,12.3,318,12.8,330,13.5",
+                  "exit": null,
+                  "lat": 47.5683122,
+                  "lon": -122.368053,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": false,
+                  "streetName": "Southwest Andover Street",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTH",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 8.75,
+                  "elevation": "0,13.5,9,13.4",
+                  "exit": null,
+                  "lat": 47.5683457,
+                  "lon": -122.363657,
+                  "relativeDirection": "LEFT",
+                  "stayOn": false,
+                  "streetName": "service road",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 63.89,
+                  "elevation": "0,13.4,10,13.9,16,14.2,26,14.2,36,14.2,46,14.1,56,13.8,64,13.6",
+                  "exit": null,
+                  "lat": 47.5684244,
+                  "lon": -122.3636559,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": true,
+                  "streetName": "sidewalk",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "SOUTHEAST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 10.62,
+                  "elevation": "0,13.6,11,14.5",
+                  "exit": null,
+                  "lat": 47.5688424,
+                  "lon": -122.3632072,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": true,
+                  "streetName": "service road",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTHEAST",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 50.13,
+                  "elevation": "0,14.5,10,14.2,20,13.6,33,13.5,43,13.9,50,13.9",
+                  "exit": null,
+                  "lat": 47.5688046,
+                  "lon": -122.3630772,
+                  "relativeDirection": "LEFT",
+                  "stayOn": false,
+                  "streetName": "Delridge Way Southwest",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "SOUTHEAST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 9.59,
+                  "elevation": "0,13.9,10,15.0",
+                  "exit": null,
+                  "lat": 47.5692008,
+                  "lon": -122.3627588,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": false,
+                  "streetName": "service road",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTHEAST",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 1263.14,
+                  "elevation": "0,15.0,10,14.5,20,14.1,30,14.1,40,13.8,51,13.7,60,14.3,62,14.4,64,14.4,68,14.8,78,15.3,88,15.5,98,15.3,108,15.6,118,16.4,128,17.2,134,17.3,144,16.8,154,16.4,164,16.2,174,16.5,184,16.9,194,16.8,204,16.7,214,16.9,224,16.7,234,16.0,244,17.0,254,19.9,261,21.6,271,23.0,281,23.6,291,23.0,301,22.2,311,24.0,321,24.9,331,25.6,341,25.6,351,25.6,361,25.2,371,24.7,381,24.8,391,25.5,401,25.9,411,25.9,421,26.0,431,26.2,441,25.0,451,20.1,461,16.0,471,15.6,478,15.3,488,14.7,500,14.2,510,14.0,520,13.9,530,11.5,540,8.1,545,6.6,676,4.6,682,4.6,808,60.0,1263,60.0",
+                  "exit": null,
+                  "lat": 47.5691629,
+                  "lon": -122.362644,
+                  "relativeDirection": "LEFT",
+                  "stayOn": false,
+                  "streetName": "West Seattle Bridge Trail",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 611.25,
+                  "elevation": "0,60.0,611,60.0",
+                  "exit": null,
+                  "lat": 47.5716135,
+                  "lon": -122.3480161,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": true,
+                  "streetName": "West Seattle Bridge Trail",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTH",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 2159.2,
+                  "elevation": "0,60.0,2159,60.0",
+                  "exit": null,
+                  "lat": 47.5718523,
+                  "lon": -122.3401156,
+                  "relativeDirection": "LEFT",
+                  "stayOn": false,
+                  "streetName": "sidewalk",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTH",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 34.31,
+                  "elevation": "0,60.0,34,60.0",
+                  "exit": null,
+                  "lat": 47.5907358,
+                  "lon": -122.3375234,
+                  "relativeDirection": "LEFT",
+                  "stayOn": false,
+                  "streetName": "Portside Trail",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTHEAST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 816.4,
+                  "elevation": "0,60.0,816,60.0",
+                  "exit": null,
+                  "lat": 47.5910364,
+                  "lon": -122.3374658,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": false,
+                  "streetName": "sidewalk",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTH",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 10.4,
+                  "elevation": "0,60.0,10,60.0",
+                  "exit": null,
+                  "lat": 47.5981133,
+                  "lon": -122.3360192,
+                  "relativeDirection": "SLIGHTLY_RIGHT",
+                  "stayOn": false,
+                  "streetName": "Waterfront Trail",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTHEAST",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 235.17,
+                  "elevation": "0,60.0,235,60.0",
+                  "exit": null,
+                  "lat": 47.5982068,
+                  "lon": -122.336015,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": false,
+                  "streetName": "South King Street",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTH",
+                  "area": false,
+                  "bogusName": false,
+                  "distance": 47.68,
+                  "elevation": "0,60.0,48,60.0",
+                  "exit": null,
+                  "lat": 47.5983071,
+                  "lon": -122.3328994,
+                  "relativeDirection": "LEFT",
+                  "stayOn": false,
+                  "streetName": "Occidental Avenue South",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "EAST",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 9.04,
+                  "elevation": "0,60.0,9,60.0",
+                  "exit": null,
+                  "lat": 47.5987359,
+                  "lon": -122.3328952,
+                  "relativeDirection": "RIGHT",
+                  "stayOn": false,
+                  "streetName": "alley",
+                  "walkingBike": false
+                },
+                {
+                  "absoluteDirection": "NORTH",
+                  "area": false,
+                  "bogusName": true,
+                  "distance": 110.52,
+                  "elevation": "0,60.0,111,60.0",
+                  "exit": null,
+                  "lat": 47.5987437,
+                  "lon": -122.3327752,
+                  "relativeDirection": "LEFT",
+                  "stayOn": true,
+                  "streetName": "sidewalk",
+                  "walkingBike": false
+                }
               ],
-              "time": 7.764,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 40 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto 37th Avenue Southwest. Then Turn right onto Fauntleroy Way Southwest.",
-              "verbal_succinct_transition_instruction": "Turn right. Then Turn right onto Fauntleroy Way Southwest."
-            },
-            {
-              "begin_shape_index": 5,
-              "cost": 31.823,
-              "end_shape_index": 7,
-              "highway": null,
-              "instruction": "Turn right onto Fauntleroy Way Southwest.",
-              "length": 0.023,
-              "street_names": [
-                "Fauntleroy Way Southwest"
-              ],
-              "time": 26.823,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 100 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto Fauntleroy Way Southwest.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 7,
-              "cost": 117.411,
-              "end_shape_index": 13,
-              "highway": null,
-              "instruction": "Turn left onto 37th Avenue Southwest.",
-              "length": 0.096,
-              "street_names": [
-                "37th Avenue Southwest"
-              ],
-              "time": 112.411,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 500 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto 37th Avenue Southwest.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 13,
-              "cost": 10.647,
-              "end_shape_index": 15,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.004,
-              "street_names": null,
-              "time": 5.647,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 30 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the walkway."
-            },
-            {
-              "begin_shape_index": 15,
-              "cost": 131.294,
-              "end_shape_index": 16,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.115,
-              "street_names": null,
-              "time": 131.294,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 600 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 16,
-              "cost": 58.176,
-              "end_shape_index": 18,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.05,
-              "street_names": null,
-              "time": 58.176,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 300 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 18,
-              "cost": 12.294,
-              "end_shape_index": 22,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.009,
-              "street_names": null,
-              "time": 12.294,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 50 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway. Then, in 50 feet, Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right. Then, in 50 feet, Turn left onto the walkway."
-            },
-            {
-              "begin_shape_index": 22,
-              "cost": 15.823,
-              "end_shape_index": 26,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.013,
-              "street_names": null,
-              "time": 15.823,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 70 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 26,
-              "cost": 309.352,
-              "end_shape_index": 43,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.269,
-              "street_names": null,
-              "time": 309.352,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for a quarter mile.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 43,
-              "cost": 84.588,
-              "end_shape_index": 48,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.072,
-              "street_names": null,
-              "time": 84.588,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 400 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 48,
-              "cost": 3.529,
-              "end_shape_index": 50,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.003,
-              "street_names": null,
-              "time": 3.529,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 20 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the crosswalk.",
-              "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the crosswalk."
-            },
-            {
-              "begin_shape_index": 50,
-              "cost": 10.882,
-              "end_shape_index": 52,
-              "highway": null,
-              "instruction": "Turn right onto the crosswalk.",
-              "length": 0.008,
-              "street_names": null,
-              "time": 10.882,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 50 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the crosswalk. Then, in 50 feet, Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right. Then, in 50 feet, Turn right onto the walkway."
-            },
-            {
-              "begin_shape_index": 52,
-              "cost": 2.823,
-              "end_shape_index": 54,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.002,
-              "street_names": null,
-              "time": 2.823,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 10 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway. Then Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto the walkway."
-            },
-            {
-              "begin_shape_index": 54,
-              "cost": 452.117,
-              "end_shape_index": 68,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.392,
-              "street_names": null,
-              "time": 452.117,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for a half mile.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 68,
-              "cost": 12.294,
-              "end_shape_index": 72,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.009,
-              "street_names": null,
-              "time": 12.294,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 50 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then, in 50 feet, Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left. Then, in 50 feet, Turn right onto the walkway."
-            },
-            {
-              "begin_shape_index": 72,
-              "cost": 109.0,
-              "end_shape_index": 78,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.095,
-              "street_names": null,
-              "time": 109.0,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 500 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 78,
-              "cost": 54.235,
-              "end_shape_index": 86,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.045,
-              "street_names": null,
-              "time": 54.235,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 200 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 86,
-              "cost": 746.176,
-              "end_shape_index": 121,
-              "highway": null,
-              "instruction": "Turn right onto Fairmount Avenue Southwest.",
-              "length": 0.652,
-              "street_names": [
-                "Fairmount Avenue Southwest"
-              ],
-              "time": 741.176,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for a half mile.",
-              "verbal_pre_transition_instruction": "Turn right onto Fairmount Avenue Southwest.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 121,
-              "cost": 9.941,
-              "end_shape_index": 122,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.004,
-              "street_names": null,
-              "time": 4.941,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 20 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the crosswalk.",
-              "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the crosswalk."
-            },
-            {
-              "begin_shape_index": 122,
-              "cost": 16.411,
-              "end_shape_index": 125,
-              "highway": null,
-              "instruction": "Turn right onto the crosswalk.",
-              "length": 0.011,
-              "street_names": null,
-              "time": 16.411,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 60 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the crosswalk.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 125,
-              "cost": 127.823,
-              "end_shape_index": 130,
-              "highway": null,
-              "instruction": "Turn left onto Alki Trail.",
-              "length": 0.108,
-              "street_names": [
-                "Alki Trail"
-              ],
-              "time": 122.823,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 600 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto Alki Trail.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 130,
-              "cost": 55.764,
-              "end_shape_index": 134,
-              "highway": null,
-              "instruction": "Turn left to stay on Alki Trail.",
-              "length": 0.049,
-              "street_names": [
-                "Alki Trail"
-              ],
-              "time": 55.764,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 300 feet.",
-              "verbal_pre_transition_instruction": "Turn left to stay on Alki Trail.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 134,
-              "cost": 51.529,
-              "end_shape_index": 149,
-              "highway": null,
-              "instruction": "Turn right to stay on Alki Trail.",
-              "length": 0.045,
-              "street_names": [
-                "Alki Trail"
-              ],
-              "time": 51.529,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 200 feet.",
-              "verbal_pre_transition_instruction": "Turn right to stay on Alki Trail.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 149,
-              "cost": 6.353,
-              "end_shape_index": 150,
-              "highway": null,
-              "instruction": "Turn right to stay on Alki Trail.",
-              "length": 0.005,
-              "street_names": [
-                "Alki Trail"
-              ],
-              "time": 6.353,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 30 feet.",
-              "verbal_pre_transition_instruction": "Turn right to stay on Alki Trail. Then Continue on the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right. Then Continue on the walkway."
-            },
-            {
-              "begin_shape_index": 150,
-              "cost": 57.941,
-              "end_shape_index": 153,
-              "highway": null,
-              "instruction": "Continue on the walkway.",
-              "length": 0.046,
-              "street_names": null,
-              "time": 52.941,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 8,
-              "verbal_post_transition_instruction": "Continue for 200 feet.",
-              "verbal_pre_transition_instruction": "Continue on the walkway.",
-              "verbal_succinct_transition_instruction": null
-            },
-            {
-              "begin_shape_index": 153,
-              "cost": 617.915,
-              "end_shape_index": 154,
-              "highway": null,
-              "instruction": "Take the West Seattle Water Taxi Ferry.",
-              "length": 2.052,
-              "street_names": [
-                "West Seattle Water Taxi"
-              ],
-              "time": 925.831,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 28,
-              "verbal_post_transition_instruction": "Continue for 2 miles.",
-              "verbal_pre_transition_instruction": "Take the West Seattle Water Taxi Ferry.",
-              "verbal_succinct_transition_instruction": null
-            },
-            {
-              "begin_shape_index": 154,
-              "cost": 64.294,
-              "end_shape_index": 161,
-              "highway": null,
-              "instruction": "Walk southeast on the walkway.",
-              "length": 0.052,
-              "street_names": null,
-              "time": 59.294,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 29,
-              "verbal_post_transition_instruction": "Continue for 300 feet.",
-              "verbal_pre_transition_instruction": "Walk southeast on the walkway.",
-              "verbal_succinct_transition_instruction": "Walk southeast."
-            },
-            {
-              "begin_shape_index": 161,
-              "cost": 96.0,
-              "end_shape_index": 167,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.084,
-              "street_names": null,
-              "time": 96.0,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 400 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 167,
-              "cost": 179.588,
-              "end_shape_index": 183,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.157,
-              "street_names": null,
-              "time": 179.588,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 800 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 183,
-              "cost": 38.941,
-              "end_shape_index": 189,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.025,
-              "street_names": null,
-              "time": 38.941,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 100 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 189,
-              "cost": 4.235,
-              "end_shape_index": 190,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.003,
-              "street_names": null,
-              "time": 4.235,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 20 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway. Then Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto the walkway."
-            },
-            {
-              "begin_shape_index": 190,
-              "cost": 62.411,
-              "end_shape_index": 193,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.054,
-              "street_names": null,
-              "time": 62.411,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 300 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 193,
-              "cost": 11.882,
-              "end_shape_index": 195,
-              "highway": null,
-              "instruction": "Turn right onto the crosswalk.",
-              "length": 0.008,
-              "street_names": null,
-              "time": 11.882,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 50 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the crosswalk. Then, in 50 feet, Turn left onto the crosswalk.",
-              "verbal_succinct_transition_instruction": "Turn right. Then, in 50 feet, Turn left onto the crosswalk."
-            },
-            {
-              "begin_shape_index": 195,
-              "cost": 19.411,
-              "end_shape_index": 199,
-              "highway": null,
-              "instruction": "Turn left onto the crosswalk.",
-              "length": 0.011,
-              "street_names": null,
-              "time": 19.411,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for 60 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the crosswalk.",
-              "verbal_succinct_transition_instruction": "Turn left."
-            },
-            {
-              "begin_shape_index": 199,
-              "cost": 0.705,
-              "end_shape_index": 200,
-              "highway": null,
-              "instruction": "Turn left onto the walkway.",
-              "length": 0.0,
-              "street_names": null,
-              "time": 0.705,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 15,
-              "verbal_post_transition_instruction": "Continue for less than 10 feet.",
-              "verbal_pre_transition_instruction": "Turn left onto the walkway. Then Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn left. Then Turn right onto the walkway."
-            },
-            {
-              "begin_shape_index": 200,
-              "cost": 124.468,
-              "end_shape_index": 215,
-              "highway": null,
-              "instruction": "Turn right onto the walkway.",
-              "length": 0.106,
-              "street_names": null,
-              "time": 124.468,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 10,
-              "verbal_post_transition_instruction": "Continue for 600 feet.",
-              "verbal_pre_transition_instruction": "Turn right onto the walkway.",
-              "verbal_succinct_transition_instruction": "Turn right."
-            },
-            {
-              "begin_shape_index": 215,
-              "cost": 0.0,
-              "end_shape_index": 215,
-              "highway": null,
-              "instruction": "You have arrived at your destination.",
-              "length": 0.0,
-              "street_names": null,
-              "time": 0.0,
-              "travel_mode": "pedestrian",
-              "travel_type": "foot",
-              "type": 4,
-              "verbal_post_transition_instruction": null,
-              "verbal_pre_transition_instruction": "You have arrived at your destination.",
-              "verbal_succinct_transition_instruction": null
+              "to": {
+                "arrival": 1757550055000,
+                "departure": null,
+                "lat": 47.599091,
+                "lon": -122.331856,
+                "name": "Destination",
+                "vertexType": "NORMAL"
+              },
+              "transitLeg": false,
+              "walkingBike": false
             }
           ],
-          "shape": "mk`vyAvdklhFvO`Ur@??t@|DnF{BvEoFkH}GkJsCvFm@lAuA^qbA[wBAgC?KnC?pAigB?Aza@Aj_@s@?uAAuACs@??~B?pC?dD?~BgkBAKFM?gAAeAAS@OIyh@EcAH{@XyChBgs@vb@u@t@o@fA_@xAGlAAhQeB?sA?{B@iAAkt@MF`A?r@aCEyBC?q@BaA{oB_@_AA{A?q@AaA?_oCi@m@?[?_AAsAAgA?C?egA]_EA?xA_AhBcApBOj@mV]wHKkm@g@wAMsAIMXHVNnAFbBIrQAjAM|PEtHGpDcXdMkGbAqFRsFa@aGyAuXcPsHkCmGq@uQJkRn@mKp@oGHwd@qAqGaBeGsCgk@md@aNoKwJwHaj@{b@yHgFkPeXmXm]oVuUwb@eRwm@aXyCm@e@?yAFkDf@cBBaDi@aCq@cSkK_CRaAYaB~BuBkC{AkBo@mA}GpKsv@lmA_Ah@{@BuCSS~A_@bAc[zf@[|@iAm@{@s@_AiAu@s@cAi@wCo@mDNuC`@yAK_ADs@h@k@t@g@dAa@nAQ~AmB_DoAwBiJqPbOuUw|Uy|mAfAcAwHcVuHcSqAwDAq@@y@yA@DimA{@A?]@eT?aB?eFtJsIhCc@pKaGfCoBrBm@dDcAlCi@bKg@vF@hCBpEFfBgAlAu@dEB|IFle@I?yA?aE?gEAaF?wD?uErBYB{e@B}^Vq@bBBlCDJeCTgFDkA?o@QO?}Y?_D?}]Lg@XKn@?MyCEuBEaB?oA@}@c@[Qw@?c^?qV",
-          "summary": {
-            "cost": 3762.333,
-            "has_ferry": true,
-            "has_highway": false,
-            "has_time_restrictions": false,
-            "has_toll": false,
-            "length": 4.737,
-            "max_lat": 47.601552,
-            "max_lon": -122.331856,
-            "min_lat": 47.563074,
-            "min_lon": -122.382628,
-            "time": 4025.249
-          }
+          "startTime": 1757544409000,
+          "tooSloped": false,
+          "transfers": 0,
+          "transitTime": 0,
+          "waitingTime": 0,
+          "walkDistance": 6903.36,
+          "walkLimitExceeded": false,
+          "walkTime": 5646
         }
       ],
-      "locations": [
-        {
-          "lat": 47.563412,
-          "lon": -122.378248
-        },
-        {
-          "lat": 47.599091,
-          "lon": -122.331856
-        }
-      ],
-      "status": 0,
-      "status_message": "Found route between points",
-      "summary": {
-        "cost": 3762.333,
-        "has_ferry": true,
-        "has_highway": false,
-        "has_time_restrictions": false,
-        "has_toll": false,
-        "length": 4.737,
-        "max_lat": 47.601552,
-        "max_lon": -122.331856,
-        "min_lat": 47.563074,
-        "min_lon": -122.382628,
-        "time": 4025.249
-      },
-      "units": "miles"
+      "to": {
+        "lat": 47.599091,
+        "lon": -122.331856,
+        "name": "Destination",
+        "vertexType": "NORMAL"
+      }
+    },
+    "requestParameters": {
+      "fromPlace": "47.563412,-122.378248",
+      "mode": "WALK",
+      "numItineraries": "5",
+      "preferredDistanceUnits": "miles",
+      "toPlace": "47.599091,-122.331856"
     }
   },
+  "_valhalla": null,
   "plan": {
     "itineraries": [
       {
@@ -1695,24 +458,28 @@
             47.56346
           ]
         },
-        "distance": 6.8915,
-        "distanceUnits": "kilometers",
-        "duration": 5435.0,
-        "endTime": 1715207930000,
+        "distance": 4.28955969527881,
+        "distanceUnits": "miles",
+        "duration": 5646.0,
+        "endTime": 1757550055000,
         "legs": [
           {
-            "endTime": 1715207930000,
+            "distance": 4.28955969527881,
+            "durationSeconds": 5646.0,
+            "endTime": 1757550055000,
             "fromPlace": {
               "lat": 47.563412,
               "lon": -122.378248,
               "name": "Origin"
             },
-            "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?cBRg@oFkC_XRcL?kC?wG?gE?{O?oF?oF?sD?sSRwB?wG?cQRgkAScL{@wLoAgJSg@wBsIcB{EkHsNsDsDSSoFsDwBcBkCoA{@g@{J{EkHsDczBogA{O_I_I_Dg@SoAg@?oFSoi@?gc@SgkA?oFgE?o_@?g@?wBcBg@{E?wo@?klBSon@?_N?sS?{Y?{JsD{@R_I?gE?{@S?{@SoASoAg@kCcBwBoAsN{JgE_DwGgEsXkRkCwBg@SSS{@{@oA{@sXwQ_DkCgToP{@{@g@oA{@wBcBkH{@oAsIoKcBwBoA_DwBsIoKgY{@_Dg@_D{@cQf@gTf@kRz@oi@z@gc@?oFRkC?sD?wLSgEoAgESwBS{ES{Og@{zA?_DSce@?{aA?kz@?kk@?_NScmASsv@f@o_@g@ScBRwBRg@RwBSSf@?_NRoA?kM?g@Rg@f@{@ScBS_Iz@{J?SSSg@S{@?S?oAS?wB?gEf@oP?SSSg@?g@Sg@?g@?Sg@g@S?g@?{@bBc[RkCRgER{ERoKR{E?g@?kC?cBSkC?{@ScB?gw@?w~@?wL?{T?gES{ESsDoPgnB?oAR{@zEwV?kC?sq@SwB{@wBg@oASSg@?{T?sDcBcG?g@?cGg@kHg@_X?{@?wy@?wBf@_NjCwB?cLbBsDf@oFf@gJf@wV?sD?kM?oqF?SRw[?g@Rs~A?sN?{}G?oA?_DScBg@oAsIcGoA{EkCwG{EkMcQsIoKwBsD{@oAsNoP{YcVsI{EcGsDsIsDwcAo_@{YcQsIcBwG{@{E{@kHoAoA{@?oAgESkH{@oKcBc[gJcGcBwVoF{JgE{T_IcQsDwBg@_S_DwGSgESgToAsSg@sg@SsXRk_AoAoU?_I?c~@f@oASSg@?wB?sDoA?cB?cBgJ{@cL?oF?sD{@{^?gE?{Y?{E?wG?_DRs]?kR?oK?kH_D?{T?SoFoU?g@g@Sg@?g^?wV",
+            "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?cBRg@oFkC_XRcLsD??ka@?g@?S?oFS_D?S?SRg@?sD?kW?kR?S?{uAScGSoFg@oF{@cGoAoFcB{EwB{EkCsDkC_DSg@_DkCS???g@SoA{@{@{@SS{@SwBoAsiDscBS?S{@oAg@f@wG?oFSoi@?gc@SgkA?oFgE?o_@?g@?wBcBg@{E?wo@?klBSon@?_N?sS?{Y_D?SwG?{@Sg@?g@SSg@SwGwBkCoAkCoAsD_DnAcG_DwB_DwBgE_DwGoFnA{EsXkRkCwBg@SSS{@{@oA{@sXwQ_DkCgToP{@{@g@oA{@wBcBkH{@oAsIoKcBwBoA_DwBsIoKgY{@_Dg@_D{@cQf@gTf@kRz@oi@z@gc@?oFRkC?sD?wLSgEoAgESwBS{ES{Og@{zA?_DSce@?{aA?kz@?kk@?_NScmASsv@f@o_@g@ScBRwBRg@RwBSSf@?_NRoA?kM?g@Rg@f@{@ScBS_Iz@{J?SSSg@S{@?S?oAS?wB?gEf@oP?SSSg@?g@Sg@?g@?Sg@g@S?g@?{@bBc[RkCRgER{ERoKR{E?g@?kC?cBSkC?{@ScB?gw@?w~@?wL?{T?gES{ESsDoPgnB?oAR{@zEwV?kC?sq@SwB{@wBg@oASSg@?{T?sDcBcG?g@?cGg@kHg@_X?{@?wy@?wBf@_NjCwB?cLbBsDf@oFf@gJf@wV?sD?kM?oqF?SRw[?g@Rs~A?sN?{}G?oA?_DScBg@_DSgEcB_DcB{EkC_DkCkCkCkC_DgEwG{@oA{@cB_DcGkHsIkMsNgEgE{JsIoA{@S?Sf@Sg@wBcBcBoAg@??g@Sg@SSka@_SoFkC{|@c[kHcBoPoFcBg@{E?g@Rg@f@Sg@{E{@sIcBg@f@SoAcB{@cB{@sIcB{@SoF_Dk_Ag^kHsDgE_DsDsD{@Sg@oA_DkC_DwBgEwB{EkC{EoAsD{@{E{@oFSsDS_D?{E?_Sf@_I?kp@RgkA{@{@S{@g@sDkHSSSSsD?oF?sDRcGf@kWjCwGz@cGRkHRgE?sDSg@RoAz@oA?cB?cBgJ{@cL?oF?sD{@{^?gE?{Y?{E?wG?_DRs]?kR?oK?kH_D?{T?SoFoU?g@g@Sg@?g^?wV",
             "mode": "WALK",
             "nonTransitLeg": {
               "maneuvers": [
                 {
-                  "distance": 54.2084,
+                  "bearingAfter": 42,
+                  "bearingBefore": 42,
+                  "distance": 0.05420855754532914,
                   "instruction": "Walk northeast on sidewalk.",
                   "startPoint": {
                     "lat": 47.5634626,
@@ -1723,7 +490,9 @@
                   "verbalPostTransitionInstruction": "Continue for 300 feet."
                 },
                 {
-                  "distance": 471.0986,
+                  "bearingAfter": 352,
+                  "bearingBefore": 352,
+                  "distance": 0.034566965339828754,
                   "instruction": "Turn right onto Southwest Avalon Way.",
                   "startPoint": {
                     "lat": 47.5640038,
@@ -1733,11 +502,67 @@
                     "Southwest Avalon Way"
                   ],
                   "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 180 feet."
+                },
+                {
+                  "bearingAfter": 94,
+                  "bearingBefore": 94,
+                  "distance": 0.006058384182335616,
+                  "instruction": "Turn left onto service road.",
+                  "startPoint": {
+                    "lat": 47.5640899,
+                    "lon": -122.3768659
+                  },
+                  "streetNames": null,
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 30 feet."
+                },
+                {
+                  "bearingAfter": 0,
+                  "bearingBefore": 0,
+                  "distance": 0.027352827867324497,
+                  "instruction": "Turn right onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5641776,
+                    "lon": -122.376865
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 140 feet."
+                },
+                {
+                  "bearingAfter": 89,
+                  "bearingBefore": 90,
+                  "distance": 0.3999527756720146,
+                  "instruction": "Turn left onto path.",
+                  "startPoint": {
+                    "lat": 47.5641701,
+                    "lon": -122.3762843
+                  },
+                  "streetNames": null,
+                  "type": 15,
                   "verbalPostTransitionInstruction": "Continue for a half mile."
                 },
                 {
-                  "distance": 127.0642,
-                  "instruction": "Turn right onto Southwest Yancy Street.",
+                  "bearingAfter": 18,
+                  "bearingBefore": 18,
+                  "distance": 0.006356643095927524,
+                  "instruction": "Turn right onto Southwest Andover Street.",
+                  "startPoint": {
+                    "lat": 47.5676142,
+                    "lon": -122.3709602
+                  },
+                  "streetNames": [
+                    "Southwest Andover Street"
+                  ],
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 30 feet."
+                },
+                {
+                  "bearingAfter": 101,
+                  "bearingBefore": 101,
+                  "distance": 0.127064510917519,
+                  "instruction": "Continue onto Southwest Yancy Street.",
                   "startPoint": {
                     "lat": 47.5675988,
                     "lon": -122.3708258
@@ -1745,11 +570,13 @@
                   "streetNames": [
                     "Southwest Yancy Street"
                   ],
-                  "type": 10,
+                  "type": 8,
                   "verbalPostTransitionInstruction": "Continue for a quarter mile."
                 },
                 {
-                  "distance": 48.5291,
+                  "bearingAfter": 90,
+                  "bearingBefore": 89,
+                  "distance": 0.048529210732349906,
                   "instruction": "Turn left onto 28th Avenue Southwest.",
                   "startPoint": {
                     "lat": 47.5676195,
@@ -1762,7 +589,9 @@
                   "verbalPostTransitionInstruction": "Continue for 300 feet."
                 },
                 {
-                  "distance": 214.2425,
+                  "bearingAfter": 29,
+                  "bearingBefore": 29,
+                  "distance": 0.2051772776417662,
                   "instruction": "Turn right onto Southwest Andover Street.",
                   "startPoint": {
                     "lat": 47.5683122,
@@ -1775,33 +604,80 @@
                   "verbalPostTransitionInstruction": "Continue for a quarter mile."
                 },
                 {
-                  "distance": 6.5368,
-                  "instruction": "Turn left onto path.",
+                  "bearingAfter": 90,
+                  "bearingBefore": 89,
+                  "distance": 0.00543701144568581,
+                  "instruction": "Turn left onto service road.",
                   "startPoint": {
-                    "lat": 47.5683473,
-                    "lon": -122.3634625
+                    "lat": 47.5683457,
+                    "lon": -122.363657
                   },
                   "streetNames": null,
                   "type": 15,
                   "verbalPostTransitionInstruction": "Continue for 30 feet."
                 },
                 {
-                  "distance": 13.2787,
-                  "instruction": "Turn right onto path.",
+                  "bearingAfter": 0,
+                  "bearingBefore": 0,
+                  "distance": 0.039699504144556155,
+                  "instruction": "Turn right onto sidewalk.",
                   "startPoint": {
-                    "lat": 47.5684395,
-                    "lon": -122.3634308
+                    "lat": 47.5684244,
+                    "lon": -122.3636559
                   },
                   "streetNames": null,
                   "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 70 feet."
+                  "verbalPostTransitionInstruction": "Continue for 200 feet."
                 },
                 {
-                  "distance": 771.37,
+                  "bearingAfter": 30,
+                  "bearingBefore": 30,
+                  "distance": 0.006598978463220948,
+                  "instruction": "Turn right onto service road.",
+                  "startPoint": {
+                    "lat": 47.5688424,
+                    "lon": -122.3632072
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 30 feet."
+                },
+                {
+                  "bearingAfter": 114,
+                  "bearingBefore": 114,
+                  "distance": 0.031149415288254816,
+                  "instruction": "Turn left onto Delridge Way Southwest.",
+                  "startPoint": {
+                    "lat": 47.5688046,
+                    "lon": -122.3630772
+                  },
+                  "streetNames": [
+                    "Delridge Way Southwest"
+                  ],
+                  "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 160 feet."
+                },
+                {
+                  "bearingAfter": 30,
+                  "bearingBefore": 30,
+                  "distance": 0.005958964544471647,
+                  "instruction": "Turn right onto service road.",
+                  "startPoint": {
+                    "lat": 47.5692008,
+                    "lon": -122.3627588
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for 30 feet."
+                },
+                {
+                  "bearingAfter": 118,
+                  "bearingBefore": 118,
+                  "distance": 0.784880758571837,
                   "instruction": "Turn left onto West Seattle Bridge Trail.",
                   "startPoint": {
-                    "lat": 47.568422,
-                    "lon": -122.3631473
+                    "lat": 47.5691629,
+                    "lon": -122.362644
                   },
                   "streetNames": [
                     "West Seattle Bridge Trail"
@@ -1810,31 +686,9 @@
                   "verbalPostTransitionInstruction": "Continue for 0.8 miles."
                 },
                 {
-                  "distance": 43.0672,
-                  "instruction": "Turn left onto sidewalk.",
-                  "startPoint": {
-                    "lat": 47.5713398,
-                    "lon": -122.3490004
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 200 feet."
-                },
-                {
-                  "distance": 27.0048,
-                  "instruction": "Continue onto West Seattle Bridge Trail.",
-                  "startPoint": {
-                    "lat": 47.571518,
-                    "lon": -122.3484546
-                  },
-                  "streetNames": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "type": 8,
-                  "verbalPostTransitionInstruction": "Continue for 140 feet."
-                },
-                {
-                  "distance": 379.813,
+                  "bearingAfter": 9,
+                  "bearingBefore": 0,
+                  "distance": 0.3798140852771944,
                   "instruction": "Turn right onto West Seattle Bridge Trail.",
                   "startPoint": {
                     "lat": 47.5716135,
@@ -1847,7 +701,9 @@
                   "verbalPostTransitionInstruction": "Continue for a half mile."
                 },
                 {
-                  "distance": 1029.6304,
+                  "bearingAfter": 53,
+                  "bearingBefore": 76,
+                  "distance": 1.3416680129742626,
                   "instruction": "Turn left onto sidewalk.",
                   "startPoint": {
                     "lat": 47.5718523,
@@ -1855,60 +711,55 @@
                   },
                   "streetNames": null,
                   "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 1 mile."
+                  "verbalPostTransitionInstruction": "Continue for 1.3 miles."
                 },
                 {
-                  "distance": 252.0529,
-                  "instruction": "Turn right onto Alaskan Way South.",
-                  "startPoint": {
-                    "lat": 47.5867184,
-                    "lon": -122.340168
-                  },
-                  "streetNames": [
-                    "Alaskan Way South"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
-                },
-                {
-                  "distance": 177.9172,
-                  "instruction": "Continue onto Marginal Way Cycle Route.",
-                  "startPoint": {
-                    "lat": 47.589876,
-                    "lon": -122.3376963
-                  },
-                  "streetNames": null,
-                  "type": 8,
-                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
-                },
-                {
-                  "distance": 409.9122,
-                  "instruction": "Continue onto Portside Trail.",
-                  "startPoint": {
-                    "lat": 47.592328,
-                    "lon": -122.3367458
-                  },
-                  "streetNames": [
-                    "Portside Trail"
-                  ],
-                  "type": 8,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 6.4623,
+                  "bearingAfter": 341,
+                  "bearingBefore": 341,
+                  "distance": 0.02131929859445487,
                   "instruction": "Turn left onto Portside Trail.",
                   "startPoint": {
-                    "lat": 47.5981133,
-                    "lon": -122.3360192
+                    "lat": 47.5907358,
+                    "lon": -122.3375234
                   },
                   "streetNames": [
                     "Portside Trail"
                   ],
                   "type": 15,
+                  "verbalPostTransitionInstruction": "Continue for 110 feet."
+                },
+                {
+                  "bearingAfter": 11,
+                  "bearingBefore": 11,
+                  "distance": 0.5072887022009023,
+                  "instruction": "Turn right onto sidewalk.",
+                  "startPoint": {
+                    "lat": 47.5910364,
+                    "lon": -122.3374658
+                  },
+                  "streetNames": null,
+                  "type": 10,
+                  "verbalPostTransitionInstruction": "Continue for a half mile."
+                },
+                {
+                  "bearingAfter": 341,
+                  "bearingBefore": 341,
+                  "distance": 0.006462276461157991,
+                  "instruction": "Turn slightly right onto Waterfront Trail.",
+                  "startPoint": {
+                    "lat": 47.5981133,
+                    "lon": -122.3360192
+                  },
+                  "streetNames": [
+                    "Waterfront Trail"
+                  ],
+                  "type": 9,
                   "verbalPostTransitionInstruction": "Continue for 30 feet."
                 },
                 {
-                  "distance": 146.1278,
+                  "bearingAfter": 0,
+                  "bearingBefore": 0,
+                  "distance": 0.14612822647793505,
                   "instruction": "Turn right onto South King Street.",
                   "startPoint": {
                     "lat": 47.5982068,
@@ -1921,7 +772,9 @@
                   "verbalPostTransitionInstruction": "Continue for a quarter mile."
                 },
                 {
-                  "distance": 29.627,
+                  "bearingAfter": 89,
+                  "bearingBefore": 89,
+                  "distance": 0.029627052083462786,
                   "instruction": "Turn left onto Occidental Avenue South.",
                   "startPoint": {
                     "lat": 47.5983071,
@@ -1934,7 +787,9 @@
                   "verbalPostTransitionInstruction": "Continue for 160 feet."
                 },
                 {
-                  "distance": 5.6172,
+                  "bearingAfter": 0,
+                  "bearingBefore": 0,
+                  "distance": 0.005617209539314253,
                   "instruction": "Turn right onto alley.",
                   "startPoint": {
                     "lat": 47.5987359,
@@ -1945,7 +800,9 @@
                   "verbalPostTransitionInstruction": "Continue for 30 feet."
                 },
                 {
-                  "distance": 68.6739,
+                  "bearingAfter": 82,
+                  "bearingBefore": 82,
+                  "distance": 0.06867411485453664,
                   "instruction": "Turn left onto sidewalk.",
                   "startPoint": {
                     "lat": 47.5987437,
@@ -1956,6 +813,8 @@
                   "verbalPostTransitionInstruction": "Continue for 400 feet."
                 },
                 {
+                  "bearingAfter": 89,
+                  "bearingBefore": 89,
                   "distance": 0.0,
                   "instruction": "Arrive at your destination.",
                   "startPoint": {
@@ -1971,7 +830,7 @@
                 "West Seattle Bridge Trail"
               ]
             },
-            "startTime": 1715202495000,
+            "startTime": 1757544409000,
             "toPlace": {
               "lat": 47.599091,
               "lon": -122.331856,
@@ -1980,1204 +839,7 @@
           }
         ],
         "mode": "WALK",
-        "startTime": 1715202495000
-      },
-      {
-        "bounds": {
-          "max": [
-            -122.331856,
-            47.601552
-          ],
-          "min": [
-            -122.382628,
-            47.563074
-          ]
-        },
-        "distance": 4.737,
-        "distanceUnits": "miles",
-        "duration": 4025.249,
-        "endTime": 1715206520459,
-        "legs": [
-          {
-            "endTime": 1715206520459,
-            "fromPlace": {
-              "lat": 47.563412,
-              "lon": -122.378248,
-              "name": null
-            },
-            "geometry": "mk`vyAvdklhFvO`Ur@??t@|DnF{BvEoFkH}GkJsCvFm@lAuA^qbA[wBAgC?KnC?pAigB?Aza@Aj_@s@?uAAuACs@??~B?pC?dD?~BgkBAKFM?gAAeAAS@OIyh@EcAH{@XyChBgs@vb@u@t@o@fA_@xAGlAAhQeB?sA?{B@iAAkt@MF`A?r@aCEyBC?q@BaA{oB_@_AA{A?q@AaA?_oCi@m@?[?_AAsAAgA?C?egA]_EA?xA_AhBcApBOj@mV]wHKkm@g@wAMsAIMXHVNnAFbBIrQAjAM|PEtHGpDcXdMkGbAqFRsFa@aGyAuXcPsHkCmGq@uQJkRn@mKp@oGHwd@qAqGaBeGsCgk@md@aNoKwJwHaj@{b@yHgFkPeXmXm]oVuUwb@eRwm@aXyCm@e@?yAFkDf@cBBaDi@aCq@cSkK_CRaAYaB~BuBkC{AkBo@mA}GpKsv@lmA_Ah@{@BuCSS~A_@bAc[zf@[|@iAm@{@s@_AiAu@s@cAi@wCo@mDNuC`@yAK_ADs@h@k@t@g@dAa@nAQ~AmB_DoAwBiJqPbOuUw|Uy|mAfAcAwHcVuHcSqAwDAq@@y@yA@DimA{@A?]@eT?aB?eFtJsIhCc@pKaGfCoBrBm@dDcAlCi@bKg@vF@hCBpEFfBgAlAu@dEB|IFle@I?yA?aE?gEAaF?wD?uErBYB{e@B}^Vq@bBBlCDJeCTgFDkA?o@QO?}Y?_D?}]Lg@XKn@?MyCEuBEaB?oA@}@c@[Qw@?c^?qV",
-            "mode": "WALK",
-            "nonTransitLeg": {
-              "maneuvers": [
-                {
-                  "distance": 0.026,
-                  "instruction": "Walk southwest on the walkway.",
-                  "startPoint": {
-                    "lat": 47.563463,
-                    "lon": -122.378332
-                  },
-                  "streetNames": null,
-                  "type": 3,
-                  "verbalPostTransitionInstruction": "Continue for 100 feet."
-                },
-                {
-                  "distance": 0.009,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.563169,
-                    "lon": -122.378685
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 50 feet."
-                },
-                {
-                  "distance": 0.006,
-                  "instruction": "Turn right onto 37th Avenue Southwest.",
-                  "startPoint": {
-                    "lat": 47.563074,
-                    "lon": -122.378832
-                  },
-                  "streetNames": [
-                    "37th Avenue Southwest"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 40 feet."
-                },
-                {
-                  "distance": 0.023,
-                  "instruction": "Turn right onto Fauntleroy Way Southwest.",
-                  "startPoint": {
-                    "lat": 47.563136,
-                    "lon": -122.37894
-                  },
-                  "streetNames": [
-                    "Fauntleroy Way Southwest"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 100 feet."
-                },
-                {
-                  "distance": 0.096,
-                  "instruction": "Turn left onto 37th Avenue Southwest.",
-                  "startPoint": {
-                    "lat": 47.563399,
-                    "lon": -122.378608
-                  },
-                  "streetNames": [
-                    "37th Avenue Southwest"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 500 feet."
-                },
-                {
-                  "distance": 0.004,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.564748,
-                    "lon": -122.378772
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 30 feet."
-                },
-                {
-                  "distance": 0.115,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.564754,
-                    "lon": -122.378885
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 600 feet."
-                },
-                {
-                  "distance": 0.05,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.566423,
-                    "lon": -122.378885
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.009,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.566425,
-                    "lon": -122.379961
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 50 feet."
-                },
-                {
-                  "distance": 0.013,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.566563,
-                    "lon": -122.379958
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 70 feet."
-                },
-                {
-                  "distance": 0.269,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.566563,
-                    "lon": -122.380242
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
-                },
-                {
-                  "distance": 0.072,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.570115,
-                    "lon": -122.381319
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 400 feet."
-                },
-                {
-                  "distance": 0.003,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.571161,
-                    "lon": -122.381312
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 20 feet."
-                },
-                {
-                  "distance": 0.008,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.571157,
-                    "lon": -122.381371
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 50 feet."
-                },
-                {
-                  "distance": 0.002,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.571283,
-                    "lon": -122.381366
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 10 feet."
-                },
-                {
-                  "distance": 0.392,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.571281,
-                    "lon": -122.381308
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 0.009,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.576927,
-                    "lon": -122.381251
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 50 feet."
-                },
-                {
-                  "distance": 0.095,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.577001,
-                    "lon": -122.381428
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 500 feet."
-                },
-                {
-                  "distance": 0.045,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.578367,
-                    "lon": -122.381388
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 200 feet."
-                },
-                {
-                  "distance": 0.652,
-                  "instruction": "Turn right onto Fairmount Avenue Southwest.",
-                  "startPoint": {
-                    "lat": 47.57837,
-                    "lon": -122.382357
-                  },
-                  "streetNames": [
-                    "Fairmount Avenue Southwest"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 0.004,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.587,
-                    "lon": -122.378243
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 20 feet."
-                },
-                {
-                  "distance": 0.011,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.587049,
-                    "lon": -122.378307
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 60 feet."
-                },
-                {
-                  "distance": 0.108,
-                  "instruction": "Turn left onto Alki Trail.",
-                  "startPoint": {
-                    "lat": 47.587178,
-                    "lon": -122.378144
-                  },
-                  "streetNames": [
-                    "Alki Trail"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 600 feet."
-                },
-                {
-                  "distance": 0.049,
-                  "instruction": "Turn left to stay on Alki Trail.",
-                  "startPoint": {
-                    "lat": 47.588348,
-                    "lon": -122.379613
-                  },
-                  "streetNames": [
-                    "Alki Trail"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.045,
-                  "instruction": "Turn right to stay on Alki Trail.",
-                  "startPoint": {
-                    "lat": 47.588838,
-                    "lon": -122.380364
-                  },
-                  "streetNames": [
-                    "Alki Trail"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 200 feet."
-                },
-                {
-                  "distance": 0.005,
-                  "instruction": "Turn right to stay on Alki Trail.",
-                  "startPoint": {
-                    "lat": 47.589407,
-                    "lon": -122.3804
-                  },
-                  "streetNames": [
-                    "Alki Trail"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 30 feet."
-                },
-                {
-                  "distance": 0.046,
-                  "instruction": "Continue on the walkway.",
-                  "startPoint": {
-                    "lat": 47.589462,
-                    "lon": -122.38032
-                  },
-                  "streetNames": null,
-                  "type": 8,
-                  "verbalPostTransitionInstruction": "Continue for 200 feet."
-                },
-                {
-                  "distance": 2.052,
-                  "instruction": "Take the West Seattle Water Taxi Ferry.",
-                  "startPoint": {
-                    "lat": 47.589425,
-                    "lon": -122.379616
-                  },
-                  "streetNames": [
-                    "West Seattle Water Taxi"
-                  ],
-                  "type": 28,
-                  "verbalPostTransitionInstruction": "Continue for 2 miles."
-                },
-                {
-                  "distance": 0.052,
-                  "instruction": "Walk southeast on the walkway.",
-                  "startPoint": {
-                    "lat": 47.601165,
-                    "lon": -122.339203
-                  },
-                  "streetNames": null,
-                  "type": 29,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.084,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.601526,
-                    "lon": -122.338332
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 400 feet."
-                },
-                {
-                  "distance": 0.157,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.601552,
-                    "lon": -122.33656
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 800 feet."
-                },
-                {
-                  "distance": 0.025,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599343,
-                    "lon": -122.336034
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 100 feet."
-                },
-                {
-                  "distance": 0.003,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599344,
-                    "lon": -122.33548
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 20 feet."
-                },
-                {
-                  "distance": 0.054,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599286,
-                    "lon": -122.335467
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.008,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.59927,
-                    "lon": -122.334309
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 50 feet."
-                },
-                {
-                  "distance": 0.011,
-                  "instruction": "Turn left onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.599149,
-                    "lon": -122.334314
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 60 feet."
-                },
-                {
-                  "distance": 0.0,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599129,
-                    "lon": -122.334069
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for less than 10 feet."
-                },
-                {
-                  "distance": 0.106,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599138,
-                    "lon": -122.334061
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 600 feet."
-                },
-                {
-                  "distance": 0.0,
-                  "instruction": "You have arrived at your destination.",
-                  "startPoint": {
-                    "lat": 47.599133,
-                    "lon": -122.331856
-                  },
-                  "streetNames": null,
-                  "type": 4,
-                  "verbalPostTransitionInstruction": null
-                }
-              ],
-              "substantialStreetNames": [
-                "West Seattle Water Taxi"
-              ]
-            },
-            "startTime": 1715202495210,
-            "toPlace": {
-              "lat": 47.599091,
-              "lon": -122.331856,
-              "name": null
-            }
-          }
-        ],
-        "mode": "WALK",
-        "startTime": 1715206520459
-      },
-      {
-        "bounds": {
-          "max": [
-            -122.331856,
-            47.601552
-          ],
-          "min": [
-            -122.3804,
-            47.563462
-          ]
-        },
-        "distance": 4.789,
-        "distanceUnits": "miles",
-        "duration": 4064.174,
-        "endTime": 1715206559385,
-        "legs": [
-          {
-            "endTime": 1715206559385,
-            "fromPlace": {
-              "lat": 47.563412,
-              "lon": -122.378248,
-              "name": null
-            },
-            "geometry": "mk`vyAvdklhFsYcb@s@qAg@uAUaACq@Dk@Ni@[?iBJo@_F_CiXB_L@eC@cH@kEBqOBqF?kF@wDBqW@qGBkQNgkAEcLeAkLqAuJIe@sBeIgB{EmHuNqDoD]]eFoD}B_BiCqAaAe@}JaFkHqD{yBygAuOsHcIgDa@M_Bg@uCc@o@IqDg@wAC}ACsDCyFEwMIqHE{V]aP_@yCGaCGyKU_ACaEMmFQqGQ{BEkIMoKEqJEeAAoA@yBAwKDoTEeHBqHDcP\\U@qFXmDRoAwA{CJkJf@uKh@yGXoD|BaPz@wG^uHVoX~@}Pj@iKByIc@u^dDgr@zGwQdBwAtAa@b@eALw@eAmIh@oBlC_O|BaKlBkARwBb@yMnDcIv@cj@xXkn@nY{NtCkQv@yi@sB}HLqJpC}_AfVqFfBeDdAgH|B}FjBaHzBqIbEwGbEmCbBaIpGsJ|HaL|Iqb@v\\gLdJuFtEwPjNyVzSmRzO_GvEeEjDaShPqSxPUPyB~B}@~@uPbUs@~@{Vr`@eCmEiWja@_FxH}J~O}GpKsv@lmA_Ah@{@BuCSS~A_@bAc[zf@[|@iAm@{@s@_AiAu@s@cAi@wCo@mDNuC`@yAK_ADs@h@k@t@g@dAa@nAQ~AmB_DoAwBiJqPbOuUw|Uy|mAfAcAwHcVuHcSqAwDAq@@y@yA@DimA{@A?]@eT?aB?eFtJsIhCc@pKaGfCoBrBm@dDcAlCi@bKg@vF@hCBpEFfBgAlAu@dEB|IFle@I?yA?aE?gEAaF?wD?uErBYB{e@B}^Vq@bBBlCDJeCTgFDkA?o@QO?}Y?_D?}]Lg@XKn@?MyCEuBEaB?oA@}@c@[Qw@?c^?qV",
-            "mode": "WALK",
-            "nonTransitLeg": {
-              "maneuvers": [
-                {
-                  "distance": 0.048,
-                  "instruction": "Walk northeast on the walkway.",
-                  "startPoint": {
-                    "lat": 47.563463,
-                    "lon": -122.378332
-                  },
-                  "streetNames": null,
-                  "type": 2,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.006,
-                  "instruction": "Bear right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.563945,
-                    "lon": -122.377606
-                  },
-                  "streetNames": null,
-                  "type": 9,
-                  "verbalPostTransitionInstruction": "Continue for 30 feet."
-                },
-                {
-                  "distance": 0.774,
-                  "instruction": "Turn right toward Southwest Avalon Way.",
-                  "startPoint": {
-                    "lat": 47.564004,
-                    "lon": -122.377591
-                  },
-                  "streetNames": [
-                    "Southwest Avalon Way"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 1 mile."
-                },
-                {
-                  "distance": 0.361,
-                  "instruction": "Keep right to take Harbor Avenue Southwest.",
-                  "startPoint": {
-                    "lat": 47.571959,
-                    "lon": -122.370716
-                  },
-                  "streetNames": [
-                    "Harbor Avenue Southwest"
-                  ],
-                  "type": 23,
-                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
-                },
-                {
-                  "distance": 0.713,
-                  "instruction": "Keep right to stay on Harbor Avenue Southwest.",
-                  "startPoint": {
-                    "lat": 47.577082,
-                    "lon": -122.371526
-                  },
-                  "streetNames": [
-                    "Harbor Avenue Southwest"
-                  ],
-                  "type": 23,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 0.006,
-                  "instruction": "Turn right.",
-                  "startPoint": {
-                    "lat": 47.586419,
-                    "lon": -122.377268
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 40 feet."
-                },
-                {
-                  "distance": 0.173,
-                  "instruction": "Turn left onto Alki Trail.",
-                  "startPoint": {
-                    "lat": 47.586486,
-                    "lon": -122.377165
-                  },
-                  "streetNames": [
-                    "Alki Trail"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 900 feet."
-                },
-                {
-                  "distance": 0.049,
-                  "instruction": "Turn left to stay on Alki Trail.",
-                  "startPoint": {
-                    "lat": 47.588348,
-                    "lon": -122.379613
-                  },
-                  "streetNames": [
-                    "Alki Trail"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.045,
-                  "instruction": "Turn right to stay on Alki Trail.",
-                  "startPoint": {
-                    "lat": 47.588838,
-                    "lon": -122.380364
-                  },
-                  "streetNames": [
-                    "Alki Trail"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 200 feet."
-                },
-                {
-                  "distance": 0.005,
-                  "instruction": "Turn right to stay on Alki Trail.",
-                  "startPoint": {
-                    "lat": 47.589407,
-                    "lon": -122.3804
-                  },
-                  "streetNames": [
-                    "Alki Trail"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 30 feet."
-                },
-                {
-                  "distance": 0.046,
-                  "instruction": "Continue on the walkway.",
-                  "startPoint": {
-                    "lat": 47.589462,
-                    "lon": -122.38032
-                  },
-                  "streetNames": null,
-                  "type": 8,
-                  "verbalPostTransitionInstruction": "Continue for 200 feet."
-                },
-                {
-                  "distance": 2.052,
-                  "instruction": "Take the West Seattle Water Taxi Ferry.",
-                  "startPoint": {
-                    "lat": 47.589425,
-                    "lon": -122.379616
-                  },
-                  "streetNames": [
-                    "West Seattle Water Taxi"
-                  ],
-                  "type": 28,
-                  "verbalPostTransitionInstruction": "Continue for 2 miles."
-                },
-                {
-                  "distance": 0.052,
-                  "instruction": "Walk southeast on the walkway.",
-                  "startPoint": {
-                    "lat": 47.601165,
-                    "lon": -122.339203
-                  },
-                  "streetNames": null,
-                  "type": 29,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.084,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.601526,
-                    "lon": -122.338332
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 400 feet."
-                },
-                {
-                  "distance": 0.157,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.601552,
-                    "lon": -122.33656
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 800 feet."
-                },
-                {
-                  "distance": 0.025,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599343,
-                    "lon": -122.336034
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 100 feet."
-                },
-                {
-                  "distance": 0.003,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599344,
-                    "lon": -122.33548
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 20 feet."
-                },
-                {
-                  "distance": 0.054,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599286,
-                    "lon": -122.335467
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.008,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.59927,
-                    "lon": -122.334309
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 50 feet."
-                },
-                {
-                  "distance": 0.011,
-                  "instruction": "Turn left onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.599149,
-                    "lon": -122.334314
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 60 feet."
-                },
-                {
-                  "distance": 0.0,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599129,
-                    "lon": -122.334069
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for less than 10 feet."
-                },
-                {
-                  "distance": 0.106,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599138,
-                    "lon": -122.334061
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 600 feet."
-                },
-                {
-                  "distance": 0.0,
-                  "instruction": "You have arrived at your destination.",
-                  "startPoint": {
-                    "lat": 47.599133,
-                    "lon": -122.331856
-                  },
-                  "streetNames": null,
-                  "type": 4,
-                  "verbalPostTransitionInstruction": null
-                }
-              ],
-              "substantialStreetNames": [
-                "West Seattle Water Taxi",
-                "Harbor Avenue Southwest"
-              ]
-            },
-            "startTime": 1715202495211,
-            "toPlace": {
-              "lat": 47.599091,
-              "lon": -122.331856,
-              "name": null
-            }
-          }
-        ],
-        "mode": "WALK",
-        "startTime": 1715206559385
-      },
-      {
-        "bounds": {
-          "max": [
-            -122.331856,
-            47.599132
-          ],
-          "min": [
-            -122.378332,
-            47.563462
-          ]
-        },
-        "distance": 4.289,
-        "distanceUnits": "miles",
-        "duration": 4919.342,
-        "endTime": 1715207414553,
-        "legs": [
-          {
-            "endTime": 1715207414553,
-            "fromPlace": {
-              "lat": 47.563412,
-              "lon": -122.378248,
-              "name": null
-            },
-            "geometry": "mk`vyAvdklhFsYcb@s@qAg@uAUaACq@Dk@Ni@[?]uEa@}E?{AAq_@AeH?cUUWLuFRcILSKg@?ms@?}qACoCM}CY}Ee@mFk@kEc@mCQcA{@yDkA{D}AwDgBqD_DkFwCyDcCgCeCoBaC_BcAc@MSG[[`@oB{AuCuBOa@UXYF[E}GgDgVyLGQwtBydAgB}@sBkAcB_ASw@OLSFQ?QE}DoB]QMMGWAQ?QA_IEsAIojCHq@KAiBDcBBK?K[OKo@Aq_@S?m@CeCE{C?}@]@QMO[E]Eyp@G}bBB_@F]FKHCh@?IcACqCCaDAy@W?OOGYA_@Cie@Ama@?g@Au`@NuB]MoBe@wD_AR{HLgE?s@[?{@MmA_@kAi@sCaBiBoA{N{JmE{CoGkEyXkReCkBa@]_@Y_As@kAaAgXsQmDmCcTePy@_Am@kAu@wBkBsHo@kAyIiKaBgCqAoC_C}IiK_YaAaD]}Cs@gQb@cTh@kRv@{i@x@_c@@yFHaCHwD@mLa@sE_A{Da@}BQ}EMcPa@uzAA}COce@GabA?gz@Fgk@AkNYslAKqv@Rc`@J}BR}@`@u@h@_@l@OOqAi@{Di@_EOg@[m@IgBEqA@iDW?{B|@oBv@e@@u@OUaBA}Hn@}JC]QOg@Is@I_@EcAGB}BMcEh@kPC]QIe@Gg@Ge@Ee@GYWW]Ka@CaAnBa[JiCNoENoE`@}KDyE?m@@aC?_BKkCGeAEwA?ew@?w~@@yL@aUEaEQwEYeEwPepBbG_\\@}RS_[uAgIs@eB]c@}TKoDoAiHBoGEqHq@e]c@cv@JeBd@eNzBaCAkSjDeD\\iCL}EDqD?{KEmDDgEDmM@s^Swt@C_^@q]F{hAB_TC{JZgrBZ?{HkNDoxFAke@a@iKq@cG}AuEaCqG}EwMcQiI{K_CmDcAkAqNgPoYcVqIeFaGiD}IaEwcAi_@yLuDaIeCcD_AeYaIyKa@aEMyOmDmSyH}t@u[cEiCuFkFkDmDuAyAaSoJcNuD}OcAwVMoU?klBCmEUeDqA_C}Bg@{AAuDBsM@kL@a_@Bib@}GqBeBUk@IwCKqjAFiN?sE@_D??w@@y@HYJq@?_]@o^?s@?yALg@]yB[mB?cCoTCsUCc@[Qw@?c^?qV",
-            "mode": "WALK",
-            "nonTransitLeg": {
-              "maneuvers": [
-                {
-                  "distance": 0.048,
-                  "instruction": "Walk northeast on the walkway.",
-                  "startPoint": {
-                    "lat": 47.563463,
-                    "lon": -122.378332
-                  },
-                  "streetNames": null,
-                  "type": 2,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.002,
-                  "instruction": "Bear right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.563945,
-                    "lon": -122.377606
-                  },
-                  "streetNames": null,
-                  "type": 9,
-                  "verbalPostTransitionInstruction": "Continue for 10 feet."
-                },
-                {
-                  "distance": 0.06,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.563951,
-                    "lon": -122.377585
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.0,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.563985,
-                    "lon": -122.376299
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for less than 10 feet."
-                },
-                {
-                  "distance": 0.013,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.563996,
-                    "lon": -122.376287
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 70 feet."
-                },
-                {
-                  "distance": 0.185,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.563972,
-                    "lon": -122.375992
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 1000 feet."
-                },
-                {
-                  "distance": 0.001,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.564634,
-                    "lon": -122.372425
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for less than 10 feet."
-                },
-                {
-                  "distance": 0.011,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.564648,
-                    "lon": -122.372442
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 60 feet."
-                },
-                {
-                  "distance": 0.195,
-                  "instruction": "Keep left to take the walkway.",
-                  "startPoint": {
-                    "lat": 47.564787,
-                    "lon": -122.37232
-                  },
-                  "streetNames": null,
-                  "type": 24,
-                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
-                },
-                {
-                  "distance": 0.012,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.567398,
-                    "lon": -122.370774
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 70 feet."
-                },
-                {
-                  "distance": 0.115,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.567555,
-                    "lon": -122.370698
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 600 feet."
-                },
-                {
-                  "distance": 0.272,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.56756,
-                    "lon": -122.368221
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
-                },
-                {
-                  "distance": 0.011,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.568276,
-                    "lon": -122.363489
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 60 feet."
-                },
-                {
-                  "distance": 0.013,
-                  "instruction": "Turn right onto the crosswalk.",
-                  "startPoint": {
-                    "lat": 47.568439,
-                    "lon": -122.363431
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 70 feet."
-                },
-                {
-                  "distance": 0.367,
-                  "instruction": "Turn left onto West Seattle Bridge Trail.",
-                  "startPoint": {
-                    "lat": 47.568422,
-                    "lon": -122.363147
-                  },
-                  "streetNames": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for a quarter mile."
-                },
-                {
-                  "distance": 0.413,
-                  "instruction": "Keep left to stay on West Seattle Bridge Trail.",
-                  "startPoint": {
-                    "lat": 47.571223,
-                    "lon": -122.357655
-                  },
-                  "streetNames": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "type": 24,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 0.021,
-                  "instruction": "Turn left to stay on West Seattle Bridge Trail.",
-                  "startPoint": {
-                    "lat": 47.571263,
-                    "lon": -122.348855
-                  },
-                  "streetNames": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 100 feet."
-                },
-                {
-                  "distance": 0.012,
-                  "instruction": "Turn left to stay on West Seattle Bridge Trail.",
-                  "startPoint": {
-                    "lat": 47.571342,
-                    "lon": -122.348403
-                  },
-                  "streetNames": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 70 feet."
-                },
-                {
-                  "distance": 0.027,
-                  "instruction": "Turn right to stay on West Seattle Bridge Trail.",
-                  "startPoint": {
-                    "lat": 47.571518,
-                    "lon": -122.348455
-                  },
-                  "streetNames": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 100 feet."
-                },
-                {
-                  "distance": 0.379,
-                  "instruction": "Turn right to stay on West Seattle Bridge Trail.",
-                  "startPoint": {
-                    "lat": 47.571613,
-                    "lon": -122.348016
-                  },
-                  "streetNames": [
-                    "West Seattle Bridge Trail"
-                  ],
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 0.683,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.571861,
-                    "lon": -122.340135
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 0.007,
-                  "instruction": "Turn right.",
-                  "startPoint": {
-                    "lat": 47.581708,
-                    "lon": -122.340198
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 40 feet."
-                },
-                {
-                  "distance": 0.592,
-                  "instruction": "Turn left onto East Marginal Way South.",
-                  "startPoint": {
-                    "lat": 47.581708,
-                    "lon": -122.34004
-                  },
-                  "streetNames": [
-                    "East Marginal Way South"
-                  ],
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 0.477,
-                  "instruction": "Keep left to take Alaskan Way South.",
-                  "startPoint": {
-                    "lat": 47.589876,
-                    "lon": -122.337696
-                  },
-                  "streetNames": [
-                    "Alaskan Way South"
-                  ],
-                  "type": 24,
-                  "verbalPostTransitionInstruction": "Continue for a half mile."
-                },
-                {
-                  "distance": 0.071,
-                  "instruction": "Bear right onto South Dearborn Street/WA 519.",
-                  "startPoint": {
-                    "lat": 47.596465,
-                    "lon": -122.335729
-                  },
-                  "streetNames": [
-                    "South Dearborn Street",
-                    "WA 519"
-                  ],
-                  "type": 9,
-                  "verbalPostTransitionInstruction": "Continue for 400 feet."
-                },
-                {
-                  "distance": 0.134,
-                  "instruction": "Bear left onto 1st Avenue South.",
-                  "startPoint": {
-                    "lat": 47.596459,
-                    "lon": -122.334203
-                  },
-                  "streetNames": [
-                    "1st Avenue South"
-                  ],
-                  "type": 16,
-                  "verbalPostTransitionInstruction": "Continue for 700 feet."
-                },
-                {
-                  "distance": 0.063,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.598391,
-                    "lon": -122.334129
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.048,
-                  "instruction": "Turn left onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.5984,
-                    "lon": -122.332777
-                  },
-                  "streetNames": null,
-                  "type": 15,
-                  "verbalPostTransitionInstruction": "Continue for 300 feet."
-                },
-                {
-                  "distance": 0.043,
-                  "instruction": "Turn right onto the walkway.",
-                  "startPoint": {
-                    "lat": 47.599106,
-                    "lon": -122.332773
-                  },
-                  "streetNames": null,
-                  "type": 10,
-                  "verbalPostTransitionInstruction": "Continue for 200 feet."
-                },
-                {
-                  "distance": 0.0,
-                  "instruction": "You have arrived at your destination.",
-                  "startPoint": {
-                    "lat": 47.599133,
-                    "lon": -122.331856
-                  },
-                  "streetNames": null,
-                  "type": 4,
-                  "verbalPostTransitionInstruction": null
-                }
-              ],
-              "substantialStreetNames": [
-                "West Seattle Bridge Trail"
-              ]
-            },
-            "startTime": 1715202495211,
-            "toPlace": {
-              "lat": 47.599091,
-              "lon": -122.331856,
-              "name": null
-            }
-          }
-        ],
-        "mode": "WALK",
-        "startTime": 1715207414553
+        "startTime": 1757544409000
       }
     ]
   }
