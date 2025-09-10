@@ -184,7 +184,7 @@ class ValhallaRouteOptions: RouteOptions {
 
 class TravelmuxRouteOptions: RouteOptions {
   override var path: String {
-    AppConfig().travelmuxEndpoint.replacingLastPathComponent(with: "directions").path()
+    AppConfig().travelmuxEndpoint.appending(path: "directions").path()
   }
 
   var modes: [TravelMode] = []

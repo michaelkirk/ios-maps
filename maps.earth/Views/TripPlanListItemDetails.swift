@@ -18,6 +18,18 @@ struct NonTransitPlanItem: View {
       }
       Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
       Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
+      if let elevationProfile = trip.elevationProfile {
+        VStack(alignment: .leading, spacing: 0) {
+          HStack {
+            Text("↑ \(elevationProfile.formattedTotalClimb)").font(.caption).foregroundStyle(.red)
+            Text("↓ \(elevationProfile.formattedTotalFall)").font(.caption).foregroundStyle(.green)
+          }
+          GeometryReader { reader in
+            ElevationChart(
+              elevations: elevationProfile.raw.elevation, width: reader.size.width - 20)
+          }.frame(idealWidth: .infinity, idealHeight: 26)
+        }
+      }
     }
     Spacer()
     TripButton("GO", action: onShowSteps)
@@ -143,7 +155,14 @@ func formattedDepatureName(tripPlace: TripPlace, boldFont: Font) -> AttributedSt
   return output
 }
 
-#Preview {
+#Preview("walking") {
+  let trip = FixtureData.walkTripPlan.selectedTrip!
+  return NonTransitPlanItem(trip: trip) {
+    let _ = print("tapped")
+  }
+}
+
+#Preview("transit") {
   let trip = FixtureData.transitTripPlan.selectedTrip!
   return TransitPlanItem(trip: trip) {
     let _ = print("tapped")
