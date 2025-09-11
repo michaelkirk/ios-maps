@@ -13,6 +13,8 @@
 		450C5F1D2B961DFC00394697 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1C2B961DFC00394697 /* Trip.swift */; };
 		450C5F1F2B963B5700394697 /* TripTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1E2B963B5700394697 /* TripTest.swift */; };
 		4516BAA92C0810DC0095E760 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4516BAA82C0810DC0095E760 /* Platform.swift */; };
+		451EE34C2E723ABA00AC0622 /* trip_elevation.json in Resources */ = {isa = PBXBuildFile; fileRef = 451EE34B2E723ABA00AC0622 /* trip_elevation.json */; };
+		451EE34E2E72415400AC0622 /* ElevationChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451EE34D2E72414F00AC0622 /* ElevationChart.swift */; };
 		4545AA682BA373B500958306 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA672BA373B500958306 /* Env.swift */; };
 		4545AA6B2BA3857500958306 /* walk_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA692BA3857500958306 /* walk_plan.json */; };
 		4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA6D2BA3934000958306 /* Maneuver.swift */; };
@@ -110,6 +112,8 @@
 		450C5F1C2B961DFC00394697 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		450C5F1E2B963B5700394697 /* TripTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTest.swift; sourceTree = "<group>"; };
 		4516BAA82C0810DC0095E760 /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
+		451EE34B2E723ABA00AC0622 /* trip_elevation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trip_elevation.json; sourceTree = "<group>"; };
+		451EE34D2E72414F00AC0622 /* ElevationChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationChart.swift; sourceTree = "<group>"; };
 		4545AA672BA373B500958306 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		4545AA692BA3857500958306 /* walk_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = walk_plan.json; sourceTree = "<group>"; };
 		4545AA6D2BA3934000958306 /* Maneuver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maneuver.swift; sourceTree = "<group>"; };
@@ -333,6 +337,7 @@
 		45971AC62B71A7050050BECE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				451EE34D2E72414F00AC0622 /* ElevationChart.swift */,
 				45BFF55F2DD5585E00810E0D /* TripCompleteBanner.swift */,
 				4571DB892BD87B3B00C919D8 /* UtilityViews */,
 				45971AC42B71A6FF0050BECE /* PlaceRow.swift */,
@@ -401,6 +406,7 @@
 		45971ACC2B71AC090050BECE /* StubbedResponses */ = {
 			isa = PBXGroup;
 			children = (
+				451EE34B2E723ABA00AC0622 /* trip_elevation.json */,
 				45E0C3B22C0017A900C6388C /* west_seattle_water_taxi_place.json */,
 				45E474702BB3562500018120 /* bicycle_plan_error.json */,
 				4545AA722BA3B0B700958306 /* bicycle_plan.json */,
@@ -552,6 +558,7 @@
 			files = (
 				45992B482B97E56000A64AEE /* transit_plan.json in Resources */,
 				45E474712BB3562600018120 /* bicycle_plan_error.json in Resources */,
+				451EE34C2E723ABA00AC0622 /* trip_elevation.json in Resources */,
 				4563B9FA2B687AA5005A677A /* Preview Assets.xcassets in Resources */,
 				4545AA742BA3B0B700958306 /* bicycle_plan.json in Resources */,
 				4545AA752BA3B0B700958306 /* car_plan.json in Resources */,
@@ -625,6 +632,7 @@
 				45E0C3AD2BFFD44B00C6388C /* TripList.swift in Sources */,
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
 				45DD17122BE2E2170085D2B1 /* LabeledCheckbox.swift in Sources */,
+				451EE34E2E72415400AC0622 /* ElevationChart.swift in Sources */,
 				45A33C792C8919E9007FB635 /* MLNBounds+Extensions.swift in Sources */,
 				4562F34A2BA50BBB00FD8621 /* SheetContent.swift in Sources */,
 				4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */,

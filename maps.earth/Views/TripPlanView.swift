@@ -115,10 +115,12 @@ struct ModeButton: View {
   }
 }
 
+var searcher = TripSearchManager()
+
 struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
   @State var travelMode: TravelMode
-  var searcher = TripSearchManager()
+
   @State var showSteps: Bool
   @State var tripDate: TripDateMode = .departNow
   var didCompleteTrip: () -> Void
@@ -218,6 +220,7 @@ struct TripPlanView: View {
         let trips = try await searcher.query(
           from: from, to: to, mode: tripPlan.mode, tripDate: tripDate,
           transitWithBike: tripPlan.transitWithBike)
+
         await MainActor.run {
           self.tripPlan.trips = trips.mapError { $0 as any Error }
           if case .success(let trips) = trips {
@@ -235,12 +238,8 @@ struct TripPlanView: View {
   }
 }
 
+typealias QueryID = UInt64
 struct TripSearchManager {
-  struct TripQuery {
-    var queryId: UInt64
-    var navigateFrom: Place
-    var navigateTo: Place
-  }
 
   @MainActor
   var tripPlanClient: TripPlanClient {
@@ -256,10 +255,10 @@ struct TripSearchManager {
     }
   }
 
-  var pendingQueries: [TripQuery] = []
-  var completedQueries: [TripQuery] = []
+  var mostRecentlyCompletedQuery: (id: QueryID, trips: [Trip])? = nil
+  var nextQueryID: QueryID = 1
 
-  func query(
+  mutating func query(
     from: Place, to: Place, mode: TravelMode, tripDate: TripDateMode, transitWithBike: Bool
   ) async throws
     -> Result<[Trip], TripPlanError>
@@ -268,9 +267,39 @@ struct TripSearchManager {
     if mode == .transit && transitWithBike {
       modes.append(.bike)
     }
-
-    return try await tripPlanClient.query(
+    let queryID = nextQueryID
+    nextQueryID += 1
+    let result = try await tripPlanClient.query(
       from: from, to: to, modes: modes, measurementSystem: measurementSystem, tripDate: tripDate)
+
+    guard case var .success(trips) = result else {
+      return result
+    }
+
+    guard mostRecentlyCompletedQuery?.id ?? 0 < queryID else {
+      // slower request just now finished, return more recent results instead
+      print("slower request just now finished, return more recent results instead")
+      return .success(mostRecentlyCompletedQuery!.trips)
+    }
+
+    guard [TravelMode.bike, TravelMode.walk].contains(mode) else {
+      return result
+    }
+
+    for (idx, var trip) in trips.enumerated() {
+      let geometry = trip.raw.legs[0].geometry
+      guard let elevation = try? await fetchElevation(polyline: geometry) else {
+        continue
+      }
+      trip.setElevationProfile(elevation)
+      trips[idx] = trip
+    }
+    self.mostRecentlyCompletedQuery = (id: queryID, trips: trips)
+    return .success(trips)
+  }
+
+  func fetchElevation(polyline: String) async throws -> ElevationProfile {
+    try await tripPlanClient.elevation(polyline: polyline).get()
   }
 }
 

@@ -23,12 +23,26 @@ struct FixtureData {
   }
   static var places: Places = Places()
 
+  static var elevationProfile: ElevationProfile = load("trip_elevation.json")
+
   static var bikeTrips: [Trip] {
-    loadTrips(filename: "bicycle_plan.json")
+    var trips = loadTrips(filename: "bicycle_plan.json")
+    trips = trips.map { trip in
+      var mutableTrip = trip
+      mutableTrip.setElevationProfile(Self.elevationProfile)
+      return mutableTrip
+    }
+    return trips
   }
 
   static var walkTrips: [Trip] {
-    loadTrips(filename: "walk_plan.json")
+    var trips = loadTrips(filename: "walk_plan.json")
+    trips = trips.map { trip in
+      var mutableTrip = trip
+      mutableTrip.setElevationProfile(Self.elevationProfile)
+      return mutableTrip
+    }
+    return trips
   }
 
   static var driveTrips: [Trip] {

@@ -39,8 +39,45 @@ struct TripLeg {
   }
 }
 
+struct FormattedElevationProfile {
+  let raw: ElevationProfile
+  let formatLocale: Locale
+
+  var formattedTotalClimb: String {
+    format(meters: raw.totalClimbMeters)
+  }
+
+  var formattedTotalFall: String {
+    format(meters: raw.totalFallMeters)
+  }
+
+  func format(meters: Double) -> String {
+    let formatter = MeasurementFormatter()
+    formatter.locale = self.formatLocale
+    formatter.unitStyle = .medium
+    formatter.unitOptions = .providedUnit
+    formatter.numberFormatter.roundingIncrement = 1.0
+
+    let outputUnit =
+      self.formatLocale.measurementSystem == .metric ? UnitLength.meters : UnitLength.feet
+    let measurement = Measurement(value: meters, unit: .meters).converted(to: outputUnit)
+    return formatter.string(from: measurement)
+  }
+}
+
+struct ElevationProfile: Codable {
+  let totalClimbMeters: Float64
+  let totalFallMeters: Float64
+  let elevation: [Float64]
+}
+
 struct Trip: Identifiable {
   let raw: Itinerary
+  private(set) var elevationProfile: FormattedElevationProfile?
+  mutating func setElevationProfile(_ profile: ElevationProfile) {
+    self.elevationProfile = FormattedElevationProfile(raw: profile, formatLocale: self.formatLocale)
+  }
+
   let id: UUID
   let from: Place
   let to: Place

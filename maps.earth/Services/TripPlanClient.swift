@@ -352,6 +352,8 @@ protocol TripPlanClient {
     async throws -> Result<
       [Trip], TripPlanError
     >
+
+  func elevation(polyline: String) async throws -> Result<ElevationProfile, TripPlanError>
 }
 
 struct TripPlanMockClient: TripPlanClient {
@@ -364,6 +366,10 @@ struct TripPlanMockClient: TripPlanClient {
     >
   {
     .success(FixtureData.bikeTrips)
+  }
+
+  func elevation(polyline: String) async throws -> Result<ElevationProfile, TripPlanError> {
+    .success(FixtureData.elevationProfile)
   }
 }
 
@@ -446,8 +452,8 @@ struct TripPlanNetworkClient: TripPlanClient {
       tripDate: tripDate)
 
     // URL: https://maps.earth/travelmux/v2/plan?fromPlace=47.575837%2C-122.339414&toPlace=47.622687%2C-122.312892&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
-    var url = config.travelmuxEndpoint
-    url.append(queryItems: params.asQueryItems)
+    let url = AppConfig().travelmuxEndpoint.appending(path: "plan").appending(
+      queryItems: params.asQueryItems)
 
     print("travelmux assembled url: \(url)")
 
@@ -458,6 +464,13 @@ struct TripPlanNetworkClient: TripPlanClient {
       }
     }
     return result.mapError { $0.error }
+  }
+
+  func elevation(polyline: String) async throws -> Result<ElevationProfile, TripPlanError> {
+    let queryItems = [URLQueryItem(name: "path", value: polyline)]
+    let url = AppConfig().travelmuxEndpoint.appending(path: "elevation").appending(
+      queryItems: queryItems)
+    return try await fetchData(from: url).mapError { (err: TripPlanErrorResponse) in err.error }
   }
 
   internal func fetchData<T: Decodable, E: Decodable>(from url: URL) async throws -> Result<T, E> {

@@ -78,7 +78,7 @@ struct TripList: View {
   }
 }
 
-#Preview {
+#Preview("walking") {
   let tripPlan = FixtureData.walkTripPlan
   let trips = try! tripPlan.trips.get()
   return TripList(tripPlan: tripPlan, trips: .constant(trips), showSteps: .constant(false))
