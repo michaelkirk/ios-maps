@@ -492,12 +492,14 @@ struct TripPlanClientFerrostarAdapter {
   let measurementSystem: MeasurementSystem
 }
 
+struct TripPlanNoWaypointsError: Error {}
+
 extension TripPlanClientFerrostarAdapter: CustomRouteProvider {
   func getRoutes(
     userLocation: FerrostarCoreFFI.UserLocation, waypoints: [FerrostarCoreFFI.Waypoint]
   ) async throws -> [FerrostarCoreFFI.Route] {
     guard let toWaypoint = waypoints.last else {
-      fatalError("TODO: handle missing waypoint gracefully")
+      throw TripPlanNoWaypointsError()
     }
     assert(waypoints.count == 1, "only 1 waypoint is supported")
     // TODO: handle destinationName

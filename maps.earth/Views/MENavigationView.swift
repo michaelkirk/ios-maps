@@ -276,14 +276,12 @@ struct MENavigationView: View {
       // You have a lot of flexibility here based on your use case.
       let config = SwiftNavigationControllerConfig(
         waypointAdvance: .waypointWithinRange(20),
-        stepAdvance: .relativeLineStringDistance(
-          minimumHorizontalAccuracy: 32,
-          specialAdvanceConditions: .advanceAtDistanceFromEnd(10)
-        ),
+        stepAdvanceCondition: stepAdvanceDistanceEntryAndExit(
+          distanceToEndOfStep: 10, distanceAfterEndOfStep: 10, minimumHorizontalAccuracy: 32),
+        arrivalStepAdvanceCondition: stepAdvanceDistanceToEndOfStep(
+          distance: 10, minimumHorizontalAccuracy: 32),
         routeDeviationTracking: .staticThreshold(
-          minimumHorizontalAccuracy: 25,
-          maxAcceptableDeviation: 20
-        ),
+          minimumHorizontalAccuracy: 25, maxAcceptableDeviation: 20),
         snappedLocationCourseFiltering: .snapToRoute
       )
 
@@ -316,8 +314,8 @@ struct MENavigationView: View {
       // I guess so that we can transition to/from the navigation mode?
       camera: $camera,
       navigationState: ferrostarCore.state,
-      isMuted: true,
-      onTapMute: { assertionFailure("muting not implemented") },
+      isMuted: ferrostarCore.spokenInstructionObserver.isMuted,
+      onTapMute: { ferrostarCore.spokenInstructionObserver.toggleMute() },
       onTapExit: { stopNavigation(false) }
     )
     mapView.onStyleLoaded = { style in
