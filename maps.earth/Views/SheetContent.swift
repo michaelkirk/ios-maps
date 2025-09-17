@@ -49,7 +49,7 @@ where Content: View, NavigationAccessoryContent: View {
         }
       }.padding(16)
       content()
-    }.background(Color.hw_sheetBackground)
+    }.presentationBackground(Color.hw_sheetBackground)
       .presentationDetents(presentationDetents, selection: $currentDetent)
       .ignoresSafeArea()
       .presentationBackgroundInteraction(
@@ -70,7 +70,7 @@ struct SheetContentsWithoutTitle<Content>: View where Content: View {
       content()
     }
     .padding(16)
-    .background(Color.hw_sheetBackground)
+    .presentationBackground(Color.hw_sheetBackground)
     .presentationDetents(presentationDetents, selection: $currentDetent)
     .presentationBackgroundInteraction(
       .enabled(upThrough: .medium)

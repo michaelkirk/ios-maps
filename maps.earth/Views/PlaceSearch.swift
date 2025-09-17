@@ -132,7 +132,7 @@ struct PlaceSearch: View {
     .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
       scrollViewOffset = value
     }
-    .background(Color.hw_sheetBackground)
+    .presentationBackground(Color.hw_sheetBackground)
   }
 }
 
