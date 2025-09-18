@@ -1,0 +1,52 @@
+#!/bin/bash
+set -euo pipefail
+
+SCHEME="maps.earth"
+PROJECT_PATH="maps.earth.xcodeproj"
+
+echo "🧪 Running iOS tests for $SCHEME..."
+
+# Get available simulators and find the latest iOS version
+echo "📱 Finding available iOS simulators..."
+SIMULATORS_JSON=$(xcrun simctl list devices --json)
+
+# Extract the latest iOS runtime (highest version number)
+LATEST_IOS_RUNTIME=$(echo "$SIMULATORS_JSON" | jq -r '.devices | keys[] | select(contains("iOS"))' | sort -V | tail -1)
+
+if [ -z "$LATEST_IOS_RUNTIME" ]; then
+    echo "❌ Error: No iOS simulators found"
+    exit 1
+fi
+
+echo "📍 Using iOS runtime: $LATEST_IOS_RUNTIME"
+
+# Get the first available simulator for this runtime
+SIMULATOR_UDID=$(echo "$SIMULATORS_JSON" | jq -r ".devices[\"$LATEST_IOS_RUNTIME\"][0].udid // empty")
+SIMULATOR_NAME=$(echo "$SIMULATORS_JSON" | jq -r ".devices[\"$LATEST_IOS_RUNTIME\"][0].name // empty")
+
+if [ -z "$SIMULATOR_UDID" ]; then
+    echo "❌ Error: No simulators available for $LATEST_IOS_RUNTIME"
+    exit 1
+fi
+
+echo "📱 Selected simulator: $SIMULATOR_NAME ($SIMULATOR_UDID)"
+
+# Check if simulator is booted, boot if needed
+SIMULATOR_STATE=$(xcrun simctl list devices | grep "$SIMULATOR_UDID" | awk '{print $NF}' | tr -d '()')
+
+if [ "$SIMULATOR_STATE" != "Booted" ]; then
+    echo "🚀 Booting simulator..."
+    xcrun simctl boot "$SIMULATOR_UDID"
+    echo "⏳ Waiting for simulator to be ready..."
+    xcrun simctl bootstatus "$SIMULATOR_UDID"
+fi
+
+# Run the tests
+echo "🧪 Running tests on $SIMULATOR_NAME..."
+xcodebuild test \
+    -project "$PROJECT_PATH" \
+    -scheme "$SCHEME" \
+    -skipMacroValidation \
+    -destination "platform=iOS Simulator,id=$SIMULATOR_UDID"
+
+echo "✅ Tests completed successfully!"
