@@ -41,6 +41,9 @@ if [ "$SIMULATOR_STATE" != "Booted" ]; then
     xcrun simctl bootstatus "$SIMULATOR_UDID"
 fi
 
+# Magic to avoid Error 65 (presumably waiting for the simulator to be more responsive?)
+sleep 15
+
 # Run the tests
 echo "🧪 Running tests on $SIMULATOR_NAME..."
 xcodebuild test \
