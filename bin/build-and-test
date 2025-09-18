@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "🔧 Building iOS framework dependencies..."
+
+# Build the ferrostar iOS framework from its directory
+cd DevDependencies/ferrostar/common
+./build-ios.sh
+cd - > /dev/null
+
+echo "✅ Framework build completed!"
+
+# Now run the tests
+echo ""
+./bin/test
