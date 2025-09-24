@@ -19,7 +19,6 @@ class InMemoryStorage: StorageController {
   var preferences: Preferences.Record? = nil
 
   func write(preferences: Preferences.Record) throws {
-    dispatchPrecondition(condition: .notOnQueue(.main))
     self.preferences = preferences
   }
 

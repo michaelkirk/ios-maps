@@ -106,7 +106,7 @@ struct TripDatePicker: View {
       }.padding(.horizontal, 8).padding(.vertical, 4)
 
       if selectedMode.sameMode(mode) {
-        button.background(Color.blue).foregroundColor(.white).cornerRadius(4)
+        button.background(Color.hw_blue).foregroundColor(.white).cornerRadius(4)
       } else {
         button
       }

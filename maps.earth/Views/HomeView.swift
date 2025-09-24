@@ -15,14 +15,16 @@ func AssertMainThread() {
 }
 
 let minDetentHeight = PresentationDetent.height(68)
+let initialDetentHeight = PresentationDetent.medium
 struct HomeView: View {
   @State var selectedPlace: Place?
   @ObservedObject @MainActor var tripPlan: TripPlan = TripPlan()
+  @EnvironmentObject var preferences: Preferences
 
   @StateObject var searchQueue: SearchQueue = SearchQueue()
   @State var queryText: String = ""
 
-  @State var searchDetent: PresentationDetent = minDetentHeight
+  @State var searchDetent: PresentationDetent = initialDetentHeight
   @State var placeDetailsDetent: PresentationDetent = .medium
 
   @StateObject var userLocationManager = UserLocationManager()
@@ -52,7 +54,7 @@ struct HomeView: View {
         tripPlan: tripPlan,
         didDismissSearch: {
           queryText = ""
-          searchDetent = minDetentHeight
+          searchDetent = initialDetentHeight
           dismissKeyboard()
         },
         didSubmitSearch: {
@@ -110,7 +112,7 @@ struct HomeView: View {
         self.pendingMapFocus = .place(newValue)
         self.searchDetent = minDetentHeight
         self.placeDetailsDetent = .medium
-      } else if searchQueue.mostRecentResults != nil {
+      } else if searchQueue.mostRecentResults != nil || !preferences.favoritePlaces.isEmpty {
         // return to previous search results
         self.searchDetent = .medium
       }
@@ -211,13 +213,17 @@ struct HomeView: View {
 #Preview("Search") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   return HomeView(
-    searchQueue: searchQueue, queryText: "coffee", searchDetent: .large)
+    searchQueue: searchQueue, queryText: "coffee", searchDetent: .large
+  )
+  .environmentObject(Preferences.forTesting())
 }
 
 #Preview("Place") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   return HomeView(
-    selectedPlace: FixtureData.places[.santaLucia], searchQueue: searchQueue, queryText: "coffee")
+    selectedPlace: FixtureData.places[.santaLucia], searchQueue: searchQueue, queryText: "coffee"
+  )
+  .environmentObject(Preferences.forTesting())
 }
 
 #Preview("Trip") {
@@ -225,9 +231,12 @@ struct HomeView: View {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   return HomeView(
     selectedPlace: tripPlan.navigateTo, tripPlan: tripPlan, searchQueue: searchQueue,
-    queryText: "coffee")
+    queryText: "coffee"
+  )
+  .environmentObject(Preferences.forTesting())
 }
 
 #Preview("Init") {
   HomeView()
+    .environmentObject(Preferences.forTesting())
 }

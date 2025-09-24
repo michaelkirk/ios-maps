@@ -110,7 +110,7 @@ struct ModeButton: View {
     }
     .foregroundColor(mode == selectedMode ? .white : .hw_darkGray)
     .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
-    .background(mode == selectedMode ? .blue : .hw_lightGray)
+    .background(mode == selectedMode ? Color.hw_blue : .hw_lightGray)
     .cornerRadius(3.0)
   }
 }
@@ -123,6 +123,7 @@ struct TripPlanView: View {
 
   @State var showSteps: Bool
   @State var tripDate: TripDateMode = .departNow
+  @EnvironmentObject var preferences: Preferences
   var didCompleteTrip: () -> Void
 
   var body: some View {
@@ -144,7 +145,7 @@ struct TripPlanView: View {
         // clear trips for previous mode
         tripPlan.selectedTrip = nil
         tripPlan.trips = .success([])
-        Task { await Preferences.shared.setPreferredTravelMode(newValue) }
+        Task { await preferences.setPreferredTravelMode(newValue) }
       }
 
       OriginDestinationFieldSet(
@@ -331,6 +332,7 @@ struct TripPlanSheetContents: View {
   return Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
+  .environmentObject(Preferences.forTesting())
 }
 
 #Preview("Transit Trips") {
@@ -338,6 +340,7 @@ struct TripPlanSheetContents: View {
   return Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
+  .environmentObject(Preferences.forTesting())
 }
 
 #Preview("TripPlan error") {
@@ -347,6 +350,7 @@ struct TripPlanSheetContents: View {
   return Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
+  .environmentObject(Preferences.forTesting())
 }
 
 #Preview("Steps") {
@@ -354,6 +358,7 @@ struct TripPlanSheetContents: View {
   return Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, showSteps: true, didCompleteTrip: {})
   }
+  .environmentObject(Preferences.forTesting())
 }
 
 #Preview("Only 'to' selected") {
@@ -361,6 +366,7 @@ struct TripPlanSheetContents: View {
   Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
+  .environmentObject(Preferences.forTesting())
 }
 
 #Preview("Only 'from' selected") {
@@ -368,4 +374,5 @@ struct TripPlanSheetContents: View {
   Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
+  .environmentObject(Preferences.forTesting())
 }

@@ -27,8 +27,10 @@ extension Place {
   init(currentLocation: CLLocation) {
     let location = LngLat(coord: currentLocation.coordinate)
     let properties = PlaceProperties(
-      gid: "current-location-\(currentLocation)", name: "Current Location",
-      label: "Current Location")
+      gid: gidString(lngLat: location),
+      name: "Current Location",
+      label: "Current Location"
+    )
     self.init(location: location, properties: properties)
   }
 
@@ -36,9 +38,16 @@ extension Place {
     let lngLat = LngLat(coord: location.coordinate)
     let name = location.coordinate.formattedString(includeCardinalDirections: true)
     let properties = PlaceProperties(
-      gid: "location-\(location.coordinate)", name: name, label: name)
+      gid: gidString(lngLat: lngLat),
+      name: name,
+      label: name
+    )
     self.init(location: lngLat, properties: properties)
   }
+}
+
+func gidString(lngLat: LngLat) -> String {
+  "location-lnglat:\(lngLat.lng),\(lngLat.lat)"
 }
 
 enum PlaceID: Equatable, Hashable {
@@ -92,6 +101,19 @@ enum PlaceID: Equatable, Hashable {
     case .lngLat(let lngLat):
       return "\(lngLat.lng),\(lngLat.lat)"
     }
+  }
+}
+
+extension PlaceID: Codable {
+  func encode(to encoder: Encoder) throws {
+    var container = encoder.singleValueContainer()
+    try container.encode(self.serialized)
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let string = try container.decode(String.self)
+    self = PlaceID(string: string)
   }
 }
 

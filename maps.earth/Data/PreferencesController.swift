@@ -14,7 +14,37 @@ class Preferences: ObservableObject {
   let controller: PreferencesController
 
   @MainActor
-  static let shared: Preferences = Preferences(controller: Env.current.preferencesController)
+  static var shared: Preferences {
+    Preferences(controller: Env.current.preferencesController)
+  }
+
+  @MainActor
+  static func forTesting(empty: ()) -> Preferences {
+    let storage = StorageController.InMemoryForTesting()
+    let controller = PreferencesController(fromStorage: storage)
+    return Preferences(controller: controller)
+  }
+
+  @MainActor
+  static func forTesting(recentSearches: [String] = ["Gym", "Coffee", "123 Fake Street"])
+    -> Preferences
+  {
+    let storage = StorageController.InMemoryForTesting()
+    var preferences = Preferences.Record()
+    preferences.recentSearches = recentSearches
+    preferences.favoritePlaces = [
+      FavoritePlace(placeType: .home, lngLat: FixtureData.places[.dubsea].location),
+      FavoritePlace(placeType: .work, lngLat: FixtureData.places[.santaLucia].location),
+      FavoritePlace(
+        placeType: .other("Zeitgeist"), lngLat: FixtureData.places[.zeitgeist].location),
+      FavoritePlace(placeType: .other("Real Fine"), lngLat: FixtureData.places[.realfine].location),
+    ]
+    Task {
+      try storage.write(preferences: preferences)
+    }
+    let controller = PreferencesController(fromStorage: storage)
+    return Preferences(controller: controller)
+  }
 
   @MainActor
   @Published
@@ -25,12 +55,17 @@ class Preferences: ObservableObject {
   var preferredTravelMode: TravelMode = .walk
 
   @MainActor
+  @Published
+  var favoritePlaces: [FavoritePlace] = []
+
+  @MainActor
   init(controller: PreferencesController) {
     self.controller = controller
     Task {
       let record = try await self.controller.load()
       self.recentSearches = record.recentSearches
       self.preferredTravelMode = record.preferredTravelMode
+      self.favoritePlaces = record.favoritePlaces
     }
   }
 
@@ -51,13 +86,34 @@ class Preferences: ObservableObject {
     await self.controller.save(record: self.asRecord)
   }
 
+  @MainActor
+  func addFavoritePlace(place: Place, as placeType: FavoritePlace.PlaceType) async {
+    let favorite = FavoritePlace(
+      placeType: placeType,
+      placeId: place.id,
+      longitude: place.lng,
+      latitude: place.lat
+    )
+    self.favoritePlaces.append(favorite)
+    await self.controller.save(record: self.asRecord)
+  }
+
+  @MainActor
+  func removeFavoritePlace(place: Place) async {
+    self.favoritePlaces = self.favoritePlaces.filter { $0.placeId != place.id }
+    await self.controller.save(record: self.asRecord)
+  }
+
   // MARK: Codable
 
   @MainActor
   var asRecord: Record {
     return Record(
-      schemaVersion: Record.schemaVersion, recentSearches: recentSearches,
-      preferredTravelMode: preferredTravelMode)
+      schemaVersion: Record.schemaVersion,
+      recentSearches: recentSearches,
+      preferredTravelMode: preferredTravelMode,
+      favoritePlaces: favoritePlaces
+    )
   }
 
   struct Record: Codable {
@@ -70,6 +126,7 @@ class Preferences: ObservableObject {
     var schemaVersion: UInt
     var recentSearches: [String] = []
     var preferredTravelMode: TravelMode
+    var favoritePlaces: [FavoritePlace] = []
     var hasLatestSchemaVersion: Bool {
       self.schemaVersion == Self.schemaVersion
     }
@@ -82,6 +139,7 @@ class Preferences: ObservableObject {
         record = try jsonDecoder.decode(Self.self, from: jsonData)
         assert(record.hasLatestSchemaVersion)
       } catch {
+        print("error: \(error)")
         let legacyRecord = try jsonDecoder.decode(Self.LegacyRecord.self, from: jsonData)
         record = Record(legacy: legacyRecord)
         print("Migrated legacy Preferences record \(legacyRecord), newRecord: \(record)")
@@ -96,12 +154,14 @@ extension Preferences.Record {
     self.recentSearches = []
     self.preferredTravelMode = .walk
     self.schemaVersion = Self.schemaVersion
+    self.favoritePlaces = []
   }
 
   init(legacy: Self.LegacyRecord) {
     self.recentSearches = legacy.recentSearches
     self.preferredTravelMode = .walk
     self.schemaVersion = Self.schemaVersion
+    self.favoritePlaces = []
   }
 }
 
@@ -125,14 +185,6 @@ actor PreferencesController {
 
   func clearSearch() async {
     preferences.recentSearches = []
-    await save(record: preferences)
-  }
-
-  func setPreferredTravelMode(_ travelMode: TravelMode) async {
-    guard preferences.preferredTravelMode != travelMode else {
-      return
-    }
-    preferences.preferredTravelMode = travelMode
     await save(record: preferences)
   }
 

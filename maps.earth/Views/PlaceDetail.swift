@@ -13,12 +13,15 @@ let addressFormatter = AddressFormatter()
 
 struct PlaceDetailSheet: View {
   var place: Place
+  var fromFavorite: Bool = false
   @ObservedObject var tripPlan: TripPlan
   @Binding var presentationDetent: PresentationDetent
   var onClose: () -> Void
   var didCompleteTrip: () -> Void
 
   @EnvironmentObject var userLocationManager: UserLocationManager
+  @State private var detailedPlace: Place?
+  @State private var isLoadingDetails = false
 
   var body: some View {
     let shareButton = ShareLink(item: UniversalLink.place(placeID: place.id).url) {
@@ -44,8 +47,9 @@ struct PlaceDetailSheet: View {
     ) {
       ScrollView {
         PlaceDetail(
-          place: place,
+          place: detailedPlace ?? place,
           tripPlan: tripPlan,
+          isLoadingDetails: isLoadingDetails,
           didSelectNavigateTo: { place in
             tripPlan.navigateTo = place
             if let mostRecentUserLocation = self.userLocationManager
@@ -62,14 +66,50 @@ struct PlaceDetailSheet: View {
       // of the place. If I actually want to dismiss, it's easy enough to hit the X
       .interactiveDismissDisabled(true)
     }
+    .onAppear {
+      if fromFavorite {
+        fetchPlaceDetails()
+      }
+    }
+  }
+
+  private func fetchPlaceDetails() {
+    guard !isLoadingDetails else { return }
+    isLoadingDetails = true
+
+    Task {
+      do {
+        let geocodeClient = GeocodeClient()
+        if let fetchedPlace = try await geocodeClient.details(placeID: place.id) {
+          await MainActor.run {
+            detailedPlace = fetchedPlace
+            isLoadingDetails = false
+          }
+        } else {
+          await MainActor.run {
+            isLoadingDetails = false
+          }
+        }
+      } catch {
+        print("Failed to fetch place details: \(error)")
+        await MainActor.run {
+          isLoadingDetails = false
+        }
+      }
+    }
   }
 }
 
 struct PlaceDetail: View {
   var place: Place
   @ObservedObject var tripPlan: TripPlan
+  var isLoadingDetails: Bool = false
   var didSelectNavigateTo: (Place) -> Void
   var didCompleteTrip: () -> Void
+  @EnvironmentObject var preferences: Preferences
+
+  @State private var showingCustomNameAlert = false
+  @State private var customName = ""
 
   var body: some View {
     let isShowingDirections = Binding(
@@ -87,45 +127,121 @@ struct PlaceDetail: View {
         }
         .padding()
         .foregroundColor(.white)
-        .background(.blue)
+        .background(Color.hw_blue)
         .cornerRadius(4)
         .sheet(isPresented: isShowingDirections) {
           TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: didCompleteTrip)
             .interactiveDismissDisabled()
         }
         Spacer()
+        if let favoritePlace = preferences.favoritePlaces.first(where: { $0.placeId == place.id }) {
+          Button(action: {
+            Task {
+              await preferences.removeFavoritePlace(place: place)
+            }
+          }) {
+            HStack {
+              favoritePlace.saveButtonIcon
+              Text("Save")
+            }
+          }
+          .padding()
+          .foregroundColor(.white)
+          .background(favoritePlace.iconColor)
+          .cornerRadius(4)
+        } else {
+          Button(action: {
+            Task {
+              await preferences.addFavoritePlace(place: place, as: .other(place.name))
+            }
+          }) {
+            HStack {
+              Image(systemName: "star")
+              Text("Save")
+            }
+          }
+          .padding()
+          .foregroundColor(.white)
+          .background(Color.hw_blue)
+          .cornerRadius(4)
+          .contextMenu {
+            Button(action: {
+              Task {
+                await preferences.addFavoritePlace(place: place, as: .home)
+              }
+            }) {
+              Label("Save as Home", systemImage: "house.fill")
+            }
+
+            Button(action: {
+              Task {
+                await preferences.addFavoritePlace(place: place, as: .work)
+              }
+            }) {
+              Label("Save as Work", systemImage: "briefcase.fill")
+            }
+
+            Button(action: {
+              customName = place.name
+              showingCustomNameAlert = true
+            }) {
+              Label("Save as other...", systemImage: "mappin")
+            }
+          }
+        }
       }.scenePadding(.bottom)
 
       Text("Details").font(.title3).bold()
       VStack(alignment: .leading) {
-        if let phoneNumber = place.phoneNumber {
-          let readableFormat = phoneNumberKit.format(phoneNumber, toType: .national)
-          let e164 = phoneNumberKit.format(phoneNumber, toType: .e164)
-          if let phoneURL = URL(string: "tel://\(e164)") {
-            Text("Phone").foregroundColor(.secondary)
-            Link(readableFormat, destination: phoneURL)
+        if isLoadingDetails {
+          HStack {
+            ProgressView()
+              .scaleEffect(0.8)
+            Text("Loading details...")
+              .foregroundColor(.secondary)
+          }
+          .padding(.vertical, 8)
+        } else {
+          if let phoneNumber = place.phoneNumber {
+            let readableFormat = phoneNumberKit.format(phoneNumber, toType: .national)
+            let e164 = phoneNumberKit.format(phoneNumber, toType: .e164)
+            if let phoneURL = URL(string: "tel://\(e164)") {
+              Text("Phone").foregroundColor(.secondary)
+              Link(readableFormat, destination: phoneURL)
+              Divider()
+            }
+          }
+          if let websiteURL = place.websiteURL {
+            Text("Website").foregroundColor(.secondary)
+            Link(websiteURL.absoluteString, destination: websiteURL)
             Divider()
           }
-        }
-        if let websiteURL = place.websiteURL {
-          Text("Website").foregroundColor(.secondary)
-          Link(websiteURL.absoluteString, destination: websiteURL)
-          Divider()
-        }
-        if let formattedAddress = addressFormatter.format(place: place, includeCountry: true) {
-          Text("Address").foregroundColor(.secondary)
-          Text(formattedAddress)
+          if let formattedAddress = addressFormatter.format(place: place, includeCountry: true) {
+            Text("Address").foregroundColor(.secondary)
+            Text(formattedAddress)
+          }
         }
       }.padding().background(Color.white).cornerRadius(8)
     }.scenePadding(.leading)
       .scenePadding(.trailing)
+      .alert("Save as Favorite", isPresented: $showingCustomNameAlert) {
+        TextField("Name", text: $customName)
+        Button("Save") {
+          Task {
+            await preferences.addFavoritePlace(place: place, as: .other(customName))
+          }
+        }
+        Button("Cancel", role: .cancel) {}
+      } message: {
+        Text("Enter a custom name for this favorite place.")
+      }
   }
 }
 
 #Preview("Place Sheet") {
   Text("").sheet(isPresented: .constant(true)) {
     PlaceDetailSheet(
-      place: FixtureData.places[.zeitgeist], tripPlan: TripPlan(),
+      place: FixtureData.places[.zeitgeist], fromFavorite: false, tripPlan: TripPlan(),
       presentationDetent: .constant(.medium), onClose: {}, didCompleteTrip: {})
   }
 }
