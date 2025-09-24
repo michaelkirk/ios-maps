@@ -4,7 +4,12 @@
       "id" : "1B7C0A69-C1A9-4C3E-AA7A-548C365534E5",
       "name" : "Test Scheme Action",
       "options" : {
-
+        "environmentVariableEntries" : [
+          {
+            "key" : "TZ",
+            "value" : "PDT"
+          }
+        ]
       }
     }
   ],
