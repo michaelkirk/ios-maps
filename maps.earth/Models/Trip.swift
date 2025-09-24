@@ -163,7 +163,7 @@ struct Trip: Identifiable {
 
   var firstTransitLeg: TransitLeg? {
     for leg in self.legs {
-      if case let .transit(transitLeg) = leg.modeLeg {
+      if case .transit(let transitLeg) = leg.modeLeg {
         return transitLeg
       }
     }
