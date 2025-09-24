@@ -186,7 +186,7 @@ struct TripPlanView: View {
     }.onDisappear {
       self.tripPlan.selectedTrip = nil
     }.fullScreenCover(isPresented: showRouteSheet, onDismiss: { tripPlan.selectedRoute = nil }) {
-      if case let .success(route) = self.tripPlan.selectedRoute {
+      if case .success(let route) = self.tripPlan.selectedRoute {
         MENavigationView(
           route: route,
           travelMode: tripPlan.mode,
@@ -272,7 +272,7 @@ struct TripSearchManager {
     let result = try await tripPlanClient.query(
       from: from, to: to, modes: modes, measurementSystem: measurementSystem, tripDate: tripDate)
 
-    guard case var .success(trips) = result else {
+    guard case .success(var trips) = result else {
       return result
     }
 
