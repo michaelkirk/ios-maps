@@ -17,7 +17,7 @@ struct LabeledCheckbox<Label>: View where Label: View {
     Button(action: { isChecked.toggle() }) {
       HStack {
         Image(systemName: isChecked ? "checkmark.square.fill" : "square")
-          .foregroundColor(isChecked ? .blue : .gray)
+          .foregroundColor(isChecked ? .hw_blue : .gray)
         label().foregroundColor(.primary)
       }
     }

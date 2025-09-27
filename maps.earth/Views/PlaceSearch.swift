@@ -7,20 +7,44 @@
 
 import SwiftUI
 
-struct PlaceSearch: View {
-  var placeholder: String
-  var hasPendingQuery: Bool
+struct PlaceSearch<Content: View>: View {
+  var placeholder: String = "placeholder"
+  var hasPendingQuery: Bool = false
   @Binding var places: [Place]?
   @Binding var queryText: String
-  var canPickCurrentLocation: Bool
-  var didDismissSearch: () -> Void
-  var didSubmitSearch: () -> Void
-  var didSelectPlace: (Place) -> Void
+  var canPickCurrentLocation: Bool = false
+  var didDismissSearch: () -> Void = {}
+  var didSubmitSearch: () -> Void = {}
+  var didSelectPlace: (Place) -> Void = { _ in }
+
+  let slotContent: Content
 
   @State private var scrollViewOffset: CGFloat = 0
   @EnvironmentObject var userLocationManager: UserLocationManager
-  var preferences: Preferences = Preferences.shared
+  @EnvironmentObject var preferences: Preferences
 
+  init(
+    placeholder: String = "placeholder",
+    hasPendingQuery: Bool = false,
+    places: Binding<[Place]?>,
+    queryText: Binding<String>,
+    canPickCurrentLocation: Bool = false,
+    didDismissSearch: @escaping () -> Void = {},
+    didSubmitSearch: @escaping () -> Void = {},
+    didSelectPlace: @escaping (Place) -> Void = { _ in },
+    @ViewBuilder slotContent: () -> Content = { EmptyView() }
+  ) {
+
+    self.placeholder = placeholder
+    self.hasPendingQuery = hasPendingQuery
+    self._places = places
+    self._queryText = queryText
+    self.canPickCurrentLocation = canPickCurrentLocation
+    self.didDismissSearch = didDismissSearch
+    self.didSubmitSearch = didSubmitSearch
+    self.didSelectPlace = didSelectPlace
+    self.slotContent = slotContent()
+  }
   var body: some View {
     VStack(spacing: 0) {
       HStack {
@@ -56,7 +80,7 @@ struct PlaceSearch: View {
           }
         }
       }.padding()
-
+      slotContent
       // TODO: Only if there are search results and scrolled up a bit
       if scrollViewOffset < -5 {
         Divider()
@@ -90,8 +114,6 @@ struct PlaceSearch: View {
                 }
                 Spacer()
               }
-            } else {
-              Spacer(minLength: 16)
             }
             if !preferences.recentSearches.isEmpty {
               VStack(alignment: .leading, spacing: 8) {
@@ -116,7 +138,6 @@ struct PlaceSearch: View {
               }
             }
           }
-          Spacer()
         }
         .padding()
         .overlay(
@@ -141,4 +162,27 @@ struct ScrollViewOffsetPreferenceKey: PreferenceKey {
   static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
     value = nextValue()
   }
+}
+
+#Preview("recent searches") {
+  PlaceSearch(hasPendingQuery: true, places: .constant(nil), queryText: .constant("coffee"))
+    .environmentObject(Preferences.forTesting())
+}
+
+#Preview("no recent searches") {
+  PlaceSearch(hasPendingQuery: true, places: .constant(nil), queryText: .constant(""))
+    .environmentObject(Preferences.forTesting(empty: ()))
+}
+
+#Preview("with accessory") {
+  PlaceSearch(
+    hasPendingQuery: true, places: .constant(nil), queryText: .constant("coffee"),
+    slotContent: {
+      HStack {
+        Rectangle().fill(Color.hw_blue).frame(width: 20, height: 20)
+        Text("Accessory View")
+      }.padding()
+        .border(.black)
+    }
+  ).environmentObject(Preferences.forTesting())
 }

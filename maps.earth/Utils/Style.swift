@@ -48,6 +48,11 @@ extension Color {
   static let hw_activeRoute = Color(rgb: 0x1296FF)
   static let hw_inactiveRoute = Color(rgb: 0x6FC1EE)
 
+  // Favorite place colors
+  static let hw_green = Color(rgb: 0x2ECC40)  // Fresh, vibrant green for Home
+  static let hw_red = Color(rgb: 0xE74C3C)  // Warm red for Work
+  static let hw_blue = Color(rgb: 0x3498DB)  // Complementary blue for Other
+
   var uiColor: UIColor {
     UIColor(self)
   }

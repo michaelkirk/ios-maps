@@ -11,7 +11,7 @@ import SwiftUI
 struct maps_earthApp: App {
   var body: some Scene {
     WindowGroup {
-      HomeView()
+      HomeView().environmentObject(Preferences.shared)
     }
   }
 }

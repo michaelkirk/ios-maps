@@ -29,7 +29,7 @@ struct TripList: View {
           }) {
             HStack(spacing: 8) {
               Spacer().frame(maxWidth: 8, maxHeight: .infinity)
-                .background(trip == tripPlan.selectedTrip ? .blue : .clear)
+                .background(trip == tripPlan.selectedTrip ? Color.hw_blue : .clear)
               HStack {
                 if tripPlan.mode == .transit {
                   TransitPlanItem(trip: trip) {
