@@ -18,6 +18,7 @@ let minDetentHeight = PresentationDetent.height(68)
 let initialDetentHeight = PresentationDetent.medium
 struct HomeView: View {
   @State var selectedPlace: Place?
+
   @ObservedObject @MainActor var tripPlan: TripPlan = TripPlan()
   @EnvironmentObject var preferences: Preferences
 
@@ -140,6 +141,9 @@ struct HomeView: View {
           self.pendingMapFocus = .searchResults(mostRecentResults)
         }
       }
+    }.onChange(of: preferences.loaded) { newValue in
+      assert(newValue, "preference loading should never be undone (and should only happen once)")
+      self.tripPlan.mode = preferences.preferredTravelMode
     }.onOpenURL { url in
       self.handleUniversalLink(url: url)
     }

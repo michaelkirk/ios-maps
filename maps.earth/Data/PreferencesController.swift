@@ -59,6 +59,10 @@ class Preferences: ObservableObject {
   var favoritePlaces: [FavoritePlace] = []
 
   @MainActor
+  @Published
+  var loaded: Bool = false
+
+  @MainActor
   init(controller: PreferencesController) {
     self.controller = controller
     Task {
@@ -66,6 +70,7 @@ class Preferences: ObservableObject {
       self.recentSearches = record.recentSearches
       self.preferredTravelMode = record.preferredTravelMode
       self.favoritePlaces = record.favoritePlaces
+      self.loaded = true
     }
   }
 

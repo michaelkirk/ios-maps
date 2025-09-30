@@ -19,11 +19,7 @@ class TripPlan: ObservableObject {
   var navigateTo: Place?
 
   @Published
-  var preferences: Preferences = Preferences.shared
-
-  var mode: TravelMode {
-    preferences.preferredTravelMode
-  }
+  var mode: TravelMode
 
   @Published var transitWithBike: Bool = false
   @Published var bounds: Bounds?
@@ -34,12 +30,14 @@ class TripPlan: ObservableObject {
   init(
     from fromPlace: Place? = nil,
     to toPlace: Place? = nil,
+    mode: TravelMode = .walk,
     trips: Result<[Trip], Error> = .success([]),
     selectedTrip: Trip? = nil,
     bounds: Bounds? = nil
   ) {
     self.navigateFrom = fromPlace
     self.navigateTo = toPlace
+    self.mode = mode
     self.trips = trips
     if case .success(let trips) = trips {
       self.selectedTrip = selectedTrip ?? trips.first
