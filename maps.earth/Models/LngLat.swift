@@ -8,6 +8,7 @@
 import CoreLocation
 import Foundation
 
+/// GeoJSON point decodable
 struct LngLat: Hashable, Equatable {
   var lng: Float64
   var lat: Float64

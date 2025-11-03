@@ -38,59 +38,71 @@ struct HomeView: View {
     }
   }
 
+  @State var showOfflineDownloadPrompt = false
+
   var body: some View {
     MapView(
       searchResults: $searchQueue.mostRecentResults, selectedPlace: $selectedPlace,
       pendingMapFocus: $pendingMapFocus,
-      tripPlan: tripPlan
+      tripPlan: tripPlan,
+      showOfflineDownloadPrompt: $showOfflineDownloadPrompt
     )
     .environmentObject(userLocationManager)
     .edgesIgnoringSafeArea(.all)
     .sheet(isPresented: .constant(true)) {
-      FrontPageSearch(
-        hasPendingQuery: searchQueue.hasPendingQuery,
-        places: $searchQueue.mostRecentResults,
-        queryText: $queryText,
-        selectedPlace: $selectedPlace,
-        tripPlan: tripPlan,
-        didDismissSearch: {
-          queryText = ""
-          searchDetent = initialDetentHeight
-          dismissKeyboard()
-        },
-        didSubmitSearch: {
-          searchDetent = .medium
-          guard let mostRecentlySubmittedQuery = searchQueue.mostRecentlySubmittedQuery else {
-            // submitted "search" with empty query, so nothing to do
-            return
-          }
+      if showOfflineDownloadPrompt {
+        OfflineDownloadPrompt(isPresented: $showOfflineDownloadPrompt)
+          .presentationDetents([minDetentHeight])
+          .presentationBackgroundInteraction(
+            .enabled(upThrough: minDetentHeight)
+          )
+          .interactiveDismissDisabled(true)
+      } else {
+        FrontPageSearch(
+          hasPendingQuery: searchQueue.hasPendingQuery,
+          places: $searchQueue.mostRecentResults,
+          queryText: $queryText,
+          selectedPlace: $selectedPlace,
+          tripPlan: tripPlan,
+          didDismissSearch: {
+            queryText = ""
+            searchDetent = initialDetentHeight
+            dismissKeyboard()
+          },
+          didSubmitSearch: {
+            searchDetent = .medium
+            guard let mostRecentlySubmittedQuery = searchQueue.mostRecentlySubmittedQuery else {
+              // submitted "search" with empty query, so nothing to do
+              return
+            }
 
-          guard let mostRecentlyCompletedQuery = searchQueue.mostRecentlyCompletedQuery,
-            mostRecentlyCompletedQuery.queryId >= mostRecentlySubmittedQuery.queryId
-          else {
-            // Wait for query to complete
-            self.pendingMapFocus = .pendingSearchResults(mostRecentlySubmittedQuery)
-            return
-          }
+            guard let mostRecentlyCompletedQuery = searchQueue.mostRecentlyCompletedQuery,
+              mostRecentlyCompletedQuery.queryId >= mostRecentlySubmittedQuery.queryId
+            else {
+              // Wait for query to complete
+              self.pendingMapFocus = .pendingSearchResults(mostRecentlySubmittedQuery)
+              return
+            }
 
-          // query is already ready - zoom to results
-          guard let mostRecentResults = searchQueue.mostRecentResults else {
-            assertionFailure("mostRecentlySubmittedQuery, but no mostRecentResults")
-            return
-          }
-          self.pendingMapFocus = .searchResults(mostRecentResults)
-        },
-        placeDetailsDetent: $placeDetailsDetent
-      )
-      .presentationDetents([.large, .medium, minDetentHeight], selection: $searchDetent)
-      .presentationBackgroundInteraction(
-        .enabled(upThrough: .medium)
-      )
-      .presentationDragIndicator(.visible)
-      .interactiveDismissDisabled(true)
-      .environmentObject(userLocationManager)
-      .onChange(of: queryText) { newValue in
-        searchQueue.textDidChange(newValue: newValue)
+            // query is already ready - zoom to results
+            guard let mostRecentResults = searchQueue.mostRecentResults else {
+              assertionFailure("mostRecentlySubmittedQuery, but no mostRecentResults")
+              return
+            }
+            self.pendingMapFocus = .searchResults(mostRecentResults)
+          },
+          placeDetailsDetent: $placeDetailsDetent
+        )
+        .presentationDetents([.large, .medium, minDetentHeight], selection: $searchDetent)
+        .presentationBackgroundInteraction(
+          .enabled(upThrough: .medium)
+        )
+        .presentationDragIndicator(.visible)
+        .interactiveDismissDisabled(true)
+        .environmentObject(userLocationManager)
+        .onChange(of: queryText) { newValue in
+          searchQueue.textDidChange(newValue: newValue)
+        }
       }
     }.onAppear {
       switch CLLocationManager().authorizationStatus {
@@ -190,7 +202,7 @@ struct HomeView: View {
         do {
           Task {
             // Will the user be surprised that the preferred travel mode is set here?
-            await Preferences.shared.setPreferredTravelMode(travelMode)
+            await preferences.setPreferredTravelMode(travelMode)
           }
           if let from {
             let fromPlace = try await GeocodeClient().details(placeID: from)

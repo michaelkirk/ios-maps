@@ -14,15 +14,11 @@ class Preferences: ObservableObject {
   let controller: PreferencesController
 
   @MainActor
-  static var shared: Preferences {
-    Preferences(controller: Env.current.preferencesController)
-  }
-
-  @MainActor
   static func forTesting(empty: ()) -> Preferences {
     let storage = StorageController.InMemoryForTesting()
     let controller = PreferencesController(fromStorage: storage)
-    return Preferences(controller: controller)
+    let record = storage.preferences!
+    return Preferences(controller: controller, record: record)
   }
 
   @MainActor
@@ -30,20 +26,36 @@ class Preferences: ObservableObject {
     -> Preferences
   {
     let storage = StorageController.InMemoryForTesting()
-    var preferences = Preferences.Record()
-    preferences.recentSearches = recentSearches
-    preferences.favoritePlaces = [
+    var record = Preferences.Record()
+    record.recentSearches = recentSearches
+    record.favoritePlaces = [
       FavoritePlace(placeType: .home, lngLat: FixtureData.places[.dubsea].location),
       FavoritePlace(placeType: .work, lngLat: FixtureData.places[.santaLucia].location),
       FavoritePlace(
         placeType: .other("Zeitgeist"), lngLat: FixtureData.places[.zeitgeist].location),
       FavoritePlace(placeType: .other("Real Fine"), lngLat: FixtureData.places[.realfine].location),
     ]
+    record.offlineRegions = [
+      OfflineRegion(
+        name: "San Francisco",
+        bounds: BBox(
+          top: 37.8199, right: -122.3649, bottom: 37.7249, left: -122.5155),
+        createdAt: Date().addingTimeInterval(-86400 * 7),  // 7 days ago
+        sizeInBytes: 125_000_000  // ~125 MB
+      ),
+      OfflineRegion(
+        name: "Downtown Seattle",
+        bounds: BBox(
+          top: 47.6262, right: -122.3121, bottom: 47.5952, left: -122.3559),
+        createdAt: Date().addingTimeInterval(-86400 * 2),  // 2 days ago
+        sizeInBytes: 87_500_000  // ~87.5 MB
+      ),
+    ]
     Task {
-      try storage.write(preferences: preferences)
+      try storage.write(preferences: record)
     }
     let controller = PreferencesController(fromStorage: storage)
-    return Preferences(controller: controller)
+    return Preferences(controller: controller, record: record)
   }
 
   @MainActor
@@ -60,18 +72,52 @@ class Preferences: ObservableObject {
 
   @MainActor
   @Published
+  var offlineRegions: [OfflineRegion] = []
+
+  @MainActor
+  @Published
+  var offlineMode: Bool = false
+
+  @MainActor
+  @Published
+  var offlineMapFeatureEnabled: Bool = false
+
+  @MainActor
+  @Published
+  var devMode: Bool = false
+
+  @MainActor
+  @Published
   var loaded: Bool = false
 
   @MainActor
-  init(controller: PreferencesController) {
-    self.controller = controller
-    Task {
-      let record = try await self.controller.load()
-      self.recentSearches = record.recentSearches
-      self.preferredTravelMode = record.preferredTravelMode
-      self.favoritePlaces = record.favoritePlaces
-      self.loaded = true
+  var tileserverStyleUrl: URL {
+    if offlineMode {
+      return AppConfig().offlineTileserverStyleUrl
+    } else {
+      return AppConfig().onlineTileserverStyleUrl
     }
+  }
+
+  @MainActor
+  static func load(controller: PreferencesController) async throws -> Preferences {
+    let record = try await controller.load()
+    return await MainActor.run {
+      return Preferences(controller: controller, record: record)
+    }
+  }
+
+  @MainActor
+  init(controller: PreferencesController, record: Preferences.Record) {
+    self.controller = controller
+    self.recentSearches = record.recentSearches
+    self.preferredTravelMode = record.preferredTravelMode
+    self.favoritePlaces = record.favoritePlaces
+    self.offlineRegions = record.offlineRegions
+    self.offlineMode = record.offlineMode
+    self.offlineMapFeatureEnabled = record.offlineMapFeatureEnabled
+    self.devMode = record.devMode
+    self.loaded = true
   }
 
   @MainActor
@@ -109,6 +155,36 @@ class Preferences: ObservableObject {
     await self.controller.save(record: self.asRecord)
   }
 
+  @MainActor
+  func setOfflineMode(_ enabled: Bool) async {
+    self.offlineMode = enabled
+    await self.controller.save(record: self.asRecord)
+  }
+
+  @MainActor
+  func setOfflineMapFeatureEnabled(_ enabled: Bool) async {
+    self.offlineMapFeatureEnabled = enabled
+    await self.controller.save(record: self.asRecord)
+  }
+
+  @MainActor
+  func setDevMode(_ enabled: Bool) async {
+    self.devMode = enabled
+    await self.controller.save(record: self.asRecord)
+  }
+
+  @MainActor
+  func addOfflineRegion(_ region: OfflineRegion) async {
+    self.offlineRegions.append(region)
+    await self.controller.save(record: self.asRecord)
+  }
+
+  @MainActor
+  func removeOfflineRegion(_ region: OfflineRegion) async {
+    self.offlineRegions.removeAll(where: { $0.id == region.id })
+    await self.controller.save(record: self.asRecord)
+  }
+
   // MARK: Codable
 
   @MainActor
@@ -117,7 +193,11 @@ class Preferences: ObservableObject {
       schemaVersion: Record.schemaVersion,
       recentSearches: recentSearches,
       preferredTravelMode: preferredTravelMode,
-      favoritePlaces: favoritePlaces
+      favoritePlaces: favoritePlaces,
+      offlineRegions: offlineRegions,
+      offlineMode: offlineMode,
+      offlineMapFeatureEnabled: offlineMapFeatureEnabled,
+      devMode: devMode
     )
   }
 
@@ -132,6 +212,10 @@ class Preferences: ObservableObject {
     var recentSearches: [String] = []
     var preferredTravelMode: TravelMode
     var favoritePlaces: [FavoritePlace] = []
+    var offlineRegions: [OfflineRegion] = []
+    var offlineMode: Bool = false
+    var offlineMapFeatureEnabled: Bool = false
+    var devMode: Bool = false
     var hasLatestSchemaVersion: Bool {
       self.schemaVersion == Self.schemaVersion
     }
@@ -160,6 +244,10 @@ extension Preferences.Record {
     self.preferredTravelMode = .walk
     self.schemaVersion = Self.schemaVersion
     self.favoritePlaces = []
+    self.offlineRegions = []
+    self.offlineMode = false
+    self.offlineMapFeatureEnabled = false
+    self.devMode = false
   }
 
   init(legacy: Self.LegacyRecord) {
@@ -167,6 +255,10 @@ extension Preferences.Record {
     self.preferredTravelMode = .walk
     self.schemaVersion = Self.schemaVersion
     self.favoritePlaces = []
+    self.offlineRegions = []
+    self.offlineMode = false
+    self.offlineMapFeatureEnabled = false
+    self.devMode = false
   }
 }
 

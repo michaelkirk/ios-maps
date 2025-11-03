@@ -5,7 +5,9 @@
 //  Created by Michael Kirk on 2/5/24.
 //
 
+import CoreLocation
 import Foundation
+import MapLibre
 
 struct GeocodeClient {
   enum Endpoint {
@@ -107,6 +109,26 @@ struct BBox: Equatable, Hashable {
 
   var max: LngLat {
     LngLat(lng: right, lat: top)
+  }
+
+  func covers(_ other: BBox) -> Bool {
+    self.min.lng <= other.min.lng && self.max.lng >= other.max.lng && self.min.lat <= other.min.lat
+      && self.max.lat >= other.max.lat
+  }
+}
+
+extension BBox {
+  init(mlnCoordinateBounds: MLNCoordinateBounds) {
+    self.top = mlnCoordinateBounds.ne.latitude
+    self.right = mlnCoordinateBounds.ne.longitude
+    self.bottom = mlnCoordinateBounds.sw.latitude
+    self.left = mlnCoordinateBounds.sw.longitude
+  }
+
+  func mlnCoordinateBounds() -> MLNCoordinateBounds {
+    let ne = CLLocationCoordinate2D(latitude: self.top, longitude: self.right)
+    let sw = CLLocationCoordinate2D(latitude: self.bottom, longitude: self.left)
+    return MLNCoordinateBounds(sw: sw, ne: ne)
   }
 }
 

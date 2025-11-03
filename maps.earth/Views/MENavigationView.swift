@@ -228,7 +228,7 @@ struct MENavigationView: View {
     self.destination = mlnRoute.legs.last!.destination
     let route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
     self.stopNavigation = stopNavigation
-    self.styleURL = AppConfig().tileserverStyleUrl
+    self.styleURL = Env.current.preferences.tileserverStyleUrl
 
     let routeNavigation: RouteNavigation
     if let existingRouteNavigation = Env.current.activeRouteNavigation,

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,11 @@
 		4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA762BA3B88D00958306 /* ManeuverList.swift */; };
 		45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */; };
 		45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */; };
+		45520EED2E8C937A0001779A /* OfflineMapsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45520EEB2E8C937A0001779A /* OfflineMapsView.swift */; };
+		45520EEE2E8C937A0001779A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45520EEC2E8C937A0001779A /* SettingsView.swift */; };
+		45520EF02E8C9ACB0001779A /* OfflineRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45520EEF2E8C9ACB0001779A /* OfflineRegion.swift */; };
+		45520EF22E8C9AEB0001779A /* OfflineRegionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45520EF12E8C9AEB0001779A /* OfflineRegionManager.swift */; };
+		45520EF52E8F13C20001779A /* Headway in Frameworks */ = {isa = PBXBuildFile; productRef = 45520EF42E8F13C20001779A /* Headway */; };
 		455363EE2B687D90006DF291 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 455363ED2B687D90006DF291 /* MapLibre */; };
 		455363F02B687EF0006DF291 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455363EF2B687EF0006DF291 /* MapView.swift */; };
 		455CDFF42BAA5E4A00D72FF6 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */; };
@@ -124,6 +129,10 @@
 		4545AA762BA3B88D00958306 /* ManeuverList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManeuverList.swift; sourceTree = "<group>"; };
 		45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTripPlanner.swift; sourceTree = "<group>"; };
 		45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanListItemDetails.swift; sourceTree = "<group>"; };
+		45520EEB2E8C937A0001779A /* OfflineMapsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapsView.swift; sourceTree = "<group>"; };
+		45520EEC2E8C937A0001779A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		45520EEF2E8C9ACB0001779A /* OfflineRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineRegion.swift; sourceTree = "<group>"; };
+		45520EF12E8C9AEB0001779A /* OfflineRegionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineRegionManager.swift; sourceTree = "<group>"; };
 		455363EF2B687EF0006DF291 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		455CDFF72BAB99D600D72FF6 /* TopControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopControls.swift; sourceTree = "<group>"; };
 		4562F3492BA50BBB00FD8621 /* SheetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContent.swift; sourceTree = "<group>"; };
@@ -196,6 +205,7 @@
 			files = (
 				455363EE2B687D90006DF291 /* MapLibre in Frameworks */,
 				45BFF55E2DD5533800810E0D /* Turf in Frameworks */,
+				45520EF52E8F13C20001779A /* Headway in Frameworks */,
 				4587A4632DD54F9700C2822F /* MapboxDirections in Frameworks */,
 				456A19DF2C825AA300E7E7EA /* FerrostarSwiftUI in Frameworks */,
 				456A19DD2C825AA300E7E7EA /* FerrostarMapLibreUI in Frameworks */,
@@ -329,6 +339,7 @@
 		4586A3392C2F55CD00AC7825 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				45520EF12E8C9AEB0001779A /* OfflineRegionManager.swift */,
 				4586A33A2C2F55E100AC7825 /* UserLocationManager.swift */,
 			);
 			path = Managers;
@@ -337,29 +348,31 @@
 		45971AC62B71A7050050BECE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				451EE34D2E72414F00AC0622 /* ElevationChart.swift */,
-				45BFF55F2DD5585E00810E0D /* TripCompleteBanner.swift */,
 				4571DB892BD87B3B00C919D8 /* UtilityViews */,
-				45971AC42B71A6FF0050BECE /* PlaceRow.swift */,
-				455363EF2B687EF0006DF291 /* MapView.swift */,
-				4563B9F42B687AA4005A677A /* HomeView.swift */,
-				456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */,
-				456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */,
-				45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */,
-				45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */,
-				45992B552B9BC3BC00A64AEE /* MarkerViews.swift */,
 				45F5ECC72BA011C9007A4657 /* CloseButton.swift */,
+				451EE34D2E72414F00AC0622 /* ElevationChart.swift */,
+				45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */,
+				4563B9F42B687AA4005A677A /* HomeView.swift */,
 				45F5ECC92BA11046007A4657 /* LocateMeButton.swift */,
 				4545AA762BA3B88D00958306 /* ManeuverList.swift */,
+				455363EF2B687EF0006DF291 /* MapView.swift */,
+				45992B552B9BC3BC00A64AEE /* MarkerViews.swift */,
+				456A19E02C825C9900E7E7EA /* MENavigationView.swift */,
+				45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */,
+				45520EEB2E8C937A0001779A /* OfflineMapsView.swift */,
+				456C6CED2B71B28E00AAFBE6 /* PlaceDetail.swift */,
+				45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */,
+				456C6CEB2B71B15100AAFBE6 /* PlaceList.swift */,
+				45971AC42B71A6FF0050BECE /* PlaceRow.swift */,
+				45DD17132BE598260085D2B1 /* PlaceSearch.swift */,
+				45520EEC2E8C937A0001779A /* SettingsView.swift */,
 				4562F3492BA50BBB00FD8621 /* SheetContent.swift */,
 				455CDFF72BAB99D600D72FF6 /* TopControls.swift */,
-				45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */,
-				45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */,
-				45831E342BCDC8A2007E7AA4 /* FrontPageSearch.swift */,
+				45BFF55F2DD5585E00810E0D /* TripCompleteBanner.swift */,
 				4571DB8C2BD9A8C000C919D8 /* TripDatePicker.swift */,
-				45DD17132BE598260085D2B1 /* PlaceSearch.swift */,
 				45E0C3AC2BFFD44B00C6388C /* TripList.swift */,
-				456A19E02C825C9900E7E7EA /* MENavigationView.swift */,
+				45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */,
+				45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -367,16 +380,17 @@
 		45971AC72B71A7810050BECE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				45971ABA2B71995D0050BECE /* Place.swift */,
-				45971ABE2B719C620050BECE /* LngLat.swift */,
-				450C5F1C2B961DFC00394697 /* Trip.swift */,
-				45992B502B9B5B4300A64AEE /* TripPlan.swift */,
 				4545AA672BA373B500958306 /* Env.swift */,
+				45971ABE2B719C620050BECE /* LngLat.swift */,
 				4545AA6D2BA3934000958306 /* Maneuver.swift */,
 				45831E302BC8A3A1007E7AA4 /* MapContents.swift */,
-				45831E362BCDC8DB007E7AA4 /* SearchQueue.swift */,
-				45BB39BC2C0FC005007145CE /* UniversalLink.swift */,
 				45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */,
+				45520EEF2E8C9ACB0001779A /* OfflineRegion.swift */,
+				45971ABA2B71995D0050BECE /* Place.swift */,
+				45831E362BCDC8DB007E7AA4 /* SearchQueue.swift */,
+				450C5F1C2B961DFC00394697 /* Trip.swift */,
+				45992B502B9B5B4300A64AEE /* TripPlan.swift */,
+				45BB39BC2C0FC005007145CE /* UniversalLink.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -460,6 +474,7 @@
 				456A19DE2C825AA300E7E7EA /* FerrostarSwiftUI */,
 				4587A4622DD54F9700C2822F /* MapboxDirections */,
 				45BFF55D2DD5533800810E0D /* Turf */,
+				45520EF42E8F13C20001779A /* Headway */,
 			);
 			productName = maps.earth;
 			productReference = 4563B9EF2B687AA4005A677A /* maps.earth.app */;
@@ -539,6 +554,7 @@
 				456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */,
 				4587A4612DD54F9700C2822F /* XCRemoteSwiftPackageReference "mapbox-directions-swift" */,
 				45BFF55C2DD5533800810E0D /* XCRemoteSwiftPackageReference "turf-swift" */,
+				45520EF32E8F13C20001779A /* XCLocalSwiftPackageReference "DevDependencies/headway" */,
 			);
 			productRefGroup = 4563B9F02B687AA4005A677A /* Products */;
 			projectDirPath = "";
@@ -603,6 +619,7 @@
 				45971ABF2B719C620050BECE /* LngLat.swift in Sources */,
 				456C6CEE2B71B28E00AAFBE6 /* PlaceDetail.swift in Sources */,
 				450855312BCF48F800B7678C /* StorageManager.swift in Sources */,
+				45520EF22E8C9AEB0001779A /* OfflineRegionManager.swift in Sources */,
 				455363F02B687EF0006DF291 /* MapView.swift in Sources */,
 				4586A33B2C2F55E100AC7825 /* UserLocationManager.swift in Sources */,
 				45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */,
@@ -611,6 +628,7 @@
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
 				45992B4B2B97E66D00A64AEE /* TripPlanClient.swift in Sources */,
 				45F5ECCA2BA11046007A4657 /* LocateMeButton.swift in Sources */,
+				45520EF02E8C9ACB0001779A /* OfflineRegion.swift in Sources */,
 				45D0C53D2BC47FC4004D245F /* MultiModalTripDetails.swift in Sources */,
 				4545AA682BA373B500958306 /* Env.swift in Sources */,
 				45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */,
@@ -630,6 +648,8 @@
 				4571DB8F2BD9BE0C00C919D8 /* RelativeDateFormatter.swift in Sources */,
 				45831E312BC8A3A1007E7AA4 /* MapContents.swift in Sources */,
 				45E0C3AD2BFFD44B00C6388C /* TripList.swift in Sources */,
+				45520EED2E8C937A0001779A /* OfflineMapsView.swift in Sources */,
+				45520EEE2E8C937A0001779A /* SettingsView.swift in Sources */,
 				4545AA6E2BA3934000958306 /* Maneuver.swift in Sources */,
 				45DD17122BE2E2170085D2B1 /* LabeledCheckbox.swift in Sources */,
 				451EE34E2E72415400AC0622 /* ElevationChart.swift in Sources */,
@@ -989,6 +1009,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		45520EF32E8F13C20001779A /* XCLocalSwiftPackageReference "DevDependencies/headway" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = DevDependencies/headway;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1033,6 +1060,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		45520EF42E8F13C20001779A /* Headway */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Headway;
+		};
 		455363ED2B687D90006DF291 /* MapLibre */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;

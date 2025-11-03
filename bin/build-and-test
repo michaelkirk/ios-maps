@@ -8,7 +8,11 @@ cd DevDependencies/ferrostar/common
 ./build-ios.sh
 cd - > /dev/null
 
-echo "✅ Framework build completed!"
+cd DevDependencies/headway
+./bin/build-ios.sh
+cd - > /dev/null
+
+echo "✅ Framework builds completed!"
 
 # Now run the tests
 echo ""
