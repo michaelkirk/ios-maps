@@ -8,6 +8,7 @@
 import FerrostarCore
 import FerrostarCoreFFI
 import Foundation
+import MapLibre
 import MapboxDirections
 
 typealias TransitLeg = OTPTransitLeg
@@ -201,6 +202,11 @@ extension Bounds {
 
   init(bbox: BBox) {
     self.init(min: bbox.min, max: bbox.max)
+  }
+
+  init(mlnCoordinateBounds: MLNCoordinateBounds) {
+    self.init(
+      min: LngLat(coord: mlnCoordinateBounds.sw), max: LngLat(coord: mlnCoordinateBounds.ne))
   }
 
   mutating func extend(lngLat: LngLat) {

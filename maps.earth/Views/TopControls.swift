@@ -5,19 +5,42 @@
 //  Created by Michael Kirk on 3/20/24.
 //
 
+import MapLibre
 import SwiftUI
+
+private let logger = FileLogger()
 
 struct TopControls: View {
   @Binding var pendingMapFocus: MapFocus?
   static let controlHeight: CGFloat = 38
 
+  @EnvironmentObject var preferences: Preferences
+
   var body: some View {
     VStack(spacing: 0) {
-      AppInfoButton()
+      SettingsButton()
         .frame(width: Self.controlHeight, height: Self.controlHeight)
       Divider()
       LocateMeButton(pendingMapFocus: $pendingMapFocus)
         .frame(width: Self.controlHeight, height: Self.controlHeight)
+      if preferences.offlineMapFeatureEnabled {
+        Divider()
+        OfflineModeToggleButton()
+          .frame(width: Self.controlHeight, height: Self.controlHeight)
+      }
+      if preferences.devMode {
+        Divider()
+        ZoomInButton()
+          .frame(width: Self.controlHeight, height: Self.controlHeight)
+        Divider()
+        ZoomLevelDisplay()
+        Divider()
+        ZoomOutButton()
+          .frame(width: Self.controlHeight, height: Self.controlHeight)
+        Divider()
+        ClearCacheButton()
+          .frame(width: Self.controlHeight, height: Self.controlHeight)
+      }
     }
     .imageScale(.medium)
     .tint(Color.hw_sheetCloseForeground)
@@ -28,21 +51,87 @@ struct TopControls: View {
   }
 }
 
-struct AppInfoButton: View {
-  @State var showingSheet: Bool = false
+struct SettingsButton: View {
+  @State var showingSettings: Bool = false
+
   var body: some View {
     Button(action: {
-      showingSheet = true
+      showingSettings = true
     }) {
-      Image(systemName: "info.circle")
-    }.sheet(isPresented: $showingSheet) {
-      SheetContents(
-        title: "About", onClose: { showingSheet = false }, presentationDetents: [.large],
-        currentDetent: .constant(.large)
-      ) {
-        AppInfoSheetContents()
-        Spacer()
+      Image(systemName: "gearshape")
+    }.sheet(isPresented: $showingSettings) {
+      SettingsView()
+    }
+  }
+}
+
+struct OfflineModeToggleButton: View {
+  @EnvironmentObject var preferences: Preferences
+
+  var body: some View {
+    Button(action: {
+      Task {
+        await preferences.setOfflineMode(!preferences.offlineMode)
       }
+    }) {
+      Image(systemName: preferences.offlineMode ? "icloud.slash" : "icloud")
+    }
+  }
+}
+
+struct ZoomInButton: View {
+  var body: some View {
+    Button(action: {
+      guard let mapView = Env.current.getMapView() else { return }
+      mapView.setZoomLevel(mapView.zoomLevel + 1, animated: true)
+    }) {
+      Image(systemName: "plus")
+    }
+  }
+}
+
+struct ZoomLevelDisplay: View {
+  @State private var zoomLevel: Double = 0
+  let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+
+  var body: some View {
+    Text(zoomLevel > 0 ? String(format: "%.1f", zoomLevel) : "?")
+      .font(.system(size: 12, weight: .medium, design: .monospaced))
+      .frame(width: TopControls.controlHeight, height: TopControls.controlHeight)
+      .onReceive(timer) { _ in
+        guard let mapView = Env.current.getMapView() else { return }
+        zoomLevel = mapView.zoomLevel
+      }
+  }
+}
+
+struct ZoomOutButton: View {
+  var body: some View {
+    Button(action: {
+      guard let mapView = Env.current.getMapView() else { return }
+      mapView.setZoomLevel(mapView.zoomLevel - 1, animated: true)
+    }) {
+      Image(systemName: "minus")
+        .frame(width: TopControls.controlHeight, height: TopControls.controlHeight)
+    }
+  }
+}
+
+struct ClearCacheButton: View {
+  var body: some View {
+    Button(action: {
+      Task {
+        Env.current.getMapView()!.reloadStyle(nil)
+        do {
+          try await MLNOfflineStorage.shared.resetDatabase()
+          try await MLNOfflineStorage.shared.clearAmbientCacheWithLogging(
+            context: "manual button press")
+        } catch {
+          logger.error("Error while clearing map cache: \(error)")
+        }
+      }
+    }) {
+      Image(systemName: "trash")
     }
   }
 }

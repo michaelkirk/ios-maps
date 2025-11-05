@@ -51,13 +51,13 @@ enum UniversalLink: Equatable {
   var url: URL {
     switch self {
     case .home:
-      AppConfig().serverBase
+      AppConfig().onlineServerBase
     case .place(let placeID):
-      AppConfig().serverBase
+      AppConfig().onlineServerBase
         .appending(component: "place")
         .appending(component: placeID.serialized)
     case .directions(let travelMode, let from, let to):
-      AppConfig().serverBase
+      AppConfig().onlineServerBase
         .appending(component: "directions")
         .appending(component: travelMode.rawValue.lowercased())
         .appending(component: to?.serialized ?? "_")

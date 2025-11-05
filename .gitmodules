@@ -10,3 +10,6 @@
 [submodule "DevDependencies/maplibre-swiftui-dsl"]
 	path = DevDependencies/swiftui-dsl
 	url = https://github.com/maplibre/swiftui-dsl
+[submodule "DevDependencies/libheadway"]
+	path = DevDependencies/headway
+	url = git@github.com:headwaymaps/libheadway.git

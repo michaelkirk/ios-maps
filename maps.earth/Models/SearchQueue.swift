@@ -13,11 +13,8 @@ class SearchQueue: ObservableObject {
   @Published var mostRecentResults: [Place]?
 
   @MainActor
-  var env = Env.current
-
-  @MainActor
   var focus: LngLat? {
-    env.getMapFocus()
+    Env.current.getMapFocus()
   }
 
   struct Query: Equatable {

@@ -122,30 +122,33 @@ struct MapView: View {
   @Binding var pendingMapFocus: MapFocus?
   @ObservedObject var tripPlan: TripPlan
   @EnvironmentObject var userLocationManager: UserLocationManager
+  @Binding var showOfflineDownloadPrompt: Bool
 
   var topPadding: CGFloat {
     guard let safeAreaInsets = UIApplication.shared.windows.first?.safeAreaInsets else {
       assertionFailure("safe area insets was unexpectedly nil")
       return 40
     }
-    print("safeAreaInsets were: \(safeAreaInsets)")
     return safeAreaInsets.top + 16
   }
 
   var body: some View {
-    ZStack(alignment: .topTrailing) {
-      MapViewWrapper(
-        searchResults: $searchResults, selectedPlace: $selectedPlace,
-        pendingMapFocus: $pendingMapFocus, tripPlan: tripPlan,
-        userLocationManager: _userLocationManager)
-      if #available(iOS 17.0, *) {
-        TopControls(pendingMapFocus: $pendingMapFocus).frame(width: 32)
-          // I'm not sure what I have to add safeAreaPadding to my topPadding calculation, but without it, the compass is placed behind the status bar,
-          // as if safeArea is being ignored for the top controls
-          .safeAreaPadding(.top, topPadding)
-          .safeAreaPadding(.trailing, 12)
-      } else {
-        TopControls(pendingMapFocus: $pendingMapFocus).frame(width: 32).padding(topPadding)
+    ZStack {
+      ZStack(alignment: .topTrailing) {
+        MapViewWrapper(
+          searchResults: $searchResults, selectedPlace: $selectedPlace,
+          pendingMapFocus: $pendingMapFocus, tripPlan: tripPlan,
+          userLocationManager: _userLocationManager,
+          showOfflineDownloadPrompt: $showOfflineDownloadPrompt)
+        if #available(iOS 17.0, *) {
+          TopControls(pendingMapFocus: $pendingMapFocus).frame(width: 32)
+            // I'm not sure why I have to add safeAreaPadding to my topPadding calculation, but without it, the compass is placed behind the status bar,
+            // as if safeArea is being ignored for the top controls
+            .safeAreaPadding(.top, topPadding)
+            .safeAreaPadding(.trailing, 12)
+        } else {
+          TopControls(pendingMapFocus: $pendingMapFocus).frame(width: 32).padding(topPadding)
+        }
       }
     }
   }
@@ -157,6 +160,8 @@ struct MapViewWrapper {
   @Binding var pendingMapFocus: MapFocus?
   @ObservedObject var tripPlan: TripPlan
   @EnvironmentObject var userLocationManager: UserLocationManager
+  @EnvironmentObject var preferences: Preferences
+  @Binding var showOfflineDownloadPrompt: Bool
 }
 
 func add3DBuildingsLayer(style: MLNStyle) {
@@ -190,7 +195,7 @@ extension MapViewWrapper: UIViewRepresentable {
 
   typealias UIViewType = MLNMapView
   func makeUIView(context: Context) -> Self.UIViewType {
-    let styleURL = AppConfig().tileserverStyleUrl
+    let styleURL = preferences.tileserverStyleUrl
 
     // create the mapview
     let mlnMapView = MLNMapView(frame: .zero, styleURL: styleURL)
@@ -211,6 +216,17 @@ extension MapViewWrapper: UIViewRepresentable {
 
     Env.current.getMapFocus = { LngLat(coord: mlnMapView.centerCoordinate) }
     Env.current.getMapCamera = { (mlnMapView.camera.copy() as! MLNMapCamera) }
+    Env.current.getMapView = { mlnMapView }
+    Env.current.refreshMap = { [weak mlnMapView] bounds in
+      guard let mapView = mlnMapView else { return }
+      print("zoom level before bounds: \(mapView.zoomLevel)")
+      if let bounds {
+        mapView.setVisibleCoordinateBounds(bounds, animated: false)
+      }
+      print("zoom level after bounds: \(mapView.zoomLevel)")
+      mapView.setZoomLevel(mapView.zoomLevel + 2, animated: true)
+      context.coordinator.updateOfflineDownloadPrompt(mapView: mapView)
+    }
     do {
       var padding = UIEdgeInsets.zero
       // This is a conservative estimate for notched devices.
@@ -236,7 +252,7 @@ extension MapViewWrapper: UIViewRepresentable {
       // To Debug:
       //     mapView.compassView.compassVisibility = .visible
       // This math is a bit fickle and might not be semantically correct, but looks about right emperically.
-      let bottomOfTopControl = TopControls.controlHeight * 2 - mlnMapView.contentInset.top + 16
+      let bottomOfTopControl = TopControls.controlHeight * 3 - mlnMapView.contentInset.top + 16
 
       mlnMapView.compassViewMargins = CGPoint(
         x: controlMargin, y: bottomOfTopControl + controlMargin)
@@ -245,7 +261,7 @@ extension MapViewWrapper: UIViewRepresentable {
     // FIXME: pull from storage, else start somewhere interesting.
     mlnMapView.setCenter(
       CLLocationCoordinate2D(latitude: 47.6, longitude: -122.3),
-      zoomLevel: 10,
+      zoomLevel: 8,
       animated: false)
 
     mlnMapView.delegate = context.coordinator
@@ -253,59 +269,63 @@ extension MapViewWrapper: UIViewRepresentable {
   }
 
   func updateUIView(_ mapView: Self.UIViewType, context: Context) {
-    logger.debug("in MapView.updateUIView")
+    // Reload style if tileserver URL changed (e.g., offline mode toggled)
+    if mapView.styleURL != preferences.tileserverStyleUrl {
+      print("Updating styleURL to \(preferences.tileserverStyleUrl)")
+      mapView.styleURL = preferences.tileserverStyleUrl
+      context.coordinator.updateOfflineDownloadPrompt(mapView: mapView)
+    }
+
     if self.pendingMapFocus != nil {
-      Task {
-        await MainActor.run {
-          guard let pendingMapFocus = self.pendingMapFocus else {
-            // since expired
+      Task { @MainActor in
+        guard let pendingMapFocus = self.pendingMapFocus else {
+          // since expired
+          return
+        }
+        switch pendingMapFocus {
+        case .place(let place):
+          self.pendingMapFocus = nil
+          if self.userLocationManager.state == .following {
+            self.userLocationManager.state = .showing
+          }
+          if let bbox = place.bbox {
+            let bounds = Bounds(bbox: bbox).mlnBounds
+            context.coordinator.zoom(
+              mapView: mapView, bounds: bounds, bufferMeters: 200,
+              animated: true)
+          } else {
+            context.coordinator.zoom(
+              mapView: mapView, center: place.location, bufferMeters: 100, animated: true)
+          }
+        case .trip(let trip):
+          self.pendingMapFocus = nil
+          if self.userLocationManager.state == .following {
+            self.userLocationManager.state = .showing
+          }
+          let bounds = trip.raw.bounds
+          context.coordinator.zoom(
+            mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
+        case .pendingSearchResults(_):
+          // do nothing. still waiting.
+          break
+        case .searchResults(let places):
+          guard let bounds = Bounds(lngLats: places.map { $0.location }) else {
             return
           }
-          switch pendingMapFocus {
-          case .place(let place):
-            self.pendingMapFocus = nil
-            if self.userLocationManager.state == .following {
-              self.userLocationManager.state = .showing
-            }
-            if let bbox = place.bbox {
-              let bounds = Bounds(bbox: bbox).mlnBounds
-              context.coordinator.zoom(
-                mapView: mapView, bounds: bounds, bufferMeters: 200,
-                animated: true)
-            } else {
-              context.coordinator.zoom(
-                mapView: mapView, center: place.location, bufferMeters: 100, animated: true)
-            }
-          case .trip(let trip):
-            self.pendingMapFocus = nil
-            if self.userLocationManager.state == .following {
-              self.userLocationManager.state = .showing
-            }
-            let bounds = trip.raw.bounds
-            context.coordinator.zoom(
-              mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
-          case .pendingSearchResults(_):
-            // do nothing. still waiting.
-            break
-          case .searchResults(let places):
-            guard let bounds = Bounds(lngLats: places.map { $0.location }) else {
-              return
-            }
-            self.pendingMapFocus = nil
-            if self.userLocationManager.state == .following {
-              self.userLocationManager.state = .showing
-            }
-
-            context.coordinator.zoom(
-              mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
-          case .userLocation:
-            guard let location = self.userLocationManager.mostRecentUserLocation else {
-              // still waiting for user location
-              return
-            }
-            self.pendingMapFocus = nil
-            mapView.setCenter(location.coordinate, zoomLevel: 14, animated: true)
+          self.pendingMapFocus = nil
+          if self.userLocationManager.state == .following {
+            self.userLocationManager.state = .showing
           }
+
+          context.coordinator.zoom(
+            mapView: mapView, bounds: bounds.mlnBounds, bufferMeters: 0, animated: true)
+        case .userLocation:
+          guard let location = self.userLocationManager.mostRecentUserLocation else {
+            // still waiting for user location
+            return
+          }
+          self.pendingMapFocus = nil
+          mapView.setCenter(location.coordinate, zoomLevel: 7, animated: true)
         }
       }
     }
@@ -553,6 +573,37 @@ extension MapViewWrapper.Coordinator: MLNMapViewDelegate {
     add3DBuildingsLayer(style: style)
   }
 
+  @MainActor
+  func mapView(_ mapView: MLNMapView, regionDidChangeAnimated animated: Bool) {
+    updateOfflineDownloadPrompt(mapView: mapView)
+  }
+
+  @MainActor
+  func updateOfflineDownloadPrompt(mapView: MLNMapView) {
+    // Check if offline map feature is enabled and we're in offline mode
+    guard Env.current.preferences.offlineMapFeatureEnabled,
+      Env.current.preferences.offlineMode
+    else {
+      Task {
+        self.mapView.showOfflineDownloadPrompt = false
+      }
+      return
+    }
+
+    let visibleBounds = BBox(mlnCoordinateBounds: mapView.visibleCoordinateBounds)
+    let hasFullCoverage = Env.current.preferences.offlineRegions.contains {
+      (region: OfflineRegion) in
+      region.bounds.covers(visibleBounds)
+    }
+
+    let showOfflineDownloadPrompt = !hasFullCoverage
+    if self.mapView.showOfflineDownloadPrompt != showOfflineDownloadPrompt {
+      Task {
+        self.mapView.showOfflineDownloadPrompt = showOfflineDownloadPrompt
+      }
+    }
+  }
+
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
     switch self.mapContents {
     case .trips, .empty:
@@ -567,6 +618,22 @@ extension MapViewWrapper.Coordinator: MLNMapViewDelegate {
             "selecting 'TripPlace': \(tripPlace) not currently supported (or expected)")
         }
       }
+    }
+  }
+
+  func mapViewDidFailLoadingMap(_ mapView: MLNMapView, withError error: any Error) {
+    print(">>failed to load: \(error)")
+  }
+
+  func mapView(
+    _ mapView: MLNMapView, tileDidTriggerAction operation: MLNTileOperation, x: Int, y: Int, z: Int,
+    wrap: Int, overscaledZ: Int, sourceID: String
+  ) {
+    switch operation {
+    case .error:
+      print("tileDidTriggerAction: \(z)/\(x)/\(y) \(opName(operation)), source: \(sourceID)")
+    default:
+      break
     }
   }
 
@@ -689,7 +756,7 @@ extension Bounds {
 
 extension MLNStyle {
   var openMapTilesSource: MLNSource? {
-    guard let source = (self.sources.first { $0.identifier == "openmaptiles" }) else {
+    guard let source = (self.sources.first { $0.identifier.starts(with: "openmaptiles") }) else {
       assertionFailure("openmaptiles source was unexpectedly missing")
       return nil
     }
@@ -718,13 +785,75 @@ private func format(authorizationStatus status: CLAuthorizationStatus) -> String
   }
 }
 
+struct OfflineDownloadPrompt: View {
+  @Binding var isPresented: Bool
+  @State private var showDownload = false
+
+  var body: some View {
+    HStack {
+      VStack(alignment: .leading, spacing: 4) {
+        Text("This area not yet downloaded")
+          .font(.headline)
+        Text("Download this area for offline use")
+          .font(.subheadline)
+          .foregroundColor(.secondary)
+      }
+      Spacer()
+      Button(action: {
+        showDownload = true
+      }) {
+        Text("Download")
+          .fontWeight(.semibold)
+      }
+      .buttonStyle(.borderedProminent)
+
+      Button(action: {
+        isPresented = false
+      }) {
+        Image(systemName: "xmark")
+          .foregroundColor(.secondary)
+      }
+    }
+    .padding()
+    .sheet(isPresented: $showDownload) {
+      AddOfflineRegionView()
+    }
+  }
+}
+
 #Preview("MapView") {
   let tripPlan = ObservedObject(initialValue: FixtureData.transitTripPlan)
   let searchQueue = Binding.constant(SearchQueue(mostRecentResults: FixtureData.places.all))
   return MapViewWrapper(
     searchResults: searchQueue.mostRecentResults, selectedPlace: tripPlan.projectedValue.navigateTo,
     pendingMapFocus: .constant(nil),
-    tripPlan: tripPlan.wrappedValue
+    tripPlan: tripPlan.wrappedValue,
+    showOfflineDownloadPrompt: .constant(false)
   )
   .edgesIgnoringSafeArea(.all)
+}
+
+func opName(_ op: MLNTileOperation) -> String {
+  switch op {
+  case .requestedFromCache:
+    ".requestedFromCache"
+  case .requestedFromNetwork:
+    ".requestedFromNetwork"
+  case .loadFromNetwork:
+    ".loadFromNetwork"
+  case .loadFromCache:
+    ".loadFromCache"
+  case .startParse:
+    ".startParse"
+  case .endParse:
+    ".endParse"
+  case .error:
+    ".error"
+  case .cancelled:
+    ".cancelled"
+  case .nullOp:
+    ".nullOp"
+  @unknown default:
+    "unknown"
+  }
 }
