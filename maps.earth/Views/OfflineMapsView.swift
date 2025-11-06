@@ -483,6 +483,8 @@ struct DownloadMapPreview: UIViewRepresentable {
     mapView.isUserInteractionEnabled = true
     mapView.logoView.isHidden = true
     mapView.attributionButton.isHidden = true
+    // Don't let the user download too much at once.
+    mapView.minimumZoomLevel = 4
     currentBounds = initialBounds
     DispatchQueue.main.async {
       mapView.setVisibleCoordinateBounds(initialBounds, animated: false)
