@@ -568,7 +568,7 @@ extension MapViewWrapper: UIViewRepresentable {
   }
 }
 
-extension MapViewWrapper.Coordinator: MLNMapViewDelegate {
+extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
   func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
     add3DBuildingsLayer(style: style)
   }
