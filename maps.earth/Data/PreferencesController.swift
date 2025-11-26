@@ -202,12 +202,60 @@ class Preferences: ObservableObject {
   }
 
   struct Record: Codable {
-    typealias LegacyRecord = RecordV1
+    typealias LegacyRecord = RecordV2
+
+    enum MigrationError: Error {
+      case unexpectedSchemaVersion(UInt, expected: UInt)
+
+      var localizedDescription: String {
+        switch self {
+        case .unexpectedSchemaVersion(let actual, let expected):
+          return "Unexpected schema version \(actual), expected \(expected)"
+        }
+      }
+    }
+
     struct RecordV1: Codable {
       var recentSearches: [String] = []
     }
 
-    static let schemaVersion: UInt = 2
+    struct RecordV2: Codable {
+      var schemaVersion: UInt
+      var recentSearches: [String] = []
+      var preferredTravelMode: TravelMode
+      var favoritePlaces: [FavoritePlace] = []
+      var offlineRegions: [OfflineRegion] = []
+      var offlineMode: Bool = false
+      var offlineMapFeatureEnabled: Bool = false
+      var devMode: Bool = false
+
+      /// Decodes V2, migrating from V1 if necessary
+      static func load(jsonData: Data, jsonDecoder: JSONDecoder) throws -> Self {
+        do {
+          let v2Record = try jsonDecoder.decode(RecordV2.self, from: jsonData)
+          return v2Record
+        } catch {
+          print("error decoding V2 schema: \(error)")
+          // Fall back to V1 migration
+          let v1Record = try jsonDecoder.decode(RecordV1.self, from: jsonData)
+          print("Migrated V1 Preferences record to V2: \(v1Record)")
+          return RecordV2(legacyV1: v1Record)
+        }
+      }
+
+      init(legacyV1: RecordV1) {
+        self.schemaVersion = 2
+        self.recentSearches = legacyV1.recentSearches
+        self.preferredTravelMode = .walk
+        self.favoritePlaces = []
+        self.offlineRegions = []
+        self.offlineMode = false
+        self.offlineMapFeatureEnabled = false
+        self.devMode = false
+      }
+    }
+
+    static let schemaVersion: UInt = 3  // Bumped for BBox coordinate fix
     var schemaVersion: UInt
     var recentSearches: [String] = []
     var preferredTravelMode: TravelMode
@@ -223,15 +271,19 @@ class Preferences: ObservableObject {
     /// Decodes, migrating if necessary
     static func load(jsonData: Data) throws -> Self {
       let jsonDecoder = JSONDecoder()
-      let record: Record
+      var record: Record
       do {
         record = try jsonDecoder.decode(Self.self, from: jsonData)
-        assert(record.hasLatestSchemaVersion)
+        if !record.hasLatestSchemaVersion {
+          throw MigrationError.unexpectedSchemaVersion(
+            record.schemaVersion, expected: Self.schemaVersion)
+        }
       } catch {
-        print("error: \(error)")
-        let legacyRecord = try jsonDecoder.decode(Self.LegacyRecord.self, from: jsonData)
-        record = Record(legacy: legacyRecord)
-        print("Migrated legacy Preferences record \(legacyRecord), newRecord: \(record)")
+        print("error decoding current schema (V3): \(error)")
+        // Fall back to V2 migration (which will in turn fall back to V1 if needed)
+        let v2Record = try RecordV2.load(jsonData: jsonData, jsonDecoder: jsonDecoder)
+        record = Record(legacyV2: v2Record)
+        print("Migrated V2 Preferences record to V3 (fixed BBox ordering)")
       }
       return record
     }
@@ -250,15 +302,35 @@ extension Preferences.Record {
     self.devMode = false
   }
 
-  init(legacy: Self.LegacyRecord) {
-    self.recentSearches = legacy.recentSearches
-    self.preferredTravelMode = .walk
+  init(legacyV2: RecordV2) {
+    self.recentSearches = legacyV2.recentSearches
+    self.preferredTravelMode = legacyV2.preferredTravelMode
     self.schemaVersion = Self.schemaVersion
-    self.favoritePlaces = []
-    self.offlineRegions = []
-    self.offlineMode = false
-    self.offlineMapFeatureEnabled = false
-    self.devMode = false
+    self.favoritePlaces = legacyV2.favoritePlaces
+
+    // Fix BBox coordinate ordering from V2
+    // V2 incorrectly decoded as [top, right, bottom, left]
+    // V3+ correctly decodes as [left, bottom, right, top]
+    // So we need to swap the decoded values
+    self.offlineRegions = legacyV2.offlineRegions.map { region in
+      OfflineRegion(
+        id: region.id,
+        name: region.name,
+        bounds: BBox(
+          top: region.bounds.left,  // V2's "left" was actually "top"
+          right: region.bounds.bottom,  // V2's "bottom" was actually "right"
+          bottom: region.bounds.right,  // V2's "right" was actually "bottom"
+          left: region.bounds.top  // V2's "top" was actually "left"
+        ),
+        createdAt: region.createdAt,
+        sizeInBytes: region.sizeInBytes,
+        fileName: region.fileName
+      )
+    }
+
+    self.offlineMode = legacyV2.offlineMode
+    self.offlineMapFeatureEnabled = legacyV2.offlineMapFeatureEnabled
+    self.devMode = legacyV2.devMode
   }
 }
 

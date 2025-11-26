@@ -133,22 +133,22 @@ extension BBox {
 }
 
 extension BBox: Codable {
-  // Decode from an array format
+  // Decode from an array format [minLng, minLat, maxLng, maxLat]
   init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
-    self.top = try container.decode(Float64.self)
-    self.right = try container.decode(Float64.self)
-    self.bottom = try container.decode(Float64.self)
-    self.left = try container.decode(Float64.self)
+    self.left = try container.decode(Float64.self)  // minLng
+    self.bottom = try container.decode(Float64.self)  // minLat
+    self.right = try container.decode(Float64.self)  // maxLng
+    self.top = try container.decode(Float64.self)  // maxLat
   }
 
-  // Encode to an array format
+  // Encode to an array format [minLng, minLat, maxLng, maxLat]
   func encode(to encoder: Encoder) throws {
     var container = encoder.unkeyedContainer()
-    try container.encode(top)
-    try container.encode(right)
-    try container.encode(bottom)
-    try container.encode(left)
+    try container.encode(left)  // minLng
+    try container.encode(bottom)  // minLat
+    try container.encode(right)  // maxLng
+    try container.encode(top)  // maxLat
   }
 }
 
