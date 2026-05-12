@@ -7,7 +7,7 @@
 
 import FerrostarCore
 import Foundation
-import HeadwayFFI
+import Headway
 import MapLibre
 import MapboxDirections
 
@@ -52,8 +52,9 @@ class Env {
   lazy var coreLocationProvider: CoreLocationProvider = CoreLocationProvider(
     activityType: .other, allowBackgroundLocationUpdates: false)
 
-  let offlineTileserverStyleUrl = URL(
-    string: "http://127.0.0.1:8080/tileserver/styles/basic/style.json")!
+  var offlineTileserverStyleUrl: URL {
+    AppConfig().offlineServerBase.appendingPathComponent("styles/basic/style.json")
+  }
 
   @MainActor
   init() {
