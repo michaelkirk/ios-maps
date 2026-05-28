@@ -163,12 +163,15 @@ extension FerrostarCoreFFI.RouteStep {
     let exits: [String] = []
     let annotations: [String] = []
     let incidents: [Incident] = []
+    let roundaboutExitNumber: UInt8? = nil
+    let drivingSide = FerrostarCoreFFI.DrivingSide.right
 
     self.init(
       geometry: geometry, distance: routeStep.distance, duration: routeStep.expectedTravelTime,
       roadName: routeStep.names?.first, exits: exits, instruction: routeStep.instructions,
       visualInstructions: visualInstructions, spokenInstructions: spokenInstructions,
-      annotations: annotations, incidents: incidents)
+      annotations: annotations, incidents: incidents, drivingSide: drivingSide,
+      roundaboutExitNumber: roundaboutExitNumber)
   }
 }
 
@@ -202,20 +205,93 @@ extension FerrostarCoreFFI.Route {
   }
 }
 
-struct RouteNavigation {
+@MainActor
+final class NavigationSession: ObservableObject {
   let route: FerrostarCoreFFI.Route
   let ferrostarCore: FerrostarCore
+  let destination: MapboxDirections.Waypoint
+
+  // FerrostarCore is an NSObject with @Published fields, but it does not
+  // conform to ObservableObject — so observing `ferrostarCore.state` directly
+  // from a SwiftUI view doesn't trigger re-renders. We mirror it here so the
+  // session's own objectWillChange drives the view.
+  @Published private(set) var navigationState: NavigationState?
+
+  init(
+    mapboxRoute mlnRoute: MapboxDirections.Route,
+    travelMode: TravelMode,
+    measurementSystem: MeasurementSystem
+  ) {
+    self.destination = mlnRoute.legs.last!.destination
+    let route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
+    self.route = route
+
+    // TODO: remove as!
+    let routeProvider = TripPlanClientFerrostarAdapter(
+      tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
+      travelMode: travelMode,
+      measurementSystem: measurementSystem
+    )
+
+    let locationProvider: LocationProviding
+    if Env.current.simulateLocationForTesting {
+      let simulatedLocationProvider = SimulatedLocationProvider(
+        coordinate: mlnRoute.coordinates!.first!)
+      simulatedLocationProvider.warpFactor = 3
+      try! simulatedLocationProvider.setSimulatedRoute(route)
+      simulatedLocationProvider.startUpdating()
+      let goOffTrack = false
+      if goOffTrack {
+        locationProvider = OffTrackSimulatedLocationProvider(
+          simulatedLocationProvider: simulatedLocationProvider)
+      } else {
+        locationProvider = simulatedLocationProvider
+      }
+    } else {
+      let coreLocationProvider = Env.current.coreLocationProvider
+      let newActivityType: CLActivityType =
+        switch travelMode {
+        case .car:
+          .automotiveNavigation
+        default:
+          .otherNavigation
+        }
+      if newActivityType != coreLocationProvider.activityType {
+        coreLocationProvider.activityType = newActivityType
+      }
+      locationProvider = coreLocationProvider
+    }
+
+    // Configure the navigation session.
+    // You have a lot of flexibility here based on your use case.
+    let config = SwiftNavigationControllerConfig(
+      waypointAdvance: .waypointWithinRange(20),
+      stepAdvanceCondition: stepAdvanceDistanceEntryAndExit(
+        distanceToEndOfStep: 10, distanceAfterEndOfStep: 10, minimumHorizontalAccuracy: 32),
+      arrivalStepAdvanceCondition: stepAdvanceDistanceToEndOfStep(
+        distance: 10, minimumHorizontalAccuracy: 32),
+      routeDeviationTracking: .staticThreshold(
+        minimumHorizontalAccuracy: 25, maxAcceptableDeviation: 20),
+      snappedLocationCourseFiltering: .snapToRoute
+    )
+
+    let ferrostarCore = FerrostarCore(
+      customRouteProvider: routeProvider,
+      locationProvider: locationProvider,
+      navigationControllerConfig: config
+    )
+    self.ferrostarCore = ferrostarCore
+    try! ferrostarCore.startNavigation(route: route)
+
+    ferrostarCore.$state.assign(to: &$navigationState)
+  }
 }
 
 struct MENavigationView: View {
-  var route: FerrostarCoreFFI.Route
-  //  let initialLocation: CLLocation
   let styleURL: URL
   let stopNavigation: (_ didComplete: Bool) -> Void
-  let destination: MapboxDirections.Waypoint
 
-  @ObservedObject private var ferrostarCore: FerrostarCore
-
+  @StateObject private var session: NavigationSession
   @State private var camera: MapViewCamera
 
   @MainActor
@@ -225,103 +301,45 @@ struct MENavigationView: View {
     measurementSystem: MeasurementSystem,
     stopNavigation: @escaping (_ didComplete: Bool) -> Void
   ) {
-    self.destination = mlnRoute.legs.last!.destination
-    let route = FerrostarCoreFFI.Route(mapboxRoute: mlnRoute)
     self.stopNavigation = stopNavigation
     self.styleURL = Env.current.preferences.tileserverStyleUrl
 
-    let routeNavigation: RouteNavigation
-    if let existingRouteNavigation = Env.current.activeRouteNavigation,
-      existingRouteNavigation.route == route
-    {
-      routeNavigation = existingRouteNavigation
-    } else {
-      // TODO: remove as!
-      let routeProvider = TripPlanClientFerrostarAdapter(
-        tripPlanNetworkClient: Env.current.tripPlanClient as! TripPlanNetworkClient,
+    _session = StateObject(
+      wrappedValue: NavigationSession(
+        mapboxRoute: mlnRoute,
         travelMode: travelMode,
         measurementSystem: measurementSystem
       )
+    )
 
-      let locationProvider: LocationProviding
-      if Env.current.simulateLocationForTesting {
-        let simulatedLocationProvider = SimulatedLocationProvider(
-          coordinate: mlnRoute.coordinates!.first!)
-        simulatedLocationProvider.warpFactor = 1
-        try! simulatedLocationProvider.setSimulatedRoute(route)
-        simulatedLocationProvider.startUpdating()
-        let goOffTrack = false
-        if goOffTrack {
-          locationProvider = OffTrackSimulatedLocationProvider(
-            simulatedLocationProvider: simulatedLocationProvider)
-        } else {
-          locationProvider = simulatedLocationProvider
-        }
-      } else {
-        let coreLocationProvider = Env.current.coreLocationProvider
-        let newActivityType: CLActivityType =
-          switch travelMode {
-          case .car:
-            .automotiveNavigation
-          default:
-            .otherNavigation
-          }
-        if newActivityType != coreLocationProvider.activityType {
-          coreLocationProvider.activityType = newActivityType
-        }
-        locationProvider = coreLocationProvider
-      }
-
-      // Configure the navigation session.
-      // You have a lot of flexibility here based on your use case.
-      let config = SwiftNavigationControllerConfig(
-        waypointAdvance: .waypointWithinRange(20),
-        stepAdvanceCondition: stepAdvanceDistanceEntryAndExit(
-          distanceToEndOfStep: 10, distanceAfterEndOfStep: 10, minimumHorizontalAccuracy: 32),
-        arrivalStepAdvanceCondition: stepAdvanceDistanceToEndOfStep(
-          distance: 10, minimumHorizontalAccuracy: 32),
-        routeDeviationTracking: .staticThreshold(
-          minimumHorizontalAccuracy: 25, maxAcceptableDeviation: 20),
-        snappedLocationCourseFiltering: .snapToRoute
-      )
-
-      let ferrostarCore = FerrostarCore(
-        customRouteProvider: routeProvider,
-        locationProvider: locationProvider,
-        navigationControllerConfig: config
-      )
-      routeNavigation = RouteNavigation(route: route, ferrostarCore: ferrostarCore)
-      Env.current.activeRouteNavigation = routeNavigation
-      try! ferrostarCore.startNavigation(route: routeNavigation.route)
-    }
-    self.route = routeNavigation.route
-    self.ferrostarCore = routeNavigation.ferrostarCore
-
-    let currentCamera = Env.current.getMapCamera()!
     // I'd prefer to start navigation from "within" the current map, rather than popping a sheet with a new modal on it,
     // but to at least keep up the illusion of consistency, we start the new map with the same camera as the old camera.
     // NOTE: This still feels a little glitchy, beyond just the animation of presenting the sheet, the new map has to load
     // in all the layers, so there's a little delay as the image in the newlyl popped "navigation" map catches up visually
     // with the presented "MapView".
     // Adding to this, there's also a zoom as we start the trip: zomming from "trip overview" to the "current location".
-    self.camera = .center(currentCamera.centerCoordinate, zoom: 18)
+    let currentCamera = Env.current.getMapCamera()!
+    _camera = State(initialValue: .center(currentCamera.centerCoordinate, zoom: 18))
   }
 
   var body: some View {
+    let ferrostarCore = session.ferrostarCore
     var mapView = DynamicallyOrientingNavigationView(
       styleURL: styleURL,
       // I'm not sure why this is a binding exactly, since we soon override it in onStyleLoaded.
       // I guess so that we can transition to/from the navigation mode?
       camera: $camera,
-      navigationState: ferrostarCore.state,
+      navigationState: session.navigationState,
       isMuted: ferrostarCore.spokenInstructionObserver.isMuted,
       onTapMute: { ferrostarCore.spokenInstructionObserver.toggleMute() },
       onTapExit: { stopNavigation(false) }
     )
+
     mapView.onStyleLoaded = { style in
       add3DBuildingsLayer(style: style)
     }
-    mapView.progressView = {
+
+    return mapView.navigationViewProgressView({
       (navigationState: NavigationState?, onTapExit: (() -> Void)?) -> AnyView in
       if case .navigating = navigationState?.tripState,
         let progress = navigationState?.currentProgress
@@ -335,27 +353,25 @@ struct MENavigationView: View {
         // No longer showing...
         return AnyView(
           TripCompleteBanner(
-            destinationName: self.destination.name, onTapExit: { stopNavigation(true) }
+            destinationName: self.session.destination.name, onTapExit: { stopNavigation(true) }
           )
           .padding(.horizontal, 16))
       } else {
         return AnyView(EmptyView())
       }
-    }
-
-    return mapView.onChange(
-      of: ferrostarCore.state,
+    }).onChange(
+      of: session.navigationState,
       perform: { (value: NavigationState?) in
         guard let tripState = value?.tripState else {
           return
         }
 
         if case .complete = tripState {
-          let coordinate = self.route.geometry.last!.clLocationCoordinate2D
+          let coordinate = self.session.route.geometry.last!.clLocationCoordinate2D
           let bbox = MLNCoordinateBounds(sw: coordinate, ne: coordinate).extend(bufferMeters: 100)
 
           self.camera.setPitch(0)
-          // HACKY way to get the destination *centered* in the screen
+          // HACKY way to get the destination *centered* in the screen when the trip is complete
           // rather than centered towards the bottom where the puck lives
           self.camera = .boundingBox(
             bbox, edgePadding: UIEdgeInsets(top: 0, left: 0, bottom: 400, right: 0))

@@ -120,18 +120,6 @@ class Env {
   }
   private var _getMapView: () -> MLNMapView? = { nil }
 
-  private var _activeRouteNavigation: RouteNavigation? = nil
-  var activeRouteNavigation: RouteNavigation? {
-    get {
-      AssertMainThread()
-      return _activeRouteNavigation
-    }
-    set {
-      AssertMainThread()
-      _activeRouteNavigation = newValue
-    }
-  }
-
   /// Main thread only - trigger a map refresh
   var refreshMap: ((MLNCoordinateBounds?) -> Void)! {
     get {
