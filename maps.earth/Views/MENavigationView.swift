@@ -237,16 +237,18 @@ final class NavigationSession: ObservableObject {
     if Env.current.simulateLocationForTesting {
       let simulatedLocationProvider = SimulatedLocationProvider(
         coordinate: mlnRoute.coordinates!.first!)
-      simulatedLocationProvider.warpFactor = 3
-      try! simulatedLocationProvider.setSimulatedRoute(route)
-      simulatedLocationProvider.startUpdating()
-      let goOffTrack = false
+      simulatedLocationProvider.warpFactor = 1
+
+      // Set to true to simulate driving off the route, exercising the
+      // recalculation path. Has no effect outside the simulator.
+      let goOffTrack = true
       if goOffTrack {
-        locationProvider = OffTrackSimulatedLocationProvider(
-          simulatedLocationProvider: simulatedLocationProvider)
+        try! simulatedLocationProvider.setSimulatedRoute(route, bias: .right(30.0))
       } else {
-        locationProvider = simulatedLocationProvider
+        try! simulatedLocationProvider.setSimulatedRoute(route)
       }
+      simulatedLocationProvider.startUpdating()
+      locationProvider = simulatedLocationProvider
     } else {
       let coreLocationProvider = Env.current.coreLocationProvider
       let newActivityType: CLActivityType =
@@ -266,12 +268,9 @@ final class NavigationSession: ObservableObject {
     // You have a lot of flexibility here based on your use case.
     let config = SwiftNavigationControllerConfig(
       waypointAdvance: .waypointWithinRange(20),
-      stepAdvanceCondition: stepAdvanceDistanceEntryAndExit(
-        distanceToEndOfStep: 10, distanceAfterEndOfStep: 10, minimumHorizontalAccuracy: 32),
-      arrivalStepAdvanceCondition: stepAdvanceDistanceToEndOfStep(
-        distance: 10, minimumHorizontalAccuracy: 32),
-      routeDeviationTracking: .staticThreshold(
-        minimumHorizontalAccuracy: 25, maxAcceptableDeviation: 20),
+      stepAdvanceCondition: stepAdvanceDistanceEntryAndExit(distanceToEndOfStep: 10, distanceAfterEndOfStep: 10, minimumHorizontalAccuracy: 32),
+      arrivalStepAdvanceCondition: stepAdvanceDistanceToEndOfStep( distance: 10, minimumHorizontalAccuracy: 32),
+      routeDeviationTracking: .staticThreshold(minimumHorizontalAccuracy: 32, maxAcceptableDeviation: 20),
       snappedLocationCourseFiltering: .snapToRoute
     )
 
@@ -324,6 +323,15 @@ struct MENavigationView: View {
 
   var body: some View {
     let ferrostarCore = session.ferrostarCore
+    let rawUserCoordinate: CLLocationCoordinate2D? = {
+      if case .navigating(_, let userLocation, _, _, _, _, _, _, _, _, _) =
+        session.navigationState?.tripState
+      {
+        return userLocation.coordinates.clLocationCoordinate2D
+      }
+      return nil
+    }()
+
     var mapView = DynamicallyOrientingNavigationView(
       styleURL: styleURL,
       // I'm not sure why this is a binding exactly, since we soon override it in onStyleLoaded.
@@ -333,7 +341,21 @@ struct MENavigationView: View {
       isMuted: ferrostarCore.spokenInstructionObserver.isMuted,
       onTapMute: { ferrostarCore.spokenInstructionObserver.toggleMute() },
       onTapExit: { stopNavigation(false) }
-    )
+    ) {
+      // Debug overlay: raw GPS location (the built-in puck shows the snapped location).
+      let rawLocationSource = ShapeSource(identifier: "debug-raw-location-source") {
+        if let coordinate = rawUserCoordinate {
+          MLNPointFeature(coordinate: coordinate)
+        }
+      }
+      CircleStyleLayer(identifier: "debug-raw-location", source: rawLocationSource)
+        .radius(6)
+        .color(.systemGray)
+        .circleOpacity(0.5)
+        .strokeWidth(1)
+        .strokeColor(.white)
+        .circleStrokeOpacity(0.5)
+    }
 
     mapView.onStyleLoaded = { style in
       add3DBuildingsLayer(style: style)
@@ -382,53 +404,5 @@ struct MENavigationView: View {
     }.onDisappear {
       UIApplication.shared.isIdleTimerDisabled = false
     }
-  }
-}
-
-class OffTrackSimulatedLocationProvider: LocationProviding {
-  var simulatedLocationProvider: SimulatedLocationProvider
-
-  init(simulatedLocationProvider: SimulatedLocationProvider) {
-    self.simulatedLocationProvider = simulatedLocationProvider
-  }
-
-  var delegate: (any LocationManagingDelegate)? {
-    get {
-      simulatedLocationProvider.delegate
-    }
-    set {
-      simulatedLocationProvider.delegate = newValue
-    }
-  }
-
-  var authorizationStatus: CLAuthorizationStatus {
-    simulatedLocationProvider.authorizationStatus
-  }
-
-  var lastLocation: FerrostarCoreFFI.UserLocation? {
-    let goOffTrack = false
-    if goOffTrack {
-      let offsetMeters: CGFloat = 100
-      let offsetDirection: CGFloat = 90
-      return simulatedLocationProvider.lastLocation.map { location in
-        let clCoord = location.clLocation.coordinate
-        let translated = clCoord.coordinate(at: offsetMeters, facing: offsetDirection)
-        return UserLocation(clCoordinateLocation2D: translated)
-      }
-    } else {
-      return simulatedLocationProvider.lastLocation
-    }
-  }
-
-  var lastHeading: FerrostarCoreFFI.Heading? {
-    simulatedLocationProvider.lastHeading
-  }
-
-  func startUpdating() {
-    simulatedLocationProvider.startUpdating()
-  }
-
-  func stopUpdating() {
-    simulatedLocationProvider.stopUpdating()
   }
 }
