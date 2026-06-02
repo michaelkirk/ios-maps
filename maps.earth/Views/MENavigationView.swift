@@ -241,7 +241,7 @@ final class NavigationSession: ObservableObject {
 
       // Set to true to simulate driving off the route, exercising the
       // recalculation path. Has no effect outside the simulator.
-      let goOffTrack = true
+      let goOffTrack = false
       if goOffTrack {
         try! simulatedLocationProvider.setSimulatedRoute(route, bias: .right(30.0))
       } else {
@@ -268,9 +268,12 @@ final class NavigationSession: ObservableObject {
     // You have a lot of flexibility here based on your use case.
     let config = SwiftNavigationControllerConfig(
       waypointAdvance: .waypointWithinRange(20),
-      stepAdvanceCondition: stepAdvanceDistanceEntryAndExit(distanceToEndOfStep: 10, distanceAfterEndOfStep: 10, minimumHorizontalAccuracy: 32),
-      arrivalStepAdvanceCondition: stepAdvanceDistanceToEndOfStep( distance: 10, minimumHorizontalAccuracy: 32),
-      routeDeviationTracking: .staticThreshold(minimumHorizontalAccuracy: 32, maxAcceptableDeviation: 20),
+      stepAdvanceCondition: stepAdvanceDistanceEntryAndExit(
+        distanceToEndOfStep: 10, distanceAfterEndOfStep: 10, minimumHorizontalAccuracy: 32),
+      arrivalStepAdvanceCondition: stepAdvanceDistanceToEndOfStep(
+        distance: 10, minimumHorizontalAccuracy: 32),
+      routeDeviationTracking: .staticThreshold(
+        minimumHorizontalAccuracy: 32, maxAcceptableDeviation: 20),
       snappedLocationCourseFiltering: .snapToRoute
     )
 
