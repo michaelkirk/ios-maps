@@ -1,5 +1,5 @@
 import Foundation
-import HeadwayFFI
+import Headway
 import MapLibre
 
 private let logger = FileLogger()

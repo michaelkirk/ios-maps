@@ -5,7 +5,7 @@
 //  Created by Michael Kirk on 1/29/24.
 //
 
-import HeadwayFFI
+import Headway
 import MapLibre
 import SwiftUI
 
@@ -45,7 +45,7 @@ struct AppWithEnv: View {
     Thread.detachNewThread {
       Task {
         // Start the tileserver
-        try await Env.current.headwayServer.start(bindAddr: "127.0.0.1:8080")
+        try await Env.current.headwayServer.start(bindAddr: AppConfig().offlineServerHost)
       }
     }
 
@@ -77,7 +77,7 @@ struct AppWithEnv: View {
 
 // Test the server
 func testLocalServer() async throws -> String? {
-  let url = URL(string: "http://127.0.0.1:8080/status")!
+  let url = AppConfig().offlineServerBase.appendingPathComponent("status")
   let (data, _) = try await URLSession.shared.data(from: url)
   return String(data: data, encoding: .utf8)
 }

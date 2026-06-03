@@ -9,10 +9,12 @@ import Foundation
 
 struct AppConfig {
   let onlineServerBase = URL(string: "https://maps.earth")!
-  // let serverBase = URL(string: "https://seattle.maps.earth")!
-  // let serverBase = URL(string: "http://localhost:9000")!
-  // let serverBase = URL(string: "https://dev.maps.earth")!
-  let offlineServerBase = URL(string: "http://localhost:8080")!
+  // let onlineServerBase = URL(string: "http://localhost:8080")!
+  // let onlineserverBase = URL(string: "https://dev.maps.earth")!
+  let offlineServerHost = "localhost:8090"
+  var offlineServerBase: URL {
+    URL(string: "http://\(offlineServerHost)")!
+  }
 
   var peliasEndpoint: URL {
     self.onlineServerBase.appending(path: "/pelias/v1/")

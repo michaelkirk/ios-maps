@@ -1,4 +1,4 @@
-import HeadwayFFI
+import Headway
 import MapLibre
 import SwiftUI
 
@@ -368,7 +368,7 @@ struct AddOfflineRegionView: View {
     await Task {
       let bufferedBounds = buffered(bounds: bounds)
 
-      let hwBounds = HeadwayFFI.Bounds.nesw(
+      let hwBounds = Headway.Bounds.nesw(
         maxLat: bufferedBounds.ne.latitude,
         maxLon: bufferedBounds.ne.longitude,
         minLat: bufferedBounds.sw.latitude,

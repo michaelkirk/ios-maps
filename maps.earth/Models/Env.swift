@@ -7,7 +7,7 @@
 
 import FerrostarCore
 import Foundation
-import HeadwayFFI
+import Headway
 import MapLibre
 import MapboxDirections
 
@@ -52,8 +52,9 @@ class Env {
   lazy var coreLocationProvider: CoreLocationProvider = CoreLocationProvider(
     activityType: .other, allowBackgroundLocationUpdates: false)
 
-  let offlineTileserverStyleUrl = URL(
-    string: "http://127.0.0.1:8080/tileserver/styles/basic/style.json")!
+  var offlineTileserverStyleUrl: URL {
+    AppConfig().offlineServerBase.appendingPathComponent("styles/basic/style.json")
+  }
 
   @MainActor
   init() {
@@ -118,18 +119,6 @@ class Env {
     }
   }
   private var _getMapView: () -> MLNMapView? = { nil }
-
-  private var _activeRouteNavigation: RouteNavigation? = nil
-  var activeRouteNavigation: RouteNavigation? {
-    get {
-      AssertMainThread()
-      return _activeRouteNavigation
-    }
-    set {
-      AssertMainThread()
-      _activeRouteNavigation = newValue
-    }
-  }
 
   /// Main thread only - trigger a map refresh
   var refreshMap: ((MLNCoordinateBounds?) -> Void)! {

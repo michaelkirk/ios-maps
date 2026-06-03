@@ -1,0 +1,4 @@
+(cd DevDependencies/ferrostar/common/ && cargo clean) && \
+  (cd DevDependencies/headway/common/ && cargo clean) && \
+  bin/clear-derived-data
+
