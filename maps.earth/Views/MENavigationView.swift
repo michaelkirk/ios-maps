@@ -266,14 +266,16 @@ final class NavigationSession: ObservableObject {
 
     // Configure the navigation session.
     // You have a lot of flexibility here based on your use case.
+    let minimumHorizontalAccuracy: UInt16 = 32
     let config = SwiftNavigationControllerConfig(
       waypointAdvance: .waypointWithinRange(20),
       stepAdvanceCondition: stepAdvanceDistanceEntryAndExit(
-        distanceToEndOfStep: 10, distanceAfterEndOfStep: 10, minimumHorizontalAccuracy: 32),
+        distanceToEndOfStep: 10, distanceAfterEndOfStep: 10,
+        minimumHorizontalAccuracy: minimumHorizontalAccuracy),
       arrivalStepAdvanceCondition: stepAdvanceDistanceToEndOfStep(
-        distance: 10, minimumHorizontalAccuracy: 32),
+        distance: 20, minimumHorizontalAccuracy: minimumHorizontalAccuracy),
       routeDeviationTracking: .staticThreshold(
-        minimumHorizontalAccuracy: 32, maxAcceptableDeviation: 20),
+        minimumHorizontalAccuracy: minimumHorizontalAccuracy, maxAcceptableDeviation: 20),
       snappedLocationCourseFiltering: .snapToRoute
     )
 
