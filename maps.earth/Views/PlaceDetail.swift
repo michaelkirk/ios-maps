@@ -52,14 +52,22 @@ struct PlaceDetailSheet: View {
           isLoadingDetails: isLoadingDetails,
           didSelectNavigateTo: { place in
             tripPlan.navigateTo = place
-            if let mostRecentUserLocation = self.userLocationManager
-              .mostRecentUserLocation
-            {
-              tripPlan.navigateFrom = Place(currentLocation: mostRecentUserLocation)
+
+            if let loc = userLocationManager.mostRecentUserLocation {
+              tripPlan.navigateFrom = Place(currentLocation: loc)
+            } else if userLocationManager.state == .initial {
+              // start capturing location if we weren't already.
+              // This is kind of a long chain of events that ultimately
+              // sets mapView.showUserLocation = true, which induces maplibre to request location authorization
+              userLocationManager.state = .showing
             }
           },
           didCompleteTrip: didCompleteTrip
         )
+        .onChange(of: userLocationManager.mostRecentUserLocation) { loc in
+          guard let loc, tripPlan.navigateTo != nil, tripPlan.navigateFrom == nil else { return }
+          tripPlan.navigateFrom = Place(currentLocation: loc)
+        }
       }
       // This is arguably useful.
       // Usually I just want to swipe down to get a better look at the map without closing out
