@@ -52,10 +52,6 @@ class Env {
   lazy var coreLocationProvider: CoreLocationProvider = CoreLocationProvider(
     activityType: .other, allowBackgroundLocationUpdates: false)
 
-  var offlineTileserverStyleUrl: URL {
-    AppConfig().offlineServerBase.appendingPathComponent("styles/basic/style.json")
-  }
-
   @MainActor
   init() {
     isMock = false
