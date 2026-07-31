@@ -197,6 +197,26 @@ extension MapViewWrapper: UIViewRepresentable {
   func makeUIView(context: Context) -> Self.UIViewType {
     let styleURL = preferences.tileserverStyleUrl
 
+    // Route MapLibre's internal (C++/mbgl) logs into our app logger — that's
+    // where tile parse/decode failures are reported.
+    //
+    // MapLibre logs a failed tile parse at warning severity, so .error would
+    // drop the decode failures this exists to catch.
+    MLNLoggingConfiguration.shared.loggingLevel = .warning
+    MLNLoggingConfiguration.shared.handler = { level, filePath, line, message in
+      let text = "MLN[\(mlnLogLevelName(level))] \(message) (\(filePath):\(line))"
+      // Decode failures at error level so they show up without
+      // `log show --info --debug`; the rest (missing glyphs, sprites) stays quiet.
+      if level == .error || level == .fault || message.contains("[event]:ParseTile") {
+        logger.error("\(text, privacy: .public)")
+      } else {
+        logger.debug("\(text, privacy: .public)")
+      }
+    }
+
+    assert(MLNNetworkConfiguration.sharedManager.delegate == nil)
+    MLNNetworkConfiguration.sharedManager.delegate = context.coordinator
+
     // create the mapview
     let mlnMapView = MLNMapView(frame: .zero, styleURL: styleURL)
     context.coordinator.mlnMapView = mlnMapView
@@ -629,12 +649,12 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     _ mapView: MLNMapView, tileDidTriggerAction operation: MLNTileOperation, x: Int, y: Int, z: Int,
     wrap: Int, overscaledZ: Int, sourceID: String
   ) {
-    switch operation {
-    case .error:
-      print("tileDidTriggerAction: \(z)/\(x)/\(y) \(opName(operation)), source: \(sourceID)")
-    default:
-      break
-    }
+    // Failures only: this fires for every operation on every tile. Why a tile
+    // failed is in MapLibre's own log, see the MLNLoggingConfiguration handler.
+    guard case .error = operation else { return }
+    logger.error(
+      "tile error: \(z)/\(x)/\(y) (overscaledZ: \(overscaledZ), wrap: \(wrap)) source: \(sourceID)"
+    )
   }
 
   func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation)
@@ -831,6 +851,56 @@ struct OfflineDownloadPrompt: View {
     showOfflineDownloadPrompt: .constant(false)
   )
   .edgesIgnoringSafeArea(.all)
+}
+
+private var reportedEncodings = Set<String>()
+private let reportedEncodingsLock = NSLock()
+
+extension MapViewWrapper.Coordinator: MLNNetworkConfigurationDelegate {
+  func willSend(_ request: NSMutableURLRequest) -> NSMutableURLRequest {
+    // Martin serves MVT unless the request asks for MLT, and MapLibre doesn't
+    // add this itself — without it the "mlt" source silently returns MVT.
+    if request.url?.path.contains("/tileserver/areamap-mlt") == true {
+      request.setValue("application/vnd.maplibre-tile", forHTTPHeaderField: "Accept")
+    }
+    return request
+  }
+
+  func didReceive(_ response: MLNNetworkResponse) -> MLNNetworkResponse {
+    // The style asking for MLT doesn't prove Martin sent it, so report what
+    // each source actually serves — once per source, not once per tile.
+    guard let http = response.response as? HTTPURLResponse,
+      let path = http.url?.path,
+      let source = path.split(separator: "/").dropLast(3).last,
+      // A 304 carries no Content-Type, so it says nothing about the encoding.
+      http.statusCode != 304,
+      let contentType = http.value(forHTTPHeaderField: "Content-Type")
+    else {
+      return response
+    }
+
+    let key = "\(source)|\(contentType)"
+    reportedEncodingsLock.lock()
+    let isNew = reportedEncodings.insert(key).inserted
+    reportedEncodingsLock.unlock()
+    if isNew {
+      logger.info("tile source '\(source)' is serving \(contentType)")
+    }
+    return response
+  }
+}
+
+func mlnLogLevelName(_ level: MLNLoggingLevel) -> String {
+  switch level {
+  case .none: "none"
+  case .fault: "fault"
+  case .error: "error"
+  case .warning: "warning"
+  case .info: "info"
+  case .debug: "debug"
+  case .verbose: "verbose"
+  @unknown default: "unknown"
+  }
 }
 
 func opName(_ op: MLNTileOperation) -> String {

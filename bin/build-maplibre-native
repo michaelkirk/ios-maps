@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#
+# Build the MapLibre Native iOS XCFramework from the `DevDependencies/maplibre-native`
+# submodule and unpack it into DevDependencies/maplibre-gl-native-distribution/,
+# the local Swift package that overrides the published binary distribution.
+#
+# Lets us carry patches. See DevDependencies/README.md.
+#
+# Usage:
+#   bin/build-maplibre-native                              # metal, fastbuild
+#   bin/build-maplibre-native --compilation_mode=opt --copt=-Oz
+#
+# Extra args are forwarded to `bazel build`.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+MLN_DIR="$ROOT/DevDependencies/maplibre-native"                       # git submodule
+DEST_DIR="$ROOT/DevDependencies/maplibre-gl-native-distribution"      # local Swift package
+DEST="$DEST_DIR/MapLibre.xcframework"
+
+if [[ ! -d "$MLN_DIR/platform" ]]; then
+    echo "error: submodule not checked out at $MLN_DIR" >&2
+    echo "       run: git submodule update --init --recursive DevDependencies/maplibre-native" >&2
+    exit 1
+fi
+
+BAZEL_DISK_CACHE="${BAZEL_DISK_CACHE:-$HOME/.cache/bazel-disk}"
+mkdir -p "$BAZEL_DISK_CACHE"
+
+cd "$MLN_DIR"
+
+# Resolve bazel-bin before building: `bazel info` overwrites command.log, which
+# would discard the build's summary.
+BAZEL_BIN="$(bazel info --disk_cache="$BAZEL_DISK_CACHE" bazel-bin)"
+
+# _MTLTensorDomain and _MTLIOErrorDomain are in the device SDK but not the iOS
+# Simulator SDK on Xcode 26. They're unused on simulator, so weak-resolving them
+# is safe and lets the simulator slice link.
+#
+# Keep these flags in sync with martin-e2e's build-maplibre-native.
+bazel build //platform/ios:MapLibre.dynamic \
+    --disk_cache="$BAZEL_DISK_CACHE" \
+    --//:renderer=metal \
+    --linkopt=-Wl,-U,_MTLTensorDomain \
+    --linkopt=-Wl,-U,_MTLIOErrorDomain \
+    "$@"
+
+ZIP="$BAZEL_BIN/platform/ios/MapLibre.dynamic.xcframework.zip"
+
+rm -rf "$DEST"
+unzip -oq "$ZIP" -d "$DEST_DIR"
+
+# Replacing the xcframework leaves Xcode's precompiled modules stale, and the
+# next app build fails with "has been modified since the module file was built".
+# Drop them so it repopulates. Harmless if they aren't there.
+rm -rf "$HOME"/Library/Developer/Xcode/DerivedData/maps.earth-*/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules \
+       "$HOME"/Library/Developer/Xcode/DerivedData/maps.earth-*/Build/Products/*/MapLibre.framework
+
+echo
+echo "Built $DEST"
+echo "  MapLibre Native $(git -C "$MLN_DIR" describe --tags --always)"
+echo "  slices: $(ls "$DEST" | grep -v Info.plist | tr '\n' ' ')"
