@@ -39,7 +39,7 @@ struct AppWithEnv: View {
 
     // Download overview map if offline maps feature is enabled
     if Env.current.preferences.offlineMapFeatureEnabled {
-      await OfflineRegionManager.downloadOverviewMap()
+      _ = await OfflineRegionManager.downloadOverviewMap()
     }
 
     Thread.detachNewThread {
