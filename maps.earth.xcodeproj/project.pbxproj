@@ -549,12 +549,12 @@
 			);
 			mainGroup = 4563B9E62B687AA4005A677A;
 			packageReferences = (
-				455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 				4504D1832BAA5D9300872B55 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 				456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */,
 				4587A4612DD54F9700C2822F /* XCRemoteSwiftPackageReference "mapbox-directions-swift" */,
 				45BFF55C2DD5533800810E0D /* XCRemoteSwiftPackageReference "turf-swift" */,
 				45520EF32E8F13C20001779A /* XCLocalSwiftPackageReference "DevDependencies/headway" */,
+				45B10C052D01A00100AA0005 /* XCLocalSwiftPackageReference "DevDependencies/maplibre-gl-native-distribution" */,
 			);
 			productRefGroup = 4563B9F02B687AA4005A677A /* Products */;
 			projectDirPath = "";
@@ -1014,6 +1014,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = DevDependencies/headway;
 		};
+		45B10C052D01A00100AA0005 /* XCLocalSwiftPackageReference "DevDependencies/maplibre-gl-native-distribution" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = DevDependencies/maplibre-gl-native-distribution;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -1023,14 +1027,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 3.7.9;
-			};
-		};
-		455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
 			};
 		};
 		456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */ = {
@@ -1066,7 +1062,6 @@
 		};
 		455363ED2B687D90006DF291 /* MapLibre */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 455363EC2B687D90006DF291 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
 			productName = MapLibre;
 		};
 		455CDFF32BAA5E4A00D72FF6 /* PhoneNumberKit */ = {

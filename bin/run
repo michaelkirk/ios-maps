@@ -1,0 +1,71 @@
+#!/bin/bash
+set -euo pipefail
+
+SCHEME="maps.earth"
+PROJECT_PATH="maps.earth.xcodeproj"
+
+# Simulator selection mirrors bin/test: newest installed iOS runtime, first
+# device on it. Override with SIMULATOR_UDID to pick your own.
+if [ -z "${SIMULATOR_UDID:-}" ]; then
+    echo "📱 Finding available iOS simulators..."
+    SIMULATORS_JSON=$(xcrun simctl list devices --json)
+
+    LATEST_IOS_RUNTIME=$(echo "$SIMULATORS_JSON" | jq -r '.devices | keys[] | select(contains("iOS"))' | sort -V | tail -1)
+    if [ -z "$LATEST_IOS_RUNTIME" ]; then
+        echo "❌ Error: No iOS simulators found"
+        exit 1
+    fi
+    echo "📍 Using iOS runtime: $LATEST_IOS_RUNTIME"
+
+    SIMULATOR_UDID=$(echo "$SIMULATORS_JSON" | jq -r ".devices[\"$LATEST_IOS_RUNTIME\"][0].udid // empty")
+    SIMULATOR_NAME=$(echo "$SIMULATORS_JSON" | jq -r ".devices[\"$LATEST_IOS_RUNTIME\"][0].name // empty")
+    if [ -z "$SIMULATOR_UDID" ]; then
+        echo "❌ Error: No simulators available for $LATEST_IOS_RUNTIME"
+        exit 1
+    fi
+fi
+SIMULATOR_NAME="${SIMULATOR_NAME:-$SIMULATOR_UDID}"
+echo "📱 Selected simulator: $SIMULATOR_NAME ($SIMULATOR_UDID)"
+
+DESTINATION="platform=iOS Simulator,id=$SIMULATOR_UDID"
+
+# Build for this specific simulator, so the slice we install matches it.
+IOS_DESTINATION="$DESTINATION" "$(dirname "$0")/build"
+
+# Ask xcodebuild where it put the app: DerivedData is at Xcode's default
+# location (see bin/clear-derived-data), a hashed directory we can't guess.
+echo "🔍 Locating built app..."
+BUILD_SETTINGS=$(xcodebuild -showBuildSettings -json \
+    -project "$PROJECT_PATH" \
+    -scheme "$SCHEME" \
+    -skipMacroValidation \
+    -destination "$DESTINATION" 2>/dev/null)
+
+APP_PATH=$(echo "$BUILD_SETTINGS" | jq -r 'first(.[] | select(.buildSettings.FULL_PRODUCT_NAME | endswith(".app")) | .buildSettings | "\(.BUILT_PRODUCTS_DIR)/\(.FULL_PRODUCT_NAME)")')
+BUNDLE_ID=$(echo "$BUILD_SETTINGS" | jq -r 'first(.[] | select(.buildSettings.FULL_PRODUCT_NAME | endswith(".app")) | .buildSettings.PRODUCT_BUNDLE_IDENTIFIER)')
+
+if [ ! -d "$APP_PATH" ]; then
+    echo "❌ Error: built app not found at ${APP_PATH:-<empty>}"
+    exit 1
+fi
+echo "📦 $APP_PATH ($BUNDLE_ID)"
+
+# `simctl boot` alone leaves the simulator headless, so open Simulator too.
+SIMULATOR_STATE=$(xcrun simctl list devices | grep "$SIMULATOR_UDID" | awk '{print $NF}' | tr -d '()')
+if [ "$SIMULATOR_STATE" != "Booted" ]; then
+    echo "🚀 Booting simulator..."
+    xcrun simctl boot "$SIMULATOR_UDID"
+    xcrun simctl bootstatus "$SIMULATOR_UDID"
+fi
+open -a Simulator --args -CurrentDeviceUDID "$SIMULATOR_UDID"
+
+echo "📲 Installing..."
+xcrun simctl install "$SIMULATOR_UDID" "$APP_PATH"
+
+echo "▶️  Launching $BUNDLE_ID..."
+xcrun simctl launch "$SIMULATOR_UDID" "$BUNDLE_ID"
+
+echo "✅ Running on $SIMULATOR_NAME"
+echo
+echo "   Logs: xcrun simctl spawn $SIMULATOR_UDID log stream --info --debug \\"
+echo "           --predicate 'subsystem == \"$BUNDLE_ID\"'"

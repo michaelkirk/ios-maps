@@ -13,3 +13,6 @@
 [submodule "DevDependencies/libheadway"]
 	path = DevDependencies/headway
 	url = git@github.com:headwaymaps/libheadway.git
+[submodule "DevDependencies/maplibre-native"]
+	path = DevDependencies/maplibre-native
+	url = https://github.com/maplibre/maplibre-native
