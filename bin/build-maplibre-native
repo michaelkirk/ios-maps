@@ -7,10 +7,10 @@
 # Lets us carry patches. See DevDependencies/README.md.
 #
 # Usage:
-#   bin/build-maplibre-native                              # metal, fastbuild
-#   bin/build-maplibre-native --compilation_mode=opt --copt=-Oz
+#   bin/build-maplibre-native                              # metal, optimized
+#   bin/build-maplibre-native --compilation_mode=fastbuild
 #
-# Extra args are forwarded to `bazel build`.
+# Extra args are forwarded to `bazel build`, and override the defaults below.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -38,9 +38,14 @@ BAZEL_BIN="$(bazel info --disk_cache="$BAZEL_DISK_CACHE" bazel-bin)"
 # is safe and lets the simulator slice link.
 #
 # Keep these flags in sync with martin-e2e's build-maplibre-native.
+# Always optimized: bazel caches per compilation mode, so alternating between
+# opt and fastbuild rebuilds from scratch every time you switch. One mode means
+# one cache, and it's what we ship.
 bazel build //platform/ios:MapLibre.dynamic \
     --disk_cache="$BAZEL_DISK_CACHE" \
     --//:renderer=metal \
+    --compilation_mode=opt \
+    --copt=-Oz \
     --linkopt=-Wl,-U,_MTLTensorDomain \
     --linkopt=-Wl,-U,_MTLIOErrorDomain \
     "$@"

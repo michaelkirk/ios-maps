@@ -5,9 +5,6 @@
 # These can't be built from within xcodebuild: SwiftPM needs the xcframeworks
 # to resolve the package graph, which happens before any build phase runs.
 #
-# Pass --optimized for an App Store quality MapLibre; the bazel default is
-# fastbuild, which is quicker and fine for development.
-#
 # The ferrostar and headway scripts take a --release flag that we deliberately
 # don't pass: they always build with cargo --release, and that flag instead zips
 # the xcframework and rewrites their Package.swift for publishing upstream.
@@ -16,13 +13,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-maplibre_args=()
-if [ "${1:-}" = "--optimized" ]; then
-    maplibre_args=(--compilation_mode=opt --copt=-Oz)
-fi
-
 echo "🔧 Building MapLibre Native..."
-bin/build-maplibre-native ${maplibre_args[@]+"${maplibre_args[@]}"}
+bin/build-maplibre-native
 
 echo "🔧 Building ferrostar..."
 (cd DevDependencies/ferrostar/common && ./build-ios.sh)

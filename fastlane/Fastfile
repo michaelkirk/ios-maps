@@ -55,7 +55,7 @@ platform :ios do
 
   desc "Bump build (or minor version with bump_version:true), archive, and tag an alpha"
   lane :cut_alpha do |options|
-    sh(File.join(ROOT, "bin/build-frameworks"), "--optimized")
+    sh(File.join(ROOT, "bin/build-frameworks"))
     options[:bump_version] ? bump_version : bump_build
     archive
     tag_alpha
