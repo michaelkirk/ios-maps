@@ -4,25 +4,10 @@ set -euo pipefail
 SCHEME="maps.earth"
 PROJECT_PATH="maps.earth.xcodeproj"
 
-# Simulator selection mirrors bin/test: newest installed iOS runtime, first
-# device on it. Override with SIMULATOR_UDID to pick your own.
+# Override with SIMULATOR_UDID to pick your own.
 if [ -z "${SIMULATOR_UDID:-}" ]; then
-    echo "📱 Finding available iOS simulators..."
-    SIMULATORS_JSON=$(xcrun simctl list devices --json)
-
-    LATEST_IOS_RUNTIME=$(echo "$SIMULATORS_JSON" | jq -r '.devices | keys[] | select(contains("iOS"))' | sort -V | tail -1)
-    if [ -z "$LATEST_IOS_RUNTIME" ]; then
-        echo "❌ Error: No iOS simulators found"
-        exit 1
-    fi
-    echo "📍 Using iOS runtime: $LATEST_IOS_RUNTIME"
-
-    SIMULATOR_UDID=$(echo "$SIMULATORS_JSON" | jq -r ".devices[\"$LATEST_IOS_RUNTIME\"][0].udid // empty")
-    SIMULATOR_NAME=$(echo "$SIMULATORS_JSON" | jq -r ".devices[\"$LATEST_IOS_RUNTIME\"][0].name // empty")
-    if [ -z "$SIMULATOR_UDID" ]; then
-        echo "❌ Error: No simulators available for $LATEST_IOS_RUNTIME"
-        exit 1
-    fi
+    SIMULATOR=$("$(dirname "$0")/_simctl")
+    IFS=$'\t' read -r SIMULATOR_UDID SIMULATOR_NAME <<<"$SIMULATOR"
 fi
 SIMULATOR_NAME="${SIMULATOR_NAME:-$SIMULATOR_UDID}"
 echo "📱 Selected simulator: $SIMULATOR_NAME ($SIMULATOR_UDID)"
