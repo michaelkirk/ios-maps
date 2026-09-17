@@ -4,6 +4,8 @@ set -euo pipefail
 SCHEME="maps.earth"
 PROJECT_PATH="maps.earth.xcodeproj"
 
+"$(dirname "$0")/check-frameworks"
+
 echo "🧪 Running iOS tests for $SCHEME..."
 
 # Get available simulators and find the latest iOS version

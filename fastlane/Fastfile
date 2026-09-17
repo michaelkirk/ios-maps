@@ -1,8 +1,10 @@
 default_platform(:ios)
 
+ROOT = File.expand_path("..", __dir__)
+XCODEPROJ = File.join(ROOT, "maps.earth.xcodeproj")
+
 platform :ios do
-  desc "Increment the build number"
-  lane :bump_build do
+  private_lane :bump_build do
     increment_build_number(
       xcodeproj: "maps.earth.xcodeproj"
     )
@@ -14,21 +16,30 @@ platform :ios do
     )
   end
 
-  desc "Increment the minor version and reset build number to 0"
-  lane :bump_version do
-    increment_version_number(
-      bump_type: "minor",
-      xcodeproj: "maps.earth.xcodeproj"
-    )
+  private_lane :bump_version do
+    version = get_version_number(xcodeproj: "maps.earth.xcodeproj", target: "maps.earth")
+    major, minor = version.split(".")
+    set_marketing_version(version: "#{major}.#{minor.to_i + 1}")
     increment_build_number(
       build_number: 0,
       xcodeproj: "maps.earth.xcodeproj"
     )
+    version = get_version_number(xcodeproj: "maps.earth.xcodeproj", target: "maps.earth")
+    build   = get_build_number(xcodeproj: "maps.earth.xcodeproj")
+    git_commit(
+      path: "maps.earth.xcodeproj/project.pbxproj",
+      message: "Bump version to v#{version} (#{build})"
+    )
   end
 
-  desc "Bump build, archive, and tag the app"
-  lane :build_alpha do
-    bump_build
+  desc "Compile for the simulator, a faster check than a full archive"
+  lane :build do
+    sh(File.join(ROOT, "bin/build"))
+  end
+
+  desc "Archive the app, without touching versions or git"
+  lane :archive do
+    sh(File.join(ROOT, "bin/check-frameworks"))
     build_app(
       project: "maps.earth.xcodeproj",
       scheme: "maps.earth",
@@ -40,6 +51,13 @@ platform :ios do
         signingStyle: "automatic"
       }
     )
+  end
+
+  desc "Bump build (or minor version with bump_version:true), archive, and tag an alpha"
+  lane :cut_alpha do |options|
+    sh(File.join(ROOT, "bin/build-frameworks"), "--optimized")
+    options[:bump_version] ? bump_version : bump_build
+    archive
     tag_alpha
   end
 
@@ -65,5 +83,18 @@ platform :ios do
       skip_screenshots: true,
       precheck_include_in_app_purchases: false
     )
+  end
+
+  # agvtool can't manage the marketing version of a GENERATE_INFOPLIST_FILE
+  # project, so write MARKETING_VERSION into the build settings directly.
+  private_lane :set_marketing_version do |options|
+    version = options[:version]
+    project = Xcodeproj::Project.open(XCODEPROJ)
+    target = project.targets.find { |t| t.name == "maps.earth" }
+    target.build_configurations.each do |config|
+      config.build_settings["MARKETING_VERSION"] = version
+    end
+    project.save
+    UI.success("Set MARKETING_VERSION to #{version}")
   end
 end

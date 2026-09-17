@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# Verify the locally-built xcframeworks are present.
+#
+# Without them SwiftPM fails to resolve the package graph with a confusing
+# "does not contain a binary artifact" rather than a missing-file error.
+# bin/clean removes the ferrostar and headway ones, since cargo clean wipes the
+# target/ directory they're built into.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+FRAMEWORKS=(
+    "DevDependencies/maplibre-gl-native-distribution/MapLibre.xcframework|bin/build-maplibre-native"
+    "DevDependencies/ferrostar/common/target/ios/libferrostar-rs.xcframework|(cd DevDependencies/ferrostar/common && ./build-ios.sh)"
+    "DevDependencies/headway/common/target/ios/headwayFFI.xcframework|(cd DevDependencies/headway && ./bin/build-ios.sh)"
+)
+
+missing=0
+for entry in "${FRAMEWORKS[@]}"; do
+    path="${entry%%|*}"
+    if [ ! -d "$ROOT/$path" ]; then
+        [ "$missing" -eq 0 ] && echo "❌ Error: missing framework dependencies" >&2
+        missing=1
+        echo "   $path" >&2
+        echo "     build with: ${entry#*|}" >&2
+    fi
+done
+
+if [ "$missing" -ne 0 ]; then
+    echo >&2
+    echo "   (or bin/build-and-test, which builds every framework dependency)" >&2
+    exit 1
+fi
