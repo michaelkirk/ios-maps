@@ -114,8 +114,6 @@ func imageName(maneuverType: ManeuverType) -> String? {
     "door.left.hand.open"
   case .buildingExit:
     "door.right.hand.open"
-  default:
-    nil
   }
 }
 

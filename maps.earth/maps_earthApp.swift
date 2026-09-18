@@ -45,7 +45,11 @@ struct AppWithEnv: View {
     Thread.detachNewThread {
       Task {
         // Start the tileserver
-        try await Env.current.headwayServer.start(bindAddr: AppConfig().offlineServerHost)
+        do {
+          try await Env.current.headwayServer.start(bindAddr: AppConfig().offlineServerHost)
+        } catch {
+          logger.error("tileserver failed to start: \(error)")
+        }
       }
     }
 

@@ -4,9 +4,9 @@ import SwiftUI
 
 // Progress callback implementation for download
 final class ExtractProgressImpl: ExtractProgress {
-  private let onProgress: (Double) -> Void
+  private let onProgress: @Sendable (Double) -> Void
 
-  init(onProgress: @escaping (Double) -> Void) {
+  init(onProgress: @escaping @Sendable (Double) -> Void) {
     self.onProgress = onProgress
   }
 

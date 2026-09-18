@@ -125,7 +125,8 @@ struct MapView: View {
   @Binding var showOfflineDownloadPrompt: Bool
 
   var topPadding: CGFloat {
-    guard let safeAreaInsets = UIApplication.shared.windows.first?.safeAreaInsets else {
+    let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+    guard let safeAreaInsets = scene?.keyWindow?.safeAreaInsets else {
       assertionFailure("safe area insets was unexpectedly nil")
       return 40
     }
@@ -572,16 +573,20 @@ extension MapViewWrapper: UIViewRepresentable {
       let lngLat = LngLat(coord: mapView.convert(point, toCoordinateFrom: mapView))
 
       Task {
-        let place =
-          try await GeocodeClient().details(placeID: .lngLat(lngLat))
-          ?? Place(location: lngLat.asCLLocation)
+        do {
+          let place =
+            try await GeocodeClient().details(placeID: .lngLat(lngLat))
+            ?? Place(location: lngLat.asCLLocation)
 
-        await MainActor.run {
-          guard initialSelectedPlace == self.mapView.selectedPlace else {
-            print("ignoring longpressed place since user has since selected another place.")
-            return
+          await MainActor.run {
+            guard initialSelectedPlace == self.mapView.selectedPlace else {
+              print("ignoring longpressed place since user has since selected another place.")
+              return
+            }
+            self.mapView.selectedPlace = place
           }
-          self.mapView.selectedPlace = place
+        } catch {
+          logger.error("error fetching longpressed place: \(error)")
         }
       }
     }
