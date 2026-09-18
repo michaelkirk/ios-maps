@@ -22,7 +22,7 @@
 		4545AA742BA3B0B700958306 /* bicycle_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA722BA3B0B700958306 /* bicycle_plan.json */; };
 		4545AA752BA3B0B700958306 /* car_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA732BA3B0B700958306 /* car_plan.json */; };
 		4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA762BA3B88D00958306 /* ManeuverList.swift */; };
-		45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */; };
+		45462D402BC0BB4F00FDE302 /* TransitVehicleMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D3F2BC0BB4F00FDE302 /* TransitVehicleMode.swift */; };
 		45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */; };
 		45520EED2E8C937A0001779A /* OfflineMapsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45520EEB2E8C937A0001779A /* OfflineMapsView.swift */; };
 		45520EEE2E8C937A0001779A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45520EEC2E8C937A0001779A /* SettingsView.swift */; };
@@ -127,7 +127,7 @@
 		4545AA722BA3B0B700958306 /* bicycle_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan.json; sourceTree = "<group>"; };
 		4545AA732BA3B0B700958306 /* car_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_plan.json; sourceTree = "<group>"; };
 		4545AA762BA3B88D00958306 /* ManeuverList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManeuverList.swift; sourceTree = "<group>"; };
-		45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTripPlanner.swift; sourceTree = "<group>"; };
+		45462D3F2BC0BB4F00FDE302 /* TransitVehicleMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitVehicleMode.swift; sourceTree = "<group>"; };
 		45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanListItemDetails.swift; sourceTree = "<group>"; };
 		45520EEB2E8C937A0001779A /* OfflineMapsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapsView.swift; sourceTree = "<group>"; };
 		45520EEC2E8C937A0001779A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -380,6 +380,7 @@
 		45971AC72B71A7810050BECE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				45462D3F2BC0BB4F00FDE302 /* TransitVehicleMode.swift */,
 				4545AA672BA373B500958306 /* Env.swift */,
 				45971ABE2B719C620050BECE /* LngLat.swift */,
 				4545AA6D2BA3934000958306 /* Maneuver.swift */,
@@ -401,7 +402,6 @@
 				45971AC22B719DD90050BECE /* GeocodeClient.swift */,
 				45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */,
 				4545AA6F2BA39C4F00958306 /* Valhalla.swift */,
-				45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -637,7 +637,7 @@
 				456A19E12C825C9900E7E7EA /* MENavigationView.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
-				45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */,
+				45462D402BC0BB4F00FDE302 /* TransitVehicleMode.swift in Sources */,
 				4545AA702BA39C4F00958306 /* Valhalla.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
 				45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */,

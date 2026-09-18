@@ -78,31 +78,41 @@ struct FixtureData {
     from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.transitTrips))
 
   static func loadTrips(filename: String) -> [Trip] {
-    let response: TripPlanResponse = load(filename)
-    let trips = response.plan.itineraries.map { itinerary in
+    let response: TripPlanResponse = loadTravelmux(filename)
+    let trips = response.itineraries.map { itinerary in
       Trip(itinerary: itinerary, from: self.places[.realfine], to: self.places[.zeitgeist])
     }
     return trips
   }
 
   static func loadTripError(filename: String) -> TripPlanError {
-    let errorResponse: TripPlanErrorResponse = load(filename)
+    let errorResponse: TripPlanErrorResponse = loadTravelmux(filename)
     return errorResponse.error
   }
 }
 
-func load<T: Decodable>(_ filename: String) -> T {
-  let data: Data
-
+func loadData(_ filename: String) -> Data {
   guard let file = Bundle.main.url(forResource: filename, withExtension: nil) else {
     fatalError("Couldn't find \(filename) in main bundle.")
   }
 
   do {
-    data = try Data(contentsOf: file)
+    return try Data(contentsOf: file)
   } catch {
     fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
   }
+}
+
+func loadTravelmux<T: Decodable>(_ filename: String) -> T {
+  do {
+    return try JSONDecoder.travelmux.decode(T.self, from: loadData(filename))
+  } catch {
+    fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+  }
+}
+
+func load<T: Decodable>(_ filename: String) -> T {
+  let data = loadData(filename)
 
   do {
     let decoder = JSONDecoder()
