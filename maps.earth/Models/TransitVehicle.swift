@@ -13,17 +13,17 @@ struct TransitVehicle: Decodable, Identifiable {
   /// Stable for as long as the vehicle keeps reporting on this pattern, so it can key a marker.
   let id: String
   let patternCode: String
-  let route: TransitRoute?
+  let route: TransitRoute
   let vehicleMode: TransitVehicleMode?
   let headsign: String?
   /// `FeedId:VehicleId` - internal, and not always the number on the vehicle. Prefer `label`.
   let vehicleId: String?
   /// What the vehicle shows the public, e.g. a bus fleet number.
   let label: String?
-  let lat: Float64
-  let lon: Float64
+  /// Where the vehicle last reported being.
+  let position: LonLatPair
   /// When the vehicle reported this position, and when its track begins.
-  let lastUpdated: Date?
+  let lastUpdated: Date
   /// Absent when travelmux has nothing to predict from - then the vehicle just sits where it is.
   let track: VehicleTrack?
 }
@@ -33,6 +33,7 @@ struct TransitVehicle: Decodable, Identifiable {
 /// guess.
 struct VehicleTrack {
   let stepSeconds: Float64
+  /// At least two, so walking the track is always between a pair of them.
   let points: [LngLat]
 }
 
@@ -45,17 +46,21 @@ extension VehicleTrack: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.stepSeconds = try container.decode(Float64.self, forKey: .stepSeconds)
-    // note the spelling: travelmux reports [lat, lon] pairs, maplibre wants them the other way
-    self.points = try container.decode([[Float64]].self, forKey: .points).map {
-      LngLat(lng: $0[1], lat: $0[0])
+    let points = try container.decode([LonLatPair].self, forKey: .points).map(\.lngLat)
+    // travelmux only sends a track it can walk, and refusing a shorter one here is what lets
+    // everything below index into it.
+    guard points.count >= 2 else {
+      throw DecodingError.dataCorruptedError(
+        forKey: .points, in: container, debugDescription: "a track needs at least two points")
     }
+    self.points = points
   }
 }
 
 extension TransitVehicle {
   /// Where the vehicle last actually reported being.
   var reportedLocation: LngLat {
-    LngLat(lng: lon, lat: lat)
+    position.lngLat
   }
 
   /// Where we reckon the vehicle is at `date`, walking the predicted track.
@@ -63,15 +68,13 @@ extension TransitVehicle {
   /// Before the track begins, or with no track at all, that's just the reported position. Past its
   /// end we hold at the last point rather than running off the end of the prediction.
   func location(at date: Date) -> LngLat {
-    guard let track, let reportedAt = lastUpdated, let first = track.points.first,
-      track.stepSeconds > 0
-    else {
+    guard let track else {
       return reportedLocation
     }
 
-    let elapsed = date.timeIntervalSince(reportedAt) / track.stepSeconds
+    let elapsed = date.timeIntervalSince(lastUpdated) / track.stepSeconds
     guard elapsed > 0 else {
-      return first
+      return track.points[0]
     }
 
     let lastIdx = track.points.count - 1
@@ -90,14 +93,11 @@ extension TransitVehicle {
 
   /// Whether the dot has moved past the last thing the vehicle actually told us.
   func isEstimated(at date: Date) -> Bool {
-    guard track != nil, let reportedAt = lastUpdated else {
-      return false
-    }
-    return date > reportedAt
+    track != nil && date > lastUpdated
   }
 
   var routeName: String {
-    route?.shortName ?? route?.longName ?? ""
+    route.shortName ?? route.longName ?? ""
   }
 
   /// A vehicle whose feed names no mode is still some kind of transit.
@@ -108,7 +108,7 @@ extension TransitVehicle {
   /// Only the short name is badged: a long one ("Downtown - Ballard") doesn't fit beside the chip,
   /// so a route without one goes unbadged.
   var badge: String? {
-    route?.shortName
+    route.shortName
   }
 
   /// The number painted on the vehicle, if it has one.
@@ -120,7 +120,7 @@ extension TransitVehicle {
   }
 
   var color: Color {
-    route?.color.flatMap { Color(hexString: $0) } ?? Color.hw_activeRoute
+    route.color.flatMap { Color(hexString: $0) } ?? Color.hw_activeRoute
   }
 
   /// How much of this dot is reported and how much is guesswork, phrased for the traveler.
@@ -128,9 +128,6 @@ extension TransitVehicle {
   /// Once the dot has left the reported position it says so: the position on screen is one nobody
   /// reported, and the honest thing is to name the last moment we actually knew.
   func freshnessFormatted(at date: Date = .now) -> String {
-    guard let lastUpdated else {
-      return "Live location"
-    }
     let age = max(0, date.timeIntervalSince(lastUpdated))
     let formatter = DateComponentsFormatter()
     formatter.unitsStyle = .abbreviated

@@ -30,8 +30,7 @@ final class TransitVehicleTest: XCTestCase {
       headsign: "Shoreline Greenwood",
       vehicleId: "f-c23-metrokingcounty:8293",
       label: "8293",
-      lat: 47.5,
-      lon: -122.5,
+      position: LonLatPair(LngLat(lng: -122.5, lat: 47.5)),
       lastUpdated: reportedAt,
       track: withTrack ? track : nil)
   }
@@ -70,18 +69,6 @@ final class TransitVehicleTest: XCTestCase {
     XCTAssertEqual(location.lng, -122.5, accuracy: 10e-6)
   }
 
-  /// A track begins at `lastUpdated`, so without one there's nothing to walk it from.
-  func testLocationWithUnanchoredTrack() {
-    let vehicle = TransitVehicle(
-      id: "vehicle-1", patternCode: "pattern-1", route: nil, vehicleMode: .ferry, headsign: nil,
-      vehicleId: nil, label: nil, lat: 47.5, lon: -122.5, lastUpdated: nil,
-      track: VehicleTrack(stepSeconds: 10, points: [LngLat(lng: -122.0, lat: 47.0)]))
-
-    let location = vehicle.location(at: reportedAt)
-    XCTAssertEqual(location.lat, 47.5, accuracy: 10e-6)
-    XCTAssertFalse(vehicle.isEstimated(at: reportedAt))
-  }
-
   func testIsEstimated() {
     let tracked = self.vehicle(withTrack: true)
     XCTAssertFalse(tracked.isEstimated(at: reportedAt.addingTimeInterval(-1)))
@@ -117,12 +104,11 @@ final class TransitVehicleTest: XCTestCase {
             "headsign": "Shoreline Greenwood",
             "vehicleId": "f-c23-metrokingcounty:8293",
             "label": "8293",
-            "lat": 47.5998993,
-            "lon": -122.3290329,
+            "position": [-122.3290329, 47.5998993],
             "lastUpdated": "2026-09-17T18:55:42-07:00",
             "track": {
               "stepSeconds": 5,
-              "points": [[47.599904, -122.329054], [47.600083, -122.328981]]
+              "points": [[-122.329054, 47.599904], [-122.328981, 47.600083]]
             }
           }
         ],
@@ -145,6 +131,20 @@ final class TransitVehicleTest: XCTestCase {
     XCTAssertNil(response.unknownPatterns)
     XCTAssertEqual(track.points[0].lat, 47.599904, accuracy: 10e-7)
     XCTAssertEqual(track.points[0].lng, -122.329054, accuracy: 10e-7)
+    XCTAssertEqual(vehicle.reportedLocation.lat, 47.5998993, accuracy: 10e-7)
+    XCTAssertEqual(vehicle.reportedLocation.lng, -122.3290329, accuracy: 10e-7)
+  }
+
+  /// travelmux only sends a track it can walk, so a shorter one is a contract it broke.
+  func testDecodingRefusesATrackTooShortToWalk() {
+    let json = """
+      {
+        "stepSeconds": 5,
+        "points": [[-122.329054, 47.599904]]
+      }
+      """
+    XCTAssertThrowsError(
+      try JSONDecoder.travelmux.decode(VehicleTrack.self, from: Data(json.utf8)))
   }
 
   func testDecodingUnknownPatterns() throws {
