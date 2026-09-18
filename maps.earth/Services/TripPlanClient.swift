@@ -11,11 +11,36 @@ import Foundation
 import MapLibre
 import MapboxDirections
 
-typealias TransitLeg = OTPTransitLeg
+/// A transit ride, as travelmux describes it.
+struct TransitLeg: Decodable {
+  /// What kind of vehicle this ride is on. The leg's own `mode` is always `.transit`.
+  var vehicleMode: TransitVehicleMode?
+  var route: TransitRoute?
+  var agencyName: String?
+  var headsign: String?
+
+  /// Whether the leg's times reflect real-time data, rather than just the schedule.
+  var realTime: Bool
+
+  /// What `/vehicle_positions` keys vehicles by. Only good for the life of the plan it came in:
+  /// OTP renumbers patterns whenever the transit data is rebuilt.
+  var patternCode: String?
+}
+
+struct TransitRoute: Decodable {
+  var shortName: String?
+  var longName: String?
+  /// An RRGGBB hex color, without a leading "#"
+  var color: String?
+}
 
 extension TransitLeg {
+  var routeSummaryName: String {
+    route?.shortName ?? route?.longName ?? ""
+  }
+
   var emojiRouteLabel: String {
-    "\(mode.emoji) \(routeSummaryName)"
+    "\(vehicleMode?.emoji ?? TransitVehicleMode.transit.emoji) \(routeSummaryName)"
   }
 }
 
@@ -85,10 +110,8 @@ extension ItineraryLeg: Decodable {
     let fromPlace = try container.decode(TripPlace.self, forKey: .fromPlace)
     let toPlace = try container.decode(TripPlace.self, forKey: .toPlace)
 
-    let startTimeMillis = try container.decode(UInt64.self, forKey: .startTime)
-    let startTime = Date(millisSince1970: startTimeMillis)
-    let endTimeMillis = try container.decode(UInt64.self, forKey: .endTime)
-    let endTime = Date(millisSince1970: endTimeMillis)
+    let startTime = try container.decode(Date.self, forKey: .startTime)
+    let endTime = try container.decode(Date.self, forKey: .endTime)
 
     let modeLeg: ModeLeg
     if let nonTransitLeg = try container.decodeIfPresent(NonTransitLeg.self, forKey: .nonTransitLeg)
@@ -141,17 +164,12 @@ enum DistanceUnit: String, Decodable, Encodable {
 
 struct Itinerary: Decodable {
   var mode: TravelMode
-  var duration: Float64
-  var startTime: UInt64
-  var endTime: UInt64
-  var distance: Float64
-  var distanceUnits: DistanceUnit
+  var durationSeconds: Float64
+  var startTime: Date
+  var endTime: Date
+  var distanceMeters: Float64
   var bounds: Bounds
   var legs: [ItineraryLeg]
-}
-
-struct TravelmuxPlan: Decodable {
-  var itineraries: [Itinerary]
 }
 
 //  "bounds": {
@@ -262,9 +280,6 @@ struct Maneuver: Decodable {
   //  var verbal_succinct_transition_instruction: String
 }
 
-struct ValhallaPlan: Decodable {
-}
-
 struct TripPlanErrorResponse: Decodable, Error {
   var error: TripPlanError
 }
@@ -308,23 +323,7 @@ extension TripPlanError: LocalizedError {
 }
 
 struct TripPlanResponse: Decodable {
-  var plan: TravelmuxPlan
-  var otp: OTPPlan?
-  var valhalla: ValhallaPlan?
-
-  private enum CodingKeys: String, CodingKey {
-    case plan
-    case _otp
-    case _valhalla
-  }
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.plan = try container.decode(TravelmuxPlan.self, forKey: .plan)
-
-    self.otp = try container.decodeIfPresent(OTPPlan.self, forKey: ._otp)
-    self.valhalla = try container.decodeIfPresent(ValhallaPlan.self, forKey: ._valhalla)
-  }
+  var itineraries: [Itinerary]
 }
 
 enum TravelMode: String, Codable, Equatable {
@@ -335,14 +334,10 @@ enum TravelMode: String, Codable, Equatable {
 
   var emoji: String {
     switch self {
-    case .walk:
-      OTPTravelMode.walk.emoji
-    case .bike:
-      OTPTravelMode.bicycle.emoji
-    case .car:
-      OTPTravelMode.car.emoji
-    case .transit:
-      OTPTravelMode.transit.emoji
+    case .walk: "🚶‍♀️"
+    case .bike: "🚲"
+    case .car: "🚙"
+    case .transit: TransitVehicleMode.transit.emoji
     }
   }
 }
@@ -465,7 +460,7 @@ struct TripPlanNetworkClient: TripPlanClient {
 
     let result: Result<[Trip], TripPlanErrorResponse> = try await fetchData(from: url).map {
       (response: TripPlanResponse) in
-      response.plan.itineraries.map { itinerary in
+      response.itineraries.map { itinerary in
         Trip(itinerary: itinerary, from: from, to: to)
       }
     }
@@ -483,11 +478,11 @@ struct TripPlanNetworkClient: TripPlanClient {
     let (data, response) = try await URLSession.shared.data(from: url)
 
     guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-      let decodedResponse = try JSONDecoder().decode(E.self, from: data)
+      let decodedResponse = try JSONDecoder.travelmux.decode(E.self, from: data)
       return .failure(decodedResponse)
     }
 
-    let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+    let decodedResponse = try JSONDecoder.travelmux.decode(T.self, from: data)
     return .success(decodedResponse)
   }
 }

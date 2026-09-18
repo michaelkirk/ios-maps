@@ -21,7 +21,7 @@ struct AppConfig {
   }
 
   var travelmuxEndpoint: URL {
-    self.onlineServerBase.appending(path: "travelmux/v6")
+    self.onlineServerBase.appending(path: "travelmux/v7")
   }
 
   var valhallaEndpoint: URL {

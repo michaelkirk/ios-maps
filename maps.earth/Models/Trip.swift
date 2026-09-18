@@ -27,9 +27,16 @@ struct TripLeg {
     Duration.seconds(endTime.timeIntervalSince(startTime))
   }
 
+  var transitLeg: TransitLeg? {
+    guard case .transit(let transitLeg) = self.modeLeg else {
+      return nil
+    }
+    return transitLeg
+  }
+
   var activeLineColor: Color {
     if case .transit(let transitLeg) = self.modeLeg,
-      let routeColor = transitLeg.routeColor,
+      let routeColor = transitLeg.route?.color,
       let color = Color(hexString: routeColor)
     {
       color
@@ -90,15 +97,15 @@ struct Trip: Identifiable {
 
   var legs: [TripLeg]
   var duration: Float64 {
-    self.raw.duration
+    self.raw.durationSeconds
   }
 
   var startTime: Date {
-    Date(timeIntervalSince1970: Double(self.raw.startTime) / 1000)
+    self.raw.startTime
   }
 
   var endTime: Date {
-    Date(timeIntervalSince1970: Double(self.raw.endTime) / 1000)
+    self.raw.endTime
   }
 
   var timeSpanFormatted: String {
@@ -108,13 +115,8 @@ struct Trip: Identifiable {
     return "\(startTime.formatted(timeStyle)) - \(endTime.formatted(timeStyle))"
   }
 
-  var distance: Float64 {
-    self.raw.distance
-  }
-
-  // the native unit of the stored `distance`
-  var distanceUnit: DistanceUnit {
-    self.raw.distanceUnits
+  var distanceMeters: Float64 {
+    self.raw.distanceMeters
   }
 
   var durationFormatted: String {
@@ -135,7 +137,7 @@ struct Trip: Identifiable {
 
     let outputUnit =
       self.formatLocale.measurementSystem == .metric ? UnitLength.kilometers : UnitLength.miles
-    let measurement = Measurement(value: distance, unit: distanceUnit.toUnit()).converted(
+    let measurement = Measurement(value: distanceMeters, unit: UnitLength.meters).converted(
       to: outputUnit)
 
     return formatter.string(from: measurement)
@@ -161,13 +163,9 @@ struct Trip: Identifiable {
     self.legs[1...].map { $0.fromPlace }
   }
 
-  var firstTransitLeg: TransitLeg? {
-    for leg in self.legs {
-      if case .transit(let transitLeg) = leg.modeLeg {
-        return transitLeg
-      }
-    }
-    return nil
+  /// The first leg the traveler rides rather than walks, if this trip has one.
+  var firstTransitLeg: TripLeg? {
+    self.legs.first { $0.transitLeg != nil }
   }
 
   init(itinerary: Itinerary, from: Place, to: Place) {

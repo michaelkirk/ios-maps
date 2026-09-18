@@ -38,8 +38,7 @@ final class TripTest: XCTestCase {
 
   func testDistance() {
     let trip = FixtureData.bikeTrips[0]
-    XCTAssertEqual(trip.distance, 4.328, accuracy: 10e-3)
-    XCTAssertEqual(trip.distanceUnit, .miles)
+    XCTAssertEqual(trip.distanceMeters, 6965.917, accuracy: 10e-3)
   }
 
   func testDistanceFormatting() {
@@ -60,8 +59,7 @@ final class TripTest: XCTestCase {
   func testWalkManeuvers() {
     let trip = FixtureData.walkTrips[0]
     XCTAssertEqual(trip.duration, 5646.0, accuracy: 10e-3)
-    XCTAssertEqual(trip.distance, 4.289, accuracy: 10e-3)
-    XCTAssertEqual(trip.distanceUnit, .miles)
+    XCTAssertEqual(trip.distanceMeters, 6903.377, accuracy: 10e-3)
 
     XCTAssertEqual(trip.legs.count, 1)
     let leg = trip.legs[0]
@@ -81,6 +79,15 @@ final class TripTest: XCTestCase {
     XCTAssertEqual(lastManeuver.type, .destination)
     XCTAssertEqual(lastManeuver.instruction, "Arrive at your destination.")
     XCTAssertEqual(lastManeuver.verbalPostTransitionInstruction, nil)
+  }
+
+  func testTransitLegs() {
+    let trip = FixtureData.transitTrips[0]
+    let leg = try! XCTUnwrap(trip.firstTransitLeg)
+    let transitLeg = try! XCTUnwrap(leg.transitLeg)
+
+    XCTAssertEqual(transitLeg.vehicleMode, .bus)
+    XCTAssertEqual(transitLeg.routeSummaryName, "C Line")
   }
 
   func testErrorResponse() {
