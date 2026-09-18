@@ -168,6 +168,11 @@ struct Trip: Identifiable {
     self.legs.first { $0.transitLeg != nil }
   }
 
+  /// The transit patterns this trip rides, which is what vehicle positions are keyed by.
+  var patternCodes: [String] {
+    self.legs.compactMap { $0.transitLeg?.patternCode }
+  }
+
   init(itinerary: Itinerary, from: Place, to: Place) {
     self.id = UUID()
     self.raw = itinerary

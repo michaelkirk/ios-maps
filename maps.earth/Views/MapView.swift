@@ -374,6 +374,7 @@ extension MapViewWrapper: UIViewRepresentable {
       mapContents = .empty
     }
     context.coordinator.reconcile(newContents: mapContents, mapView: mapView)
+    context.coordinator.reconcileVehicles(mapView: mapView, tripPlan: self.tripPlan)
 
     switch userLocationManager.state {
     case .initial:
@@ -421,6 +422,7 @@ extension MapViewWrapper: UIViewRepresentable {
     weak var mlnMapView: MLNMapView?
 
     var mapContents: MapContents = .empty
+    let vehicleOverlay = VehicleOverlay()
     var selectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
@@ -463,6 +465,21 @@ extension MapViewWrapper: UIViewRepresentable {
         add.add(to: mapView)
       }
       self.mapContents = newContents
+    }
+
+    /// Show the live vehicles serving the transit trips on screen, if any.
+    @MainActor
+    func reconcileVehicles(mapView: MLNMapView, tripPlan: TripPlan) {
+      guard case .success(let trips) = tripPlan.trips,
+        let from = tripPlan.navigateFrom,
+        let to = tripPlan.navigateTo
+      else {
+        self.vehicleOverlay.stop()
+        return
+      }
+      self.vehicleOverlay.update(
+        mapView: mapView, from: from.location, to: to.location, trips: trips,
+        selectedTrip: tripPlan.selectedTrip)
     }
 
     @MainActor
@@ -662,9 +679,23 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     )
   }
 
+  func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
+    guard let vehicleAnnotation = annotation as? TransitVehicleAnnotation else {
+      return false
+    }
+    // How stale the position is keeps changing, so it's phrased as the callout is about to show.
+    vehicleAnnotation.updateCallout()
+    return true
+  }
+
   func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation)
     -> MLNAnnotationView?
   {
+    if let vehicleAnnotation = annotation as? TransitVehicleAnnotation {
+      return TransitVehicleMarkerView(
+        vehicle: vehicleAnnotation.vehicle, isFaded: vehicleAnnotation.isFaded)
+    }
+
     guard let pointAnnotation = annotation as? MLNPointAnnotation,
       let marker = PlaceMarker.markerLookup[pointAnnotation]
     else {
