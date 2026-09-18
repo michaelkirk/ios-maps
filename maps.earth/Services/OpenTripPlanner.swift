@@ -48,9 +48,6 @@ enum OTPTravelMode: String, Decodable {
       return "🚙"
     case .ferry:
       return "⛴️"
-    default:
-      print("error: no emoji for mode: \(self)")
-      return ""
     }
   }
 }

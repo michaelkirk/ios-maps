@@ -51,9 +51,7 @@ class Preferences: ObservableObject {
         sizeInBytes: 87_500_000  // ~87.5 MB
       ),
     ]
-    Task {
-      try storage.write(preferences: record)
-    }
+    try! storage.write(preferences: record)
     let controller = PreferencesController(fromStorage: storage)
     return Preferences(controller: controller, record: record)
   }

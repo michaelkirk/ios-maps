@@ -7,7 +7,7 @@ struct SettingsView: View {
   var initiallyShowOfflineMaps: Bool = false
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       List {
         Section {
           NavigationLink(destination: AboutView()) {
@@ -36,7 +36,7 @@ struct SettingsView: View {
                   await preferences.setOfflineMapFeatureEnabled(newValue)
                   // If enabling the feature, download the overview map
                   if newValue {
-                    await OfflineRegionManager.downloadOverviewMap()
+                    _ = await OfflineRegionManager.downloadOverviewMap()
                   }
                   // If disabling the feature, also disable offline mode
                   if !newValue && preferences.offlineMode {
@@ -77,14 +77,14 @@ struct SettingsView: View {
           }
 
           Section {
-            NavigationLink(
-              destination: OfflineMapsView(),
-              isActive: $navigateToOfflineMaps
-            ) {
+            NavigationLink(destination: OfflineMapsView()) {
               Label("Offline Maps", systemImage: "arrow.down.circle")
             }
           }
         }
+      }
+      .navigationDestination(isPresented: $navigateToOfflineMaps) {
+        OfflineMapsView()
       }
       .navigationTitle("Settings")
       .navigationBarTitleDisplayMode(.inline)
