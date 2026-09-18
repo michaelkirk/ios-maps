@@ -100,6 +100,17 @@ extension TransitVehicle {
     route?.shortName ?? route?.longName ?? ""
   }
 
+  /// A vehicle whose feed names no mode is still some kind of transit.
+  var emoji: String {
+    (vehicleMode ?? .transit).emoji
+  }
+
+  /// Only the short name is badged: a long one ("Downtown - Ballard") doesn't fit beside the chip,
+  /// so a route without one goes unbadged.
+  var badge: String? {
+    route?.shortName
+  }
+
   /// The number painted on the vehicle, if it has one.
   ///
   /// Buses publish one; trains and ferries usually don't, in which case we show nothing rather

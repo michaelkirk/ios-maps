@@ -47,9 +47,13 @@ class TransferMarkerView: UIView {
   }
 }
 
-/// A live transit vehicle: the route's own color, with an SF Symbol for the kind of vehicle.
+/// A live transit vehicle: the emoji for its kind on a white chip ringed in the route's color,
+/// badged with the route it runs.
 class TransitVehicleMarkerView: MLNAnnotationView {
-  private static let size: CGFloat = 28
+  private static let chipSize: CGFloat = 22
+  private static let badgeHeight: CGFloat = 13
+  /// Where the badge hangs off the chip, relative to the chip's own origin.
+  private static let badgeOrigin = CGPoint(x: 14, y: 13)
 
   var isFaded: Bool {
     didSet {
@@ -60,25 +64,86 @@ class TransitVehicleMarkerView: MLNAnnotationView {
   init(vehicle: TransitVehicle, isFaded: Bool) {
     self.isFaded = isFaded
     super.init(reuseIdentifier: nil)
-
-    self.frame = CGRect(x: 0, y: 0, width: Self.size, height: Self.size)
     self.alpha = isFaded ? 0.35 : 1
-    self.backgroundColor = vehicle.color.uiColor
-    self.layer.cornerRadius = Self.size / 2
-    self.layer.borderColor = UIColor.white.cgColor
-    self.layer.borderWidth = 2
-    self.layer.shadowRadius = 2
-    self.layer.shadowOpacity = 0.7
-    self.layer.shadowOffset = .zero
 
-    let symbolName = (vehicle.vehicleMode ?? .transit).systemImageName
-    let configuration = UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
-    let glyph = UIImageView(
-      image: UIImage(systemName: symbolName, withConfiguration: configuration))
-    glyph.tintColor = .white
-    glyph.contentMode = .scaleAspectFit
-    glyph.frame = self.bounds.insetBy(dx: 6, dy: 6)
-    self.addSubview(glyph)
+    let chip = Self.chipView(vehicle: vehicle)
+    let badge = vehicle.badge.map { Self.badgeView($0, color: vehicle.color.uiColor) }
+
+    // MapLibre puts the view's center on the coordinate, and it's the chip - not the badge hanging
+    // off it - that marks where the vehicle is. So the view is padded to keep the chip concentric
+    // with it, which is what lets `centerOffset` stay zero.
+    let radius: CGFloat = Self.chipSize / 2
+    let badgeCorner: CGPoint =
+      badge.map {
+        CGPoint(x: Self.badgeOrigin.x + $0.frame.width, y: Self.badgeOrigin.y + $0.frame.height)
+      } ?? .zero
+    let halfWidth: CGFloat = max(radius, badgeCorner.x - radius)
+    let halfHeight: CGFloat = max(radius, badgeCorner.y - radius)
+    self.frame = CGRect(x: 0, y: 0, width: halfWidth * 2, height: halfHeight * 2)
+
+    chip.frame.origin = CGPoint(x: halfWidth - radius, y: halfHeight - radius)
+    self.addSubview(chip)
+
+    if let badge {
+      badge.frame.origin = CGPoint(
+        x: chip.frame.minX + Self.badgeOrigin.x, y: chip.frame.minY + Self.badgeOrigin.y)
+      self.addSubview(badge)
+    }
+  }
+
+  /// White so the emoji stays legible over any basemap, ringed in the route's color.
+  private static func chipView(vehicle: TransitVehicle) -> UIView {
+    let chip = roundedView(
+      frame: CGRect(x: 0, y: 0, width: chipSize, height: chipSize),
+      borderColor: vehicle.color.uiColor, borderWidth: 2, shadowRadius: 2, shadowOpacity: 0.4)
+
+    let emoji = UILabel(frame: chip.bounds)
+    emoji.text = vehicle.emoji
+    emoji.font = .systemFont(ofSize: 12)
+    emoji.textAlignment = .center
+    chip.addSubview(emoji)
+
+    return chip
+  }
+
+  /// White with a colored border rather than colored with white text: GTFS route colors run light
+  /// (King County Metro's is yellow), so white-on-color can't be relied on to stay readable.
+  private static func badgeView(_ text: String, color: UIColor) -> UIView {
+    let label = UILabel()
+    label.text = text
+    label.font = .systemFont(ofSize: 9, weight: .bold)
+    label.textAlignment = .center
+    label.textColor = UIColor(white: 0.07, alpha: 1)
+
+    let frame = CGRect(
+      x: 0, y: 0, width: ceil(label.intrinsicContentSize.width) + 8, height: badgeHeight)
+    let badge = roundedView(
+      frame: frame, borderColor: color, borderWidth: 1, shadowRadius: 1.5, shadowOpacity: 0.35)
+
+    label.frame = badge.bounds
+    badge.addSubview(label)
+
+    return badge
+  }
+
+  /// A white pill carrying its own shadow.
+  ///
+  /// The fill lives on a bare view rather than on the label itself: a label paints its background
+  /// into its contents, which `cornerRadius` alone doesn't clip, and clipping the label's layer
+  /// would take the shadow with it.
+  private static func roundedView(
+    frame: CGRect, borderColor: UIColor, borderWidth: CGFloat, shadowRadius: CGFloat,
+    shadowOpacity: Float
+  ) -> UIView {
+    let view = UIView(frame: frame)
+    view.backgroundColor = .white
+    view.layer.cornerRadius = frame.height / 2
+    view.layer.borderColor = borderColor.cgColor
+    view.layer.borderWidth = borderWidth
+    view.layer.shadowRadius = shadowRadius
+    view.layer.shadowOpacity = shadowOpacity
+    view.layer.shadowOffset = .zero
+    return view
   }
 
   required init?(coder: NSCoder) {

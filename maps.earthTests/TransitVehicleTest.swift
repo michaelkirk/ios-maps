@@ -164,6 +164,6 @@ final class TransitVehicleTest: XCTestCase {
     let mode = try JSONDecoder.travelmux.decode(
       TransitVehicleMode.self, from: Data("\"AIRPLANE\"".utf8))
     XCTAssertEqual(mode, .other("AIRPLANE"))
-    XCTAssertEqual(mode.systemImageName, "bus")
+    XCTAssertEqual(mode.emoji, "🚍")
   }
 }

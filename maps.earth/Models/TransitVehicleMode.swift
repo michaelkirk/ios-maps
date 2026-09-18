@@ -61,14 +61,4 @@ extension TransitVehicleMode {
     case .ferry: "⛴️"
     }
   }
-
-  var systemImageName: String {
-    switch self {
-    case .bus, .coach, .trolleybus, .transit, .other: "bus"
-    case .tram, .monorail: "tram"
-    case .subway, .rail: "train.side.front.car"
-    case .ferry: "ferry"
-    case .cableCar, .gondola, .funicular: "cablecar"
-    }
-  }
 }
