@@ -33,13 +33,12 @@ struct VehiclePositionsResponse: Decodable {
 }
 
 struct VehiclePositionsClient {
-  /// Where the vehicles near each requested pattern's boarding stop are right now.
-  ///
-  /// `from`/`to` are the endpoints of the plan the patterns came from: a pattern code only means
-  /// something to the transit graph that issued it, and these pick the same one.
-  func query(from: LngLat, to: LngLat, patterns: [PatternRequest]) async throws
-    -> VehiclePositionsResponse
-  {
+  /// Separated from the fetching so the assembled query can be tested without a server. The
+  /// server splits `patterns` on `;` and each entry's point on `,`, so those separators are
+  /// part of the contract rather than incidental formatting.
+  internal static func url(
+    endpoint: URL, from: LngLat, to: LngLat, patterns: [PatternRequest]
+  ) -> URL {
     let queryItems = [
       URLQueryItem(name: "fromPlace", value: "\(from.lat),\(from.lng)"),
       URLQueryItem(name: "toPlace", value: "\(to.lat),\(to.lng)"),
@@ -47,8 +46,18 @@ struct VehiclePositionsClient {
         name: "patterns",
         value: patterns.map { $0.asQueryValue }.joined(separator: ";")),
     ]
-    let url = AppConfig().travelmuxEndpoint.appending(path: "vehicle_positions").appending(
-      queryItems: queryItems)
+    return endpoint.appending(path: "vehicle_positions").appending(queryItems: queryItems)
+  }
+
+  /// Where the vehicles near each requested pattern's boarding stop are right now.
+  ///
+  /// `from`/`to` are the endpoints of the plan the patterns came from: a pattern code only means
+  /// something to the transit graph that issued it, and these pick the same one.
+  func query(from: LngLat, to: LngLat, patterns: [PatternRequest]) async throws
+    -> VehiclePositionsResponse
+  {
+    let url = Self.url(
+      endpoint: AppConfig().travelmuxEndpoint, from: from, to: to, patterns: patterns)
 
     let (data, response) = try await URLSession.shared.data(from: url)
     guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
