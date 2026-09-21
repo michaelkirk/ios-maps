@@ -73,19 +73,15 @@ struct ItineraryLeg {
 
 extension TripPlace: Decodable {
   private enum CodingKeys: String, CodingKey {
-    case lon
-    case lat
+    case location
     case name
   }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let name = try container.decodeIfPresent(String.self, forKey: .name)
-    let lon = try container.decode(Float64.self, forKey: .lon)
-    let lat = try container.decode(Float64.self, forKey: .lat)
-    // note spellings is different... this is a difference between the valhalla and OTP APIs vs. Maplibre
-    let lngLat = LngLat(lng: lon, lat: lat)
-    self.init(location: lngLat, name: name)
+    let location = try container.decode(LonLatPair.self, forKey: .location)
+    self.init(location: location.lngLat, name: name)
   }
 }
 
@@ -406,8 +402,8 @@ struct TripPlanNetworkClient: TripPlanClient {
         }
 
       var queryItems = [
-        URLQueryItem(name: "fromPlace", value: "\(from.lat),\(from.lng)"),
-        URLQueryItem(name: "toPlace", value: "\(to.lat),\(to.lng)"),
+        URLQueryItem(name: "fromPlace", value: "\(from.lng),\(from.lat)"),
+        URLQueryItem(name: "toPlace", value: "\(to.lng),\(to.lat)"),
         URLQueryItem(name: "numItineraries", value: "5"),
         URLQueryItem(name: "mode", value: modes.map { $0.rawValue }.joined(separator: ",")),
         URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
@@ -452,7 +448,7 @@ struct TripPlanNetworkClient: TripPlanClient {
       from: from.location, to: to.location, modes: modes, measurementSystem: measurementSystem,
       tripDate: tripDate)
 
-    // URL: https://maps.earth/travelmux/v2/plan?fromPlace=47.575837%2C-122.339414&toPlace=47.622687%2C-122.312892&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
+    // URL: https://maps.earth/travelmux/v8/plan?fromPlace=-122.339414%2C47.575837&toPlace=-122.312892%2C47.622687&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
     let url = AppConfig().travelmuxEndpoint.appending(path: "plan").appending(
       queryItems: params.asQueryItems)
 

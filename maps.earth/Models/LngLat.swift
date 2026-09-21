@@ -46,10 +46,9 @@ extension LngLat: Decodable {
   }
 }
 
-/// A point as travelmux v8 writes it, in requests and responses alike.
+/// A point as travelmux writes it, in requests and responses alike.
 ///
-/// Note the order: v7 wrote points `lat` first in most places, and a swapped pair still decodes
-/// - as somewhere in the Indian Ocean.
+/// Note the order: a swapped pair still decodes, as somewhere in the Indian Ocean.
 struct LonLatPair: Codable, Equatable {
   let lngLat: LngLat
 
