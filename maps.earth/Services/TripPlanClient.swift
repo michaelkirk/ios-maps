@@ -476,14 +476,45 @@ struct TripPlanNetworkClient: TripPlanClient {
 
   internal func fetchData<T: Decodable, E: Decodable>(from url: URL) async throws -> Result<T, E> {
     let (data, response) = try await URLSession.shared.data(from: url)
+    let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+    return try Self.decode(data: data, statusCode: statusCode)
+  }
 
-    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-      let decodedResponse = try JSONDecoder.travelmux.decode(E.self, from: data)
-      return .failure(decodedResponse)
+  /// Read a travelmux response, given the body and the status it arrived with.
+  ///
+  /// Separated from the fetching so it can be tested without a server, and because what to do
+  /// with a body depends only on these two things.
+  internal static func decode<T: Decodable, E: Decodable>(data: Data, statusCode: Int) throws
+    -> Result<T, E>
+  {
+    guard statusCode == 200 else {
+      // travelmux describes its own failures in JSON. Anything else came from something in
+      // front of it - nginx serves an HTML page when it can't reach the service at all - and
+      // decoding that as an error type reports a corrupt payload instead of the outage it is.
+      guard let decoded = try? JSONDecoder.travelmux.decode(E.self, from: data) else {
+        throw TripPlanServerError(statusCode: statusCode, body: data)
+      }
+      return .failure(decoded)
     }
 
-    let decodedResponse = try JSONDecoder.travelmux.decode(T.self, from: data)
-    return .success(decodedResponse)
+    return .success(try JSONDecoder.travelmux.decode(T.self, from: data))
+  }
+}
+
+/// A response that didn't come from travelmux, or didn't come out as travelmux describes its
+/// errors - a gateway timing out, a proxy's error page, an empty body.
+struct TripPlanServerError: Error, CustomStringConvertible {
+  let statusCode: Int
+  let body: Data
+
+  var description: String {
+    let snippet = String(decoding: body.prefix(200), as: UTF8.self)
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !snippet.isEmpty else {
+      return "travelmux returned \(statusCode) with an empty body"
+    }
+    return "travelmux returned \(statusCode), and the body wasn't the JSON error it should be: "
+      + snippet
   }
 }
 
