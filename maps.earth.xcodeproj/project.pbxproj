@@ -12,6 +12,7 @@
 		45AA00052E7A00010000AAAA /* VehiclePositionsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA00062E7A00010000AAAA /* VehiclePositionsClient.swift */; };
 		45AA00072E7A00010000AAAA /* TransitVehicleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA00082E7A00010000AAAA /* TransitVehicleTest.swift */; };
 		45AA00092E7A00010000AAAA /* VehiclePositionsRequestTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA000A2E7A00010000AAAA /* VehiclePositionsRequestTest.swift */; };
+		45AA000B2E7A00010000AAAA /* TripPlanResponseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA000C2E7A00010000AAAA /* TripPlanResponseTest.swift */; };
 		450855232BCF36BF00B7678C /* Bench.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855222BCF36BF00B7678C /* Bench.swift */; };
 		450855312BCF48F800B7678C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855302BCF48F800B7678C /* StorageManager.swift */; };
 		450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */; };
@@ -121,6 +122,7 @@
 		45AA00062E7A00010000AAAA /* VehiclePositionsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclePositionsClient.swift; sourceTree = "<group>"; };
 		45AA00082E7A00010000AAAA /* TransitVehicleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitVehicleTest.swift; sourceTree = "<group>"; };
 		45AA000A2E7A00010000AAAA /* VehiclePositionsRequestTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclePositionsRequestTest.swift; sourceTree = "<group>"; };
+		45AA000C2E7A00010000AAAA /* TripPlanResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanResponseTest.swift; sourceTree = "<group>"; };
 		450855222BCF36BF00B7678C /* Bench.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bench.swift; sourceTree = "<group>"; };
 		450855302BCF48F800B7678C /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesControllerTests.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			children = (
 				45AA00082E7A00010000AAAA /* TransitVehicleTest.swift */,
 				45AA000A2E7A00010000AAAA /* VehiclePositionsRequestTest.swift */,
+				45AA000C2E7A00010000AAAA /* TripPlanResponseTest.swift */,
 				4563BA032B687AA5005A677A /* maps_earthTests.swift */,
 				456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */,
 				450C5F1E2B963B5700394697 /* TripTest.swift */,
@@ -690,6 +693,7 @@
 			files = (
 				45AA00072E7A00010000AAAA /* TransitVehicleTest.swift in Sources */,
 				45AA00092E7A00010000AAAA /* VehiclePositionsRequestTest.swift in Sources */,
+				45AA000B2E7A00010000AAAA /* TripPlanResponseTest.swift in Sources */,
 				4571DB912BD9BE9F00C919D8 /* FormatRelativeDateTests.swift in Sources */,
 				45831E332BC8A4C3007E7AA4 /* MapContentsTest.swift in Sources */,
 				450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */,
