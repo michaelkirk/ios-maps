@@ -21,13 +21,17 @@
           "geometry": "gk`vyAfeklhFgYsb@{@oAg@oAS{@?{@?g@Rg@g@?cBRg@oFkC_XRcL?kC?wG?gE?{O?oF?oF?sD?sN?_DRwB?wG?cQ?kCR{fAScL{@wLoAgJSg@wBsIcB{EkHsNsDsDSSoFsDwBcBkCoA{@g@{J{EkHsDczBogA{O_I_I_Dg@SoAg@?oFSoi@?gc@SgkA?oFgE?o_@?g@?wBcBg@{E?wo@?klBSon@?_N?sS?{Y?{J?{J?oFcBS{@?S?{@SoASoAg@kCcBwBoAsN{JgE_DwGgEsXkRkCwBg@SSS{@{@oA{@sXwQ_DkCgToP{@{@g@oA{@wBcBkH{@oAsIoKcBwBoA_DwBsIoKgY{@_Dg@_D{@cQf@gTf@kRz@oi@z@gc@?oFRkC?sD?wLSgEoAgESwBS{ES{Og@{zA?_DSce@?{aA?kz@?kk@?_NScmASsv@f@o_@?kCR{@f@{@f@Sf@SSoAg@sDg@gESg@Sg@SwB?oA?_DS?wBz@wBz@g@?g@SScBS_Iz@{J?SSSg@S{@?S?oAS?wB?gEf@oP?SSSg@?g@Sg@?g@?Sg@g@S?g@?{@bBc[RkCRgER{ERoKR{E?g@?kC?cBSkC?{@ScB?gw@?w~@?wL?{T?gES{ESsDoPgnB?oAR{@zEwV?kC?sq@SwB{@wBf@g@z@oAf@{@RS?{E?wBScB_I{@sXf@sSf@co@vB_NRo_@?kH?kHf@{JvB_NnA_Nf@{O?kH?sI?krDg@g~DnAsNRkxF?we@g@{J{@cGoA{EkCwG{EkMcQsIoKwBsD{@oAsNoP{YcVsI{EcGsDsIsDwcAo_@wLsD_IkC_D{@gY_Iz@cBkHoAoA{@?oAgESkH{@oKcBc[gJcGcBwVoF{JgE{T_IcQsDwBg@_S_DwGSgESgToAsSg@sg@SsXRk_AoAoU?_I?c~@f@oASSg@?wB?sDoA?cB?cBgJ{@cL?oF?sD{@{^?gE?{Y?{E?wG?_DRs]?kR?oK?kH?oF?w`@?s]?cB?gEgE?cj@g@SzE?bBS?SRSR?fE",
           "mode": "BICYCLE",
           "fromPlace": {
-            "lat": 47.563412,
-            "lon": -122.378248,
+            "location": [
+              -122.378248,
+              47.563412
+            ],
             "name": "Origin"
           },
           "toPlace": {
-            "lat": 47.599091,
-            "lon": -122.331856,
+            "location": [
+              -122.331856,
+              47.599091
+            ],
             "name": "Destination"
           },
           "startTime": "2025-09-10T15:46:50-07:00",
@@ -41,10 +45,10 @@
                 "bearingBefore": 42,
                 "distance": 0.05052381721699579,
                 "instruction": "Bike northeast on sidewalk.",
-                "startPoint": {
-                  "lat": 47.5634626,
-                  "lon": -122.3783322
-                },
+                "startPoint": [
+                  -122.3783322,
+                  47.5634626
+                ],
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for 300 feet."
@@ -54,10 +58,10 @@
                 "bearingBefore": 0,
                 "distance": 0.003684740328333354,
                 "instruction": "Continue onto path.",
-                "startPoint": {
-                  "lat": 47.5639506,
-                  "lon": -122.3775853
-                },
+                "startPoint": [
+                  -122.3775853,
+                  47.5639506
+                ],
                 "streetNames": null,
                 "type": 8,
                 "verbalPostTransitionInstruction": "Continue for 20 feet."
@@ -67,10 +71,10 @@
                 "bearingBefore": 352,
                 "distance": 0.4710999540184175,
                 "instruction": "Turn right onto Southwest Avalon Way.",
-                "startPoint": {
-                  "lat": 47.5640038,
-                  "lon": -122.3775908
-                },
+                "startPoint": [
+                  -122.3775908,
+                  47.5640038
+                ],
                 "streetNames": [
                   "Southwest Avalon Way"
                 ],
@@ -82,10 +86,10 @@
                 "bearingBefore": 18,
                 "distance": 0.127064510917519,
                 "instruction": "Turn right onto Southwest Yancy Street.",
-                "startPoint": {
-                  "lat": 47.5675988,
-                  "lon": -122.3708258
-                },
+                "startPoint": [
+                  -122.3708258,
+                  47.5675988
+                ],
                 "streetNames": [
                   "Southwest Yancy Street"
                 ],
@@ -97,10 +101,10 @@
                 "bearingBefore": 90,
                 "distance": 0.048529210732349906,
                 "instruction": "Turn left onto 28th Avenue Southwest.",
-                "startPoint": {
-                  "lat": 47.5676195,
-                  "lon": -122.3681005
-                },
+                "startPoint": [
+                  -122.3681005,
+                  47.5676195
+                ],
                 "streetNames": [
                   "28th Avenue Southwest"
                 ],
@@ -112,10 +116,10 @@
                 "bearingBefore": 29,
                 "distance": 0.2286589533597624,
                 "instruction": "Turn right onto Southwest Andover Street.",
-                "startPoint": {
-                  "lat": 47.5683122,
-                  "lon": -122.368053
-                },
+                "startPoint": [
+                  -122.368053,
+                  47.5683122
+                ],
                 "streetNames": [
                   "Southwest Andover Street"
                 ],
@@ -127,10 +131,10 @@
                 "bearingBefore": 89,
                 "distance": 0.0030571538643170493,
                 "instruction": "Turn left onto path.",
-                "startPoint": {
-                  "lat": 47.5683495,
-                  "lon": -122.3631533
-                },
+                "startPoint": [
+                  -122.3631533,
+                  47.5683495
+                ],
                 "streetNames": null,
                 "type": 15,
                 "verbalPostTransitionInstruction": "Continue for 20 feet."
@@ -140,10 +144,10 @@
                 "bearingBefore": 7,
                 "distance": 0.8050815862403222,
                 "instruction": "Continue onto West Seattle Bridge Trail.",
-                "startPoint": {
-                  "lat": 47.5683936,
-                  "lon": -122.3631473
-                },
+                "startPoint": [
+                  -122.3631473,
+                  47.5683936
+                ],
                 "streetNames": [
                   "West Seattle Bridge Trail"
                 ],
@@ -155,10 +159,10 @@
                 "bearingBefore": 89,
                 "distance": 0.03964358059825767,
                 "instruction": "Turn left onto West Seattle Bridge Trail.",
-                "startPoint": {
-                  "lat": 47.5713424,
-                  "lon": -122.3484025
-                },
+                "startPoint": [
+                  -122.3484025,
+                  47.5713424
+                ],
                 "streetNames": [
                   "West Seattle Bridge Trail"
                 ],
@@ -170,10 +174,10 @@
                 "bearingBefore": 9,
                 "distance": 0.3968521257161321,
                 "instruction": "Turn right onto West Seattle Bridge Trail.",
-                "startPoint": {
-                  "lat": 47.5716135,
-                  "lon": -122.3480161
-                },
+                "startPoint": [
+                  -122.3480161,
+                  47.5716135
+                ],
                 "streetNames": [
                   "West Seattle Bridge Trail"
                 ],
@@ -185,10 +189,10 @@
                 "bearingBefore": 90,
                 "distance": 1.0218847477848063,
                 "instruction": "Turn left onto East Marginal Way South.",
-                "startPoint": {
-                  "lat": 47.5717804,
-                  "lon": -122.3397999
-                },
+                "startPoint": [
+                  -122.3397999,
+                  47.5717804
+                ],
                 "streetNames": [
                   "East Marginal Way South"
                 ],
@@ -200,10 +204,10 @@
                 "bearingBefore": 1,
                 "distance": 0.3206221183839338,
                 "instruction": "Continue onto Alaskan Way South.",
-                "startPoint": {
-                  "lat": 47.58656,
-                  "lon": -122.3400253
-                },
+                "startPoint": [
+                  -122.3400253,
+                  47.58656
+                ],
                 "streetNames": [
                   "Alaskan Way South"
                 ],
@@ -215,10 +219,10 @@
                 "bearingBefore": 14,
                 "distance": 0.0030882225011495397,
                 "instruction": "Turn sharp right onto South Atlantic Street.",
-                "startPoint": {
-                  "lat": 47.5907595,
-                  "lon": -122.337345
-                },
+                "startPoint": [
+                  -122.337345,
+                  47.5907595
+                ],
                 "streetNames": [
                   "South Atlantic Street"
                 ],
@@ -230,10 +234,10 @@
                 "bearingBefore": 131,
                 "distance": 0.11571824474629351,
                 "instruction": "Turn sharp left onto Marginal Way Cycle Route.",
-                "startPoint": {
-                  "lat": 47.5907275,
-                  "lon": -122.3372987
-                },
+                "startPoint": [
+                  -122.3372987,
+                  47.5907275
+                ],
                 "streetNames": null,
                 "type": 14,
                 "verbalPostTransitionInstruction": "Continue for 600 feet."
@@ -243,10 +247,10 @@
                 "bearingBefore": 12,
                 "distance": 0.4099133806405111,
                 "instruction": "Continue onto Portside Trail.",
-                "startPoint": {
-                  "lat": 47.592328,
-                  "lon": -122.3367458
-                },
+                "startPoint": [
+                  -122.3367458,
+                  47.592328
+                ],
                 "streetNames": [
                   "Portside Trail"
                 ],
@@ -258,10 +262,10 @@
                 "bearingBefore": 89,
                 "distance": 0.006462276461157991,
                 "instruction": "Turn left onto Waterfront Trail.",
-                "startPoint": {
-                  "lat": 47.5981133,
-                  "lon": -122.3360192
-                },
+                "startPoint": [
+                  -122.3360192,
+                  47.5981133
+                ],
                 "streetNames": [
                   "Waterfront Trail"
                 ],
@@ -273,10 +277,10 @@
                 "bearingBefore": 0,
                 "distance": 0.20692954875911865,
                 "instruction": "Turn right onto South King Street.",
-                "startPoint": {
-                  "lat": 47.5982068,
-                  "lon": -122.336015
-                },
+                "startPoint": [
+                  -122.336015,
+                  47.5982068
+                ],
                 "streetNames": [
                   "South King Street"
                 ],
@@ -288,10 +292,10 @@
                 "bearingBefore": 89,
                 "distance": 0.054860998918811445,
                 "instruction": "Turn left onto 2nd Avenue South.",
-                "startPoint": {
-                  "lat": 47.5983027,
-                  "lon": -122.3315944
-                },
+                "startPoint": [
+                  -122.3315944,
+                  47.5983027
+                ],
                 "streetNames": [
                   "2nd Avenue South"
                 ],
@@ -303,10 +307,10 @@
                 "bearingBefore": 1,
                 "distance": 0.005306523170989349,
                 "instruction": "Turn left onto path.",
-                "startPoint": {
-                  "lat": 47.5990966,
-                  "lon": -122.3315716
-                },
+                "startPoint": [
+                  -122.3315716,
+                  47.5990966
+                ],
                 "streetNames": null,
                 "type": 15,
                 "verbalPostTransitionInstruction": "Continue for 30 feet."
@@ -316,10 +320,10 @@
                 "bearingBefore": 277,
                 "distance": 0.009482147961276052,
                 "instruction": "Continue onto sidewalk.",
-                "startPoint": {
-                  "lat": 47.5991016,
-                  "lon": -122.3316853
-                },
+                "startPoint": [
+                  -122.3316853,
+                  47.5991016
+                ],
                 "streetNames": null,
                 "type": 8,
                 "verbalPostTransitionInstruction": "Continue for 50 feet."
@@ -329,10 +333,10 @@
                 "bearingBefore": 270,
                 "distance": 0.0,
                 "instruction": "Arrive at your destination.",
-                "startPoint": {
-                  "lat": 47.599091,
-                  "lon": -122.331856
-                },
+                "startPoint": [
+                  -122.331856,
+                  47.599091
+                ],
                 "streetNames": null,
                 "type": 4,
                 "verbalPostTransitionInstruction": null

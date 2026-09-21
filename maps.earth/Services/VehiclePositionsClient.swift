@@ -72,7 +72,7 @@ struct VehiclePositionsClient {
     -> VehiclePositionsResponse
   {
     let request = try Self.urlRequest(
-      endpoint: AppConfig().travelmuxV8Endpoint, from: from, to: to, patterns: patterns)
+      endpoint: AppConfig().travelmuxEndpoint, from: from, to: to, patterns: patterns)
 
     let url = request.url?.absoluteString ?? ""
     let body = request.httpBody.flatMap { String(data: $0, encoding: .utf8) } ?? ""

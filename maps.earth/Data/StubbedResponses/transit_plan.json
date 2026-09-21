@@ -28,10 +28,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.3783322,
-                  "lat": 47.5634626
-                },
+                "startPoint": [
+                  -122.3783322,
+                  47.5634626
+                ],
                 "bearingBefore": 42,
                 "bearingAfter": 42
               },
@@ -41,10 +41,10 @@
                 "streetNames": null,
                 "type": 15,
                 "verbalPostTransitionInstruction": "Continue for 100 feet.",
-                "startPoint": {
-                  "lon": -122.376294,
-                  "lat": 47.5637323
-                },
+                "startPoint": [
+                  -122.376294,
+                  47.5637323
+                ],
                 "bearingBefore": 180,
                 "bearingAfter": 89
               },
@@ -54,10 +54,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for 50 feet.",
-                "startPoint": {
-                  "lon": -122.376021,
-                  "lat": 47.5636537
-                },
+                "startPoint": [
+                  -122.376021,
+                  47.5636537
+                ],
                 "bearingBefore": 83,
                 "bearingAfter": 83
               }
@@ -65,13 +65,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.378248,
-            "lat": 47.563412,
+            "location": [
+              -122.378248,
+              47.563412
+            ],
             "name": "Origin"
           },
           "toPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "startTime": "2026-09-17T19:06:23-07:00",
@@ -103,13 +107,17 @@
             ]
           },
           "fromPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "toPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "startTime": "2026-09-17T19:09:33-07:00",
@@ -128,10 +136,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for 400 feet.",
-                "startPoint": {
-                  "lon": -122.335475,
-                  "lat": 47.5997004
-                },
+                "startPoint": [
+                  -122.335475,
+                  47.5997004
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               },
@@ -141,10 +149,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.334317,
-                  "lat": 47.5992716
-                },
+                "startPoint": [
+                  -122.334317,
+                  47.5992716
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 90
               },
@@ -154,10 +162,10 @@
                 "streetNames": null,
                 "type": 4,
                 "verbalPostTransitionInstruction": null,
-                "startPoint": {
-                  "lon": -122.331856,
-                  "lat": 47.599091
-                },
+                "startPoint": [
+                  -122.331856,
+                  47.599091
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               }
@@ -165,13 +173,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "toPlace": {
-            "lon": -122.331856,
-            "lat": 47.599091,
+            "location": [
+              -122.331856,
+              47.599091
+            ],
             "name": "Destination"
           },
           "startTime": "2026-09-17T19:23:09-07:00",
@@ -209,10 +221,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.3783322,
-                  "lat": 47.5634626
-                },
+                "startPoint": [
+                  -122.3783322,
+                  47.5634626
+                ],
                 "bearingBefore": 42,
                 "bearingAfter": 42
               },
@@ -222,10 +234,10 @@
                 "streetNames": null,
                 "type": 15,
                 "verbalPostTransitionInstruction": "Continue for 100 feet.",
-                "startPoint": {
-                  "lon": -122.376294,
-                  "lat": 47.5637323
-                },
+                "startPoint": [
+                  -122.376294,
+                  47.5637323
+                ],
                 "bearingBefore": 180,
                 "bearingAfter": 89
               },
@@ -235,10 +247,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for 50 feet.",
-                "startPoint": {
-                  "lon": -122.376021,
-                  "lat": 47.5636537
-                },
+                "startPoint": [
+                  -122.376021,
+                  47.5636537
+                ],
                 "bearingBefore": 83,
                 "bearingAfter": 83
               }
@@ -246,13 +258,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.378248,
-            "lat": 47.563412,
+            "location": [
+              -122.378248,
+              47.563412
+            ],
             "name": "Origin"
           },
           "toPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "startTime": "2026-09-17T19:16:23-07:00",
@@ -284,13 +300,17 @@
             ]
           },
           "fromPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "toPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "startTime": "2026-09-17T19:19:33-07:00",
@@ -309,10 +329,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for 400 feet.",
-                "startPoint": {
-                  "lon": -122.335475,
-                  "lat": 47.5997004
-                },
+                "startPoint": [
+                  -122.335475,
+                  47.5997004
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               },
@@ -322,10 +342,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.334317,
-                  "lat": 47.5992716
-                },
+                "startPoint": [
+                  -122.334317,
+                  47.5992716
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 90
               },
@@ -335,10 +355,10 @@
                 "streetNames": null,
                 "type": 4,
                 "verbalPostTransitionInstruction": null,
-                "startPoint": {
-                  "lon": -122.331856,
-                  "lat": 47.599091
-                },
+                "startPoint": [
+                  -122.331856,
+                  47.599091
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               }
@@ -346,13 +366,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "toPlace": {
-            "lon": -122.331856,
-            "lat": 47.599091,
+            "location": [
+              -122.331856,
+              47.599091
+            ],
             "name": "Destination"
           },
           "startTime": "2026-09-17T19:33:09-07:00",
@@ -390,10 +414,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.3783322,
-                  "lat": 47.5634626
-                },
+                "startPoint": [
+                  -122.3783322,
+                  47.5634626
+                ],
                 "bearingBefore": 42,
                 "bearingAfter": 42
               },
@@ -403,10 +427,10 @@
                 "streetNames": null,
                 "type": 15,
                 "verbalPostTransitionInstruction": "Continue for 100 feet.",
-                "startPoint": {
-                  "lon": -122.376294,
-                  "lat": 47.5637323
-                },
+                "startPoint": [
+                  -122.376294,
+                  47.5637323
+                ],
                 "bearingBefore": 180,
                 "bearingAfter": 89
               },
@@ -416,10 +440,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for 50 feet.",
-                "startPoint": {
-                  "lon": -122.376021,
-                  "lat": 47.5636537
-                },
+                "startPoint": [
+                  -122.376021,
+                  47.5636537
+                ],
                 "bearingBefore": 83,
                 "bearingAfter": 83
               }
@@ -427,13 +451,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.378248,
-            "lat": 47.563412,
+            "location": [
+              -122.378248,
+              47.563412
+            ],
             "name": "Origin"
           },
           "toPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "startTime": "2026-09-17T19:26:23-07:00",
@@ -465,13 +493,17 @@
             ]
           },
           "fromPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "toPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "startTime": "2026-09-17T19:29:33-07:00",
@@ -490,10 +522,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for 400 feet.",
-                "startPoint": {
-                  "lon": -122.335475,
-                  "lat": 47.5997004
-                },
+                "startPoint": [
+                  -122.335475,
+                  47.5997004
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               },
@@ -503,10 +535,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.334317,
-                  "lat": 47.5992716
-                },
+                "startPoint": [
+                  -122.334317,
+                  47.5992716
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 90
               },
@@ -516,10 +548,10 @@
                 "streetNames": null,
                 "type": 4,
                 "verbalPostTransitionInstruction": null,
-                "startPoint": {
-                  "lon": -122.331856,
-                  "lat": 47.599091
-                },
+                "startPoint": [
+                  -122.331856,
+                  47.599091
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               }
@@ -527,13 +559,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "toPlace": {
-            "lon": -122.331856,
-            "lat": 47.599091,
+            "location": [
+              -122.331856,
+              47.599091
+            ],
             "name": "Destination"
           },
           "startTime": "2026-09-17T19:43:09-07:00",
@@ -571,10 +607,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.3783322,
-                  "lat": 47.5634626
-                },
+                "startPoint": [
+                  -122.3783322,
+                  47.5634626
+                ],
                 "bearingBefore": 42,
                 "bearingAfter": 42
               },
@@ -584,10 +620,10 @@
                 "streetNames": null,
                 "type": 15,
                 "verbalPostTransitionInstruction": "Continue for 100 feet.",
-                "startPoint": {
-                  "lon": -122.376294,
-                  "lat": 47.5637323
-                },
+                "startPoint": [
+                  -122.376294,
+                  47.5637323
+                ],
                 "bearingBefore": 180,
                 "bearingAfter": 89
               },
@@ -597,10 +633,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for 50 feet.",
-                "startPoint": {
-                  "lon": -122.376021,
-                  "lat": 47.5636537
-                },
+                "startPoint": [
+                  -122.376021,
+                  47.5636537
+                ],
                 "bearingBefore": 83,
                 "bearingAfter": 83
               }
@@ -608,13 +644,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.378248,
-            "lat": 47.563412,
+            "location": [
+              -122.378248,
+              47.563412
+            ],
             "name": "Origin"
           },
           "toPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "startTime": "2026-09-17T19:41:23-07:00",
@@ -646,13 +686,17 @@
             ]
           },
           "fromPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "toPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "startTime": "2026-09-17T19:44:33-07:00",
@@ -671,10 +715,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for 400 feet.",
-                "startPoint": {
-                  "lon": -122.335475,
-                  "lat": 47.5997004
-                },
+                "startPoint": [
+                  -122.335475,
+                  47.5997004
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               },
@@ -684,10 +728,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.334317,
-                  "lat": 47.5992716
-                },
+                "startPoint": [
+                  -122.334317,
+                  47.5992716
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 90
               },
@@ -697,10 +741,10 @@
                 "streetNames": null,
                 "type": 4,
                 "verbalPostTransitionInstruction": null,
-                "startPoint": {
-                  "lon": -122.331856,
-                  "lat": 47.599091
-                },
+                "startPoint": [
+                  -122.331856,
+                  47.599091
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               }
@@ -708,13 +752,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "toPlace": {
-            "lon": -122.331856,
-            "lat": 47.599091,
+            "location": [
+              -122.331856,
+              47.599091
+            ],
             "name": "Destination"
           },
           "startTime": "2026-09-17T19:58:09-07:00",
@@ -752,10 +800,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.3783322,
-                  "lat": 47.5634626
-                },
+                "startPoint": [
+                  -122.3783322,
+                  47.5634626
+                ],
                 "bearingBefore": 42,
                 "bearingAfter": 42
               },
@@ -765,10 +813,10 @@
                 "streetNames": null,
                 "type": 15,
                 "verbalPostTransitionInstruction": "Continue for 100 feet.",
-                "startPoint": {
-                  "lon": -122.376294,
-                  "lat": 47.5637323
-                },
+                "startPoint": [
+                  -122.376294,
+                  47.5637323
+                ],
                 "bearingBefore": 180,
                 "bearingAfter": 89
               },
@@ -778,10 +826,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for 50 feet.",
-                "startPoint": {
-                  "lon": -122.376021,
-                  "lat": 47.5636537
-                },
+                "startPoint": [
+                  -122.376021,
+                  47.5636537
+                ],
                 "bearingBefore": 83,
                 "bearingAfter": 83
               }
@@ -789,13 +837,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.378248,
-            "lat": 47.563412,
+            "location": [
+              -122.378248,
+              47.563412
+            ],
             "name": "Origin"
           },
           "toPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "startTime": "2026-09-17T19:56:23-07:00",
@@ -827,13 +879,17 @@
             ]
           },
           "fromPlace": {
-            "lon": -122.376099,
-            "lat": 47.5635681,
+            "location": [
+              -122.376099,
+              47.5635681
+            ],
             "name": "35th Ave SW & SW Avalon Way"
           },
           "toPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "startTime": "2026-09-17T19:59:33-07:00",
@@ -852,10 +908,10 @@
                 "streetNames": null,
                 "type": 1,
                 "verbalPostTransitionInstruction": "Continue for 400 feet.",
-                "startPoint": {
-                  "lon": -122.335475,
-                  "lat": 47.5997004
-                },
+                "startPoint": [
+                  -122.335475,
+                  47.5997004
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               },
@@ -865,10 +921,10 @@
                 "streetNames": null,
                 "type": 10,
                 "verbalPostTransitionInstruction": "Continue for a quarter mile.",
-                "startPoint": {
-                  "lon": -122.334317,
-                  "lat": 47.5992716
-                },
+                "startPoint": [
+                  -122.334317,
+                  47.5992716
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 90
               },
@@ -878,10 +934,10 @@
                 "streetNames": null,
                 "type": 4,
                 "verbalPostTransitionInstruction": null,
-                "startPoint": {
-                  "lon": -122.331856,
-                  "lat": 47.599091
-                },
+                "startPoint": [
+                  -122.331856,
+                  47.599091
+                ],
                 "bearingBefore": 89,
                 "bearingAfter": 89
               }
@@ -889,13 +945,17 @@
             "substantialStreetNames": []
           },
           "fromPlace": {
-            "lon": -122.335556,
-            "lat": 47.5997009,
+            "location": [
+              -122.335556,
+              47.5997009
+            ],
             "name": "Alaskan Way S & S Jackson St"
           },
           "toPlace": {
-            "lon": -122.331856,
-            "lat": 47.599091,
+            "location": [
+              -122.331856,
+              47.599091
+            ],
             "name": "Destination"
           },
           "startTime": "2026-09-17T20:13:09-07:00",

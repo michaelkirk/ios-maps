@@ -21,12 +21,6 @@ struct AppConfig {
   }
 
   var travelmuxEndpoint: URL {
-    self.onlineServerBase.appending(path: "travelmux/v7")
-  }
-
-  /// Live vehicle positions are v8 only. The rest of the app is still on v7, which says points
-  /// three different ways - v8 says `[lon, lat]` everywhere instead.
-  var travelmuxV8Endpoint: URL {
     self.onlineServerBase.appending(path: "travelmux/v8")
   }
 
