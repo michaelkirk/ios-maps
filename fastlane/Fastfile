@@ -78,10 +78,22 @@ platform :ios do
   desc "Upload most recent build to App Store Connect"
   lane :upload do
     upload_to_app_store(
+      api_key: asc_api_key,
       ipa: "build/maps.earth.ipa",
       skip_metadata: true,
       skip_screenshots: true,
       precheck_include_in_app_purchases: false
+    )
+  end
+
+  # An App Store Connect API key authenticates both legs of an upload - finding
+  # the app record and handing the binary to altool - where an app-specific
+  # password only covers the second, and leaves the first wanting 2FA.
+  private_lane :asc_api_key do
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: ENV.fetch("ASC_KEY_PATH")
     )
   end
 
