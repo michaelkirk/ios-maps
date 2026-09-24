@@ -268,8 +268,22 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
           .font: UIFont.systemFont(ofSize: 9),
           .foregroundColor: UIColor(white: 1, alpha: 0.75),
         ]))
+    text.append(NSAttributedString(string: "\u{2009}"))
+    text.append(NSAttributedString(attachment: Self.realtimeAttachment))
     return text
   }
+
+  /// The badge marking the countdown as coming off the live feed, the same glyph the trip list
+  /// uses to mark a realtime departure.
+  private static let realtimeAttachment: NSTextAttachment = {
+    let configuration = UIImage.SymbolConfiguration(
+      pointSize: 10, weight: .semibold)
+    let attachment = NSTextAttachment()
+    attachment.image = UIImage(systemName: "dot.radiowaves.up.forward")?
+      .withConfiguration(configuration)
+      .withTintColor(UIColor(white: 1, alpha: 0.75), renderingMode: .alwaysOriginal)
+    return attachment
+  }()
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
