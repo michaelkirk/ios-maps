@@ -16,6 +16,8 @@ struct TripPlace: Hashable, Equatable {
 
 struct TripLeg {
   var geometry: [CLLocationCoordinate2D]
+  /// The whole route this leg rides part of, for transit legs the server has a shape for.
+  var patternGeometry: [CLLocationCoordinate2D]?
   var fromPlace: TripPlace
   var toPlace: TripPlace
   var startTime: Date
@@ -179,6 +181,9 @@ struct Trip: Identifiable {
     self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(
         geometry: decodePolyline(itineraryLeg.geometry, precision: 6),
+        patternGeometry: itineraryLeg.transitLeg?.patternGeometry.map {
+          decodePolyline($0, precision: 6)
+        },
         fromPlace: itineraryLeg.fromPlace,
         toPlace: itineraryLeg.toPlace,
         startTime: itineraryLeg.startTime,
