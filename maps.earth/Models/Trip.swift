@@ -18,6 +18,8 @@ struct TripLeg {
   var geometry: [CLLocationCoordinate2D]
   /// The whole route this leg rides part of, for transit legs the server has a shape for.
   var patternGeometry: [CLLocationCoordinate2D]?
+  /// Every stop that route calls at, in order.
+  var patternStops: [CLLocationCoordinate2D]?
   var fromPlace: TripPlace
   var toPlace: TripPlace
   var startTime: Date
@@ -161,8 +163,12 @@ struct Trip: Identifiable {
     }
   }
 
+  /// Where the traveler changes legs, except at a transit stop, which the map already marks with
+  /// a stop of its own.
   var transferPlaces: [TripPlace] {
-    self.legs[1...].map { $0.fromPlace }
+    self.legs.indices.dropFirst().filter {
+      self.legs[$0].transitLeg == nil && self.legs[$0 - 1].transitLeg == nil
+    }.map { self.legs[$0].fromPlace }
   }
 
   /// The first leg the traveler rides rather than walks, if this trip has one.
@@ -182,6 +188,9 @@ struct Trip: Identifiable {
       TripLeg(
         geometry: decodePolyline(itineraryLeg.geometry, precision: 6),
         patternGeometry: itineraryLeg.transitLeg?.patternGeometry.map {
+          decodePolyline($0, precision: 6)
+        },
+        patternStops: itineraryLeg.transitLeg?.patternStops.map {
           decodePolyline($0, precision: 6)
         },
         fromPlace: itineraryLeg.fromPlace,

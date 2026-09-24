@@ -150,7 +150,7 @@ struct MapTrip: MapContent {
   struct TripLayers {
     struct LegLayer {
       let source: MLNShapeSource
-      let styleLayer: MLNLineStyleLayer
+      let styleLayer: MLNStyleLayer
     }
     let trip: Trip
     let isSelected: Bool
@@ -177,11 +177,17 @@ struct MapTrip: MapContent {
           source: source, identifier: identifier.asString, leg: leg, isSelected: isSelected)
         let legLayer = LegLayer(source: source, styleLayer: styleLayer)
 
-        // Listed first so the ridden portion draws over it.
-        guard isSelected, let context = contextLayer(tripId: trip.id, legIdx: idx, leg: leg) else {
+        guard isSelected else {
           return [legLayer]
         }
-        return [context, legLayer]
+        let prefix = "trip-route-\(trip.id)-leg-\(idx)"
+        // In draw order: the rest of the route under the ridden portion, the stops over both.
+        return [
+          contextLayer(tripId: trip.id, legIdx: idx, leg: leg),
+          legLayer,
+          leg.stopsLayer(identifier: "\(prefix)-stops"),
+          leg.usedStopsLayer(identifier: "\(prefix)-used-stops"),
+        ].compactMap { $0 }
       }
       var markers = trip.transferPlaces.map { transfer in
         let style =
@@ -315,6 +321,46 @@ func contextLayer(tripId: UUID, legIdx: Int, leg: TripLeg) -> MapTrip.TripLayers
   styleLayer.lineColor = NSExpression(forConstantValue: UIColor(leg.activeLineColor))
   styleLayer.lineOpacity = NSExpression(forConstantValue: NSNumber(value: 0.35))
   return MapTrip.TripLayers.LegLayer(source: source, styleLayer: styleLayer)
+}
+
+extension TripLeg {
+  /// A dot at each stop the route calls at, so the rider can count what's between a vehicle and
+  /// their own stop. Absent for a leg the server gave no stops for.
+  func stopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
+    guard let patternStops = self.patternStops else {
+      return nil
+    }
+    return self.circleLayer(
+      identifier: identifier, at: patternStops, radius: 3.5, strokeWidth: 1.5)
+  }
+
+  /// The two stops the rider actually uses, drawn heavier than the ones the vehicle merely passes
+  /// through.
+  func usedStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
+    guard self.transitLeg != nil else {
+      return nil
+    }
+    let used = [self.fromPlace.location.asCoordinate, self.toPlace.location.asCoordinate]
+    return self.circleLayer(identifier: identifier, at: used, radius: 6, strokeWidth: 6)
+  }
+
+  private func circleLayer(
+    identifier: String, at coordinates: [CLLocationCoordinate2D], radius: Float, strokeWidth: Float
+  ) -> MapTrip.TripLayers.LegLayer {
+    let features = coordinates.map { coordinate -> MLNPointFeature in
+      let feature = MLNPointFeature()
+      feature.coordinate = coordinate
+      return feature
+    }
+    let source = MLNShapeSource(identifier: identifier, features: features, options: nil)
+
+    let styleLayer = MLNCircleStyleLayer(identifier: identifier, source: source)
+    styleLayer.circleRadius = NSExpression(forConstantValue: NSNumber(value: radius))
+    styleLayer.circleColor = NSExpression(forConstantValue: UIColor.white)
+    styleLayer.circleStrokeColor = NSExpression(forConstantValue: UIColor(self.activeLineColor))
+    styleLayer.circleStrokeWidth = NSExpression(forConstantValue: NSNumber(value: strokeWidth))
+    return MapTrip.TripLayers.LegLayer(source: source, styleLayer: styleLayer)
+  }
 }
 
 enum LineWidth {

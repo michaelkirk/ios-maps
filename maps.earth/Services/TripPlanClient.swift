@@ -29,6 +29,9 @@ struct TransitLeg: Decodable {
   /// The whole shape the pattern runs, as an encoded polyline. The leg's own geometry is the
   /// slice of this the rider is aboard for.
   var patternGeometry: String?
+
+  /// Every stop the pattern calls at, in order, their positions packed as a polyline.
+  var patternStops: String?
 }
 
 struct TransitRoute: Decodable {
