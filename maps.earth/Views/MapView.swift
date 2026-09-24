@@ -470,7 +470,10 @@ extension MapViewWrapper: UIViewRepresentable {
       // so we update them separately
       switch newContents {
       case .trips(let selected, let unselected):
-        self.vehicleOverlay.update(mapView: mapView, selected: selected, unselected: unselected)
+        // A rider reading a trip's details has chosen: a vehicle on a route they passed over is
+        // no longer something they're waiting for.
+        let alternates = self.mapView.tripPlan.isShowingSteps ? [] : unselected
+        self.vehicleOverlay.update(mapView: mapView, selected: selected, unselected: alternates)
       case .pins, .empty:
         self.vehicleOverlay.stop()
       }

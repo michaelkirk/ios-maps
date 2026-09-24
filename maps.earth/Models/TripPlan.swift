@@ -27,6 +27,9 @@ class TripPlan: ObservableObject {
   @Published var selectedTrip: Trip?
   @Published var selectedRoute: Result<Route, Error>?
 
+  /// Whether the rider has opened the selected trip's details.
+  @Published var isShowingSteps: Bool = false
+
   init(
     from fromPlace: Place? = nil,
     to toPlace: Place? = nil,
@@ -69,5 +72,6 @@ class TripPlan: ObservableObject {
     self.bounds = nil
     self.trips = .success([])
     self.selectedTrip = nil
+    self.isShowingSteps = false
   }
 }
