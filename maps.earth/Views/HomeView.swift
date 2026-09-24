@@ -199,6 +199,9 @@ struct HomeView: View {
     case .directions(let travelMode, let from, let to):
       Task {
         self.tripPlan.clear()
+        // The link names the mode, so the plan takes it now. Storing it as the preference only
+        // decides what a later cold launch opens with.
+        self.tripPlan.mode = travelMode
         do {
           Task {
             // Will the user be surprised that the preferred travel mode is set here?
