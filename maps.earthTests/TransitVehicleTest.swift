@@ -99,7 +99,7 @@ final class TransitVehicleTest: XCTestCase {
   }
 
   func testBoardingStopRowCountsDownWhileApproaching() throws {
-    let vehicle = arrivingIn(180) { .approaching(arrival: $0, stopsAway: nil) }
+    let vehicle = arrivingIn(180) { .approaching(arrival: $0, stopArrivals: []) }
     let row = try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt))
     XCTAssertEqual(row.text, "Approaching")
     XCTAssertEqual(row.countdown?.value, "3")
@@ -108,21 +108,21 @@ final class TransitVehicleTest: XCTestCase {
 
   /// A countdown of seconds is no use to someone who should be looking up the street.
   func testBoardingStopRowSaysWhenAVehicleIsAboutToArrive() throws {
-    let vehicle = arrivingIn(20) { .approaching(arrival: $0, stopsAway: nil) }
+    let vehicle = arrivingIn(20) { .approaching(arrival: $0, stopArrivals: []) }
     let row = try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt))
     XCTAssertEqual(row.text, "Arriving now")
     XCTAssertNil(row.countdown)
   }
 
   func testBoardingStopRowKeepsTheMinutesPastAnHour() throws {
-    let vehicle = arrivingIn(3 * 3600 + 5 * 60) { .approaching(arrival: $0, stopsAway: nil) }
+    let vehicle = arrivingIn(3 * 3600 + 5 * 60) { .approaching(arrival: $0, stopArrivals: []) }
     let row = try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt))
     XCTAssertEqual(row.countdown?.value, "3:05")
     XCTAssertEqual(row.countdown?.unit, "hr")
   }
 
   func testBoardingStopRowCountsSecondsUnderAMinute() throws {
-    let vehicle = arrivingIn(45) { .approaching(arrival: $0, stopsAway: nil) }
+    let vehicle = arrivingIn(45) { .approaching(arrival: $0, stopArrivals: []) }
     let row = try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt))
     XCTAssertEqual(row.countdown?.value, "45")
     XCTAssertEqual(row.countdown?.unit, "sec")
@@ -144,6 +144,29 @@ final class TransitVehicleTest: XCTestCase {
     XCTAssertEqual(row.text, "Left 0s ago")
   }
 
+  func testBoardingStopRowCountsStopsDownAsTheVehicleMoves() throws {
+    let vehicle = arrivingIn(180) {
+      .approaching(
+        arrival: $0,
+        stopArrivals: [
+          reportedAt.addingTimeInterval(30),
+          reportedAt.addingTimeInterval(90),
+          reportedAt.addingTimeInterval(180),
+        ])
+    }
+
+    XCTAssertEqual(try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt)).text, "3 stops away")
+    XCTAssertEqual(
+      try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt.addingTimeInterval(30))).text,
+      "2 stops away")
+    XCTAssertEqual(
+      try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt.addingTimeInterval(90))).text,
+      "Next stop")
+    XCTAssertEqual(
+      try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt.addingTimeInterval(160))).text,
+      "Next stop")
+  }
+
   func testBoardingStopRowOfAVehicleTravelmuxSaidNothingAbout() {
     XCTAssertNil(vehicle(withTrack: false).boardingStopRow(at: reportedAt))
   }
@@ -153,14 +176,24 @@ final class TransitVehicleTest: XCTestCase {
       {
         "state": "approaching",
         "arrival": "2026-09-17T18:55:42-07:00",
-        "stopsAway": 4
+        "stopArrivals": [
+          "2026-09-17T18:52:42-07:00",
+          "2026-09-17T18:54:42-07:00",
+          "2026-09-17T18:55:42-07:00"
+        ]
       }
       """
     let boardingStop = try JSONDecoder.travelmux.decode(
       BoardingStop.self, from: Data(json.utf8))
     XCTAssertEqual(
       boardingStop,
-      .approaching(arrival: Date(timeIntervalSince1970: 1_789_696_542), stopsAway: 4))
+      .approaching(
+        arrival: Date(timeIntervalSince1970: 1_789_696_542),
+        stopArrivals: [
+          Date(timeIntervalSince1970: 1_789_696_362),
+          Date(timeIntervalSince1970: 1_789_696_482),
+          Date(timeIntervalSince1970: 1_789_696_542),
+        ]))
 
     let departed = try JSONDecoder.travelmux.decode(
       BoardingStop.self,
@@ -206,7 +239,7 @@ final class TransitVehicleTest: XCTestCase {
     XCTAssertEqual(vehicle.labelFormatted, "Vehicle 8293")
     XCTAssertEqual(
       vehicle.boardingStop,
-      .approaching(arrival: Date(timeIntervalSince1970: 1_789_696_962), stopsAway: nil))
+      .approaching(arrival: Date(timeIntervalSince1970: 1_789_696_962), stopArrivals: []))
 
     let track = try XCTUnwrap(vehicle.track)
     XCTAssertEqual(track.stepSeconds, 5)

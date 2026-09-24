@@ -35,7 +35,7 @@ struct TransitVehicle: Decodable, Identifiable {
 /// The arrival is an instant rather than a countdown: a poll is held for 30 seconds, and a number
 /// of minutes would be that stale by the end of one.
 enum BoardingStop: Equatable {
-  case approaching(arrival: Date, stopsAway: Int?)
+  case approaching(arrival: Date, stopArrivals: [Date])
   case departed(arrival: Date)
 }
 
@@ -43,7 +43,7 @@ extension BoardingStop: Decodable {
   private enum CodingKeys: String, CodingKey {
     case state
     case arrival
-    case stopsAway
+    case stopArrivals
   }
 
   init(from decoder: Decoder) throws {
@@ -52,7 +52,8 @@ extension BoardingStop: Decodable {
     switch try container.decode(String.self, forKey: .state) {
     case "approaching":
       self = .approaching(
-        arrival: arrival, stopsAway: try container.decodeIfPresent(Int.self, forKey: .stopsAway))
+        arrival: arrival,
+        stopArrivals: try container.decodeIfPresent([Date].self, forKey: .stopArrivals) ?? [])
     case "departed":
       self = .departed(arrival: arrival)
     case let state:
@@ -217,12 +218,20 @@ extension TransitVehicle {
       // Nothing left to wait through, so no countdown - just how long ago it went by.
       let ago = max(0, date.timeIntervalSince(arrival))
       return BoardingStopRow(text: "Left \(ago.durationFormatted) ago", countdown: nil)
-    case .approaching(let arrival, _):
+    case .approaching(let arrival, let stopArrivals):
       let seconds = arrival.timeIntervalSince(date)
+      let stopsAway = stopArrivals.filter { $0 > date }.count
+      let stopsText: String? =
+        switch stopsAway {
+        case 0: nil
+        case 1: "Next stop"
+        default: "\(stopsAway) stops away"
+        }
       guard seconds > Self.arrivingNowSeconds else {
-        return BoardingStopRow(text: "Arriving now", countdown: nil)
+        return BoardingStopRow(text: stopsText ?? "Arriving now", countdown: nil)
       }
-      return BoardingStopRow(text: "Approaching", countdown: Countdown(seconds: seconds))
+      return BoardingStopRow(
+        text: stopsText ?? "Approaching", countdown: Countdown(seconds: seconds))
     }
   }
 

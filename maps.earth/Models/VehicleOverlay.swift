@@ -14,6 +14,7 @@ private let logger = FileLogger()
 /// polls, and so a callout being read doesn't vanish out from under the reader.
 class TransitVehicleAnnotation: MLNPointAnnotation {
   var vehicle: TransitVehicle
+  weak var callout: TransitVehicleCalloutView?
   /// Vehicles that aren't on the selected trip are drawn faded.
   var isFaded: Bool = false
   /// How far this device's clock is from the server's, so both the dot and the callout talk about
@@ -106,6 +107,7 @@ class VehicleOverlay: NSObject {
     self.displayLink?.invalidate()
     self.displayLink = nil
     for annotation in annotations.values {
+      annotation.callout?.dismissCallout(animated: false)
       mapView?.removeAnnotation(annotation)
     }
     self.annotations.removeAll()
@@ -192,6 +194,7 @@ class VehicleOverlay: NSObject {
     // Vehicles that stopped reporting, or left the patterns we asked about.
     for id in stale {
       if let annotation = annotations.removeValue(forKey: id) {
+        annotation.callout?.dismissCallout(animated: false)
         mapView.removeAnnotation(annotation)
       }
     }

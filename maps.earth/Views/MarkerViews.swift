@@ -185,10 +185,12 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
   private let boardingStopLabel = UILabel()
   private let countdownLabel = UILabel()
   private let freshnessLabel = UILabel()
+  private var ticker: Timer?
 
   init(annotation: TransitVehicleAnnotation) {
     self.representedObject = annotation
     super.init(frame: .zero)
+    annotation.callout = self
 
     backgroundColor = UIColor(white: 0, alpha: 0.8)
     layer.cornerRadius = 6
@@ -289,21 +291,48 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func presentCallout(
-    from rect: CGRect, in view: UIView, constrainedTo constrainedRect: CGRect, animated: Bool
-  ) {
+  deinit {
+    stopTicking()
+  }
+
+  /// Updates the labels from the current corrected time.
+  private func updateLabels() {
     guard let annotation = representedObject as? TransitVehicleAnnotation else {
       return
     }
     let vehicle = annotation.vehicle
     routeLabel.text = "\(vehicle.emoji) \(vehicle.routeName)"
     vehicleLabel.text = vehicle.labelFormatted
-    // A wait and a position's age both keep changing, so they're phrased as the callout is about
-    // to show.
     let boardingStopRow = vehicle.boardingStopRow(at: annotation.correctedNow)
     boardingStopLabel.text = boardingStopRow?.text
     countdownLabel.attributedText = boardingStopRow?.countdown.map(Self.countdownText)
     freshnessLabel.text = vehicle.freshnessFormatted(at: annotation.correctedNow)
+  }
+
+  /// Refreshes the time-sensitive callout labels once a second.
+  private func startTicking() {
+    stopTicking()
+    let ticker = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
+      self?.updateLabels()
+    }
+    RunLoop.main.add(ticker, forMode: .common)
+    self.ticker = ticker
+  }
+
+  /// Stops refreshing the time-sensitive callout labels.
+  private func stopTicking() {
+    ticker?.invalidate()
+    ticker = nil
+  }
+
+  func presentCallout(
+    from rect: CGRect, in view: UIView, constrainedTo constrainedRect: CGRect, animated: Bool
+  ) {
+    guard let annotation = representedObject as? TransitVehicleAnnotation else {
+      return
+    }
+    updateLabels()
+    startTicking()
 
     view.addSubview(self)
 
@@ -321,6 +350,7 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
   }
 
   func dismissCallout(animated: Bool) {
+    stopTicking()
     guard superview != nil else { return }
     guard animated else {
       removeFromSuperview()
