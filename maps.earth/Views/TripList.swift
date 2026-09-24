@@ -10,6 +10,7 @@ import SwiftUI
 struct TripList: View {
   @ObservedObject var tripPlan: TripPlan
   @Binding var trips: [Trip]
+  @State var stepsDetent: PresentationDetent = initialDetentHeight
 
   var body: some View {
     ScrollViewReader { scrollView in
@@ -64,15 +65,17 @@ struct TripList: View {
             scrollView.scrollTo(newValue.id, anchor: .top)
           }
         }
-    }.sheet(isPresented: $tripPlan.isShowingSteps) {
+    }.sheet(isPresented: $tripPlan.isShowingSteps, onDismiss: { stepsDetent = initialDetentHeight })
+    {
       let trip = tripPlan.selectedTrip!
       let _ = assert(trip.legs.count > 0)
       if trip.legs.count == 1, case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg {
         ManeuverListSheetContents(
-          trip: trip, maneuvers: nonTransitLeg.maneuvers,
+          trip: trip, maneuvers: nonTransitLeg.maneuvers, currentDetent: $stepsDetent,
           onClose: { tripPlan.isShowingSteps = false })
       } else {
-        MultiModalTripDetailsSheetContents(trip: trip, onClose: { tripPlan.isShowingSteps = false })
+        MultiModalTripDetailsSheetContents(
+          trip: trip, currentDetent: $stepsDetent, onClose: { tripPlan.isShowingSteps = false })
       }
     }
   }
