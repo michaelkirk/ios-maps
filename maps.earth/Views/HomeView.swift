@@ -199,6 +199,7 @@ struct HomeView: View {
     case .directions(let travelMode, let from, let to):
       Task {
         self.tripPlan.clear()
+        self.tripPlan.mode = travelMode
         do {
           Task {
             // Will the user be surprised that the preferred travel mode is set here?
