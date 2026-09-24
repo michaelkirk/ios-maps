@@ -196,8 +196,11 @@ struct MapTrip: MapContent {
           : PlaceMarker.MarkerStyle.unselectedTripTransfer
         return PlaceMarker(place: transfer.intoMarkerLocation, style: style)
       }
-      markers.append(PlaceMarker(place: trip.to.intoMarkerLocation, style: .pin))
-      markers.append(PlaceMarker(place: trip.from.intoMarkerLocation, style: .start))
+      // Every alternate shares the plan's endpoints, so only the selected trip draws them.
+      if isSelected {
+        markers.append(PlaceMarker(place: trip.to.intoMarkerLocation, style: .pin))
+        markers.append(PlaceMarker(place: trip.from.intoMarkerLocation, style: .start))
+      }
       self.markers = markers
     }
   }
