@@ -26,6 +26,83 @@ struct TransitVehicle: Decodable, Identifiable {
   let lastUpdated: Date
   /// Absent when travelmux has nothing to predict from - then the vehicle just sits where it is.
   let track: VehicleTrack?
+  /// Absent when no boarding stop was asked about, or when this vehicle's trip doesn't call there.
+  let boardingStop: BoardingStop?
+}
+
+/// Which side of the rider's boarding stop a vehicle is on, and when it reaches or reached it.
+///
+/// The arrival is an instant rather than a countdown: a poll is held for 30 seconds, and a number
+/// of minutes would be that stale by the end of one.
+enum BoardingStop: Equatable {
+  case approaching(arrival: Date, stopsAway: Int?)
+  case departed(arrival: Date)
+}
+
+extension BoardingStop: Decodable {
+  private enum CodingKeys: String, CodingKey {
+    case state
+    case arrival
+    case stopsAway
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    let arrival = try container.decode(Date.self, forKey: .arrival)
+    switch try container.decode(String.self, forKey: .state) {
+    case "approaching":
+      self = .approaching(
+        arrival: arrival, stopsAway: try container.decodeIfPresent(Int.self, forKey: .stopsAway))
+    case "departed":
+      self = .departed(arrival: arrival)
+    case let state:
+      throw DecodingError.dataCorruptedError(
+        forKey: .state, in: container, debugDescription: "unknown boarding stop state \(state)")
+    }
+  }
+}
+
+/// How long until a vehicle reaches the stop, with the unit kept apart from the number so a view
+/// can set it in smaller type.
+struct Countdown: Equatable {
+  let value: String
+  let unit: String
+
+  init(seconds: TimeInterval) {
+    guard seconds >= 60 else {
+      self.value = "\(Int(seconds.rounded()))"
+      self.unit = "sec"
+      return
+    }
+    let minutes = Int((seconds / 60).rounded())
+    guard minutes >= 60 else {
+      self.value = "\(minutes)"
+      self.unit = "min"
+      return
+    }
+    self.value = String(format: "%d:%02d", minutes / 60, minutes % 60)
+    self.unit = "hr"
+  }
+}
+
+/// What the callout says about the rider's boarding stop: whether this vehicle is still coming,
+/// and - while it's still on its way - how long the wait is.
+struct BoardingStopRow: Equatable {
+  let text: String
+  let countdown: Countdown?
+}
+
+extension TimeInterval {
+  /// A duration phrased for a rider, at the precision its length deserves.
+  ///
+  /// Under a minute stays in seconds: allowing only minutes would round 40 seconds up to "1 min"
+  /// and overstate it.
+  fileprivate var durationFormatted: String {
+    let formatter = DateComponentsFormatter()
+    formatter.unitsStyle = .abbreviated
+    formatter.allowedUnits = self < 60 ? [.second] : [.hour, .minute]
+    return formatter.string(from: self) ?? "\(Int(self))s"
+  }
 }
 
 /// Predicted positions at a fixed cadence, beginning at the vehicle's `lastUpdated`, so the pair
@@ -123,18 +200,38 @@ extension TransitVehicle {
     route.color.flatMap { Color(hexString: $0) } ?? Color.hw_activeRoute
   }
 
+  /// Within this much of the boarding stop, a countdown is less use to a waiting rider than being
+  /// told to look up.
+  private static let arrivingNowSeconds: TimeInterval = 30
+
+  /// The boarding-stop line of the callout: whether this vehicle is still coming, and how long
+  /// until it gets here.
+  ///
+  /// Nil when travelmux had nothing to say about the stop - the callout then just carries the
+  /// route and how fresh the position is.
+  func boardingStopRow(at date: Date = .now) -> BoardingStopRow? {
+    switch boardingStop {
+    case .none:
+      return nil
+    case .departed(let arrival):
+      // Nothing left to wait through, so no countdown - just how long ago it went by.
+      let ago = max(0, date.timeIntervalSince(arrival))
+      return BoardingStopRow(text: "Left \(ago.durationFormatted) ago", countdown: nil)
+    case .approaching(let arrival, _):
+      let seconds = arrival.timeIntervalSince(date)
+      guard seconds > Self.arrivingNowSeconds else {
+        return BoardingStopRow(text: "Arriving now", countdown: nil)
+      }
+      return BoardingStopRow(text: "Approaching", countdown: Countdown(seconds: seconds))
+    }
+  }
+
   /// How much of this dot is reported and how much is guesswork, phrased for the traveler.
   ///
   /// Once the dot has left the reported position it says so: the position on screen is one nobody
   /// reported, and the honest thing is to name the last moment we actually knew.
   func freshnessFormatted(at date: Date = .now) -> String {
-    let age = max(0, date.timeIntervalSince(lastUpdated))
-    let formatter = DateComponentsFormatter()
-    formatter.unitsStyle = .abbreviated
-    // Positions refresh about once a minute, so most ages land under one - where allowing only
-    // minutes would round 40 seconds up to "1 min" and overstate how fresh this is.
-    formatter.allowedUnits = age < 60 ? [.second] : [.hour, .minute]
-    let ageText = formatter.string(from: age) ?? "\(Int(age)) sec"
+    let ageText = max(0, date.timeIntervalSince(lastUpdated)).durationFormatted
 
     if isEstimated(at: date) {
       return "Estimated · confirmed \(ageText) ago"

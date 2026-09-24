@@ -151,8 +151,8 @@ class TransitVehicleMarkerView: MLNAnnotationView {
   }
 }
 
-/// What a tapped vehicle says: the route it runs, the number painted on it, and how much of the
-/// position on screen is reported rather than guessed.
+/// What a tapped vehicle says: the route it runs, the number painted on it, when it reaches the
+/// rider's stop, and how much of the position on screen is reported rather than guessed.
 ///
 /// The system callout stacks a title over a subtitle and aligns both left; the route and the
 /// vehicle number belong on one line, with the number trailing, as they read on the web map.
@@ -182,6 +182,8 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
 
   private let routeLabel = UILabel()
   private let vehicleLabel = UILabel()
+  private let boardingStopLabel = UILabel()
+  private let countdownLabel = UILabel()
   private let freshnessLabel = UILabel()
 
   init(annotation: TransitVehicleAnnotation) {
@@ -198,10 +200,13 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
     vehicleLabel.textColor = UIColor(white: 1, alpha: 0.75)
     vehicleLabel.textAlignment = .right
 
+    boardingStopLabel.font = .systemFont(ofSize: 13, weight: .semibold)
+    boardingStopLabel.textColor = .white
+
     freshnessLabel.font = .systemFont(ofSize: 12)
     freshnessLabel.textColor = UIColor(white: 1, alpha: 0.8)
 
-    for label in [routeLabel, vehicleLabel, freshnessLabel] {
+    for label in [routeLabel, vehicleLabel, boardingStopLabel, countdownLabel, freshnessLabel] {
       label.translatesAutoresizingMaskIntoConstraints = false
       addSubview(label)
     }
@@ -209,9 +214,16 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
     // The route is what's being named, so it keeps its width and the vehicle number yields.
     routeLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
     vehicleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    // The wait is the thing a rider is reading for, so it's the phrase beside it that yields.
+    countdownLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+    boardingStopLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+    // A vehicle travelmux said nothing about carries no wait, and the row goes with it.
+    let hasWaitRow = annotation.vehicle.boardingStop != nil
+    let rowAboveFreshness: UIView = hasWaitRow ? boardingStopLabel : routeLabel
 
     let margin: CGFloat = 8
-    NSLayoutConstraint.activate([
+    var constraints: [NSLayoutConstraint] = [
       routeLabel.topAnchor.constraint(equalTo: topAnchor, constant: 6),
       routeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin),
 
@@ -220,12 +232,43 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
       vehicleLabel.leadingAnchor.constraint(
         greaterThanOrEqualTo: routeLabel.trailingAnchor, constant: Self.columnGap),
 
-      freshnessLabel.topAnchor.constraint(equalTo: routeLabel.bottomAnchor, constant: 2),
+      freshnessLabel.topAnchor.constraint(equalTo: rowAboveFreshness.bottomAnchor, constant: 2),
       freshnessLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin),
       freshnessLabel.trailingAnchor.constraint(
         lessThanOrEqualTo: trailingAnchor, constant: -margin),
       freshnessLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
-    ])
+    ]
+    if hasWaitRow {
+      constraints += [
+        boardingStopLabel.topAnchor.constraint(equalTo: routeLabel.bottomAnchor, constant: 2),
+        boardingStopLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin),
+
+        countdownLabel.firstBaselineAnchor.constraint(
+          equalTo: boardingStopLabel.firstBaselineAnchor),
+        countdownLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin),
+        countdownLabel.leadingAnchor.constraint(
+          greaterThanOrEqualTo: boardingStopLabel.trailingAnchor, constant: Self.columnGap),
+      ]
+    }
+    NSLayoutConstraint.activate(constraints)
+  }
+
+  /// The countdown, with its unit set small enough to read as an aside to the number.
+  private static func countdownText(_ countdown: Countdown) -> NSAttributedString {
+    let text = NSMutableAttributedString(
+      string: countdown.value,
+      attributes: [
+        .font: UIFont.systemFont(ofSize: 13, weight: .semibold),
+        .foregroundColor: UIColor.white,
+      ])
+    text.append(
+      NSAttributedString(
+        string: "\u{2009}" + countdown.unit,
+        attributes: [
+          .font: UIFont.systemFont(ofSize: 9),
+          .foregroundColor: UIColor(white: 1, alpha: 0.75),
+        ]))
+    return text
   }
 
   required init?(coder: NSCoder) {
@@ -241,7 +284,11 @@ class TransitVehicleCalloutView: UIView, MLNCalloutView {
     let vehicle = annotation.vehicle
     routeLabel.text = "\(vehicle.emoji) \(vehicle.routeName)"
     vehicleLabel.text = vehicle.labelFormatted
-    // How stale a position is keeps changing, so it's phrased as the callout is about to show.
+    // A wait and a position's age both keep changing, so they're phrased as the callout is about
+    // to show.
+    let boardingStopRow = vehicle.boardingStopRow(at: annotation.correctedNow)
+    boardingStopLabel.text = boardingStopRow?.text
+    countdownLabel.attributedText = boardingStopRow?.countdown.map(Self.countdownText)
     freshnessLabel.text = vehicle.freshnessFormatted(at: annotation.correctedNow)
 
     view.addSubview(self)
