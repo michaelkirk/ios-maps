@@ -185,6 +185,7 @@ struct MapTrip: MapContent {
         return [
           contextLayer(tripId: trip.id, legIdx: idx, leg: leg),
           legLayer,
+          leg.contextStopsLayer(identifier: "\(prefix)-context-stops"),
           leg.stopsLayer(identifier: "\(prefix)-stops"),
           leg.usedStopsLayer(identifier: "\(prefix)-used-stops"),
         ].compactMap { $0 }
@@ -323,7 +324,7 @@ func contextLayer(tripId: UUID, legIdx: Int, leg: TripLeg) -> MapTrip.TripLayers
   styleLayer.lineJoin = NSExpression(forConstantValue: "round")
   styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: LineWidth.context))
   styleLayer.lineColor = NSExpression(forConstantValue: UIColor(leg.activeLineColor))
-  styleLayer.lineOpacity = NSExpression(forConstantValue: NSNumber(value: 0.35))
+  styleLayer.lineOpacity = NSExpression(forConstantValue: NSNumber(value: contextOpacity))
   return MapTrip.TripLayers.LegLayer(source: source, styleLayer: styleLayer)
 }
 
@@ -338,6 +339,16 @@ extension TripLeg {
       identifier: identifier, at: patternStops, radius: 3.5, strokeWidth: 2.5)
   }
 
+  /// The stops beyond the ridden portion, faded like the line they sit on.
+  func contextStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
+    guard let contextStops = self.contextStops else {
+      return nil
+    }
+    return self.circleLayer(
+      identifier: identifier, at: contextStops, radius: 3.5, strokeWidth: 2.5,
+      opacity: contextOpacity)
+  }
+
   /// The two stops the rider actually uses, drawn heavier than the ones the vehicle merely passes
   /// through.
   func usedStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
@@ -348,7 +359,8 @@ extension TripLeg {
   }
 
   private func circleLayer(
-    identifier: String, at coordinates: [CLLocationCoordinate2D], radius: Float, strokeWidth: Float
+    identifier: String, at coordinates: [CLLocationCoordinate2D], radius: Float,
+    strokeWidth: Float, opacity: Float = 1
   ) -> MapTrip.TripLayers.LegLayer {
     let features = coordinates.map { coordinate -> MLNPointFeature in
       let feature = MLNPointFeature()
@@ -362,9 +374,14 @@ extension TripLeg {
     styleLayer.circleColor = NSExpression(forConstantValue: UIColor.white)
     styleLayer.circleStrokeColor = NSExpression(forConstantValue: UIColor(self.activeLineColor))
     styleLayer.circleStrokeWidth = NSExpression(forConstantValue: NSNumber(value: strokeWidth))
+    styleLayer.circleOpacity = NSExpression(forConstantValue: NSNumber(value: opacity))
+    styleLayer.circleStrokeOpacity = NSExpression(forConstantValue: NSNumber(value: opacity))
     return MapTrip.TripLayers.LegLayer(source: source, styleLayer: styleLayer)
   }
 }
+
+/// How strongly the route beyond the ridden portion is drawn, lines and stops alike.
+let contextOpacity: Float = 0.45
 
 enum LineWidth {
   static let active: Float = 8

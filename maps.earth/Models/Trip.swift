@@ -20,6 +20,8 @@ struct TripLeg {
   var patternGeometry: [CLLocationCoordinate2D]?
   /// Every stop that route calls at, in order.
   var patternStops: [CLLocationCoordinate2D]?
+  /// The stops beyond the part the rider is aboard for.
+  var contextStops: [CLLocationCoordinate2D]?
   /// The two stops the rider uses, drawn onto the route the same way the rest are.
   var riddenStops: [CLLocationCoordinate2D]?
   var fromPlace: TripPlace
@@ -193,6 +195,9 @@ struct Trip: Identifiable {
           decodePolyline($0, precision: 6)
         },
         patternStops: itineraryLeg.transitLeg?.patternStops.map {
+          decodePolyline($0, precision: 6)
+        },
+        contextStops: itineraryLeg.transitLeg?.contextStops.map {
           decodePolyline($0, precision: 6)
         },
         riddenStops: itineraryLeg.transitLeg?.riddenStops.map {
