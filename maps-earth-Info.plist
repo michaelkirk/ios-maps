@@ -4,6 +4,17 @@
 <dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>earth.maps.maps-earth.deeplink</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mapsearth</string>
+			</array>
+		</dict>
+	</array>
 	<key>LSMinimumSystemVersion</key>
 	<string>14.4</string>
 	<key>UILaunchScreen</key>
