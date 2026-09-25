@@ -276,10 +276,52 @@ final class TransitVehicleTest: XCTestCase {
     XCTAssertEqual(response.unknownPatterns, ["f-c23-metrokingcounty:999999:0:01"])
   }
 
+  /// A report from a couple of missed polls ago is still worth drawing; one past the track's end
+  /// is not.
+  func testExpiry() throws {
+    let subject = vehicle(withTrack: true)
+
+    XCTAssertFalse(subject.hasExpired(at: reportedAt.addingTimeInterval(60)))
+    XCTAssertFalse(subject.hasExpired(at: reportedAt.addingTimeInterval(180)))
+    XCTAssertTrue(subject.hasExpired(at: reportedAt.addingTimeInterval(181)))
+  }
+
   func testUnknownVehicleMode() throws {
     let mode = try JSONDecoder.travelmux.decode(
       TransitVehicleMode.self, from: Data("\"AIRPLANE\"".utf8))
     XCTAssertEqual(mode, .other("AIRPLANE"))
     XCTAssertEqual(mode.emoji, "🚍")
+  }
+}
+
+final class TrackCorrectionTest: XCTestCase {
+  let startedAt = Date(timeIntervalSince1970: 1_700_000_000)
+
+  func testAnUncorrectedDotSitsOnItsTrack() throws {
+    let subject = TrackCorrection()
+
+    XCTAssertEqual(subject.apply(to: LngLat(lng: 10, lat: 0), at: startedAt).lng, 10)
+  }
+
+  func testADotClosesOnAReplacementTrack() throws {
+    let subject = TrackCorrection()
+    subject.begin(at: LngLat(lng: 0, lat: 0), startedAt)
+
+    XCTAssertEqual(
+      subject.apply(to: LngLat(lng: 10, lat: 0), at: startedAt.addingTimeInterval(0.5)).lng, 5)
+    XCTAssertEqual(
+      subject.apply(to: LngLat(lng: 20, lat: 0), at: startedAt.addingTimeInterval(1)).lng, 20)
+  }
+
+  /// A poll landing mid-correction picks up where the dot is, so corrections follow one another
+  /// rather than fighting.
+  func testAPollArrivingMidCorrection() throws {
+    let subject = TrackCorrection()
+    subject.begin(at: LngLat(lng: 0, lat: 0), startedAt)
+    let midway = startedAt.addingTimeInterval(0.5)
+    let drawn = subject.apply(to: LngLat(lng: 10, lat: 0), at: midway)
+    subject.begin(at: drawn, midway)
+
+    XCTAssertEqual(subject.apply(to: LngLat(lng: 20, lat: 0), at: midway).lng, 5)
   }
 }

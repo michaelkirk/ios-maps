@@ -136,6 +136,11 @@ extension VehicleTrack: Decodable {
 }
 
 extension TransitVehicle {
+  /// How long a vehicle keeps being drawn on its last report alone, matching how far ahead
+  /// travelmux predicts - past it the dot would only sit still, claiming a position nobody has
+  /// confirmed in minutes.
+  private static let coastingInterval: TimeInterval = 3 * 60
+
   /// Where the vehicle last actually reported being.
   var reportedLocation: LngLat {
     position.lngLat
@@ -172,6 +177,11 @@ extension TransitVehicle {
   /// Whether the dot has moved past the last thing the vehicle actually told us.
   func isEstimated(at date: Date) -> Bool {
     track != nil && date > lastUpdated
+  }
+
+  /// Whether the report this dot is drawn from is too old to keep drawing without a fresh one.
+  func hasExpired(at date: Date) -> Bool {
+    date.timeIntervalSince(lastUpdated) > Self.coastingInterval
   }
 
   var routeName: String {

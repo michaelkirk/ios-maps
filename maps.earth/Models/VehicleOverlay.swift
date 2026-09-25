@@ -10,6 +10,38 @@ import MapLibre
 
 private let logger = FileLogger()
 
+/// How long a dot takes to close the gap between where it was drawn and where a fresh report says
+/// the vehicle actually is.
+private let trackCorrectionInterval: TimeInterval = 1
+
+/// Carries a dot from the position it was drawn at onto a replacement track.
+class TrackCorrection {
+  private var from: (point: LngLat, startedAt: Date)?
+
+  /// Start correcting from the position currently on screen.
+  func begin(at point: LngLat, _ date: Date) {
+    from = (point, date)
+  }
+
+  /// Where to draw a dot whose track puts it at `target`.
+  func apply(to target: LngLat, at date: Date) -> LngLat {
+    guard let from else {
+      return target
+    }
+
+    let progress = min(1, date.timeIntervalSince(from.startedAt) / trackCorrectionInterval)
+    guard progress < 1 else {
+      self.from = nil
+      return target
+    }
+
+    let eased = progress * progress * (3 - 2 * progress)
+    return LngLat(
+      lng: from.point.lng + eased * (target.lng - from.point.lng),
+      lat: from.point.lat + eased * (target.lat - from.point.lat))
+  }
+}
+
 /// A transit vehicle drawn on the map. Outlives a poll so the marker can be animated between
 /// polls, and so a callout being read doesn't vanish out from under the reader.
 class TransitVehicleAnnotation: MLNPointAnnotation {
@@ -25,6 +57,9 @@ class TransitVehicleAnnotation: MLNPointAnnotation {
   var correctedNow: Date {
     Date.now.addingTimeInterval(clockOffset)
   }
+
+  /// Carries the dot from where it was drawn onto a replacement track.
+  let correction = TrackCorrection()
 
   init(vehicle: TransitVehicle, clockOffset: TimeInterval) {
     self.vehicle = vehicle
@@ -94,6 +129,7 @@ class VehicleOverlay: NSObject {
 
     if self.query != query {
       self.query = query
+      removeVehicles(offPatterns: Set(query.patterns.map { $0.code }))
       start()
     }
     applyFading()
@@ -124,6 +160,16 @@ class VehicleOverlay: NSObject {
     }
   }
 
+  /// Drops the vehicles of patterns we've stopped asking about, which is a different thing from a
+  /// poll that didn't mention one.
+  private func removeVehicles(offPatterns patterns: Set<String>) {
+    for (id, annotation) in annotations where !patterns.contains(annotation.vehicle.patternCode) {
+      annotations.removeValue(forKey: id)
+      annotation.callout?.dismissCallout(animated: false)
+      mapView?.removeAnnotation(annotation)
+    }
+  }
+
   private func start() {
     self.pollTask?.cancel()
     self.pollTask = Task { [weak self] in
@@ -147,7 +193,8 @@ class VehicleOverlay: NSObject {
   @objc private func animate() {
     let now = Date.now.addingTimeInterval(clockOffset)
     for annotation in annotations.values {
-      annotation.coordinate = annotation.vehicle.location(at: now).asCoordinate
+      let target = annotation.vehicle.location(at: now)
+      annotation.coordinate = annotation.correction.apply(to: target, at: now).asCoordinate
     }
   }
 
@@ -170,18 +217,23 @@ class VehicleOverlay: NSObject {
       return
     }
 
+    let previousNow = Date.now.addingTimeInterval(clockOffset)
     // The round trip is part of how stale the answer already is, so measure against its receipt.
     self.clockOffset = response.serverTime.timeIntervalSince(.now)
+    let now = Date.now.addingTimeInterval(clockOffset)
     if let unknownPatterns = response.unknownPatterns {
       // The plan these came from predates a transit data rebuild - its vehicles are gone for good.
       logger.info("travelmux doesn't recognize patterns: \(unknownPatterns)")
     }
 
-    var stale = Set(annotations.keys)
+    var reported = Set<String>()
     for vehicle in response.vehicles {
-      stale.remove(vehicle.id)
+      reported.insert(vehicle.id)
       if let existing = annotations[vehicle.id] {
         // Keep the annotation: replacing it would drop an open callout.
+        let drawn = existing.correction.apply(
+          to: existing.vehicle.location(at: previousNow), at: previousNow)
+        existing.correction.begin(at: drawn, now)
         existing.vehicle = vehicle
         existing.clockOffset = clockOffset
       } else {
@@ -191,12 +243,14 @@ class VehicleOverlay: NSObject {
       }
     }
 
-    // Vehicles that stopped reporting, or left the patterns we asked about.
-    for id in stale {
-      if let annotation = annotations.removeValue(forKey: id) {
-        annotation.callout?.dismissCallout(animated: false)
-        mapView.removeAnnotation(annotation)
-      }
+    // A vehicle a poll didn't mention is usually a gap in the feed or a wobble in what travelmux
+    // ranks as nearby, not a bus that went away - so it keeps coasting along the track it already
+    // has, and is only dropped once that track is spent.
+    for (id, annotation) in annotations
+    where !reported.contains(id) && annotation.vehicle.hasExpired(at: now) {
+      annotations.removeValue(forKey: id)
+      annotation.callout?.dismissCallout(animated: false)
+      mapView.removeAnnotation(annotation)
     }
 
     applyFading()
