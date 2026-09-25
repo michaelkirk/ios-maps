@@ -42,13 +42,22 @@ if [ "$SIMULATOR_STATE" != "Booted" ]; then
     xcrun simctl boot "$SIMULATOR_UDID"
     xcrun simctl bootstatus "$SIMULATOR_UDID"
 fi
-# By path rather than by name: `open -a Simulator` depends on LaunchServices
+# Xcode 27 dropped Simulator.app for Device Hub, which shows simulators and
+# physical devices in one window. It takes the device in a `devices://` URL;
+# Simulator's -CurrentDeviceUDID it accepts and ignores, exiting 0 without
+# booting - so the boot above stays unconditional.
+#
+# By path rather than by name: `open -a DeviceHub` depends on LaunchServices
 # having registered it, and a slimmed Xcode won't ship it at all.
-SIMULATOR_APP="$(xcode-select -p)/Applications/Simulator.app"
-if [ -d "$SIMULATOR_APP" ]; then
+XCODE_DEV_DIR="$(xcode-select -p)"
+DEVICE_HUB="$XCODE_DEV_DIR/../Applications/DeviceHub.app"
+SIMULATOR_APP="$XCODE_DEV_DIR/Applications/Simulator.app"
+if [ -d "$DEVICE_HUB" ]; then
+    open -a "$DEVICE_HUB" "devices://device/open?id=$SIMULATOR_UDID"
+elif [ -d "$SIMULATOR_APP" ]; then
     open -a "$SIMULATOR_APP" --args -CurrentDeviceUDID "$SIMULATOR_UDID"
 else
-    echo "⚠️  No Simulator.app at $SIMULATOR_APP"
+    echo "⚠️  Found neither Device Hub nor Simulator.app under $XCODE_DEV_DIR"
     echo "   Installing and launching anyway, but headless: you'll see no window."
     echo "   Reinstall Xcode to get it back."
 fi

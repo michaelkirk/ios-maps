@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Open a maps.earth URL in the app on the booted simulator.
+#
+# A universal link only reaches the app from a domain it's associated with, and a
+# local dev server never is, so this goes in over the app's own URL scheme
+# instead. Takes a whole URL or just its path - only the path is routed on:
+#
+#   bin/open-url http://localhost:9000/directions/transit/<to>/<from>
+#   bin/open-url /place/openstreetmap%3Avenue%3Away%2F12903132
+#
+# Override with SIMULATOR_UDID to pick a simulator other than the booted one.
+set -euo pipefail
+
+SCHEME="mapsearth"
+
+if [ $# -ne 1 ]; then
+    echo "usage: $(basename "$0") <url-or-path>" >&2
+    exit 1
+fi
+
+case "$1" in
+    *://*)
+        rest="${1#*://}"
+        case "$rest" in
+            */*) path="/${rest#*/}" ;;
+            *) path="/" ;;
+        esac
+        ;;
+    /*) path="$1" ;;
+    *) path="/$1" ;;
+esac
+
+# Three slashes, so the first path component stays a path component: in
+# `mapsearth://directions/...` it would be parsed as the host and lost.
+URL="$SCHEME://$path"
+
+echo "🔗 $URL"
+xcrun simctl openurl "${SIMULATOR_UDID:-booted}" "$URL"
