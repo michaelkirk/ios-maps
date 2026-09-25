@@ -335,17 +335,16 @@ extension TripLeg {
       return nil
     }
     return self.circleLayer(
-      identifier: identifier, at: patternStops, radius: 3.5, strokeWidth: 1.5)
+      identifier: identifier, at: patternStops, radius: 3.5, strokeWidth: 2.5)
   }
 
   /// The two stops the rider actually uses, drawn heavier than the ones the vehicle merely passes
   /// through.
   func usedStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
-    guard self.transitLeg != nil else {
+    guard let riddenStops = self.riddenStops else {
       return nil
     }
-    let used = [self.fromPlace.location.asCoordinate, self.toPlace.location.asCoordinate]
-    return self.circleLayer(identifier: identifier, at: used, radius: 6, strokeWidth: 6)
+    return self.circleLayer(identifier: identifier, at: riddenStops, radius: 5, strokeWidth: 5)
   }
 
   private func circleLayer(
@@ -368,12 +367,12 @@ extension TripLeg {
 }
 
 enum LineWidth {
-  static let active: Float = 12
+  static let active: Float = 8
   static let inactive: Float = 4
-  static let walking: Float = 8
-  /// Half the active width, so the ridden portion drawn over it reads as the emphasized part of
-  /// the same line.
-  static let context: Float = 6
+  static let walking: Float = 6
+  /// Narrower than the active width, so the ridden portion drawn over it reads as the emphasized
+  /// part of the same line.
+  static let context: Float = 5
 }
 
 func lineStyleLayer(
@@ -387,8 +386,12 @@ func lineStyleLayer(
     forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
   switch leg.mode {
   case .walk, .bike:
-    styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: LineWidth.walking))
-    styleLayer.lineDashPattern = NSExpression(forConstantValue: NSArray(array: [1, 1]))
+    styleLayer.lineWidth = NSExpression(
+      forConstantValue: NSNumber(value: isSelected ? LineWidth.walking : LineWidth.inactive))
+    // A zero-length dash under a round cap is a dot, which reads as a path on foot where a run of
+    // little rectangles reads as a road marking.
+    styleLayer.lineCap = NSExpression(forConstantValue: "round")
+    styleLayer.lineDashPattern = NSExpression(forConstantValue: NSArray(array: [0, 1.5]))
   default:
     styleLayer.lineWidth = NSExpression(
       forConstantValue: NSNumber(value: isSelected ? LineWidth.active : LineWidth.inactive))
