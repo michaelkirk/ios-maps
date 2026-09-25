@@ -320,6 +320,7 @@ func contextLayer(tripId: UUID, legIdx: Int, leg: TripLeg) -> MapTrip.TripLayers
   let source = MLNShapeSource(identifier: identifier, features: [polyline], options: nil)
 
   let styleLayer = MLNLineStyleLayer(identifier: identifier, source: source)
+  styleLayer.lineJoin = NSExpression(forConstantValue: "round")
   styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: LineWidth.context))
   styleLayer.lineColor = NSExpression(forConstantValue: UIColor(leg.activeLineColor))
   styleLayer.lineOpacity = NSExpression(forConstantValue: NSNumber(value: 0.35))
@@ -381,6 +382,7 @@ func lineStyleLayer(
   -> MLNLineStyleLayer
 {
   let styleLayer = MLNLineStyleLayer(identifier: identifier, source: source)
+  styleLayer.lineJoin = NSExpression(forConstantValue: "round")
   styleLayer.lineColor = NSExpression(
     forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
   switch leg.mode {
