@@ -55,7 +55,7 @@ struct TripList: View {
               }
             }
           }
-        }.listRowInsets(EdgeInsets())
+        }.listRowInsets(EdgeInsets()).id(trip.id)
       }.listStyle(.plain)
         .onChange(of: tripPlan.selectedTrip) { newValue in
           guard let newValue = newValue else {
