@@ -64,34 +64,18 @@ enum PlaceID: Equatable, Hashable {
       return nil
     }
 
-    let coords = firstComponent.split(separator: ",")
-    if coords.count == 2 {
-      // Looks like LngLat
-      guard let lng = Double(coords[0]),
-        let lat = Double(coords[1])
-      else {
-        assertionFailure(
-          "comma separated pathComponent was expected to be LngLat, but it was not parsable as one: \(firstComponent)"
-        )
-        return nil
-      }
-      self = .lngLat(LngLat(lng: lng, lat: lat))
-    } else {
-      self = .venue(gid: firstComponent)
-    }
+    self = PlaceID(string: firstComponent)
   }
 
+  /// Coordinate pairs are latitude first.
   init(string: String) {
-    let components = string.split(separator: ",")
-    if components.count == 2,
-      let lat = Double(components[0]),
-      let lng = Double(components[1])
-    {
-      self = .lngLat(LngLat(lng: lng, lat: lat))
-      return
-    } else {
+    let fields = string.split(separator: ",")
+    guard fields.count == 2, let first = Double(fields[0]), let second = Double(fields[1]) else {
       self = .venue(gid: string)
+      return
     }
+
+    self = .lngLat(LngLat(lng: second, lat: first))
   }
 
   var serialized: String {
@@ -99,7 +83,7 @@ enum PlaceID: Equatable, Hashable {
     case .venue(let gid):
       return gid
     case .lngLat(let lngLat):
-      return "\(lngLat.lng),\(lngLat.lat)"
+      return "\(lngLat.lat),\(lngLat.lng)"
     }
   }
 }

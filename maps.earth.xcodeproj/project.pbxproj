@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45AA00012E7A00010000AAAA /* TransitVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA00022E7A00010000AAAA /* TransitVehicle.swift */; };
+		45AA00032E7A00010000AAAA /* VehicleOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA00042E7A00010000AAAA /* VehicleOverlay.swift */; };
+		45AA00052E7A00010000AAAA /* VehiclePositionsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA00062E7A00010000AAAA /* VehiclePositionsClient.swift */; };
+		45AA00072E7A00010000AAAA /* TransitVehicleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA00082E7A00010000AAAA /* TransitVehicleTest.swift */; };
+		45AA00092E7A00010000AAAA /* VehiclePositionsRequestTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA000A2E7A00010000AAAA /* VehiclePositionsRequestTest.swift */; };
+		45AA000B2E7A00010000AAAA /* TripPlanResponseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA000C2E7A00010000AAAA /* TripPlanResponseTest.swift */; };
 		450855232BCF36BF00B7678C /* Bench.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855222BCF36BF00B7678C /* Bench.swift */; };
 		450855312BCF48F800B7678C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855302BCF48F800B7678C /* StorageManager.swift */; };
 		450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */; };
@@ -22,7 +28,7 @@
 		4545AA742BA3B0B700958306 /* bicycle_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA722BA3B0B700958306 /* bicycle_plan.json */; };
 		4545AA752BA3B0B700958306 /* car_plan.json in Resources */ = {isa = PBXBuildFile; fileRef = 4545AA732BA3B0B700958306 /* car_plan.json */; };
 		4545AA772BA3B88D00958306 /* ManeuverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4545AA762BA3B88D00958306 /* ManeuverList.swift */; };
-		45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */; };
+		45462D402BC0BB4F00FDE302 /* TransitVehicleMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D3F2BC0BB4F00FDE302 /* TransitVehicleMode.swift */; };
 		45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */; };
 		45520EED2E8C937A0001779A /* OfflineMapsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45520EEB2E8C937A0001779A /* OfflineMapsView.swift */; };
 		45520EEE2E8C937A0001779A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45520EEC2E8C937A0001779A /* SettingsView.swift */; };
@@ -111,6 +117,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		45AA00022E7A00010000AAAA /* TransitVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitVehicle.swift; sourceTree = "<group>"; };
+		45AA00042E7A00010000AAAA /* VehicleOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleOverlay.swift; sourceTree = "<group>"; };
+		45AA00062E7A00010000AAAA /* VehiclePositionsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclePositionsClient.swift; sourceTree = "<group>"; };
+		45AA00082E7A00010000AAAA /* TransitVehicleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitVehicleTest.swift; sourceTree = "<group>"; };
+		45AA000A2E7A00010000AAAA /* VehiclePositionsRequestTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclePositionsRequestTest.swift; sourceTree = "<group>"; };
+		45AA000C2E7A00010000AAAA /* TripPlanResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanResponseTest.swift; sourceTree = "<group>"; };
 		450855222BCF36BF00B7678C /* Bench.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bench.swift; sourceTree = "<group>"; };
 		450855302BCF48F800B7678C /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesControllerTests.swift; sourceTree = "<group>"; };
@@ -127,7 +139,7 @@
 		4545AA722BA3B0B700958306 /* bicycle_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bicycle_plan.json; sourceTree = "<group>"; };
 		4545AA732BA3B0B700958306 /* car_plan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_plan.json; sourceTree = "<group>"; };
 		4545AA762BA3B88D00958306 /* ManeuverList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManeuverList.swift; sourceTree = "<group>"; };
-		45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTripPlanner.swift; sourceTree = "<group>"; };
+		45462D3F2BC0BB4F00FDE302 /* TransitVehicleMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitVehicleMode.swift; sourceTree = "<group>"; };
 		45462D412BC0BEA900FDE302 /* TripPlanListItemDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanListItemDetails.swift; sourceTree = "<group>"; };
 		45520EEB2E8C937A0001779A /* OfflineMapsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapsView.swift; sourceTree = "<group>"; };
 		45520EEC2E8C937A0001779A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -291,6 +303,9 @@
 		4563BA022B687AA5005A677A /* maps.earthTests */ = {
 			isa = PBXGroup;
 			children = (
+				45AA00082E7A00010000AAAA /* TransitVehicleTest.swift */,
+				45AA000A2E7A00010000AAAA /* VehiclePositionsRequestTest.swift */,
+				45AA000C2E7A00010000AAAA /* TripPlanResponseTest.swift */,
 				4563BA032B687AA5005A677A /* maps_earthTests.swift */,
 				456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */,
 				450C5F1E2B963B5700394697 /* TripTest.swift */,
@@ -380,6 +395,9 @@
 		45971AC72B71A7810050BECE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				45AA00022E7A00010000AAAA /* TransitVehicle.swift */,
+				45AA00042E7A00010000AAAA /* VehicleOverlay.swift */,
+				45462D3F2BC0BB4F00FDE302 /* TransitVehicleMode.swift */,
 				4545AA672BA373B500958306 /* Env.swift */,
 				45971ABE2B719C620050BECE /* LngLat.swift */,
 				4545AA6D2BA3934000958306 /* Maneuver.swift */,
@@ -398,10 +416,10 @@
 		45971AC82B71A78C0050BECE /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				45AA00062E7A00010000AAAA /* VehiclePositionsClient.swift */,
 				45971AC22B719DD90050BECE /* GeocodeClient.swift */,
 				45992B4A2B97E66D00A64AEE /* TripPlanClient.swift */,
 				4545AA6F2BA39C4F00958306 /* Valhalla.swift */,
-				45462D3F2BC0BB4F00FDE302 /* OpenTripPlanner.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -553,8 +571,8 @@
 				456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */,
 				4587A4612DD54F9700C2822F /* XCRemoteSwiftPackageReference "mapbox-directions-swift" */,
 				45BFF55C2DD5533800810E0D /* XCRemoteSwiftPackageReference "turf-swift" */,
-				45520EF32E8F13C20001779A /* XCLocalSwiftPackageReference "DevDependencies/headway" */,
-				45B10C052D01A00100AA0005 /* XCLocalSwiftPackageReference "DevDependencies/maplibre-gl-native-distribution" */,
+				45520EF32E8F13C20001779A /* XCLocalSwiftPackageReference "headway" */,
+				45B10C052D01A00100AA0005 /* XCLocalSwiftPackageReference "maplibre-gl-native-distribution" */,
 			);
 			productRefGroup = 4563B9F02B687AA4005A677A /* Products */;
 			projectDirPath = "";
@@ -606,6 +624,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45AA00012E7A00010000AAAA /* TransitVehicle.swift in Sources */,
+				45AA00032E7A00010000AAAA /* VehicleOverlay.swift in Sources */,
+				45AA00052E7A00010000AAAA /* VehiclePositionsClient.swift in Sources */,
 				45831E3D2BCDFDAD007E7AA4 /* PreferencesController.swift in Sources */,
 				4563B9F52B687AA4005A677A /* HomeView.swift in Sources */,
 				45FA80F02BFBFFB3009C0415 /* DirectionsService.swift in Sources */,
@@ -637,7 +658,7 @@
 				456A19E12C825C9900E7E7EA /* MENavigationView.swift in Sources */,
 				45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */,
 				4563B9F32B687AA4005A677A /* maps_earthApp.swift in Sources */,
-				45462D402BC0BB4F00FDE302 /* OpenTripPlanner.swift in Sources */,
+				45462D402BC0BB4F00FDE302 /* TransitVehicleMode.swift in Sources */,
 				4545AA702BA39C4F00958306 /* Valhalla.swift in Sources */,
 				456C6CF12B71BBD200AAFBE6 /* AddressFormatter.swift in Sources */,
 				45462D422BC0BEA900FDE302 /* TripPlanListItemDetails.swift in Sources */,
@@ -670,6 +691,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45AA00072E7A00010000AAAA /* TransitVehicleTest.swift in Sources */,
+				45AA00092E7A00010000AAAA /* VehiclePositionsRequestTest.swift in Sources */,
+				45AA000B2E7A00010000AAAA /* TripPlanResponseTest.swift in Sources */,
 				4571DB912BD9BE9F00C919D8 /* FormatRelativeDateTests.swift in Sources */,
 				45831E332BC8A4C3007E7AA4 /* MapContentsTest.swift in Sources */,
 				450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */,
@@ -831,7 +855,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = maps.earth/maps.earth.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"maps.earth/Preview Content\"";
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				ENABLE_PREVIEWS = YES;
@@ -849,7 +873,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.14;
+				MARKETING_VERSION = 1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -865,7 +889,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = maps.earth/maps.earth.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"maps.earth/Preview Content\"";
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				ENABLE_PREVIEWS = YES;
@@ -883,7 +907,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.14;
+				MARKETING_VERSION = 1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "earth.maps.maps-earth";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -898,7 +922,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -918,7 +942,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -937,7 +961,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -955,7 +979,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = CSBZ6R9U39;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1010,13 +1034,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		45520EF32E8F13C20001779A /* XCLocalSwiftPackageReference "DevDependencies/headway" */ = {
+		45520EF32E8F13C20001779A /* XCLocalSwiftPackageReference "headway" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = DevDependencies/headway;
 		};
-		45B10C052D01A00100AA0005 /* XCLocalSwiftPackageReference "DevDependencies/maplibre-gl-native-distribution" */ = {
+		45B10C052D01A00100AA0005 /* XCLocalSwiftPackageReference "maplibre-gl-native-distribution" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = DevDependencies/maplibre-gl-native-distribution;
+			relativePath = "DevDependencies/maplibre-gl-native-distribution";
 		};
 /* End XCLocalSwiftPackageReference section */
 

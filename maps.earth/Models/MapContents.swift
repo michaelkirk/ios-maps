@@ -149,9 +149,8 @@ struct MapTrip: MapContent {
 
   struct TripLayers {
     struct LegLayer {
-      let identifier: TripLegId
       let source: MLNShapeSource
-      let styleLayer: MLNLineStyleLayer
+      let styleLayer: MLNStyleLayer
     }
     let trip: Trip
     let isSelected: Bool
@@ -161,9 +160,9 @@ struct MapTrip: MapContent {
     init(trip: Trip, isSelected: Bool) {
       self.trip = trip
       self.isSelected = isSelected
-      self.legLayers = trip.legs.enumerated().map { idx, leg in
+      self.legLayers = trip.legs.enumerated().flatMap { idx, leg -> [LegLayer] in
         let identifier = TripLegId(tripId: trip.id, legIdx: idx, isSelected: isSelected)
-        let polyline = polylineFeature(coordinates: leg.geometry, identifier: identifier)
+        let polyline = polylineFeature(coordinates: leg.geometry, identifier: identifier.asString)
 
         // We want to style each leg independently, so we can style the dashed line for walking.
         // It's also sufficient for styling routeColor (once we support that)
@@ -175,8 +174,21 @@ struct MapTrip: MapContent {
           identifier: identifier.asString, features: [polyline], options: nil)
 
         let styleLayer = lineStyleLayer(
-          source: source, identifier: identifier, leg: leg, isSelected: isSelected)
-        return LegLayer(identifier: identifier, source: source, styleLayer: styleLayer)
+          source: source, identifier: identifier.asString, leg: leg, isSelected: isSelected)
+        let legLayer = LegLayer(source: source, styleLayer: styleLayer)
+
+        guard isSelected else {
+          return [legLayer]
+        }
+        let prefix = "trip-route-\(trip.id)-leg-\(idx)"
+        // In draw order: the rest of the route under the ridden portion, the stops over both.
+        return [
+          contextLayer(tripId: trip.id, legIdx: idx, leg: leg),
+          legLayer,
+          leg.contextStopsLayer(identifier: "\(prefix)-context-stops"),
+          leg.riddenStopsLayer(identifier: "\(prefix)-ridden-stops"),
+          leg.onOffStopsLayer(identifier: "\(prefix)-on-off-stops"),
+        ].compactMap { $0 }
       }
       var markers = trip.transferPlaces.map { transfer in
         let style =
@@ -185,8 +197,11 @@ struct MapTrip: MapContent {
           : PlaceMarker.MarkerStyle.unselectedTripTransfer
         return PlaceMarker(place: transfer.intoMarkerLocation, style: style)
       }
-      markers.append(PlaceMarker(place: trip.to.intoMarkerLocation, style: .pin))
-      markers.append(PlaceMarker(place: trip.from.intoMarkerLocation, style: .start))
+      // Every alternate shares the plan's endpoints, so only the selected trip draws them.
+      if isSelected {
+        markers.append(PlaceMarker(place: trip.to.intoMarkerLocation, style: .pin))
+        markers.append(PlaceMarker(place: trip.from.intoMarkerLocation, style: .start))
+      }
       self.markers = markers
     }
   }
@@ -295,29 +310,115 @@ extension PlaceMarker: CustomDebugStringConvertible {
   }
 }
 
+/// The dimmed line for the rest of the route, drawn under an active transit leg. Absent for a leg
+/// the server gave no pattern shape for.
+func contextLayer(tripId: UUID, legIdx: Int, leg: TripLeg) -> MapTrip.TripLayers.LegLayer? {
+  guard let patternGeometry = leg.patternGeometry else {
+    return nil
+  }
+  let identifier = "trip-route-\(tripId)-leg-\(legIdx)-context"
+  let polyline = polylineFeature(coordinates: patternGeometry, identifier: identifier)
+  let source = MLNShapeSource(identifier: identifier, features: [polyline], options: nil)
+
+  let styleLayer = MLNLineStyleLayer(identifier: identifier, source: source)
+  styleLayer.lineJoin = NSExpression(forConstantValue: "round")
+  styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: LineWidth.context))
+  styleLayer.lineColor = NSExpression(forConstantValue: UIColor(leg.activeLineColor))
+  styleLayer.lineOpacity = NSExpression(forConstantValue: NSNumber(value: contextOpacity))
+  return MapTrip.TripLayers.LegLayer(source: source, styleLayer: styleLayer)
+}
+
+extension TripLeg {
+  /// A dot at each ordinary stop on the ridden route, so the rider can count what is ahead.
+  func riddenStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
+    guard let riddenStops = self.riddenStops else {
+      return nil
+    }
+    return self.circleLayer(
+      identifier: identifier, at: riddenStops, radius: 3.5, strokeWidth: 2.5)
+  }
+
+  /// The stops beyond the ridden portion, faded like the line they sit on.
+  func contextStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
+    guard let contextStops = self.contextStops else {
+      return nil
+    }
+    return self.circleLayer(
+      identifier: identifier, at: contextStops, radius: 3.5, strokeWidth: 2.5,
+      opacity: contextOpacity)
+  }
+
+  /// The stops where the rider boards and alights, drawn heavier than the ordinary route stops.
+  func onOffStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
+    guard let onOffStops = self.onOffStops else {
+      return nil
+    }
+    return self.circleLayer(identifier: identifier, at: onOffStops, radius: 5, strokeWidth: 5)
+  }
+
+  private func circleLayer(
+    identifier: String, at coordinates: [CLLocationCoordinate2D], radius: Float,
+    strokeWidth: Float, opacity: Float = 1
+  ) -> MapTrip.TripLayers.LegLayer {
+    let features = coordinates.map { coordinate -> MLNPointFeature in
+      let feature = MLNPointFeature()
+      feature.coordinate = coordinate
+      return feature
+    }
+    let source = MLNShapeSource(identifier: identifier, features: features, options: nil)
+
+    let styleLayer = MLNCircleStyleLayer(identifier: identifier, source: source)
+    styleLayer.circleRadius = NSExpression(forConstantValue: NSNumber(value: radius))
+    styleLayer.circleColor = NSExpression(forConstantValue: UIColor.white)
+    styleLayer.circleStrokeColor = NSExpression(forConstantValue: UIColor(self.activeLineColor))
+    styleLayer.circleStrokeWidth = NSExpression(forConstantValue: NSNumber(value: strokeWidth))
+    styleLayer.circleOpacity = NSExpression(forConstantValue: NSNumber(value: opacity))
+    styleLayer.circleStrokeOpacity = NSExpression(forConstantValue: NSNumber(value: opacity))
+    return MapTrip.TripLayers.LegLayer(source: source, styleLayer: styleLayer)
+  }
+}
+
+/// How strongly the route beyond the ridden portion is drawn, lines and stops alike.
+let contextOpacity: Float = 0.45
+
+enum LineWidth {
+  static let active: Float = 8
+  static let inactive: Float = 4
+  static let walking: Float = 6
+  /// Narrower than the active width, so the ridden portion drawn over it reads as the emphasized
+  /// part of the same line.
+  static let context: Float = 5
+}
+
 func lineStyleLayer(
-  source: MLNSource, identifier: TripLegId, leg: TripLeg, isSelected: Bool
+  source: MLNSource, identifier: String, leg: TripLeg, isSelected: Bool
 )
   -> MLNLineStyleLayer
 {
-  let styleLayer = MLNLineStyleLayer(identifier: identifier.asString, source: source)
-  styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: 4))
+  let styleLayer = MLNLineStyleLayer(identifier: identifier, source: source)
+  styleLayer.lineJoin = NSExpression(forConstantValue: "round")
   styleLayer.lineColor = NSExpression(
     forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
   switch leg.mode {
   case .walk, .bike:
-    styleLayer.lineDashPattern = NSExpression(forConstantValue: NSArray(array: [1, 1]))
+    styleLayer.lineWidth = NSExpression(
+      forConstantValue: NSNumber(value: isSelected ? LineWidth.walking : LineWidth.inactive))
+    // A zero-length dash under a round cap is a dot, which reads as a path on foot where a run of
+    // little rectangles reads as a road marking.
+    styleLayer.lineCap = NSExpression(forConstantValue: "round")
+    styleLayer.lineDashPattern = NSExpression(forConstantValue: NSArray(array: [0, 1.5]))
   default:
-    break
+    styleLayer.lineWidth = NSExpression(
+      forConstantValue: NSNumber(value: isSelected ? LineWidth.active : LineWidth.inactive))
   }
   return styleLayer
 
 }
 
-func polylineFeature(coordinates: [CLLocationCoordinate2D], identifier: TripLegId)
+func polylineFeature(coordinates: [CLLocationCoordinate2D], identifier: String)
   -> MLNPolylineFeature
 {
   let feature = MLNPolylineFeature(coordinates: coordinates, count: UInt(coordinates.count))
-  feature.identifier = identifier.asString
+  feature.identifier = identifier
   return feature
 }

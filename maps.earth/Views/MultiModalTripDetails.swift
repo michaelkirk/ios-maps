@@ -149,13 +149,11 @@ struct NodeGlyph: View {
 
 struct MultiModalTripDetailsSheetContents: View {
   var trip: Trip
+  @Binding var currentDetent: PresentationDetent
   var onClose: () -> Void
 
   var body: some View {
-    SheetContents(
-      title: "Steps", onClose: onClose, presentationDetents: [.large],
-      currentDetent: .constant(.large)
-    ) {
+    SheetContents(title: "Steps", onClose: onClose, currentDetent: $currentDetent) {
       MultiModalTripDetails(trip: trip)
     }
   }
@@ -164,6 +162,7 @@ struct MultiModalTripDetailsSheetContents: View {
 #Preview("Bus Trip Details") {
   let trip = FixtureData.transitTrips[0]
   return Text("").sheet(isPresented: .constant(true)) {
-    MultiModalTripDetailsSheetContents(trip: trip, onClose: {})
+    MultiModalTripDetailsSheetContents(
+      trip: trip, currentDetent: .constant(initialDetentHeight), onClose: {})
   }
 }

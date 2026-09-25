@@ -21,7 +21,7 @@ struct AppConfig {
   }
 
   var travelmuxEndpoint: URL {
-    self.onlineServerBase.appending(path: "travelmux/v6")
+    self.onlineServerBase.appending(path: "travelmux/v8")
   }
 
   var valhallaEndpoint: URL {
@@ -29,9 +29,7 @@ struct AppConfig {
   }
 
   var onlineTileserverStyleUrl: URL {
-    // basic-v2 is the MLT style (source `areamap-mlt`); basic-v1 is the MVT
-    // one, still served for older clients.
-    self.onlineServerBase.appending(path: "/tileserver/style/basic-v2")
+    self.onlineServerBase.appending(path: "/tileserver/style/basic-v3")
   }
 
   var offlineTileserverStyleUrl: URL {
