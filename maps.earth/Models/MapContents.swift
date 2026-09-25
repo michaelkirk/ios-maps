@@ -186,8 +186,8 @@ struct MapTrip: MapContent {
           contextLayer(tripId: trip.id, legIdx: idx, leg: leg),
           legLayer,
           leg.contextStopsLayer(identifier: "\(prefix)-context-stops"),
-          leg.stopsLayer(identifier: "\(prefix)-stops"),
-          leg.usedStopsLayer(identifier: "\(prefix)-used-stops"),
+          leg.riddenStopsLayer(identifier: "\(prefix)-ridden-stops"),
+          leg.onOffStopsLayer(identifier: "\(prefix)-on-off-stops"),
         ].compactMap { $0 }
       }
       var markers = trip.transferPlaces.map { transfer in
@@ -329,14 +329,13 @@ func contextLayer(tripId: UUID, legIdx: Int, leg: TripLeg) -> MapTrip.TripLayers
 }
 
 extension TripLeg {
-  /// A dot at each stop the route calls at, so the rider can count what's between a vehicle and
-  /// their own stop. Absent for a leg the server gave no stops for.
-  func stopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
-    guard let patternStops = self.patternStops else {
+  /// A dot at each ordinary stop on the ridden route, so the rider can count what is ahead.
+  func riddenStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
+    guard let riddenStops = self.riddenStops else {
       return nil
     }
     return self.circleLayer(
-      identifier: identifier, at: patternStops, radius: 3.5, strokeWidth: 2.5)
+      identifier: identifier, at: riddenStops, radius: 3.5, strokeWidth: 2.5)
   }
 
   /// The stops beyond the ridden portion, faded like the line they sit on.
@@ -349,13 +348,12 @@ extension TripLeg {
       opacity: contextOpacity)
   }
 
-  /// The two stops the rider actually uses, drawn heavier than the ones the vehicle merely passes
-  /// through.
-  func usedStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
-    guard let riddenStops = self.riddenStops else {
+  /// The stops where the rider boards and alights, drawn heavier than the ordinary route stops.
+  func onOffStopsLayer(identifier: String) -> MapTrip.TripLayers.LegLayer? {
+    guard let onOffStops = self.onOffStops else {
       return nil
     }
-    return self.circleLayer(identifier: identifier, at: riddenStops, radius: 5, strokeWidth: 5)
+    return self.circleLayer(identifier: identifier, at: onOffStops, radius: 5, strokeWidth: 5)
   }
 
   private func circleLayer(

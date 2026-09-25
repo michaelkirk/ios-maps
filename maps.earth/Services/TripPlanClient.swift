@@ -30,14 +30,14 @@ struct TransitLeg: Decodable {
   /// slice of this the rider is aboard for.
   var patternGeometry: String?
 
-  /// Every stop the pattern calls at, in order, their positions packed as a polyline.
-  var patternStops: String?
+  /// Every ordinary stop on the portion of the pattern the rider travels, in order.
+  var riddenStops: String?
 
   /// The stops beyond the ridden portion, packed the same way.
   var contextStops: String?
 
   /// Where the rider boards and alights, packed the same way.
-  var riddenStops: String?
+  var onOffStops: String?
 }
 
 struct TransitRoute: Decodable {

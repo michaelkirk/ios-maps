@@ -18,12 +18,12 @@ struct TripLeg {
   var geometry: [CLLocationCoordinate2D]
   /// The whole route this leg rides part of, for transit legs the server has a shape for.
   var patternGeometry: [CLLocationCoordinate2D]?
-  /// Every stop that route calls at, in order.
-  var patternStops: [CLLocationCoordinate2D]?
+  /// Every ordinary stop on the portion of the route the rider travels, in order.
+  var riddenStops: [CLLocationCoordinate2D]?
   /// The stops beyond the part the rider is aboard for.
   var contextStops: [CLLocationCoordinate2D]?
-  /// The two stops the rider uses, drawn onto the route the same way the rest are.
-  var riddenStops: [CLLocationCoordinate2D]?
+  /// The stops where the rider boards and alights, drawn onto the route.
+  var onOffStops: [CLLocationCoordinate2D]?
   var fromPlace: TripPlace
   var toPlace: TripPlace
   var startTime: Date
@@ -194,13 +194,13 @@ struct Trip: Identifiable {
         patternGeometry: itineraryLeg.transitLeg?.patternGeometry.map {
           decodePolyline($0, precision: 6)
         },
-        patternStops: itineraryLeg.transitLeg?.patternStops.map {
+        riddenStops: itineraryLeg.transitLeg?.riddenStops.map {
           decodePolyline($0, precision: 6)
         },
         contextStops: itineraryLeg.transitLeg?.contextStops.map {
           decodePolyline($0, precision: 6)
         },
-        riddenStops: itineraryLeg.transitLeg?.riddenStops.map {
+        onOffStops: itineraryLeg.transitLeg?.onOffStops.map {
           decodePolyline($0, precision: 6)
         },
         fromPlace: itineraryLeg.fromPlace,
