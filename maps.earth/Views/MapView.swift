@@ -642,6 +642,10 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
   }
 
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
+    if let vehicle = annotation as? TransitVehicleAnnotation {
+      MainActor.assumeIsolated { self.selectTrip(runningPattern: vehicle.vehicle.patternCode) }
+      return
+    }
     switch self.mapContents {
     case .trips, .empty:
       break
@@ -656,6 +660,20 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
         }
       }
     }
+  }
+
+  /// Picks the trip a tapped vehicle is running, leaving the selection alone when the rider is
+  /// already on it or when no trip on screen runs the pattern.
+  @MainActor
+  private func selectTrip(runningPattern patternCode: String) {
+    let tripPlan = self.mapView.tripPlan
+    guard case .success(let trips) = tripPlan.trips,
+      tripPlan.selectedTrip?.patternCodes.contains(patternCode) != true,
+      let trip = trips.first(where: { $0.patternCodes.contains(patternCode) })
+    else {
+      return
+    }
+    tripPlan.selectedTrip = trip
   }
 
   func mapViewDidFailLoadingMap(_ mapView: MLNMapView, withError error: any Error) {

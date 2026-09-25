@@ -55,18 +55,24 @@ class TransitVehicleMarkerView: MLNAnnotationView {
   /// Where the badge hangs off the chip, relative to the chip's own origin.
   private static let badgeOrigin = CGPoint(x: 14, y: 13)
 
+  private static let ringWidth: CGFloat = 2
+  /// How much thicker the chip's ring is drawn on the vehicle whose callout is being read.
+  private static let selectedRingGrowth: CGFloat = 2
+
   var isFaded: Bool {
     didSet {
       self.alpha = isFaded ? 0.35 : 1
     }
   }
 
+  private let chip: UIView
+
   init(vehicle: TransitVehicle, isFaded: Bool) {
     self.isFaded = isFaded
+    let chip = Self.chipView(vehicle: vehicle)
+    self.chip = chip
     super.init(reuseIdentifier: nil)
     self.alpha = isFaded ? 0.35 : 1
-
-    let chip = Self.chipView(vehicle: vehicle)
     let badge = vehicle.badge.map { Self.badgeView($0, color: vehicle.color.uiColor) }
 
     // MapLibre puts the view's center on the coordinate, and it's the chip - not the badge hanging
@@ -91,13 +97,26 @@ class TransitVehicleMarkerView: MLNAnnotationView {
     }
   }
 
+  /// Thickens the ring outwards, so the emoji inside keeps its size.
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
+    let growth = selected ? Self.selectedRingGrowth : 0
+    let size = Self.chipSize + growth * 2
+    chip.frame = CGRect(
+      x: bounds.midX - size / 2, y: bounds.midY - size / 2, width: size, height: size)
+    chip.layer.cornerRadius = size / 2
+    chip.layer.borderWidth = Self.ringWidth + growth
+  }
+
   /// White so the emoji stays legible over any basemap, ringed in the route's color.
   private static func chipView(vehicle: TransitVehicle) -> UIView {
     let chip = roundedView(
       frame: CGRect(x: 0, y: 0, width: chipSize, height: chipSize),
-      borderColor: vehicle.color.uiColor, borderWidth: 2, shadowRadius: 2, shadowOpacity: 0.4)
+      borderColor: vehicle.color.uiColor, borderWidth: ringWidth, shadowRadius: 2,
+      shadowOpacity: 0.4)
 
     let emoji = UILabel(frame: chip.bounds)
+    emoji.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     emoji.text = vehicle.emoji
     emoji.font = .systemFont(ofSize: 12)
     emoji.textAlignment = .center
