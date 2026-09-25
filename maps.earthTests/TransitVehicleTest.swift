@@ -101,7 +101,7 @@ final class TransitVehicleTest: XCTestCase {
   func testBoardingStopRowCountsDownWhileApproaching() throws {
     let vehicle = arrivingIn(180) { .approaching(arrival: $0, stopArrivals: []) }
     let row = try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt))
-    XCTAssertEqual(row.text, "Approaching")
+    XCTAssertNil(row.text)
     XCTAssertEqual(row.countdown?.value, "3")
     XCTAssertEqual(row.countdown?.unit, "min")
   }
@@ -162,9 +162,17 @@ final class TransitVehicleTest: XCTestCase {
     XCTAssertEqual(
       try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt.addingTimeInterval(90))).text,
       "Next stop")
+    // Close enough that looking up beats counting stops.
     XCTAssertEqual(
       try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt.addingTimeInterval(160))).text,
-      "Next stop")
+      "Arriving now")
+    // Still arriving through the grace that covers a prediction's drift.
+    XCTAssertEqual(
+      try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt.addingTimeInterval(190))).text,
+      "Arriving now")
+    XCTAssertEqual(
+      try XCTUnwrap(vehicle.boardingStopRow(at: reportedAt.addingTimeInterval(200))).text,
+      "Past your stop")
   }
 
   func testBoardingStopRowOfAVehicleTravelmuxSaidNothingAbout() {

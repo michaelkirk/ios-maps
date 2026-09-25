@@ -89,7 +89,8 @@ struct Countdown: Equatable {
 /// What the callout says about the rider's boarding stop: whether this vehicle is still coming,
 /// and - while it's still on its way - how long the wait is.
 struct BoardingStopRow: Equatable {
-  let text: String
+  /// Absent when the feed won't say how many stops are left - the countdown says the rest.
+  let text: String?
   let countdown: Countdown?
 }
 
@@ -214,6 +215,8 @@ extension TransitVehicle {
   /// Within this much of the boarding stop, a countdown is less use to a waiting rider than being
   /// told to look up.
   private static let arrivingNowSeconds: TimeInterval = 30
+  /// How far past its predicted arrival a vehicle is still called arriving.
+  private static let pastStopGraceSeconds: TimeInterval = 15
 
   /// The boarding-stop line of the callout: whether this vehicle is still coming, and how long
   /// until it gets here.
@@ -230,18 +233,22 @@ extension TransitVehicle {
       return BoardingStopRow(text: "Left \(ago.durationFormatted) ago", countdown: nil)
     case .approaching(let arrival, let stopArrivals):
       let seconds = arrival.timeIntervalSince(date)
-      let stopsAway = stopArrivals.filter { $0 > date }.count
+      // Only once it's clearly gone: these positions are predictions, and a rider still at the
+      // stop shouldn't be told they've been passed on the strength of a few seconds' drift.
+      guard seconds >= -Self.pastStopGraceSeconds else {
+        return BoardingStopRow(text: "Past your stop", countdown: nil)
+      }
+      // Which stop it's at matters less than telling a waiting rider to look up.
+      guard seconds > Self.arrivingNowSeconds else {
+        return BoardingStopRow(text: "Arriving now", countdown: nil)
+      }
       let stopsText: String? =
-        switch stopsAway {
+        switch stopArrivals.filter({ $0 > date }).count {
         case 0: nil
         case 1: "Next stop"
-        default: "\(stopsAway) stops away"
+        case let stops: "\(stops) stops away"
         }
-      guard seconds > Self.arrivingNowSeconds else {
-        return BoardingStopRow(text: stopsText ?? "Arriving now", countdown: nil)
-      }
-      return BoardingStopRow(
-        text: stopsText ?? "Approaching", countdown: Countdown(seconds: seconds))
+      return BoardingStopRow(text: stopsText, countdown: Countdown(seconds: seconds))
     }
   }
 
