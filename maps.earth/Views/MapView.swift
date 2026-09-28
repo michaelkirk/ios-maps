@@ -421,6 +421,7 @@ extension MapViewWrapper: UIViewRepresentable {
     weak var mlnMapView: MLNMapView?
 
     var mapContents: MapContents = .empty
+    let vehicleOverlay = VehicleOverlay()
     var selectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
@@ -428,6 +429,13 @@ extension MapViewWrapper: UIViewRepresentable {
       _ mapView: MapViewWrapper
     ) {
       self.mapView = mapView
+    }
+
+    deinit {
+      // The overlay's display link keeps it alive, so nothing else would stop it polling once the
+      // map is gone.
+      let vehicleOverlay = self.vehicleOverlay
+      Task { @MainActor in vehicleOverlay.stop() }
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
@@ -453,6 +461,7 @@ extension MapViewWrapper: UIViewRepresentable {
         bufferedBounds, edgePadding: padding, animated: true, completionHandler: nil)
     }
 
+    @MainActor
     func reconcile(newContents: MapContents, mapView: MLNMapView) {
       AssertMainThread()
       let diff = mapContents.diff(newContents: newContents)
@@ -463,6 +472,18 @@ extension MapViewWrapper: UIViewRepresentable {
         add.add(to: mapView)
       }
       self.mapContents = newContents
+
+      // transit vehicle locations poll to update more often than the rest of the contents
+      // so we update them separately
+      switch newContents {
+      case .trips(let selected, let unselected):
+        // A rider reading a trip's details has chosen: a vehicle on a route they passed over is
+        // no longer something they're waiting for.
+        let alternates = self.mapView.tripPlan.isShowingSteps ? [] : unselected
+        self.vehicleOverlay.update(mapView: mapView, selected: selected, unselected: alternates)
+      case .pins, .empty:
+        self.vehicleOverlay.stop()
+      }
     }
 
     @MainActor
@@ -629,7 +650,12 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     }
   }
 
+  @MainActor
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
+    if let vehicle = annotation as? TransitVehicleAnnotation {
+      self.selectTrip(runningPattern: vehicle.vehicle.patternCode)
+      return
+    }
     switch self.mapContents {
     case .trips, .empty:
       break
@@ -644,6 +670,20 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
         }
       }
     }
+  }
+
+  /// Picks the trip a tapped vehicle is running, leaving the selection alone when the rider is
+  /// already on it or when no trip on screen runs the pattern.
+  @MainActor
+  private func selectTrip(runningPattern patternCode: String) {
+    let tripPlan = self.mapView.tripPlan
+    guard case .success(let trips) = tripPlan.trips,
+      tripPlan.selectedTrip?.patternCodes.contains(patternCode) != true,
+      let trip = trips.first(where: { $0.patternCodes.contains(patternCode) })
+    else {
+      return
+    }
+    tripPlan.selectedTrip = trip
   }
 
   func mapViewDidFailLoadingMap(_ mapView: MLNMapView, withError error: any Error) {
@@ -662,9 +702,27 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     )
   }
 
+  func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
+    annotation is TransitVehicleAnnotation
+  }
+
+  func mapView(_ mapView: MLNMapView, calloutViewFor annotation: MLNAnnotation)
+    -> (any MLNCalloutView)?
+  {
+    guard let vehicleAnnotation = annotation as? TransitVehicleAnnotation else {
+      return nil
+    }
+    return TransitVehicleCalloutView(annotation: vehicleAnnotation)
+  }
+
   func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation)
     -> MLNAnnotationView?
   {
+    if let vehicleAnnotation = annotation as? TransitVehicleAnnotation {
+      return TransitVehicleMarkerView(
+        vehicle: vehicleAnnotation.vehicle, isFaded: vehicleAnnotation.isFaded)
+    }
+
     guard let pointAnnotation = annotation as? MLNPointAnnotation,
       let marker = PlaceMarker.markerLookup[pointAnnotation]
     else {
