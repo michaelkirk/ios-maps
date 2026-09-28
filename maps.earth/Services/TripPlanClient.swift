@@ -25,6 +25,19 @@ struct TransitLeg: Decodable {
   /// What `/vehicle_positions` keys vehicles by. Only good for the life of the plan it came in:
   /// OTP renumbers patterns whenever the transit data is rebuilt.
   var patternCode: String?
+
+  /// The whole shape the pattern runs, as an encoded polyline. The leg's own geometry is the
+  /// slice of this the rider is aboard for.
+  var patternGeometry: String?
+
+  /// Every ordinary stop on the portion of the pattern the rider travels, in order.
+  var riddenStops: String?
+
+  /// The stops beyond the ridden portion, packed the same way.
+  var contextStops: String?
+
+  /// Where the rider boards and alights, packed the same way.
+  var onOffStops: String?
 }
 
 struct TransitRoute: Decodable {
@@ -69,6 +82,13 @@ struct ItineraryLeg {
   var endTime: Date
   var mode: TravelMode
   var modeLeg: ModeLeg
+
+  var transitLeg: TransitLeg? {
+    guard case .transit(let transitLeg) = self.modeLeg else {
+      return nil
+    }
+    return transitLeg
+  }
 }
 
 extension TripPlace: Decodable {

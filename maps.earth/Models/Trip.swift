@@ -16,6 +16,14 @@ struct TripPlace: Hashable, Equatable {
 
 struct TripLeg {
   var geometry: [CLLocationCoordinate2D]
+  /// The whole route this leg rides part of, for transit legs the server has a shape for.
+  var patternGeometry: [CLLocationCoordinate2D]?
+  /// Every ordinary stop on the portion of the route the rider travels, in order.
+  var riddenStops: [CLLocationCoordinate2D]?
+  /// The stops beyond the part the rider is aboard for.
+  var contextStops: [CLLocationCoordinate2D]?
+  /// The stops where the rider boards and alights, drawn onto the route.
+  var onOffStops: [CLLocationCoordinate2D]?
   var fromPlace: TripPlace
   var toPlace: TripPlace
   var startTime: Date
@@ -159,8 +167,12 @@ struct Trip: Identifiable {
     }
   }
 
+  /// Where the traveler changes legs, except at a transit stop, which the map already marks with
+  /// a stop of its own.
   var transferPlaces: [TripPlace] {
-    self.legs[1...].map { $0.fromPlace }
+    self.legs.indices.dropFirst().filter {
+      self.legs[$0].transitLeg == nil && self.legs[$0 - 1].transitLeg == nil
+    }.map { self.legs[$0].fromPlace }
   }
 
   /// The first leg the traveler rides rather than walks, if this trip has one.
@@ -179,6 +191,18 @@ struct Trip: Identifiable {
     self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(
         geometry: decodePolyline(itineraryLeg.geometry, precision: 6),
+        patternGeometry: itineraryLeg.transitLeg?.patternGeometry.map {
+          decodePolyline($0, precision: 6)
+        },
+        riddenStops: itineraryLeg.transitLeg?.riddenStops.map {
+          decodePolyline($0, precision: 6)
+        },
+        contextStops: itineraryLeg.transitLeg?.contextStops.map {
+          decodePolyline($0, precision: 6)
+        },
+        onOffStops: itineraryLeg.transitLeg?.onOffStops.map {
+          decodePolyline($0, precision: 6)
+        },
         fromPlace: itineraryLeg.fromPlace,
         toPlace: itineraryLeg.toPlace,
         startTime: itineraryLeg.startTime,
