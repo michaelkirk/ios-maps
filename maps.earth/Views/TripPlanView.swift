@@ -120,7 +120,6 @@ var searcher = TripSearchManager()
 struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
 
-  @State var showSteps: Bool
   @State var tripDate: TripDateMode = .departNow
   @EnvironmentObject var preferences: Preferences
   var didCompleteTrip: () -> Void
@@ -166,7 +165,7 @@ struct TripPlanView: View {
           Text("Unable to get directions — \(error.localizedDescription)")
         }
       case .success(let trips):
-        TripList(tripPlan: tripPlan, trips: .constant(trips), showSteps: $showSteps)
+        TripList(tripPlan: tripPlan, trips: .constant(trips))
       }
     }.onAppear {
       // don't blow away mocked values in Preview
@@ -305,7 +304,6 @@ struct TripSearchManager {
 
 struct TripPlanSheetContents: View {
   @ObservedObject var tripPlan: TripPlan
-  @State var showSteps: Bool = false
   var didCompleteTrip: () -> Void
 
   var body: some View {
@@ -314,12 +312,9 @@ struct TripPlanSheetContents: View {
     ) {
       GeometryReader { geometry in
         ScrollView {
-          TripPlanView(
-            tripPlan: tripPlan, showSteps: showSteps,
-            didCompleteTrip: didCompleteTrip
-          )
-          .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-          .frame(minHeight: geometry.size.height)
+          TripPlanView(tripPlan: tripPlan, didCompleteTrip: didCompleteTrip)
+            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+            .frame(minHeight: geometry.size.height)
         }
       }
     }
@@ -354,8 +349,9 @@ struct TripPlanSheetContents: View {
 
 #Preview("Steps") {
   let tripPlan = FixtureData.tripPlan
+  tripPlan.isShowingSteps = true
   return Text("").sheet(isPresented: .constant(true)) {
-    TripPlanSheetContents(tripPlan: tripPlan, showSteps: true, didCompleteTrip: {})
+    TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }
   .environmentObject(Preferences.forTesting())
 }

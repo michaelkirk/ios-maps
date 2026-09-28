@@ -88,6 +88,7 @@ final class TripTest: XCTestCase {
 
     XCTAssertEqual(transitLeg.vehicleMode, .bus)
     XCTAssertEqual(transitLeg.routeSummaryName, "C Line")
+    XCTAssertEqual(trip.patternCodes, [transitLeg.patternCode])
   }
 
   func testErrorResponse() {
