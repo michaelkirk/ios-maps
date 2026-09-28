@@ -355,10 +355,11 @@ extension MapViewWrapper: UIViewRepresentable {
     if case .success(let trips) = self.tripPlan.trips, let selectedTrip = self.tripPlan.selectedTrip
     {
       let selected = MapTrip(trip: selectedTrip, isSelected: true)
-      let unselected = trips.filter { $0 != selectedTrip }.map {
-        MapTrip(trip: $0, isSelected: false)
-      }
-      mapContents = .trips(selected: selected, unselected: unselected)
+      // A rider reading a trip's details has chosen: the routes they passed over are no longer
+      // theirs to compare, and neither are the vehicles running them.
+      let alternates = self.tripPlan.isShowingSteps ? [] : trips.filter { $0 != selectedTrip }
+      mapContents = .trips(
+        selected: selected, unselected: alternates.map { MapTrip(trip: $0, isSelected: false) })
     } else if let places = self.searchResults {
       let selected = selectedPlace.map {
         PlaceMarker(place: $0.intoMarkerLocation, style: .pin)
@@ -470,10 +471,7 @@ extension MapViewWrapper: UIViewRepresentable {
       // so we update them separately
       switch newContents {
       case .trips(let selected, let unselected):
-        // A rider reading a trip's details has chosen: a vehicle on a route they passed over is
-        // no longer something they're waiting for.
-        let alternates = self.mapView.tripPlan.isShowingSteps ? [] : unselected
-        self.vehicleOverlay.update(mapView: mapView, selected: selected, unselected: alternates)
+        self.vehicleOverlay.update(mapView: mapView, selected: selected, unselected: unselected)
       case .pins, .empty:
         self.vehicleOverlay.stop()
       }

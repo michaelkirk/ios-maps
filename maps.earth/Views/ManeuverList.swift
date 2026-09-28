@@ -150,13 +150,11 @@ struct ManeuverList: View {
 struct ManeuverListSheetContents: View {
   var trip: Trip
   var maneuvers: [Maneuver]
+  @Binding var currentDetent: PresentationDetent
   var onClose: () -> Void
 
   var body: some View {
-    SheetContents(
-      title: "Steps", onClose: onClose, presentationDetents: [.large],
-      currentDetent: .constant(.large)
-    ) {
+    SheetContents(title: "Steps", onClose: onClose, currentDetent: $currentDetent) {
       ManeuverList(trip: trip, maneuvers: maneuvers)
     }
   }
@@ -169,7 +167,9 @@ struct ManeuverListSheetContents: View {
   }
 
   return Text("").sheet(isPresented: .constant(true)) {
-    ManeuverListSheetContents(trip: trip, maneuvers: nonTransitLeg.maneuvers, onClose: {})
+    ManeuverListSheetContents(
+      trip: trip, maneuvers: nonTransitLeg.maneuvers,
+      currentDetent: .constant(initialDetentHeight), onClose: {})
   }
 }
 
@@ -182,6 +182,7 @@ struct ManeuverListSheetContents: View {
   }
 
   return Text("").sheet(isPresented: .constant(true)) {
-    ManeuverListSheetContents(trip: trip, maneuvers: maneuvers, onClose: {})
+    ManeuverListSheetContents(
+      trip: trip, maneuvers: maneuvers, currentDetent: .constant(initialDetentHeight), onClose: {})
   }
 }
