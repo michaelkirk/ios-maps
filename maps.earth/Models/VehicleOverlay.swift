@@ -173,8 +173,8 @@ class VehicleOverlay: NSObject {
   private func start() {
     self.pollTask?.cancel()
     self.pollTask = Task { [weak self] in
-      while !Task.isCancelled {
-        await self?.refresh()
+      while let self, !Task.isCancelled {
+        await self.refresh()
         try? await Task.sleep(for: Self.pollInterval)
       }
     }
@@ -258,9 +258,7 @@ class VehicleOverlay: NSObject {
 
   private func applyFading() {
     for annotation in annotations.values {
-      let isFaded =
-        !selectedPatternCodes.isEmpty
-        && !selectedPatternCodes.contains(annotation.vehicle.patternCode)
+      let isFaded = !selectedPatternCodes.contains(annotation.vehicle.patternCode)
       annotation.isFaded = isFaded
       if let view = mapView?.view(for: annotation) as? TransitVehicleMarkerView {
         view.isFaded = isFaded

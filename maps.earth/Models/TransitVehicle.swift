@@ -149,8 +149,9 @@ extension TransitVehicle {
 
   /// Where we reckon the vehicle is at `date`, walking the predicted track.
   ///
-  /// Before the track begins, or with no track at all, that's just the reported position. Past its
-  /// end we hold at the last point rather than running off the end of the prediction.
+  /// With no track at all that's the reported position, and before the track begins its first
+  /// point. Past its end we hold at the last point rather than running off the end of the
+  /// prediction.
   func location(at date: Date) -> LngLat {
     guard let track else {
       return reportedLocation

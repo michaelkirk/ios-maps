@@ -432,6 +432,13 @@ extension MapViewWrapper: UIViewRepresentable {
       self.mapView = mapView
     }
 
+    deinit {
+      // The overlay's display link keeps it alive, so nothing else would stop it polling once the
+      // map is gone.
+      let vehicleOverlay = self.vehicleOverlay
+      Task { @MainActor in vehicleOverlay.stop() }
+    }
+
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
     func zoom(mapView: MLNMapView, center: LngLat, bufferMeters: Float64, animated isAnimated: Bool)
     {
