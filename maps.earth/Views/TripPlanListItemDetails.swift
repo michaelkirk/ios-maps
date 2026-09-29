@@ -26,6 +26,9 @@ struct NonTransitPlanItem: View {
       }
       Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
       Text(distanceAndClimb).font(.subheadline).foregroundColor(.secondary)
+      if !trip.routePreferences.isEmpty {
+        RoutePreferenceBadges(preferences: trip.routePreferences)
+      }
       if let elevation = trip.elevation {
         // Only a glance here: its steps are where the chart can be scrubbed.
         ElevationChart(
@@ -35,6 +38,55 @@ struct NonTransitPlanItem: View {
     }
     Spacer()
     GoButton(action: onGo)
+  }
+}
+
+/// Says which cycling objectives a route is the best answer to - it may well be the best at several.
+struct RoutePreferenceBadges: View {
+  var preferences: [BikeRoutePreference]
+
+  var body: some View {
+    HStack(spacing: 4) {
+      ForEach(preferences, id: \.self) { preference in
+        HStack(spacing: 3) {
+          Text(preference.emoji)
+          Text(preference.label)
+        }
+        .font(.caption).fontWeight(.semibold).foregroundStyle(preference.ink)
+        .padding(.horizontal, 10).padding(.vertical, 5)
+        .background(preference.tint, in: Capsule())
+      }
+    }
+  }
+}
+
+extension BikeRoutePreference {
+  var label: String {
+    switch self {
+    case .quieter: "Comfier"
+    case .faster: "Faster"
+    }
+  }
+
+  var emoji: String {
+    switch self {
+    case .quieter: "🦦"
+    case .faster: "⚡"
+    }
+  }
+
+  var tint: Color {
+    switch self {
+    case .quieter: .hw_quieterBadgeTint
+    case .faster: .hw_fasterBadgeTint
+    }
+  }
+
+  var ink: Color {
+    switch self {
+    case .quieter: .hw_quieterBadgeInk
+    case .faster: .hw_fasterBadgeInk
+    }
   }
 }
 
@@ -180,6 +232,11 @@ func formattedDepatureName(tripPlace: TripPlace, boldFont: Font) -> AttributedSt
 
 #Preview("biking, with grades") {
   let tripPlan = FixtureData.bikeGradeTripPlan
+  return NonTransitPlanItem(trip: tripPlan.selectedTrip!, onGo: {})
+}
+
+#Preview("bicycle") {
+  let tripPlan = FixtureData.bikeTripPlan
   return NonTransitPlanItem(trip: tripPlan.selectedTrip!, onGo: {})
 }
 

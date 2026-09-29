@@ -56,6 +56,11 @@ final class TripTest: XCTestCase {
     XCTAssertEqual(trip.distanceFormatted, "4.3 miles")
   }
 
+  func testRoutePreferences() {
+    XCTAssertEqual(FixtureData.bikeTrips[0].routePreferences, [.quieter, .faster])
+    XCTAssertEqual(FixtureData.walkTrips[0].routePreferences, [])
+  }
+
   func testWalkManeuvers() {
     let trip = FixtureData.walkTrips[0]
     XCTAssertEqual(trip.duration, 5646.0, accuracy: 10e-3)

@@ -219,6 +219,11 @@ struct Trip: Identifiable {
     return formatter.string(from: measurement)
   }
 
+  /// Which cycling objectives this route is the best answer to. Empty for every other mode.
+  var routePreferences: [BikeRoutePreference] {
+    self.raw.routePreferences ?? []
+  }
+
   var substantialStreetNames: String? {
     let names = legs.flatMap({ leg -> [String] in
       if case .nonTransit(let nonTransitLeg) = leg.modeLeg {

@@ -189,6 +189,14 @@ struct Itinerary: Decodable {
   var distanceMeters: Float64
   var bounds: Bounds
   var legs: [ItineraryLeg]
+  /// Which cycling objectives this route is the best answer to. Absent for every other mode.
+  var routePreferences: [BikeRoutePreference]?
+}
+
+/// A cycling objective travelmux asked OTP to optimize for.
+enum BikeRoutePreference: String, Decodable, Hashable {
+  case quieter
+  case faster
 }
 
 //  "bounds": {
