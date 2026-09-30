@@ -149,13 +149,13 @@ struct PlaceDetail: View {
             }
           }) {
             HStack {
-              favoritePlace.saveButtonIcon
+              favoritePlace.saveButtonIcon.foregroundStyle(Color.hw_blue)
               Text("Save")
             }
           }
           .padding()
-          .foregroundColor(.white)
-          .background(favoritePlace.iconColor)
+          .foregroundColor(.primary)
+          .background(Color.white)
           .cornerRadius(4)
         } else {
           Button(action: {
@@ -164,13 +164,13 @@ struct PlaceDetail: View {
             }
           }) {
             HStack {
-              Image(systemName: "star")
+              Image(systemName: "star").foregroundStyle(Color.hw_blue)
               Text("Save")
             }
           }
           .padding()
-          .foregroundColor(.white)
-          .background(Color.hw_blue)
+          .foregroundColor(.primary)
+          .background(Color.white)
           .cornerRadius(4)
           .contextMenu {
             Button(action: {
@@ -199,33 +199,33 @@ struct PlaceDetail: View {
         }
       }.scenePadding(.bottom)
 
-      Text("Details").font(.title3).bold()
+      Text("Details").hwText(.heading)
       VStack(alignment: .leading) {
         if isLoadingDetails {
           HStack {
             ProgressView()
               .scaleEffect(0.8)
             Text("Loading details...")
-              .foregroundColor(.secondary)
+              .hwText(.secondary)
           }
-          .padding(.vertical, 8)
+          .padding(.vertical, Space.s)
         } else {
           if let phoneNumber = place.phoneNumber {
             let readableFormat = phoneNumberKit.format(phoneNumber, toType: .national)
             let e164 = phoneNumberKit.format(phoneNumber, toType: .e164)
             if let phoneURL = URL(string: "tel://\(e164)") {
-              Text("Phone").foregroundColor(.secondary)
+              Text("Phone").hwText(.secondary)
               Link(readableFormat, destination: phoneURL)
               Divider()
             }
           }
           if let websiteURL = place.websiteURL {
-            Text("Website").foregroundColor(.secondary)
+            Text("Website").hwText(.secondary)
             Link(websiteURL.absoluteString, destination: websiteURL)
             Divider()
           }
           if let formattedAddress = addressFormatter.format(place: place, includeCountry: true) {
-            Text("Address").foregroundColor(.secondary)
+            Text("Address").hwText(.secondary)
             Text(formattedAddress)
           }
         }

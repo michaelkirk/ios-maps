@@ -148,7 +148,7 @@ struct FavoritePlaces: View {
   var didSelect: (Place) -> Void = { _ in }
   var body: some View {
     VStack(alignment: .leading) {
-      Text("Favorites").font(.headline)
+      Text("Favorites").hwText(.heading)
         .padding(.horizontal)
       ScrollView(.horizontal) {
         HStack(alignment: .top, spacing: 12) {

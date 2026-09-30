@@ -131,7 +131,7 @@ struct ManeuverList: View {
 
     VStack(alignment: .leading) {
       HStack {
-        Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").bold()
+        Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").hwText(.heading)
         Spacer()
         if let onGo {
           GoButton(action: onGo)
@@ -158,14 +158,14 @@ struct ManeuverList: View {
   }
 
   private func maneuverRow(_ maneuver: Maneuver) -> some View {
-    HStack(spacing: 16) {
+    HStack(spacing: Space.l) {
       image(maneuverType: maneuver.type).imageScale(.large)
       VStack(alignment: .leading) {
         if let instruction = maneuver.instruction {
           Text(instruction)
         }
         if let verbalPostTransitionInstruction = maneuver.verbalPostTransitionInstruction {
-          Text(verbalPostTransitionInstruction).foregroundColor(.secondary)
+          Text(verbalPostTransitionInstruction).hwText(.secondary)
         }
       }
       Spacer()
@@ -177,8 +177,8 @@ struct ManeuverList: View {
   private func climbs(_ elevation: LegElevation) -> some View {
     let header = HStack(spacing: 4) {
       Text("Climbs:")
-      ElevationTotals(trip: trip, elevation: elevation, fontSize: 13)
-    }.font(.system(size: 13))
+      ElevationTotals(trip: trip, elevation: elevation)
+    }.hwText(.secondary)
     if elevation.climbs.isEmpty {
       header
     } else {
@@ -203,8 +203,8 @@ struct ClimbRow: View {
   let climb: SteepSection
 
   var body: some View {
-    HStack(spacing: 12) {
-      Text("↗ \(climb.percent)%").bold().foregroundStyle(climb.shade.color)
+    HStack(spacing: Space.m) {
+      Text("↗ \(climb.percent)%").bold().foregroundStyle(Color.hw_amber700)
       Text(description)
       Spacer()
     }.contentShape(Rectangle())

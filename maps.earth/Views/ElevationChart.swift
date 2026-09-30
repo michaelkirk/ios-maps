@@ -16,7 +16,7 @@ struct ElevationChart: View {
       ZStack(alignment: .topLeading) {
         layout.areaPath.fill(
           LinearGradient(
-            colors: [Color.hw_flatGrade.opacity(0.3), Color.hw_flatGrade.opacity(0.1)],
+            colors: [Color.hw_activeRoute.opacity(0.3), Color.hw_activeRoute.opacity(0.1)],
             startPoint: .top, endPoint: .bottom))
 
         if let scrubPoint = layout.point(atFraction: scrubFraction) {
@@ -26,7 +26,7 @@ struct ElevationChart: View {
           }.stroke(Color.black.opacity(0.25), lineWidth: 1)
         }
 
-        layout.linePath.stroke(Color.hw_flatGrade, lineWidth: 1.5)
+        layout.linePath.stroke(Color.hw_activeRoute, lineWidth: 1.5)
         ForEach(elevation.steepSections, id: \.self) { section in
           layout.path(along: section).stroke(
             section.shade.color, style: StrokeStyle(lineWidth: 2, lineCap: .round))
@@ -70,7 +70,7 @@ struct ElevationChart: View {
       : arrow + Text(" ") + number + percentSign
     return Color.clear.frame(width: 0, height: 0)
       .overlay(alignment: fitsLeft ? .bottomTrailing : .bottomLeading) {
-        label.foregroundStyle(Color.hw_climb)
+        label.foregroundStyle(Color.hw_amber700)
           .fixedSize()
           .shadow(color: .white, radius: 0.5)
           .shadow(color: .white, radius: 0.5)
@@ -159,19 +159,18 @@ struct ElevationChartLayout {
 struct ElevationTotals: View {
   let trip: Trip
   let elevation: LegElevation
-  var fontSize: CGFloat = 11
 
   var body: some View {
-    HStack(spacing: 8) {
+    HStack(spacing: Space.s) {
       if elevation.totalClimbMeters > 0 {
         Text("↗ \(trip.formatFeetOrMeters(meters: elevation.totalClimbMeters))")
-          .foregroundStyle(Color.hw_climb)
+          .foregroundStyle(Color.hw_amber700)
       }
       if elevation.totalFallMeters > 0 {
         Text("↘ \(trip.formatFeetOrMeters(meters: elevation.totalFallMeters))")
-          .foregroundStyle(Color.hw_fall)
+          .foregroundStyle(Color.hw_teal700)
       }
-    }.font(.system(size: fontSize, weight: .medium))
+    }
   }
 }
 
@@ -179,6 +178,6 @@ struct ElevationTotals: View {
   let trip = FixtureData.bikeGradeTrips[0]
   return VStack(alignment: .leading, spacing: 0) {
     ElevationChart(elevation: trip.elevation!, scrubFraction: .constant(0.3)).frame(height: 100)
-    ElevationTotals(trip: trip, elevation: trip.elevation!)
+    ElevationTotals(trip: trip, elevation: trip.elevation!).hwText(.secondary)
   }.padding()
 }

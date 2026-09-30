@@ -14,9 +14,9 @@ struct PlaceRow: View {
   var body: some View {
     HStack {
       VStack(alignment: .leading) {
-        Text(place.label).font(.headline)
+        Text(place.label).hwText(.heading)
         if let formattedAddress = AddressFormatter().format(place: place) {
-          Text(formattedAddress).font(.subheadline)
+          Text(formattedAddress).hwText(.secondary)
         }
       }
       Spacer()

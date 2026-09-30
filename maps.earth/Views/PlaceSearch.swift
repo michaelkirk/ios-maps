@@ -126,7 +126,7 @@ struct PlaceSearch<Content: View>: View {
             if !preferences.recentSearches.isEmpty {
               VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                  Text("Recent Searches").font(.headline)
+                  Text("Recent Searches").hwText(.heading)
                   Spacer()
                   Button(action: {
                     Task { await preferences.clearSearch() }

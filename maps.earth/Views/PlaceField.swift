@@ -22,7 +22,7 @@ struct PlaceField: View {
   var body: some View {
     Button(action: { searchIsPresented = true }) {
       HStack(spacing: 16) {
-        Text("\(header):").foregroundColor(.hw_darkGray)
+        Text("\(header):").foregroundColor(.hw_fieldLabel)
           .frame(width: headerWidth, alignment: .trailing)
         Text(place?.name ?? "None").foregroundColor(.black)
           .frame(maxWidth: .infinity, alignment: .leading)

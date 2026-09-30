@@ -44,22 +44,32 @@ extension Color {
   static let hw_sheetCloseBackground = Color(rgb: 0xE8E8E8)
   static let hw_sheetBackground = Color(rgb: 0xE8F0F4)
   static let hw_searchFieldBackground = Color(rgb: 0xD9E1E8)
+  static let hw_fieldLabel = Color(rgb: 0x5B6167)
   static let hw_searchFieldPlaceholderForeground = Color(rgb: 0x7B7E82)
   static let hw_activeRoute = Color(rgb: 0x1296FF)
   static let hw_inactiveRoute = Color(rgb: 0x6FC1EE)
 
-  // Route preference badges. They label a route rather than acting on it, so
-  // they're tinted chips: dark ink on a pale wash, well clear of the blue that
-  // means "selected" and the green that means "go".
-  static let hw_quieterBadgeTint = Color(rgb: 0xC5EDEA)
-  static let hw_quieterBadgeInk = Color(rgb: 0x156660)
-  static let hw_fasterBadgeTint = Color(rgb: 0xF5DAB2)
-  static let hw_fasterBadgeInk = Color(rgb: 0x794D0C)
+  // Accents for describing things, clear of the blue that means "selected" and
+  // the green that means "go". 50 and 100 are washes to sit type on, 500 is for
+  // shapes only, 600 and 700 are ink. See docs/style-guide.html.
+  static let hw_teal50 = Color(rgb: 0xE7F9F8)
+  static let hw_teal100 = Color(rgb: 0xC5EDEA)
+  static let hw_teal500 = Color(rgb: 0x2DA9A1)
+  static let hw_teal600 = Color(rgb: 0x218C85)
+  static let hw_teal700 = Color(rgb: 0x156660)
+  static let hw_amber50 = Color(rgb: 0xFCEED9)
+  static let hw_amber100 = Color(rgb: 0xF5DAB2)
+  static let hw_amber500 = Color(rgb: 0xD48611)
+  static let hw_amber600 = Color(rgb: 0xAD6C0B)
+  static let hw_amber700 = Color(rgb: 0x794D0C)
 
   // Favorite place colors
   static let hw_green = Color(rgb: 0x2ECC40)  // Fresh, vibrant green for Home
   static let hw_red = Color(rgb: 0xE74C3C)  // Warm red for Work
   static let hw_blue = Color(rgb: 0x3498DB)  // Complementary blue for Other
+
+  /// GO's fill: system green's increased-contrast shade.
+  static let hw_go = Color(rgb: 0x248A3D)
 
   var uiColor: UIColor {
     UIColor(self)
@@ -100,7 +110,62 @@ struct ColorPalette: View {
   }
 }
 
+/// A step in the type scale. See docs/style-guide.html#typography.
+enum TextRole {
+  /// A sheet's name: "Directions", a place's name.
+  case title
+  /// Names a section or a row: "Favorites", a search result's name.
+  case heading
+  /// The number a trip row is about: "48 min", "4:05 – 4:52 PM".
+  case figure
+  case body
+  /// Says more about the line above it: a distance, an address.
+  case secondary
+  /// Small print: sizes, dates, progress.
+  case caption
+  /// Type on a chip. Its color comes from the chip.
+  case label
+
+  var font: Font {
+    switch self {
+    case .title: .title.bold()
+    case .heading: .headline
+    case .figure: .title2.bold()
+    case .body: .body
+    case .secondary: .subheadline
+    case .caption: .caption
+    case .label: .caption.weight(.semibold)
+    }
+  }
+
+  var color: Color? {
+    switch self {
+    case .secondary, .caption: .hw_darkGray
+    case .title, .heading, .figure, .body, .label: nil
+    }
+  }
+}
+
+/// The spacing scale. See docs/style-guide.html#spacing.
+enum Space {
+  static let xs: CGFloat = 4
+  static let s: CGFloat = 8
+  static let m: CGFloat = 12
+  static let l: CGFloat = 16
+  static let xl: CGFloat = 24
+}
+
 extension View {
+  /// Sets the font, and for the quieter roles the color, of a `TextRole`.
+  @ViewBuilder
+  func hwText(_ role: TextRole) -> some View {
+    if let color = role.color {
+      self.font(role.font).foregroundStyle(color)
+    } else {
+      self.font(role.font)
+    }
+  }
+
   @ViewBuilder
   public func hwListStyle() -> some View {
     self.listStyle(.plain)

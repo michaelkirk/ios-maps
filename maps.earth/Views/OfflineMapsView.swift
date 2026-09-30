@@ -32,10 +32,9 @@ struct OfflineMapsView: View {
             .font(.system(size: 48))
             .foregroundColor(.secondary)
           Text("No Offline Maps")
-            .font(.headline)
+            .hwText(.heading)
           Text("Download map areas for offline use")
-            .font(.subheadline)
-            .foregroundColor(.secondary)
+            .hwText(.secondary)
             .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
@@ -86,23 +85,20 @@ struct OfflineRegionRow: View {
     HStack(alignment: .top, spacing: 12) {
       VStack(alignment: .leading, spacing: 4) {
         Text(region.name)
-          .font(.headline)
+          .hwText(.heading)
 
         Text("Bounds: \(formatBounds(region.bounds))")
-          .font(.caption)
-          .foregroundColor(.secondary)
+          .hwText(.caption)
 
         HStack {
           Text(formatDate(region.createdAt))
-            .font(.caption)
-            .foregroundColor(.secondary)
+            .hwText(.caption)
 
           if let size = region.sizeInBytes {
             Text("•")
-              .foregroundColor(.secondary)
+              .hwText(.caption)
             Text(formatBytes(size))
-              .font(.caption)
-              .foregroundColor(.secondary)
+              .hwText(.caption)
           }
         }
       }
@@ -219,28 +215,26 @@ struct AddOfflineRegionView: View {
           if !extractionState.hasExtractionStarted {
             VStack(alignment: .leading, spacing: 8) {
               Text(isEditMode ? "Edit Offline Map" : "Download Offline Map")
-                .font(.headline)
+                .hwText(.heading)
 
               TextField("Map name", text: $regionName)
                 .textFieldStyle(.roundedBorder)
 
               Text("Move the map to select the area to download")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+                .hwText(.secondary)
 
               VStack(alignment: .leading, spacing: 4) {
                 Text("Current Bounds:")
-                  .font(.caption)
+                  .hwText(.caption)
                 Text(
                   "NE: \(String(format: "%.4f", mapBounds.ne.latitude)), \(String(format: "%.4f", mapBounds.ne.longitude))"
                 )
-                .font(.caption2)
+                .hwText(.caption)
                 Text(
                   "SW: \(String(format: "%.4f", mapBounds.sw.latitude)), \(String(format: "%.4f", mapBounds.sw.longitude))"
                 )
-                .font(.caption2)
+                .hwText(.caption)
               }
-              .foregroundColor(.secondary)
 
               switch extractionState {
               case .preparationUnstarted:
@@ -253,22 +247,20 @@ struct AddOfflineRegionView: View {
                     ProgressView(value: progress)
                       .frame(maxWidth: .infinity)
                     Text("\(Int(progress * 100))%")
-                      .font(.caption2)
-                      .foregroundColor(.secondary)
+                      .hwText(.caption)
                   }
                 }
               case .preparationFailed(let error):
                 Text("Error estimating map size: \(error.localizedDescription)")
-                  .font(.caption)
                   .foregroundColor(.red)
+                  .hwText(.caption)
               case .readyToExtract(let extractPlan):
                 Text("Estimated size: \(formatBytes(extractPlan.tileDataLength()))")
-                  .font(.caption)
-                  .foregroundColor(.secondary)
+                  .hwText(.caption)
               case .extractionFailed(_, let error):
                 Text("Error downloading map: \(error.localizedDescription)")
-                  .font(.caption)
                   .foregroundColor(.red)
+                  .hwText(.caption)
               case .extractionInProgress, .extractionComplete:
                 EmptyView()
               }
@@ -305,15 +297,14 @@ struct AddOfflineRegionView: View {
             // Download in progress
             VStack(spacing: 12) {
               Text("Downloading \(regionName)")
-                .font(.headline)
+                .hwText(.heading)
 
               if case .extractionInProgress(_, let progress) = extractionState {
                 VStack(spacing: 8) {
                   ProgressView(value: progress)
                     .progressViewStyle(.linear)
                   Text("\(Int(progress * 100))%")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .hwText(.caption)
                 }
               } else {
                 ProgressView()
@@ -321,8 +312,7 @@ struct AddOfflineRegionView: View {
               }
 
               Text("This may take a few minutes")
-                .font(.caption)
-                .foregroundColor(.secondary)
+                .hwText(.caption)
             }
           }
         }.padding()
