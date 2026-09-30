@@ -271,7 +271,7 @@ struct TripSearchManager {
     let result = try await tripPlanClient.query(
       from: from, to: to, modes: modes, measurementSystem: measurementSystem, tripDate: tripDate)
 
-    guard case .success(var trips) = result else {
+    guard case .success(let trips) = result else {
       return result
     }
 
@@ -285,20 +285,25 @@ struct TripSearchManager {
       return result
     }
 
-    for (idx, var trip) in trips.enumerated() {
-      let geometry = trip.raw.legs[0].geometry
-      guard let elevation = try? await fetchElevation(polyline: geometry) else {
-        continue
+    let client = await tripPlanClient
+    let withElevation = await withTaskGroup(of: (Int, ElevationProfile?).self) { group in
+      for (idx, trip) in trips.enumerated() {
+        let polyline = trip.raw.legs[0].geometry
+        group.addTask {
+          (idx, try? await client.elevation(polyline: polyline).get())
+        }
       }
-      trip.setElevationProfile(elevation)
-      trips[idx] = trip
-    }
-    self.mostRecentlyCompletedQuery = (id: queryID, trips: trips)
-    return .success(trips)
-  }
 
-  func fetchElevation(polyline: String) async throws -> ElevationProfile {
-    try await tripPlanClient.elevation(polyline: polyline).get()
+      var trips = trips
+      for await (idx, elevation) in group {
+        guard let elevation else { continue }
+        trips[idx].setElevationProfile(elevation)
+      }
+      return trips
+    }
+
+    self.mostRecentlyCompletedQuery = (id: queryID, trips: withElevation)
+    return .success(withElevation)
   }
 }
 
