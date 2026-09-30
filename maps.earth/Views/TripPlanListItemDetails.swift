@@ -24,8 +24,8 @@ struct NonTransitPlanItem: View {
       if let substantialRoadNames = trip.substantialStreetNames {
         Text(substantialRoadNames)
       }
-      Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-      Text(distanceAndClimb).font(.subheadline).foregroundColor(.secondary)
+      Text(trip.durationFormatted).hwText(.figure)
+      Text(distanceAndClimb).hwText(.secondary)
       if !trip.routePreferences.isEmpty {
         RoutePreferenceBadges(preferences: trip.routePreferences)
       }
@@ -46,13 +46,13 @@ struct RoutePreferenceBadges: View {
   var preferences: [BikeRoutePreference]
 
   var body: some View {
-    HStack(spacing: 4) {
+    HStack(spacing: Space.xs) {
       ForEach(preferences, id: \.self) { preference in
         HStack(spacing: 3) {
           Text(preference.emoji)
           Text(preference.label)
         }
-        .font(.caption).fontWeight(.semibold).foregroundStyle(preference.ink)
+        .foregroundStyle(preference.ink).hwText(.label)
         .padding(.horizontal, 10).padding(.vertical, 5)
         .background(preference.tint, in: Capsule())
       }
@@ -77,15 +77,15 @@ extension BikeRoutePreference {
 
   var tint: Color {
     switch self {
-    case .quieter: .hw_quieterBadgeTint
-    case .faster: .hw_fasterBadgeTint
+    case .quieter: .hw_teal100
+    case .faster: .hw_amber100
     }
   }
 
   var ink: Color {
     switch self {
-    case .quieter: .hw_quieterBadgeInk
-    case .faster: .hw_fasterBadgeInk
+    case .quieter: .hw_teal700
+    case .faster: .hw_amber700
     }
   }
 }
@@ -95,9 +95,9 @@ struct TransitPlanItem: View {
   var onShowNavigation: (() -> Void)
 
   var body: some View {
-    HStack(alignment: .top, spacing: 4) {
-      VStack(alignment: .leading, spacing: 8) {
-        Text(trip.timeSpanFormatted).font(.headline).dynamicTypeSize(.xxLarge)
+    HStack(alignment: .top, spacing: Space.xs) {
+      VStack(alignment: .leading, spacing: Space.s) {
+        Text(trip.timeSpanFormatted).hwText(.figure)
         Text(routeEmojiSummary(trip: trip))
         if let firstTransitLeg = trip.firstTransitLeg {
           HStack {
@@ -114,9 +114,9 @@ struct TransitPlanItem: View {
       Spacer()
       VStack(alignment: .trailing) {
         Text(trip.durationFormatted)
-        Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
+        Text(trip.distanceFormatted).hwText(.secondary)
       }
-    }.padding(.bottom, 8).padding(.trailing, 8)
+    }.padding(.bottom, Space.s).padding(.trailing, Space.s)
   }
 }
 
@@ -130,7 +130,7 @@ struct GoButton: View {
     }
     .font(.system(size: 20, weight: .bold))
     .foregroundColor(.white)
-    .background(.green)
+    .background(Color.hw_go)
     .cornerRadius(8)
     .scenePadding(.trailing)
   }

@@ -51,7 +51,7 @@ class SteepClimbMarkerView: MLNAnnotationView {
   }
 }
 
-/// e.g. "9% ↗" on a pill in the climb's steepness color.
+/// e.g. "9% ↗" on a pill outlined in the climb's steepness color.
 struct SteepClimbPill: View {
   let climb: SteepSection
   let isEmphasized: Bool
@@ -60,13 +60,11 @@ struct SteepClimbPill: View {
     (Text("\(climb.percent)").font(.system(size: 11, weight: .bold))
       + Text("%").font(.system(size: 8, weight: .bold))
       + Text("↗").font(.system(size: 11, weight: .bold)))
-      .foregroundStyle(.white)
-      // keeps white legible on the lighter grades
-      .shadow(color: .black.opacity(0.45), radius: 1)
+      .foregroundStyle(Color.hw_amber700)
       .padding(.horizontal, 5)
       .padding(.vertical, 1)
-      .background(Capsule().fill(climb.shade.color))
-      .overlay(Capsule().stroke(.white, lineWidth: 1))
+      .background(Capsule().fill(Color.hw_amber100))
+      .overlay(Capsule().stroke(climb.shade.color, lineWidth: 1.5))
       .shadow(
         color: .black.opacity(isEmphasized ? 0.6 : 0.3), radius: isEmphasized ? 4 : 1,
         y: isEmphasized ? 0 : 1)

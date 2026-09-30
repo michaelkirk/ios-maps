@@ -1011,12 +1011,11 @@ struct OfflineDownloadPrompt: View {
 
   var body: some View {
     HStack {
-      VStack(alignment: .leading, spacing: 4) {
+      VStack(alignment: .leading, spacing: Space.xs) {
         Text("This area not yet downloaded")
-          .font(.headline)
+          .hwText(.heading)
         Text("Download this area for offline use")
-          .font(.subheadline)
-          .foregroundColor(.secondary)
+          .hwText(.secondary)
       }
       Spacer()
       Button(action: {

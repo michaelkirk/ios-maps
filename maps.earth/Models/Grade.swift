@@ -135,7 +135,7 @@ enum GradeTier {
   }
 }
 
-/// How a steep stretch is drawn: climbs in warm colors and descents in deep greens, by how steep.
+/// How a steep stretch is drawn: climbs in amber and descents in teal, darker the steeper.
 enum GradeShade: String, CaseIterable {
   case moderateClimb
   case steepClimb
@@ -158,19 +158,12 @@ enum GradeShade: String, CaseIterable {
 
   var color: Color {
     switch self {
-    case .moderateClimb: Color(rgb: 0xF2B705)
-    case .steepClimb: Color(rgb: 0xF27405)
-    case .verySteepClimb: Color(rgb: 0xD92B04)
-    case .moderateDescent: Color(rgb: 0x2E7D32)
-    case .steepDescent: Color(rgb: 0x1B5E20)
+    case .moderateClimb: .hw_amber500
+    case .steepClimb: .hw_amber600
+    case .verySteepClimb: .hw_amber700
+    case .moderateDescent: .hw_teal500
+    case .steepDescent: .hw_teal700
     }
   }
 }
 
-extension Color {
-  /// Ground that isn't steep enough to be a `SteepSection`.
-  static let hw_flatGrade = Color(rgb: 0x43A047)
-  /// Climbing: the total climbed, and each steep climb's label on the elevation chart.
-  static let hw_climb = Color(rgb: 0xE53E3E)
-  static let hw_fall = Color(rgb: 0x3182CE)
-}

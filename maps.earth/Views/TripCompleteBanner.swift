@@ -32,12 +32,12 @@ public struct TripCompleteBanner: View {
   public var body: some View {
     HStack {
       Spacer()
-      VStack(spacing: 16) {
+      VStack(spacing: Space.l) {
         if let destinationName {
-          Text("You have arrived!").font(.headline)
-          Text(destinationName).font(.title)
+          Text("You have arrived!").hwText(.heading)
+          Text(destinationName).hwText(.title)
         } else {
-          Text("You have arrived at your destination.").font(.headline)
+          Text("You have arrived at your destination.").hwText(.heading)
         }
         if let onTapExit {
           Button(action: onTapExit) {
