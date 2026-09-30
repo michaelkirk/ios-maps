@@ -10,15 +10,61 @@ import Foundation
 import MapboxDirections
 import SwiftUI
 
+/// Picks how to travel: a segmented control with an icon beside each mode's name, or over it
+/// when the row is too narrow for that.
 struct ModePicker: View {
   @Binding var selectedMode: TravelMode
+  @Namespace private var thumb
+
+  private let options: [(mode: TravelMode, title: String, systemImage: String)] = [
+    (.transit, "Transit", "bus.fill"),
+    (.car, "Drive", "car.fill"),
+    (.bike, "Bike", "bicycle"),
+    (.walk, "Walk", "figure.walk"),
+  ]
 
   var body: some View {
-    HStack(spacing: 20) {
-      ModeButton(mode: .transit, selectedMode: $selectedMode)
-      ModeButton(mode: .car, selectedMode: $selectedMode)
-      ModeButton(mode: .bike, selectedMode: $selectedMode)
-      ModeButton(mode: .walk, selectedMode: $selectedMode)
+    ViewThatFits(in: .horizontal) {
+      segments(stacked: false)
+      segments(stacked: true)
+    }
+    .padding(2)
+    .background(Color.hw_searchFieldBackground, in: RoundedRectangle(cornerRadius: 9))
+  }
+
+  private func segments(stacked: Bool) -> some View {
+    let layout =
+      stacked ? AnyLayout(VStackLayout(spacing: 2)) : AnyLayout(HStackLayout(spacing: Space.xs))
+    return HStack(spacing: 0) {
+      ForEach(options, id: \.mode) { option in
+        let isSelected = option.mode == selectedMode
+        Button {
+          withAnimation(.snappy(duration: 0.25)) { selectedMode = option.mode }
+        } label: {
+          layout {
+            Image(systemName: option.systemImage)
+            Text(option.title)
+          }
+          .font(.subheadline.weight(isSelected ? .semibold : .regular))
+          .foregroundStyle(isSelected ? Color.primary : .hw_fieldLabel)
+          .lineLimit(1)
+          .fixedSize()
+          .padding(.horizontal, Space.s)
+          .frame(maxWidth: .infinity)
+          .padding(.vertical, 7)
+          .background {
+            if isSelected {
+              RoundedRectangle(cornerRadius: 7)
+                .fill(.white)
+                .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
+                .matchedGeometryEffect(id: "thumb", in: thumb)
+            }
+          }
+          .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+      }
     }
   }
 }
@@ -45,7 +91,7 @@ struct OriginDestinationFieldSet: View {
         .zIndex(1)
       PlaceField(header: "To", place: $navigateTo, trailingInset: placeTrailingInset)
     }
-    .background(Color.hw_lightGray)
+    .background(Color.hw_searchFieldBackground)
     .cornerRadius(8)
   }
 }
@@ -67,7 +113,7 @@ struct SwapButton: View {
         .foregroundColor(.hw_darkGray)
         .rotationEffect(.degrees(rotation))
         .frame(width: diameter, height: diameter)
-        .background(Circle().fill(Color.hw_lightGray))
+        .background(Circle().fill(Color.hw_sheetBackground))
     }
     .accessibilityLabel("Swap start and end")
   }
@@ -125,27 +171,6 @@ struct TransitFilters: View {
       .padding(.vertical, 4)
       .roundedBorder(.black, cornerRadius: 8)
     }
-  }
-}
-
-struct ModeButton: View {
-  let mode: TravelMode
-  @Binding var selectedMode: TravelMode
-  var body: some View {
-    Button(action: { selectedMode = mode }) {
-      let modeText =
-        switch mode {
-        case .walk: "Walk"
-        case .bike: "Bike"
-        case .transit: "Transit"
-        case .car: "Drive"
-        }
-      Text(modeText)
-    }
-    .foregroundColor(mode == selectedMode ? .white : .hw_darkGray)
-    .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
-    .background(mode == selectedMode ? Color.hw_blue : .hw_lightGray)
-    .cornerRadius(3.0)
   }
 }
 

@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>maps.earth style guide</title>
+<style>
+  :root {
+    --ink: #1a1d20;
+    --ink-soft: #5b6167;
+    --rule: #dfe4e8;
+    --page: #ffffff;
+    --card: #f7f9fa;
+
+    /* The app's palette, as Style.swift spells it. */
+    --hw-blue: #3498db;
+    --hw-active-route: #1296ff;
+    --hw-inactive-route: #6fc1ee;
+    --hw-green: #2ecc40;
+    --hw-red: #e74c3c;
+    --hw-sheet-background: #e8f0f4;
+    --hw-search-field-background: #d9e1e8;
+    --hw-light-gray: #e5e5e5;
+    --hw-dark-gray: #808080;
+    --hw-off-white: #f2f2f2;
+    --hw-go: #248a3d;
+
+    --teal-50: #e7f9f8;
+    --teal-100: #c5edea;
+    --teal-500: #2da9a1;
+    --teal-600: #218c85;
+    --teal-700: #156660;
+
+    --amber-50: #fceed9;
+    --amber-100: #f5dab2;
+    --amber-500: #d48611;
+    --amber-600: #ad6c0b;
+    --amber-700: #794d0c;
+
+    --basemap: #f1efe7;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #e8eaec;
+      --ink-soft: #a0a7ae;
+      --rule: #32383e;
+      --page: #16191c;
+      --card: #1e2225;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e8eaec;
+    --ink-soft: #a0a7ae;
+    --rule: #32383e;
+    --page: #16191c;
+    --card: #1e2225;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 0 16px 96px;
+    background: var(--page);
+    color: var(--ink);
+    font: 16px/1.6 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main { max-width: 860px; margin: 0 auto; }
+
+  header { padding: 64px 0 40px; border-bottom: 1px solid var(--rule); }
+  h1 { font-size: 34px; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+  header p { margin: 0; color: var(--ink-soft); max-width: 62ch; }
+
+  h2 {
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin: 56px 0 8px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  h2.part { font-size: 30px; border-top: 3px solid var(--ink); margin-top: 72px; }
+  h2[id], h3[id] { scroll-margin-top: 56px; }
+  h3 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); margin: 32px 0 12px; }
+  p { max-width: 68ch; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
+
+  table { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+  th { font-weight: 600; color: var(--ink-soft); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .swatch {
+    display: inline-block;
+    width: 34px;
+    height: 24px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    vertical-align: middle;
+  }
+
+  .ramp { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 8px; }
+  .step { flex: 1 1 110px; min-width: 110px; }
+  .step .chipbox {
+    height: 72px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-end;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .step .meta { font-size: 12px; color: var(--ink-soft); margin-top: 6px; font-variant-numeric: tabular-nums; }
+
+  .row-demo {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-left: 6px solid var(--hw-blue);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    color: #1a1d20;
+    max-width: 420px;
+  }
+  .row-demo .street { font-size: 15px; }
+  .badges { display: flex; gap: 6px; margin-top: 8px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .badge-comfier { background: var(--teal-100); color: var(--teal-700); }
+  .badge-faster { background: var(--amber-100); color: var(--amber-700); }
+  .go {
+    float: right;
+    background: var(--hw-go);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 15px;
+  }
+
+  .map-strip {
+    background: var(--basemap);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 22px 18px;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    max-width: 420px;
+  }
+  .map-strip .road { flex: 1; height: 6px; border-radius: 3px; background: hsl(0, 0%, 68%); min-width: 40px; }
+  .demo-map { display: block; width: 100%; max-width: 420px; height: auto; border: 1px solid var(--rule); border-radius: 8px; }
+
+  .note { color: var(--ink-soft); font-size: 15px; }
+  ol, ul.rules { max-width: 68ch; padding-left: 22px; }
+  ol li, ul.rules li { margin: 6px 0; }
+
+  nav.toc { position: sticky; top: 0; z-index: 10; background: var(--page); border-bottom: 1px solid var(--rule);
+    display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 10px 0; font-size: 14px; }
+  .toc-group { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+  nav.toc a { color: var(--ink-soft); text-decoration: none; }
+  nav.toc a:hover { color: var(--ink); text-decoration: underline; }
+  nav.toc a.toc-part { color: var(--ink); font-weight: 600; }
+
+  pre.code { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px;
+    overflow-x: auto; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .t-title { font-size: 28px; font-weight: 700; }
+  .t-figure { font-size: 22px; font-weight: 700; }
+  .t-heading { font-size: 17px; font-weight: 600; }
+  .t-body { font-size: 17px; }
+  .t-secondary { font-size: 15px; color: var(--ink-soft); }
+  .t-caption { font-size: 12px; color: var(--ink-soft); }
+  .space-bar { display: inline-block; height: 16px; background: var(--hw-blue); border-radius: 2px; vertical-align: middle; }
+  @media (max-width: 600px) { .type-table th:nth-child(3), .type-table td:nth-child(3), .type-table th:nth-child(4), .type-table td:nth-child(4) { display: none; } }
+
+  footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--rule); color: var(--ink-soft); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>maps.earth style guide</h1>
+  <p>Colour, type and spacing for maps.earth on iOS and the web, and the map style they share. Contrast ratios
+  are WCAG; AA wants 4.5:1 for body-size text.</p>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <div class="toc-group">
+    <a class="toc-part" href="#colour">Colour</a>
+    <a href="#palette">Palette</a>
+    <a href="#accents">Accents</a>
+    <a href="#colour-usage">Usage</a>
+    <a href="#map">On the map</a>
+    <a href="#shields">Shields</a>
+  </div>
+  <div class="toc-group">
+    <a class="toc-part" href="#typography">Typography</a>
+    <a href="#type-scale">Type scale</a>
+    <a href="#spacing">Spacing</a>
+  </div>
+  <div class="toc-group">
+    <a class="toc-part" href="#gaps">Known gaps</a>
+  </div>
+</nav>
+
+<h2 class="part" id="colour">Colour</h2>
+
+<h2 id="palette">Palette</h2>
+
+<p>The app is blue on a cool grey-blue ground. Blue, green and red already have meanings, so new colour has to
+work around them.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Token</th><th>Hex</th><th>Means</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><span class="swatch" style="background: var(--hw-blue)"></span></td><td><code>hw_blue</code></td><td class="num">#3498DB</td><td>Selected, and primary buttons</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-active-route)"></span></td><td><code>hw_activeRoute</code></td><td class="num">#1296FF</td><td>The chosen route line</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-inactive-route)"></span></td><td><code>hw_inactiveRoute</code></td><td class="num">#6FC1EE</td><td>Alternative routes</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-green)"></span></td><td><code>hw_green</code></td><td class="num">#2ECC40</td><td>Home</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-red)"></span></td><td><code>hw_red</code></td><td class="num">#E74C3C</td><td>Work</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-sheet-background)"></span></td><td><code>hw_sheetBackground</code></td><td class="num">#E8F0F4</td><td>Sheets</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-search-field-background)"></span></td><td><code>hw_searchFieldBackground</code></td><td class="num">#D9E1E8</td><td>Search fields, and the From/To field</td></tr>
+    <tr><td><span class="swatch" style="background: #5b6167"></span></td><td><code>hw_fieldLabel</code></td><td class="num">#5B6167</td><td>A field's own label, like From and To. 4.74:1 on <code>hw_searchFieldBackground</code></td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-light-gray)"></span></td><td><code>hw_lightGray</code></td><td class="num">#E5E5E5</td><td>Unselected segment backgrounds</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-dark-gray)"></span></td><td><code>hw_darkGray</code></td><td class="num">#808080</td><td>Secondary text, unchecked checkboxes</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-off-white)"></span></td><td><code>hw_offWhite</code></td><td class="num">#F2F2F2</td><td>Type on coloured fills</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-go)"></span></td><td><code>hw_go</code></td><td class="num">#248A3D</td><td>GO. White type on it is 4.40:1</td></tr>
+  </tbody>
+</table>
+
+<p>Green is GO and system red is End Navigation: go and stop, never a quality. <code>hw_go</code> is system
+green at the shade iOS uses for Increase Contrast; the default system green is only 2.22:1 under white type. The neutrals are slightly
+blue (hue 200–208), so warm greys look dirty beside them.</p>
+
+<h2 id="accents">Accents: teal and amber</h2>
+
+<p>Teal (hue 176) and amber (hue 36) are for describing things without passing judgement, like which route is
+comfier or faster, or how steep a hill is. Neither hue is taken, and they are 140° apart. Each has five steps:
+50 and 100 are washes to put type on, 500 is for shapes, and 600 and 700 are for type.</p>
+
+<h3>Teal</h3>
+<div class="ramp">
+  <div class="step"><div class="chipbox" style="background: var(--teal-50); color: var(--teal-700)">50</div><div class="meta">#E7F9F8<br>1.09:1 on white</div></div>
+  <div class="step"><div class="chipbox" style="background: var(--teal-100); color: var(--teal-700)">100</div><div class="meta">#C5EDEA<br>1.23:1 on white</div></div>
+  <div class="step"><div class="chipbox" style="background: var(--teal-500); color: #fff">500</div><div class="meta">#2DA9A1<br>2.88:1 on white</div></div>
+  <div class="step"><div class="chipbox" style="background: var(--teal-600); color: #fff">600</div><div class="meta">#218C85<br>4.07:1 on white</div></div>
+  <div class="step"><div class="chipbox" style="background: var(--teal-700); color: #fff">700</div><div class="meta">#156660<br>6.77:1 on white</div></div>
+</div>
+
+<h3>Amber</h3>
+<div class="ramp">
+  <div class="step"><div class="chipbox" style="background: var(--amber-50); color: var(--amber-700)">50</div><div class="meta">#FCEED9<br>1.14:1 on white</div></div>
+  <div class="step"><div class="chipbox" style="background: var(--amber-100); color: var(--amber-700)">100</div><div class="meta">#F5DAB2<br>1.31:1 on white</div></div>
+  <div class="step"><div class="chipbox" style="background: var(--amber-500); color: #fff">500</div><div class="meta">#D48611<br>2.91:1 on white</div></div>
+  <div class="step"><div class="chipbox" style="background: var(--amber-600); color: #fff">600</div><div class="meta">#AD6C0B<br>4.26:1 on white</div></div>
+  <div class="step"><div class="chipbox" style="background: var(--amber-700); color: #fff">700</div><div class="meta">#794D0C<br>7.29:1 on white</div></div>
+</div>
+
+<p>700 ink on 100 wash is 5.38:1 for teal and 5.40:1 for amber. The tokens are <code>hw_teal50</code> through
+<code>hw_amber700</code>.</p>
+
+<h2 id="colour-usage">Usage</h2>
+
+<p>How heavy something looks should match what it does.</p>
+
+<table>
+  <thead><tr><th>Element</th><th>Treatment</th></tr></thead>
+  <tbody>
+    <tr><td>Acts when tapped</td><td>Solid fill, white type: <code>hw_blue</code>, <code>hw_go</code> for GO, system red for End Navigation</td></tr>
+    <tr><td>A lesser action beside a primary one, like Save beside Directions</td><td>White fill, ink type, <code>hw_blue</code> icon</td></tr>
+    <tr><td>Describes what it sits on</td><td>Chip: 100 wash, 700 ink, capsule, 10pt × 5pt padding</td></tr>
+    <tr><td>Currently selected</td><td><code>hw_blue</code>, and nothing else in the row at that weight</td></tr>
+    <tr><td>One of a few options, like travel mode</td><td>Segmented control: a <code>hw_searchFieldBackground</code> track, the choice on a white thumb in semibold ink, the rest in <code>hw_fieldLabel</code>, each with its icon</td></tr>
+    <tr><td>Secondary text</td><td><code>hw_darkGray</code></td></tr>
+  </tbody>
+</table>
+
+<div class="row-demo">
+  <span class="go">GO</span>
+  <div class="street">Burke-Gilman Trail</div>
+  <div class="t-figure">1 hr, 2 min</div>
+  <div class="t-secondary">6.7 miles</div>
+  <div class="badges">
+    <span class="badge badge-comfier">🦦 Comfier</span>
+    <span class="badge badge-faster">⚡ Faster</span>
+  </div>
+</div>
+
+<p class="note">Don't: put type on a 500, give anything that isn't a control a saturated fill, or add a second
+solid colour to a row that already has a button. A button's colour stays the same whatever state the thing is
+in. A saved place's Save button keeps its white fill, and its glyph shows how the place was saved.</p>
+
+<p>To add an accent:</p>
+
+<ol>
+  <li>Pick a hue that isn't taken: blue (204) is selection, green (127) is home and GO, red (6) is work and stop.</li>
+  <li>Keep it at least 30° from any accent it will appear next to.</li>
+  <li>Build five steps at the same lightness as teal and amber.</li>
+  <li>Check that 700 on 100 and 700 on white both reach 4.5:1.</li>
+  <li>Run it through a colour-blindness simulation if it's the only thing telling two rows apart.</li>
+</ol>
+
+<h2 id="map">On the map</h2>
+
+<p>A graded route is still the chosen route, so its line is <code>hw_activeRoute</code>, or
+<code>hw_inactiveRoute</code> if it isn't selected. Steep stretches are drawn over it: amber for climbs,
+darker as they get steeper, and teal for descents of 13% or more (travelmux decides which descents those are).
+Climb pills use the chip style, 700 on 100, outlined in the stretch's shade.</p>
+
+<svg class="demo-map" viewBox="0 0 320 110" role="img" aria-label="A graded route on the map">
+  <rect width="320" height="110" rx="8" fill="#f1efe7"/>
+  <g fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="14,86 80,86 130,40 200,70 240,70 306,26" stroke="#1296ff"/>
+    <polyline points="80,86 130,40" stroke="#d48611"/>
+    <polyline points="130,40 200,70" stroke="#156660"/>
+    <polyline points="240,70 306,26" stroke="#794d0c"/>
+  </g>
+  <g font-family="ui-sans-serif, -apple-system, sans-serif" font-weight="700" font-size="11">
+    <rect x="58" y="46" width="40" height="17" rx="8.5" fill="#f5dab2" stroke="#d48611" stroke-width="1.5"/>
+    <text x="78" y="58.5" text-anchor="middle" fill="#794d0c">6%↗</text>
+    <rect x="222" y="24" width="44" height="17" rx="8.5" fill="#f5dab2" stroke="#794d0c" stroke-width="1.5"/>
+    <text x="244" y="36.5" text-anchor="middle" fill="#794d0c">14%↗</text>
+  </g>
+</svg>
+
+<table>
+  <thead><tr><th>Stretch</th><th>Colour</th></tr></thead>
+  <tbody>
+    <tr><td>Flat, or a moderate descent</td><td><span class="swatch" style="background: var(--hw-active-route)"></span> <code>hw_activeRoute</code></td></tr>
+    <tr><td>Moderate climb</td><td><span class="swatch" style="background: var(--amber-500)"></span> <code>hw_amber500</code></td></tr>
+    <tr><td>Steep climb</td><td><span class="swatch" style="background: var(--amber-600)"></span> <code>hw_amber600</code></td></tr>
+    <tr><td>Very steep climb</td><td><span class="swatch" style="background: var(--amber-700)"></span> <code>hw_amber700</code></td></tr>
+    <tr><td>Descent, 13% or more</td><td><span class="swatch" style="background: var(--teal-700)"></span> <code>hw_teal700</code></td></tr>
+  </tbody>
+</table>
+
+<p>Wherever grades appear as text, such as elevation totals, chart labels and the hill rows in a trip's steps,
+they use the 700 ink: amber for climbs, teal for descents. The steepness is in the number; the shade is only for
+shapes. The elevation chart's line uses the route's blue.</p>
+
+<h2 id="shields">Road shields</h2>
+
+<p>Road shields shouldn't stand out more than the route line. The basemap is #F1EFE7 and its roads are greys
+between 68% and 52% lightness. The interstate shield sets the ceiling:</p>
+
+<div class="map-strip">
+  <div class="road"></div>
+  <svg width="40" height="40" viewBox="0 0 19.966 19.967" xmlns="http://www.w3.org/2000/svg" aria-label="Interstate shield">
+    <path style="fill:#c43142" d="M 0.947932,4.492575 C 1.35797,3.1682318 2.031962,1.6935751 2.836314,0.60694576 3.94387,0.91532547 5.110448,1.0801112 6.315035,1.0801112 c 1.273479,0 2.504331,-0.18408309 3.6677638,-0.52736015 1.1635332,0.34326693 2.3943852,0.52736015 3.6677632,0.52736015 1.204722,0 2.371333,-0.16477559 3.478722,-0.47316544 0.804317,1.08662934 1.478746,2.56128614 1.888784,3.88562924 z"/>
+    <path style="fill:#1966b3" d="M 19.467147,7.7278308 C 19.467147,13.477184 15.401609,18.278329 9.983,19.424482 4.564391,18.278496 0.498853,13.477184 0.498853,7.7278308 h 3.4e-5 c 0,-1.0620908 0.188628,-2.2549333 0.449046,-3.2352558 h 18.070135 c 0.260373,0.9803226 0.449079,2.173165 0.449079,3.2352558 z"/>
+    <path style="stroke:#fff;stroke-width:1;fill:none" d="m 19.467147,7.7278308 c 0,5.7493532 -4.065538,10.5504982 -9.4841473,11.6966512 C 4.5643907,18.278496 0.49885325,13.477184 0.49885325,7.7278308 h 3.327e-5 c 0,-1.0620908 0.13874807,-2.0918331 0.39916608,-3.0721556 C 1.3080913,3.331332 2.0319622,1.6935751 2.8363141,0.60694576 3.9438703,0.91532547 5.110448,1.0801112 6.3150351,1.0801112 c 1.2734788,0 2.5043311,-0.18408309 3.6677637,-0.52736015 1.1635332,0.34326693 2.3943852,0.52736015 3.6677632,0.52736015 1.204722,0 2.371333,-0.16477559 3.478722,-0.47316544 0.804317,1.08662934 1.52869,2.72438624 1.938728,4.04872934 0.260373,0.9803226 0.399135,2.0100649 0.399135,3.0721557 z"/>
+    <path style="fill:none;stroke:#fff;stroke-width:1" d="M 0.9479325,4.492575 H 19.018068"/>
+    <text x="9.98" y="13.2" text-anchor="middle" font-family="ui-sans-serif, sans-serif" font-size="8" font-weight="700" fill="#fff">5</text>
+  </svg>
+  <div class="road"></div>
+</div>
+
+<table>
+  <thead><tr><th></th><th>Hex</th><th>On basemap</th></tr></thead>
+  <tbody>
+    <tr><td>Body</td><td class="num"><span class="swatch" style="background:#1966b3"></span> #1966B3</td><td class="num">5.08:1</td></tr>
+    <tr><td>Band</td><td class="num"><span class="swatch" style="background:#c43142"></span> #C43142</td><td class="num">4.72:1</td></tr>
+  </tbody>
+</table>
+
+<p>White type on the body is 5.84:1. No shield should be darker than #1966B3. That covers both blanks and
+shield text, so a network whose official colour is navy uses #1966B3 instead.</p>
+
+<h2 class="part" id="typography">Typography</h2>
+
+<h2 id="type-scale">Type scale</h2>
+
+<p>All text uses one of seven roles. On iOS a role is a text style, so it follows the reader's Dynamic Type
+setting. On the web it's a class sized in rem, so it follows the browser's font size. Sizes below are at the
+default setting. The web runs a step smaller, matching its 14px body text.</p>
+
+<pre class="code">Text(trip.durationFormatted).hwText(.figure)
+&lt;q-item-label class="hw-figure"&gt;{{ durationFormatted }}&lt;/q-item-label&gt;</pre>
+
+<table class="type-table">
+  <thead><tr><th>Role</th><th>Sample</th><th>iOS</th><th>iOS size</th><th>Web size</th><th>Colour</th><th>For</th></tr></thead>
+  <tbody>
+    <tr><td><code>.title</code><br><code>hw-title</code></td><td><span class="t-title">Directions</span></td><td><code>.title</code> bold</td><td class="num">28</td><td class="num">22</td><td>ink</td><td>A sheet's name, a place's name</td></tr>
+    <tr><td><code>.figure</code><br><code>hw-figure</code></td><td><span class="t-figure">48 min</span></td><td><code>.title2</code> bold</td><td class="num">22</td><td class="num">20</td><td>ink</td><td>The number a trip row is about</td></tr>
+    <tr><td><code>.heading</code><br><code>hw-heading</code></td><td><span class="t-heading">Favorites</span></td><td><code>.headline</code></td><td class="num">17 semibold</td><td class="num">14 semibold</td><td>ink</td><td>Section names, row names, a trip's summary</td></tr>
+    <tr><td><code>.body</code><br><code>hw-body</code></td><td><span class="t-body">Turn left onto Alki Trail.</span></td><td><code>.body</code></td><td class="num">17</td><td class="num">14</td><td>ink</td><td>Instructions, street names, values</td></tr>
+    <tr><td><code>.secondary</code><br><code>hw-secondary</code></td><td><span class="t-secondary">7.2 miles, 195 ft climb</span></td><td><code>.subheadline</code></td><td class="num">15</td><td class="num">13</td><td><code>hw_darkGray</code></td><td>Adds detail to the line above it: addresses, field labels, step details</td></tr>
+    <tr><td><code>.caption</code><br><code>hw-caption</code></td><td><span class="t-caption">Estimated size: 42 MB</span></td><td><code>.caption</code></td><td class="num">12</td><td class="num">12</td><td><code>hw_darkGray</code></td><td>Small print: sizes, dates, progress</td></tr>
+    <tr><td><code>.label</code><br><code>hw-label</code></td><td><span class="badge badge-comfier">🦦 Comfier</span></td><td><code>.caption</code> semibold</td><td class="num">12 semibold</td><td class="num">12 semibold</td><td>the chip's ink</td><td>Type on a chip</td></tr>
+  </tbody>
+</table>
+
+<ul class="rules">
+  <li><strong>One title per sheet.</strong> Everything else in the sheet is a step down from it.</li>
+  <li><strong>A row leads with one thing.</strong> A trip row leads with its figure; a search result with its
+  heading. Nothing else in the row is as heavy.</li>
+  <li><strong>Secondary text goes with another line.</strong> It sits under or beside the line it describes, and is
+  never the only text in a row.</li>
+  <li><strong>Change weight before size.</strong> Going up a step changes the weight first: body and heading are
+  both 17pt, regular and semibold.</li>
+  <li><strong>Don't pin a size.</strong> Don't use <code>.dynamicTypeSize(_:)</code> or <code>.system(size:)</code>
+  on text in a sheet, or px font sizes on the web.</li>
+</ul>
+
+<p class="note">The exception is type inside fixed-size artwork, which keeps a fixed size: climb pills on the map
+(11pt bold), elevation chart labels (10pt bold), transit vehicle markers, and GO (20pt bold in a 56pt
+square).</p>
+
+<h2 id="spacing">Spacing</h2>
+
+<p>Gaps between elements come from a five-step scale, <code>Space</code> on iOS. The inset around a sheet or a card is
+<code>.padding()</code>, which equals <code>Space.l</code>.</p>
+
+<table>
+  <thead><tr><th>Token</th><th>Points</th><th></th><th>For</th></tr></thead>
+  <tbody>
+    <tr><td><code>Space.xs</code></td><td class="num">4</td><td><span class="space-bar" style="width:4px"></span></td><td>Chips next to each other; a line and its secondary</td></tr>
+    <tr><td><code>Space.s</code></td><td class="num">8</td><td><span class="space-bar" style="width:8px"></span></td><td>Lines within a row</td></tr>
+    <tr><td><code>Space.m</code></td><td class="num">12</td><td><span class="space-bar" style="width:12px"></span></td><td>A value and its label across a row</td></tr>
+    <tr><td><code>Space.l</code></td><td class="num">16</td><td><span class="space-bar" style="width:16px"></span></td><td>An icon and its text; sheet and card insets</td></tr>
+    <tr><td><code>Space.xl</code></td><td class="num">24</td><td><span class="space-bar" style="width:24px"></span></td><td>Between groups</td></tr>
+  </tbody>
+</table>
+
+<p class="note">A component's own insets, like a chip's 10pt × 5pt, are set for that component and defined where
+it's drawn.</p>
+
+<h2 id="gaps">Known gaps</h2>
+
+<ul class="rules">
+  <li><strong>Secondary text is below AA.</strong> <code>hw_darkGray</code> is 3.95:1 on white and about 3.4:1 on
+  the sheet. #6B7177 would be 4.9:1 on white and keep the palette's cool tint.</li>
+  <li><strong>Transit's Steps button is green.</strong> Green means GO, and Steps opens a trip's details, so by the
+  usage rules it should be <code>hw_blue</code>.</li>
+  <li><strong>No dark mode.</strong> Every token is a fixed RGB. In a dark theme the accent steps should swap roles
+  instead of inverting: 700 becomes the wash and 100 becomes the type.</li>
+  <li><strong>The web has no spacing scale yet.</strong> Its gaps are set per component.</li>
+</ul>
+
+<footer>
+  iOS: colour tokens, <code>TextRole</code>, <code>hwText(_:)</code> and <code>Space</code> are in
+  <code>maps.earth/Utils/Style.swift</code>. Web, in the headway repo's
+  <code>services/frontend/www-app/src</code>: colour tokens in <code>css/quasar.variables.scss</code> and
+  <code>utils/palette.ts</code>, text roles in <code>css/app.scss</code>. Map style and shield artwork:
+  <code>services/tileserver/assets/</code> in the headway repo.
+</footer>
+
+</main>
+</body>
+</html>

@@ -41,7 +41,7 @@ where Content: View, NavigationAccessoryContent: View {
   var body: some View {
     VStack(spacing: 0) {
       HStack(alignment: .top) {
-        Text(title).font(.title).bold()
+        Text(title).hwText(.title)
         Spacer()
         navigationAccessoryContent()
         CloseButton {

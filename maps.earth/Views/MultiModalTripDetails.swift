@@ -74,7 +74,8 @@ struct MultiModalTripDetails: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").scenePadding(.leading).bold()
+      Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").scenePadding(.leading).hwText(
+        .heading)
       ScrollView {
         Grid(alignment: .trailing, verticalSpacing: 0) {
           ForEach(Array(tripDiagram.elements.enumerated()), id: \.0) { _, step in

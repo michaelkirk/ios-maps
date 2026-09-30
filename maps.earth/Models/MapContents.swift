@@ -379,17 +379,13 @@ func lineStyleLayer(
 {
   let styleLayer = MLNLineStyleLayer(identifier: identifier, source: source)
   styleLayer.lineJoin = NSExpression(forConstantValue: "round")
+  styleLayer.lineColor = NSExpression(
+    forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
   if leg.isGraded {
-    styleLayer.lineColor = NSExpression(forConstantValue: UIColor(Color.hw_flatGrade))
-    if !isSelected {
-      styleLayer.lineOpacity = NSExpression(forConstantValue: NSNumber(value: 0.5))
-    }
     styleLayer.lineWidth = NSExpression(
       forConstantValue: NSNumber(value: isSelected ? LineWidth.walking : LineWidth.inactive))
     styleGradedLine(styleLayer, leg: leg)
   } else {
-    styleLayer.lineColor = NSExpression(
-      forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
     styleLayer.lineWidth = NSExpression(
       forConstantValue: NSNumber(value: isSelected ? LineWidth.active : LineWidth.inactive))
   }
