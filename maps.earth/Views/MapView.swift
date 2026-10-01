@@ -613,6 +613,7 @@ extension MapViewWrapper: UIViewRepresentable {
 }
 
 extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
+  @MainActor
   func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
     add3DBuildingsLayer(style: style)
   }
@@ -684,10 +685,12 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     tripPlan.selectedTrip = trip
   }
 
+  @MainActor
   func mapViewDidFailLoadingMap(_ mapView: MLNMapView, withError error: any Error) {
     print(">>failed to load: \(error)")
   }
 
+  @MainActor
   func mapView(
     _ mapView: MLNMapView, tileDidTriggerAction operation: MLNTileOperation, x: Int, y: Int, z: Int,
     wrap: Int, overscaledZ: Int, sourceID: String
@@ -700,10 +703,12 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     )
   }
 
+  @MainActor
   func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
     annotation is TransitVehicleAnnotation
   }
 
+  @MainActor
   func mapView(_ mapView: MLNMapView, calloutViewFor annotation: MLNAnnotation)
     -> (any MLNCalloutView)?
   {
@@ -713,6 +718,7 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     return TransitVehicleCalloutView(annotation: vehicleAnnotation)
   }
 
+  @MainActor
   func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation)
     -> MLNAnnotationView?
   {
@@ -744,22 +750,21 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     }
   }
 
+  @MainActor
   func mapView(_ mapView: MLNMapView, didChange mode: MLNUserTrackingMode, animated: Bool) {
     Task {
-      await MainActor.run {
-        logger.debug("MLNUserTrackingMode didChange: \(debugString(mode))")
-        switch mode {
-        case .none:
-          if self.mapView.userLocationManager.state == .following {
-            self.mapView.userLocationManager.state = .showing
-          }
-        case .follow, .followWithHeading, .followWithCourse:
-          if self.mapView.userLocationManager.state != .following {
-            self.mapView.userLocationManager.state = .following
-          }
-        @unknown default:
-          assertionFailure("unexpected MLNUserTrackingModeL \(String(describing: mode))")
+      logger.debug("MLNUserTrackingMode didChange: \(debugString(mode))")
+      switch mode {
+      case .none:
+        if self.mapView.userLocationManager.state == .following {
+          self.mapView.userLocationManager.state = .showing
         }
+      case .follow, .followWithHeading, .followWithCourse:
+        if self.mapView.userLocationManager.state != .following {
+          self.mapView.userLocationManager.state = .following
+        }
+      @unknown default:
+        assertionFailure("unexpected MLNUserTrackingModeL \(String(describing: mode))")
       }
     }
   }
