@@ -95,4 +95,19 @@ final class TripTest: XCTestCase {
     let tripError = FixtureData.bikeTripError
     XCTAssertEqual(tripError.errorCode, TripPlanErrorCode(rawValue: 2154))
   }
+
+  /// `YYYY` is the week-based year, which in the last days of December is already next year.
+  func testTransitDateIsTheCalendarYear() {
+    let date = Calendar.current.date(
+      from: DateComponents(year: 2024, month: 12, day: 30, hour: 12))!
+    let params = TripPlanNetworkClient.QueryParams(
+      from: LngLat(lng: -122.378248, lat: 47.563412),
+      to: LngLat(lng: -122.331856, lat: 47.599091),
+      modes: [.transit],
+      measurementSystem: .imperial,
+      tripDate: .departAt(date))
+
+    let dateParam = params.asQueryItems.first { $0.name == "date" }?.value
+    XCTAssertEqual(dateParam, "2024-12-30")
+  }
 }
