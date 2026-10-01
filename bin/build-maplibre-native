@@ -7,10 +7,10 @@
 # Lets us carry patches. See DevDependencies/README.md.
 #
 # Usage:
-#   bin/build-maplibre-native                              # metal, fastbuild
-#   bin/build-maplibre-native --compilation_mode=opt --copt=-Oz
+#   bin/build-maplibre-native                              # metal, optimized
+#   bin/build-maplibre-native --compilation_mode=fastbuild
 #
-# Extra args are forwarded to `bazel build`.
+# Extra args are forwarded to `bazel build`, and override the defaults below.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -29,21 +29,30 @@ mkdir -p "$BAZEL_DISK_CACHE"
 
 cd "$MLN_DIR"
 
-# Resolve bazel-bin before building: `bazel info` overwrites command.log, which
-# would discard the build's summary.
-BAZEL_BIN="$(bazel info --disk_cache="$BAZEL_DISK_CACHE" bazel-bin)"
-
 # _MTLTensorDomain and _MTLIOErrorDomain are in the device SDK but not the iOS
 # Simulator SDK on Xcode 26. They're unused on simulator, so weak-resolving them
 # is safe and lets the simulator slice link.
 #
 # Keep these flags in sync with martin-e2e's build-maplibre-native.
-bazel build //platform/ios:MapLibre.dynamic \
-    --disk_cache="$BAZEL_DISK_CACHE" \
-    --//:renderer=metal \
-    --linkopt=-Wl,-U,_MTLTensorDomain \
-    --linkopt=-Wl,-U,_MTLIOErrorDomain \
+# Always optimized: bazel caches per compilation mode, so alternating between
+# opt and fastbuild rebuilds from scratch every time you switch. One mode means
+# one cache, and it's what we ship.
+BAZEL_FLAGS=(
+    --disk_cache="$BAZEL_DISK_CACHE"
+    --//:renderer=metal
+    --compilation_mode=opt
+    --copt=-Oz
+    --linkopt=-Wl,-U,_MTLTensorDomain
+    --linkopt=-Wl,-U,_MTLIOErrorDomain
     "$@"
+)
+
+# bazel-bin points at the configuration these flags select, so resolve it with
+# the same flags we build with. Resolve it first: `bazel info` overwrites
+# command.log, which would discard the build's summary.
+BAZEL_BIN="$(bazel info "${BAZEL_FLAGS[@]}" bazel-bin)"
+
+bazel build //platform/ios:MapLibre.dynamic "${BAZEL_FLAGS[@]}"
 
 ZIP="$BAZEL_BIN/platform/ios/MapLibre.dynamic.xcframework.zip"
 

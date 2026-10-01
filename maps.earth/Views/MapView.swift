@@ -125,7 +125,8 @@ struct MapView: View {
   @Binding var showOfflineDownloadPrompt: Bool
 
   var topPadding: CGFloat {
-    guard let safeAreaInsets = UIApplication.shared.windows.first?.safeAreaInsets else {
+    let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+    guard let safeAreaInsets = scene?.keyWindow?.safeAreaInsets else {
       assertionFailure("safe area insets was unexpectedly nil")
       return 40
     }
@@ -354,10 +355,11 @@ extension MapViewWrapper: UIViewRepresentable {
     if case .success(let trips) = self.tripPlan.trips, let selectedTrip = self.tripPlan.selectedTrip
     {
       let selected = MapTrip(trip: selectedTrip, isSelected: true)
-      let unselected = trips.filter { $0 != selectedTrip }.map {
-        MapTrip(trip: $0, isSelected: false)
-      }
-      mapContents = .trips(selected: selected, unselected: unselected)
+      // A rider reading a trip's details has chosen: the routes they passed over are no longer
+      // theirs to compare, and neither are the vehicles running them.
+      let alternates = self.tripPlan.isShowingSteps ? [] : trips.filter { $0 != selectedTrip }
+      mapContents = .trips(
+        selected: selected, unselected: alternates.map { MapTrip(trip: $0, isSelected: false) })
     } else if let places = self.searchResults {
       let selected = selectedPlace.map {
         PlaceMarker(place: $0.intoMarkerLocation, style: .pin)
@@ -420,6 +422,7 @@ extension MapViewWrapper: UIViewRepresentable {
     weak var mlnMapView: MLNMapView?
 
     var mapContents: MapContents = .empty
+    let vehicleOverlay = VehicleOverlay()
     var selectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
     var unselectedTrips: [Trip: (MLNShapeSource, MLNLineStyleLayer)] = [:]
 
@@ -427,6 +430,13 @@ extension MapViewWrapper: UIViewRepresentable {
       _ mapView: MapViewWrapper
     ) {
       self.mapView = mapView
+    }
+
+    deinit {
+      // The overlay's display link keeps it alive, so nothing else would stop it polling once the
+      // map is gone.
+      let vehicleOverlay = self.vehicleOverlay
+      Task { @MainActor in vehicleOverlay.stop() }
     }
 
     // Zooms, with bottom padding so that bottom sheet doesn't cover the point.
@@ -452,6 +462,7 @@ extension MapViewWrapper: UIViewRepresentable {
         bufferedBounds, edgePadding: padding, animated: true, completionHandler: nil)
     }
 
+    @MainActor
     func reconcile(newContents: MapContents, mapView: MLNMapView) {
       AssertMainThread()
       let diff = mapContents.diff(newContents: newContents)
@@ -462,6 +473,15 @@ extension MapViewWrapper: UIViewRepresentable {
         add.add(to: mapView)
       }
       self.mapContents = newContents
+
+      // transit vehicle locations poll to update more often than the rest of the contents
+      // so we update them separately
+      switch newContents {
+      case .trips(let selected, let unselected):
+        self.vehicleOverlay.update(mapView: mapView, selected: selected, unselected: unselected)
+      case .pins, .empty:
+        self.vehicleOverlay.stop()
+      }
     }
 
     @MainActor
@@ -572,16 +592,20 @@ extension MapViewWrapper: UIViewRepresentable {
       let lngLat = LngLat(coord: mapView.convert(point, toCoordinateFrom: mapView))
 
       Task {
-        let place =
-          try await GeocodeClient().details(placeID: .lngLat(lngLat))
-          ?? Place(location: lngLat.asCLLocation)
+        do {
+          let place =
+            try await GeocodeClient().details(placeID: .lngLat(lngLat))
+            ?? Place(location: lngLat.asCLLocation)
 
-        await MainActor.run {
-          guard initialSelectedPlace == self.mapView.selectedPlace else {
-            print("ignoring longpressed place since user has since selected another place.")
-            return
+          await MainActor.run {
+            guard initialSelectedPlace == self.mapView.selectedPlace else {
+              print("ignoring longpressed place since user has since selected another place.")
+              return
+            }
+            self.mapView.selectedPlace = place
           }
-          self.mapView.selectedPlace = place
+        } catch {
+          logger.error("error fetching longpressed place: \(error)")
         }
       }
     }
@@ -589,6 +613,7 @@ extension MapViewWrapper: UIViewRepresentable {
 }
 
 extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
+  @MainActor
   func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
     add3DBuildingsLayer(style: style)
   }
@@ -624,7 +649,12 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     }
   }
 
+  @MainActor
   func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
+    if let vehicle = annotation as? TransitVehicleAnnotation {
+      self.selectTrip(runningPattern: vehicle.vehicle.patternCode)
+      return
+    }
     switch self.mapContents {
     case .trips, .empty:
       break
@@ -641,10 +671,26 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     }
   }
 
+  /// Picks the trip a tapped vehicle is running, leaving the selection alone when the rider is
+  /// already on it or when no trip on screen runs the pattern.
+  @MainActor
+  private func selectTrip(runningPattern patternCode: String) {
+    let tripPlan = self.mapView.tripPlan
+    guard case .success(let trips) = tripPlan.trips,
+      tripPlan.selectedTrip?.patternCodes.contains(patternCode) != true,
+      let trip = trips.first(where: { $0.patternCodes.contains(patternCode) })
+    else {
+      return
+    }
+    tripPlan.selectedTrip = trip
+  }
+
+  @MainActor
   func mapViewDidFailLoadingMap(_ mapView: MLNMapView, withError error: any Error) {
     print(">>failed to load: \(error)")
   }
 
+  @MainActor
   func mapView(
     _ mapView: MLNMapView, tileDidTriggerAction operation: MLNTileOperation, x: Int, y: Int, z: Int,
     wrap: Int, overscaledZ: Int, sourceID: String
@@ -657,9 +703,30 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     )
   }
 
+  @MainActor
+  func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
+    annotation is TransitVehicleAnnotation
+  }
+
+  @MainActor
+  func mapView(_ mapView: MLNMapView, calloutViewFor annotation: MLNAnnotation)
+    -> (any MLNCalloutView)?
+  {
+    guard let vehicleAnnotation = annotation as? TransitVehicleAnnotation else {
+      return nil
+    }
+    return TransitVehicleCalloutView(annotation: vehicleAnnotation)
+  }
+
+  @MainActor
   func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation)
     -> MLNAnnotationView?
   {
+    if let vehicleAnnotation = annotation as? TransitVehicleAnnotation {
+      return TransitVehicleMarkerView(
+        vehicle: vehicleAnnotation.vehicle, isFaded: vehicleAnnotation.isFaded)
+    }
+
     guard let pointAnnotation = annotation as? MLNPointAnnotation,
       let marker = PlaceMarker.markerLookup[pointAnnotation]
     else {
@@ -683,22 +750,21 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     }
   }
 
+  @MainActor
   func mapView(_ mapView: MLNMapView, didChange mode: MLNUserTrackingMode, animated: Bool) {
     Task {
-      await MainActor.run {
-        logger.debug("MLNUserTrackingMode didChange: \(debugString(mode))")
-        switch mode {
-        case .none:
-          if self.mapView.userLocationManager.state == .following {
-            self.mapView.userLocationManager.state = .showing
-          }
-        case .follow, .followWithHeading, .followWithCourse:
-          if self.mapView.userLocationManager.state != .following {
-            self.mapView.userLocationManager.state = .following
-          }
-        @unknown default:
-          assertionFailure("unexpected MLNUserTrackingModeL \(String(describing: mode))")
+      logger.debug("MLNUserTrackingMode didChange: \(debugString(mode))")
+      switch mode {
+      case .none:
+        if self.mapView.userLocationManager.state == .following {
+          self.mapView.userLocationManager.state = .showing
         }
+      case .follow, .followWithHeading, .followWithCourse:
+        if self.mapView.userLocationManager.state != .following {
+          self.mapView.userLocationManager.state = .following
+        }
+      @unknown default:
+        assertionFailure("unexpected MLNUserTrackingModeL \(String(describing: mode))")
       }
     }
   }

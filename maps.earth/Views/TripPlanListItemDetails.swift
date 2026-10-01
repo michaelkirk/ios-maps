@@ -47,10 +47,10 @@ struct TransitPlanItem: View {
         Text(routeEmojiSummary(trip: trip))
         if let firstTransitLeg = trip.firstTransitLeg {
           HStack {
-            if firstTransitLeg.realTime {
+            if firstTransitLeg.transitLeg?.realTime == true {
               Image(systemName: "dot.radiowaves.up.forward")
             }
-            if let departureText = departureText(transitLeg: firstTransitLeg) {
+            if let departureText = departureText(leg: firstTransitLeg) {
               Text(departureText)
             }
           }
@@ -105,15 +105,15 @@ func routeEmojiSummary(trip: Trip) -> String {
   return output
 }
 
-func departureText(transitLeg: TransitLeg) -> AttributedString? {
+func departureText(leg: TripLeg) -> AttributedString? {
   var output = AttributedString()
   let boldFont = Font.body.bold()
 
-  if let startTime = formattedDurationUntilStart(start: transitLeg.startDate, boldFont: boldFont) {
+  if let startTime = formattedDurationUntilStart(start: leg.startTime, boldFont: boldFont) {
     output.append(startTime)
   }
 
-  if let departFrom = formattedDepatureName(tripPlace: transitLeg.from, boldFont: boldFont) {
+  if let departFrom = formattedDepatureName(tripPlace: leg.fromPlace, boldFont: boldFont) {
     if !output.characters.isEmpty {
       output.append(AttributedString(" "))
     }

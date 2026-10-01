@@ -9,6 +9,8 @@ import CoreLocation
 import Foundation
 import MapLibre
 
+private let logger = FileLogger()
+
 struct GeocodeClient {
   enum Endpoint {
     var config: AppConfig {
@@ -72,7 +74,11 @@ struct GeocodeClient {
     let endpoint = Endpoint.place(placeID)
     let response = try await fetchData(from: endpoint.url)
     if case .venue = placeID {
-      assert(response.places.count == 1)
+      if response.places.count == 0 {
+        logger.warning("placeID was not known to geocoder: \(String(describing: placeID))")
+      } else {
+        assert(response.places.count == 1)
+      }
     }
     guard
       let place = response.places.first(where: { $0.properties.layer == "venue" })

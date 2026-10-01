@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Build every binary framework the app depends on.
+#
+# These can't be built from within xcodebuild: SwiftPM needs the xcframeworks
+# to resolve the package graph, which happens before any build phase runs.
+#
+# The ferrostar and headway scripts take a --release flag that we deliberately
+# don't pass: they always build with cargo --release, and that flag instead zips
+# the xcframework and rewrites their Package.swift for publishing upstream.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+echo "🔧 Building MapLibre Native..."
+bin/build-maplibre-native
+
+echo "🔧 Building ferrostar..."
+(cd DevDependencies/ferrostar/common && ./build-ios.sh)
+
+echo "🔧 Building headway..."
+(cd DevDependencies/headway && ./bin/build-ios.sh)
+
+bin/check-frameworks
+echo "✅ Frameworks built"

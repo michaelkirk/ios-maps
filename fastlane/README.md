@@ -15,29 +15,29 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios bump_build
+### ios build
 
 ```sh
-[bundle exec] fastlane ios bump_build
+[bundle exec] fastlane ios build
 ```
 
-Increment the build number
+Compile for the simulator, a faster check than a full archive
 
-### ios bump_version
+### ios archive
 
 ```sh
-[bundle exec] fastlane ios bump_version
+[bundle exec] fastlane ios archive
 ```
 
-Increment the minor version and reset build number to 0
+Archive the app, without touching versions or git
 
-### ios build_alpha
+### ios cut_alpha
 
 ```sh
-[bundle exec] fastlane ios build_alpha
+[bundle exec] fastlane ios cut_alpha
 ```
 
-Bump build, archive, and tag the app
+Bump build (or minor version with bump_version:true), archive, and tag an alpha
 
 ### ios tag_alpha
 

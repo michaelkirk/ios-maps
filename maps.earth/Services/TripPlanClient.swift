@@ -11,11 +11,49 @@ import Foundation
 import MapLibre
 import MapboxDirections
 
-typealias TransitLeg = OTPTransitLeg
+/// A transit ride, as travelmux describes it.
+struct TransitLeg: Decodable {
+  /// What kind of vehicle this ride is on. The leg's own `mode` is always `.transit`.
+  var vehicleMode: TransitVehicleMode?
+  var route: TransitRoute?
+  var agencyName: String?
+  var headsign: String?
+
+  /// Whether the leg's times reflect real-time data, rather than just the schedule.
+  var realTime: Bool
+
+  /// What `/vehicle_positions` keys vehicles by. Only good for the life of the plan it came in:
+  /// OTP renumbers patterns whenever the transit data is rebuilt.
+  var patternCode: String?
+
+  /// The whole shape the pattern runs, as an encoded polyline. The leg's own geometry is the
+  /// slice of this the rider is aboard for.
+  var patternGeometry: String?
+
+  /// Every ordinary stop on the portion of the pattern the rider travels, in order.
+  var riddenStops: String?
+
+  /// The stops beyond the ridden portion, packed the same way.
+  var contextStops: String?
+
+  /// Where the rider boards and alights, packed the same way.
+  var onOffStops: String?
+}
+
+struct TransitRoute: Decodable {
+  var shortName: String?
+  var longName: String?
+  /// An RRGGBB hex color, without a leading "#"
+  var color: String?
+}
 
 extension TransitLeg {
+  var routeSummaryName: String {
+    route?.shortName ?? route?.longName ?? ""
+  }
+
   var emojiRouteLabel: String {
-    "\(mode.emoji) \(routeSummaryName)"
+    "\(vehicleMode?.emoji ?? TransitVehicleMode.transit.emoji) \(routeSummaryName)"
   }
 }
 
@@ -44,23 +82,26 @@ struct ItineraryLeg {
   var endTime: Date
   var mode: TravelMode
   var modeLeg: ModeLeg
+
+  var transitLeg: TransitLeg? {
+    guard case .transit(let transitLeg) = self.modeLeg else {
+      return nil
+    }
+    return transitLeg
+  }
 }
 
 extension TripPlace: Decodable {
   private enum CodingKeys: String, CodingKey {
-    case lon
-    case lat
+    case location
     case name
   }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let name = try container.decodeIfPresent(String.self, forKey: .name)
-    let lon = try container.decode(Float64.self, forKey: .lon)
-    let lat = try container.decode(Float64.self, forKey: .lat)
-    // note spellings is different... this is a difference between the valhalla and OTP APIs vs. Maplibre
-    let lngLat = LngLat(lng: lon, lat: lat)
-    self.init(location: lngLat, name: name)
+    let location = try container.decode(LonLatPair.self, forKey: .location)
+    self.init(location: location.lngLat, name: name)
   }
 }
 
@@ -85,10 +126,8 @@ extension ItineraryLeg: Decodable {
     let fromPlace = try container.decode(TripPlace.self, forKey: .fromPlace)
     let toPlace = try container.decode(TripPlace.self, forKey: .toPlace)
 
-    let startTimeMillis = try container.decode(UInt64.self, forKey: .startTime)
-    let startTime = Date(millisSince1970: startTimeMillis)
-    let endTimeMillis = try container.decode(UInt64.self, forKey: .endTime)
-    let endTime = Date(millisSince1970: endTimeMillis)
+    let startTime = try container.decode(Date.self, forKey: .startTime)
+    let endTime = try container.decode(Date.self, forKey: .endTime)
 
     let modeLeg: ModeLeg
     if let nonTransitLeg = try container.decodeIfPresent(NonTransitLeg.self, forKey: .nonTransitLeg)
@@ -141,17 +180,12 @@ enum DistanceUnit: String, Decodable, Encodable {
 
 struct Itinerary: Decodable {
   var mode: TravelMode
-  var duration: Float64
-  var startTime: UInt64
-  var endTime: UInt64
-  var distance: Float64
-  var distanceUnits: DistanceUnit
+  var durationSeconds: Float64
+  var startTime: Date
+  var endTime: Date
+  var distanceMeters: Float64
   var bounds: Bounds
   var legs: [ItineraryLeg]
-}
-
-struct TravelmuxPlan: Decodable {
-  var itineraries: [Itinerary]
 }
 
 //  "bounds": {
@@ -262,9 +296,6 @@ struct Maneuver: Decodable {
   //  var verbal_succinct_transition_instruction: String
 }
 
-struct ValhallaPlan: Decodable {
-}
-
 struct TripPlanErrorResponse: Decodable, Error {
   var error: TripPlanError
 }
@@ -308,23 +339,7 @@ extension TripPlanError: LocalizedError {
 }
 
 struct TripPlanResponse: Decodable {
-  var plan: TravelmuxPlan
-  var otp: OTPPlan?
-  var valhalla: ValhallaPlan?
-
-  private enum CodingKeys: String, CodingKey {
-    case plan
-    case _otp
-    case _valhalla
-  }
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.plan = try container.decode(TravelmuxPlan.self, forKey: .plan)
-
-    self.otp = try container.decodeIfPresent(OTPPlan.self, forKey: ._otp)
-    self.valhalla = try container.decodeIfPresent(ValhallaPlan.self, forKey: ._valhalla)
-  }
+  var itineraries: [Itinerary]
 }
 
 enum TravelMode: String, Codable, Equatable {
@@ -335,14 +350,10 @@ enum TravelMode: String, Codable, Equatable {
 
   var emoji: String {
     switch self {
-    case .walk:
-      OTPTravelMode.walk.emoji
-    case .bike:
-      OTPTravelMode.bicycle.emoji
-    case .car:
-      OTPTravelMode.car.emoji
-    case .transit:
-      OTPTravelMode.transit.emoji
+    case .walk: "🚶‍♀️"
+    case .bike: "🚲"
+    case .car: "🚙"
+    case .transit: TransitVehicleMode.transit.emoji
     }
   }
 }
@@ -411,8 +422,8 @@ struct TripPlanNetworkClient: TripPlanClient {
         }
 
       var queryItems = [
-        URLQueryItem(name: "fromPlace", value: "\(from.lat),\(from.lng)"),
-        URLQueryItem(name: "toPlace", value: "\(to.lat),\(to.lng)"),
+        URLQueryItem(name: "fromPlace", value: "\(from.lng),\(from.lat)"),
+        URLQueryItem(name: "toPlace", value: "\(to.lng),\(to.lat)"),
         URLQueryItem(name: "numItineraries", value: "5"),
         URLQueryItem(name: "mode", value: modes.map { $0.rawValue }.joined(separator: ",")),
         URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
@@ -457,7 +468,7 @@ struct TripPlanNetworkClient: TripPlanClient {
       from: from.location, to: to.location, modes: modes, measurementSystem: measurementSystem,
       tripDate: tripDate)
 
-    // URL: https://maps.earth/travelmux/v2/plan?fromPlace=47.575837%2C-122.339414&toPlace=47.622687%2C-122.312892&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
+    // URL: https://maps.earth/travelmux/v8/plan?fromPlace=-122.339414%2C47.575837&toPlace=-122.312892%2C47.622687&numItineraries=5&mode=TRANSIT&preferredDistanceUnits=miles
     let url = AppConfig().travelmuxEndpoint.appending(path: "plan").appending(
       queryItems: params.asQueryItems)
 
@@ -465,7 +476,7 @@ struct TripPlanNetworkClient: TripPlanClient {
 
     let result: Result<[Trip], TripPlanErrorResponse> = try await fetchData(from: url).map {
       (response: TripPlanResponse) in
-      response.plan.itineraries.map { itinerary in
+      response.itineraries.map { itinerary in
         Trip(itinerary: itinerary, from: from, to: to)
       }
     }
@@ -481,14 +492,45 @@ struct TripPlanNetworkClient: TripPlanClient {
 
   internal func fetchData<T: Decodable, E: Decodable>(from url: URL) async throws -> Result<T, E> {
     let (data, response) = try await URLSession.shared.data(from: url)
+    let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+    return try Self.decode(data: data, statusCode: statusCode)
+  }
 
-    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-      let decodedResponse = try JSONDecoder().decode(E.self, from: data)
-      return .failure(decodedResponse)
+  /// Read a travelmux response, given the body and the status it arrived with.
+  ///
+  /// Separated from the fetching so it can be tested without a server, and because what to do
+  /// with a body depends only on these two things.
+  internal static func decode<T: Decodable, E: Decodable>(data: Data, statusCode: Int) throws
+    -> Result<T, E>
+  {
+    guard statusCode == 200 else {
+      // travelmux describes its own failures in JSON. Anything else came from something in
+      // front of it - nginx serves an HTML page when it can't reach the service at all - and
+      // decoding that as an error type reports a corrupt payload instead of the outage it is.
+      guard let decoded = try? JSONDecoder.travelmux.decode(E.self, from: data) else {
+        throw TripPlanServerError(statusCode: statusCode, body: data)
+      }
+      return .failure(decoded)
     }
 
-    let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-    return .success(decodedResponse)
+    return .success(try JSONDecoder.travelmux.decode(T.self, from: data))
+  }
+}
+
+/// A response that didn't come from travelmux, or didn't come out as travelmux describes its
+/// errors - a gateway timing out, a proxy's error page, an empty body.
+struct TripPlanServerError: Error, CustomStringConvertible {
+  let statusCode: Int
+  let body: Data
+
+  var description: String {
+    let snippet = String(decoding: body.prefix(200), as: UTF8.self)
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !snippet.isEmpty else {
+      return "travelmux returned \(statusCode) with an empty body"
+    }
+    return "travelmux returned \(statusCode), and the body wasn't the JSON error it should be: "
+      + snippet
   }
 }
 

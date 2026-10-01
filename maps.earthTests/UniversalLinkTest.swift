@@ -32,7 +32,7 @@ final class UniversalLinkTest: XCTestCase {
 
   func testPlaceWithLatLon() throws {
     // Place Details (Somewhere in Redmond)
-    let url = URL(string: "https://maps.earth/place/-122.1,47.6")!
+    let url = URL(string: "https://maps.earth/place/47.6,-122.1")!
     let expected = UniversalLink.place(placeID: .lngLat(LngLat(lng: -122.1, lat: 47.6)))
     XCTAssertEqual(UniversalLink(url: url)!, expected)
   }
@@ -40,7 +40,7 @@ final class UniversalLinkTest: XCTestCase {
   func testDirectionsWithVenueIDs() throws {
     let url = URL(
       string:
-        "https://maps.earth/directions/bicycle/openstreetmap%3Avenue%3Anode%2F2485251324/-122.1,47.6"
+        "https://maps.earth/directions/bicycle/openstreetmap%3Avenue%3Anode%2F2485251324/47.6,-122.1"
     )!
     let expected = UniversalLink.directions(
       travelMode: .bike,
@@ -53,7 +53,7 @@ final class UniversalLinkTest: XCTestCase {
   func testDirectionsWithLonLat() throws {
     let url = URL(
       string:
-        "https://maps.earth/directions/bicycle/openstreetmap%3Avenue%3Anode%2F2485251324/-122.1,47.6"
+        "https://maps.earth/directions/bicycle/openstreetmap%3Avenue%3Anode%2F2485251324/47.6,-122.1"
     )!
     let expected = UniversalLink.directions(
       travelMode: .bike,
@@ -107,7 +107,7 @@ final class UniversalLinkTest: XCTestCase {
   func testUrlForDirections() throws {
     let url = URL(
       string:
-        "https://maps.earth/directions/bicycle/openstreetmap:venue:node%2F2485251324/-122.1,47.6")!
+        "https://maps.earth/directions/bicycle/openstreetmap:venue:node%2F2485251324/47.6,-122.1")!
     let link = UniversalLink(url: url)!
     XCTAssertEqual(url, link.url)
   }

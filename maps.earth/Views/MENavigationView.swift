@@ -239,14 +239,10 @@ final class NavigationSession: ObservableObject {
         coordinate: mlnRoute.coordinates!.first!)
       simulatedLocationProvider.warpFactor = 1
 
-      // Set to true to simulate driving off the route, exercising the
-      // recalculation path. Has no effect outside the simulator.
-      let goOffTrack = false
-      if goOffTrack {
-        try! simulatedLocationProvider.setSimulatedRoute(route, bias: .right(30.0))
-      } else {
-        try! simulatedLocationProvider.setSimulatedRoute(route)
-      }
+      try! simulatedLocationProvider.setSimulatedRoute(route)
+      // go off track
+      //   try! simulatedLocationProvider.setSimulatedRoute(route, bias: .right(30.0))
+
       simulatedLocationProvider.startUpdating()
       locationProvider = simulatedLocationProvider
     } else {

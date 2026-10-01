@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Print the newest available iOS simulator as "<udid><tab><name>".
+#
+# Progress and errors go to stderr, so callers can capture just the device.
+set -euo pipefail
+
+echo "📱 Finding available iOS simulators..." >&2
+
+devices=$(xcrun simctl list devices --json)
+
+# Xcode leaves behind runtime entries with no devices, which would otherwise
+# win the version sort, so only consider runtimes that have a usable simulator.
+runtime=$(echo "$devices" | jq -r '
+    .devices | to_entries[]
+    | select(.key | contains("iOS"))
+    | select(any(.value[]; .isAvailable))
+    | .key' | sort -V | tail -1)
+
+if [ -z "$runtime" ]; then
+    echo "❌ Error: No iOS runtime has an available simulator" >&2
+    exit 1
+fi
+
+echo "📍 Using iOS runtime: $runtime" >&2
+
+echo "$devices" | jq -r --arg runtime "$runtime" '
+    .devices[$runtime] | map(select(.isAvailable)) | .[0] | "\(.udid)\t\(.name)"'

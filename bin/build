@@ -8,14 +8,7 @@ PROJECT_PATH="maps.earth.xcodeproj"
 # overrides this with the simulator it's about to launch on.
 DESTINATION="${IOS_DESTINATION:-generic/platform=iOS Simulator}"
 
-# Without the framework, SwiftPM fails to resolve with a confusing "does not
-# contain a binary artifact" rather than a missing-file error.
-if [ ! -d "DevDependencies/maplibre-gl-native-distribution/MapLibre.xcframework" ]; then
-    echo "❌ Error: MapLibre.xcframework is missing"
-    echo "   Build it with: bin/build-maplibre-native"
-    echo "   (or bin/build-and-test, which builds every framework dependency)"
-    exit 1
-fi
+"$(dirname "$0")/build-frameworks"
 
 echo "🔨 Building $SCHEME for $DESTINATION..."
 

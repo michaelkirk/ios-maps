@@ -10,7 +10,7 @@ import SwiftUI
 struct TripList: View {
   @ObservedObject var tripPlan: TripPlan
   @Binding var trips: [Trip]
-  @Binding var showSteps: Bool
+  @State var stepsDetent: PresentationDetent = initialDetentHeight
 
   var body: some View {
     ScrollViewReader { scrollView in
@@ -21,7 +21,7 @@ struct TripList: View {
             if tripPlan.selectedTrip == trip {
               // single-mode steps from OTP aren't supported yet
               if trip.legs.count > 1 || tripPlan.mode != .transit {
-                showSteps = true
+                tripPlan.isShowingSteps = true
               }
             } else {
               tripPlan.selectedTrip = trip
@@ -34,7 +34,7 @@ struct TripList: View {
                 if tripPlan.mode == .transit {
                   TransitPlanItem(trip: trip) {
                     tripPlan.selectedTrip = trip
-                    showSteps = true
+                    tripPlan.isShowingSteps = true
                   }
                 } else {
                   NonTransitPlanItem(trip: trip) {
@@ -55,7 +55,7 @@ struct TripList: View {
               }
             }
           }
-        }.listRowInsets(EdgeInsets())
+        }.listRowInsets(EdgeInsets()).id(trip.id)
       }.listStyle(.plain)
         .onChange(of: tripPlan.selectedTrip) { newValue in
           guard let newValue = newValue else {
@@ -65,14 +65,17 @@ struct TripList: View {
             scrollView.scrollTo(newValue.id, anchor: .top)
           }
         }
-    }.sheet(isPresented: $showSteps) {
+    }.sheet(isPresented: $tripPlan.isShowingSteps, onDismiss: { stepsDetent = initialDetentHeight })
+    {
       let trip = tripPlan.selectedTrip!
       let _ = assert(trip.legs.count > 0)
       if trip.legs.count == 1, case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg {
         ManeuverListSheetContents(
-          trip: trip, maneuvers: nonTransitLeg.maneuvers, onClose: { showSteps = false })
+          trip: trip, maneuvers: nonTransitLeg.maneuvers, currentDetent: $stepsDetent,
+          onClose: { tripPlan.isShowingSteps = false })
       } else {
-        MultiModalTripDetailsSheetContents(trip: trip, onClose: { showSteps = false })
+        MultiModalTripDetailsSheetContents(
+          trip: trip, currentDetent: $stepsDetent, onClose: { tripPlan.isShowingSteps = false })
       }
     }
   }
@@ -81,5 +84,5 @@ struct TripList: View {
 #Preview("walking") {
   let tripPlan = FixtureData.walkTripPlan
   let trips = try! tripPlan.trips.get()
-  return TripList(tripPlan: tripPlan, trips: .constant(trips), showSteps: .constant(false))
+  return TripList(tripPlan: tripPlan, trips: .constant(trips))
 }

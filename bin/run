@@ -4,25 +4,10 @@ set -euo pipefail
 SCHEME="maps.earth"
 PROJECT_PATH="maps.earth.xcodeproj"
 
-# Simulator selection mirrors bin/test: newest installed iOS runtime, first
-# device on it. Override with SIMULATOR_UDID to pick your own.
+# Override with SIMULATOR_UDID to pick your own.
 if [ -z "${SIMULATOR_UDID:-}" ]; then
-    echo "📱 Finding available iOS simulators..."
-    SIMULATORS_JSON=$(xcrun simctl list devices --json)
-
-    LATEST_IOS_RUNTIME=$(echo "$SIMULATORS_JSON" | jq -r '.devices | keys[] | select(contains("iOS"))' | sort -V | tail -1)
-    if [ -z "$LATEST_IOS_RUNTIME" ]; then
-        echo "❌ Error: No iOS simulators found"
-        exit 1
-    fi
-    echo "📍 Using iOS runtime: $LATEST_IOS_RUNTIME"
-
-    SIMULATOR_UDID=$(echo "$SIMULATORS_JSON" | jq -r ".devices[\"$LATEST_IOS_RUNTIME\"][0].udid // empty")
-    SIMULATOR_NAME=$(echo "$SIMULATORS_JSON" | jq -r ".devices[\"$LATEST_IOS_RUNTIME\"][0].name // empty")
-    if [ -z "$SIMULATOR_UDID" ]; then
-        echo "❌ Error: No simulators available for $LATEST_IOS_RUNTIME"
-        exit 1
-    fi
+    SIMULATOR=$("$(dirname "$0")/_simctl")
+    IFS=$'\t' read -r SIMULATOR_UDID SIMULATOR_NAME <<<"$SIMULATOR"
 fi
 SIMULATOR_NAME="${SIMULATOR_NAME:-$SIMULATOR_UDID}"
 echo "📱 Selected simulator: $SIMULATOR_NAME ($SIMULATOR_UDID)"
@@ -57,7 +42,25 @@ if [ "$SIMULATOR_STATE" != "Booted" ]; then
     xcrun simctl boot "$SIMULATOR_UDID"
     xcrun simctl bootstatus "$SIMULATOR_UDID"
 fi
-open -a Simulator --args -CurrentDeviceUDID "$SIMULATOR_UDID"
+# Xcode 27 dropped Simulator.app for Device Hub, which shows simulators and
+# physical devices in one window. It takes the device in a `devices://` URL;
+# Simulator's -CurrentDeviceUDID it accepts and ignores, exiting 0 without
+# booting - so the boot above stays unconditional.
+#
+# By path rather than by name: `open -a DeviceHub` depends on LaunchServices
+# having registered it, and a slimmed Xcode won't ship it at all.
+XCODE_DEV_DIR="$(xcode-select -p)"
+DEVICE_HUB="$XCODE_DEV_DIR/../Applications/DeviceHub.app"
+SIMULATOR_APP="$XCODE_DEV_DIR/Applications/Simulator.app"
+if [ -d "$DEVICE_HUB" ]; then
+    open -a "$DEVICE_HUB" "devices://device/open?id=$SIMULATOR_UDID"
+elif [ -d "$SIMULATOR_APP" ]; then
+    open -a "$SIMULATOR_APP" --args -CurrentDeviceUDID "$SIMULATOR_UDID"
+else
+    echo "⚠️  Found neither Device Hub nor Simulator.app under $XCODE_DEV_DIR"
+    echo "   Installing and launching anyway, but headless: you'll see no window."
+    echo "   Reinstall Xcode to get it back."
+fi
 
 echo "📲 Installing..."
 xcrun simctl install "$SIMULATOR_UDID" "$APP_PATH"
