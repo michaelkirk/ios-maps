@@ -66,6 +66,13 @@ class TripPlan: ObservableObject {
     }
   }
 
+  /// Reverse the trip, discarding trips planned in the old direction.
+  func swapEndpoints() {
+    (self.navigateFrom, self.navigateTo) = (self.navigateTo, self.navigateFrom)
+    self.trips = .success([])
+    self.selectedTrip = nil
+  }
+
   func clear() {
     self.navigateFrom = nil
     self.navigateTo = nil

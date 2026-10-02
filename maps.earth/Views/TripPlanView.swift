@@ -26,16 +26,44 @@ struct ModePicker: View {
 struct OriginDestinationFieldSet: View {
   @Binding var navigateFrom: Place?
   @Binding var navigateTo: Place?
+  var swapEndpoints: () -> Void
+
+  @ScaledMetric var swapButtonDiameter: CGFloat = 32
+  let swapButtonInset: CGFloat = 12
+
   var body: some View {
-    VStack {
-      PlaceField(header: "From", place: $navigateFrom)
-      Divider().padding(.bottom, 4)
-      PlaceField(header: "To", place: $navigateTo)
+    let placeTrailingInset = swapButtonDiameter + swapButtonInset + 8
+    VStack(spacing: 0) {
+      PlaceField(header: "From", place: $navigateFrom, trailingInset: placeTrailingInset)
+      Divider()
+        .padding(.trailing, placeTrailingInset)
+        .overlay(alignment: .trailing) {
+          SwapButton(diameter: swapButtonDiameter, action: swapEndpoints)
+            .padding(.trailing, swapButtonInset)
+        }
+        // keep the button above the To row so it gets the taps
+        .zIndex(1)
+      PlaceField(header: "To", place: $navigateTo, trailingInset: placeTrailingInset)
     }
-    .padding(.top, 10)
-    .padding(.bottom, 10)
     .background(Color.hw_lightGray)
     .cornerRadius(8)
+  }
+}
+
+/// Exchanges a trip's start and end.
+struct SwapButton: View {
+  var diameter: CGFloat
+  var action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      Image(systemName: "arrow.up.arrow.down")
+        .font(.system(size: diameter * 0.45, weight: .semibold))
+        .foregroundColor(.hw_darkGray)
+        .frame(width: diameter, height: diameter)
+        .background(Circle().fill(Color.hw_lightGray))
+    }
+    .accessibilityLabel("Swap start and end")
   }
 }
 
@@ -147,7 +175,8 @@ struct TripPlanView: View {
       }
 
       OriginDestinationFieldSet(
-        navigateFrom: $tripPlan.navigateFrom, navigateTo: $tripPlan.navigateTo)
+        navigateFrom: $tripPlan.navigateFrom, navigateTo: $tripPlan.navigateTo,
+        swapEndpoints: { tripPlan.swapEndpoints() })
 
       if tripPlan.mode == .transit {
         TransitFilters(tripDate: $tripDate, transitWithBike: $tripPlan.transitWithBike)

@@ -17,6 +17,7 @@
 		450855312BCF48F800B7678C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855302BCF48F800B7678C /* StorageManager.swift */; };
 		450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */; };
 		450C5F1D2B961DFC00394697 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1C2B961DFC00394697 /* Trip.swift */; };
+		A1B2C3D4E5F60718293A4B5C /* TripPlanTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5D /* TripPlanTest.swift */; };
 		450C5F1F2B963B5700394697 /* TripTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450C5F1E2B963B5700394697 /* TripTest.swift */; };
 		4516BAA92C0810DC0095E760 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4516BAA82C0810DC0095E760 /* Platform.swift */; };
 		451EE34C2E723ABA00AC0622 /* trip_elevation.json in Resources */ = {isa = PBXBuildFile; fileRef = 451EE34B2E723ABA00AC0622 /* trip_elevation.json */; };
@@ -128,6 +129,7 @@
 		450855302BCF48F800B7678C /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesControllerTests.swift; sourceTree = "<group>"; };
 		450C5F1C2B961DFC00394697 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5D /* TripPlanTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanTest.swift; sourceTree = "<group>"; };
 		450C5F1E2B963B5700394697 /* TripTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTest.swift; sourceTree = "<group>"; };
 		4516BAA82C0810DC0095E760 /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		451EE34B2E723ABA00AC0622 /* trip_elevation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trip_elevation.json; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				45AA000C2E7A00010000AAAA /* TripPlanResponseTest.swift */,
 				4563BA032B687AA5005A677A /* maps_earthTests.swift */,
 				456C6CF22B7306D000AAFBE6 /* PlaceTest.swift */,
+				A1B2C3D4E5F60718293A4B5D /* TripPlanTest.swift */,
 				450C5F1E2B963B5700394697 /* TripTest.swift */,
 				45831E322BC8A4C3007E7AA4 /* MapContentsTest.swift */,
 				450855322BCF4AC000B7678C /* PreferencesControllerTests.swift */,
@@ -701,6 +704,7 @@
 				4571DB912BD9BE9F00C919D8 /* FormatRelativeDateTests.swift in Sources */,
 				45831E332BC8A4C3007E7AA4 /* MapContentsTest.swift in Sources */,
 				450855332BCF4AC000B7678C /* PreferencesControllerTests.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5C /* TripPlanTest.swift in Sources */,
 				450C5F1F2B963B5700394697 /* TripTest.swift in Sources */,
 				4563BA042B687AA5005A677A /* maps_earthTests.swift in Sources */,
 				456C6CF32B7306D000AAFBE6 /* PlaceTest.swift in Sources */,
