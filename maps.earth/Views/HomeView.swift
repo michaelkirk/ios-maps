@@ -97,7 +97,7 @@ struct HomeView: View {
         .presentationBackgroundInteraction(
           .enabled(upThrough: .medium)
         )
-        .presentationDragIndicator(.visible)
+        .tappableDragIndicator($searchDetent)
         .interactiveDismissDisabled(true)
         .environmentObject(userLocationManager)
         .onChange(of: queryText) { newValue in

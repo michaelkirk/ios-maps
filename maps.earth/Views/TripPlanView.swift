@@ -310,10 +310,11 @@ struct TripSearchManager {
 struct TripPlanSheetContents: View {
   @ObservedObject var tripPlan: TripPlan
   var didCompleteTrip: () -> Void
+  @State private var detent: PresentationDetent = .medium
 
   var body: some View {
     SheetContents(
-      title: "Directions", onClose: { tripPlan.clear() }, currentDetent: .constant(.medium)
+      title: "Directions", onClose: { tripPlan.clear() }, currentDetent: $detent
     ) {
       GeometryReader { geometry in
         ScrollView {
