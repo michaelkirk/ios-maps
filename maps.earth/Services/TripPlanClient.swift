@@ -402,7 +402,7 @@ struct TripPlanNetworkClient: TripPlanClient {
 
     static var dateFormatter: DateFormatter = {
       let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "YYYY-MM-dd"
+      dateFormatter.dateFormat = "yyyy-MM-dd"
       return dateFormatter
     }()
 
