@@ -16,5 +16,57 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
+      # The frameworks' build directories are cached, rather than the frameworks
+      # themselves, so that a submodule bump only recompiles what it changed.
+      - name: Cache keys
+        id: keys
+        run: |
+          echo "xcode=$(xcodebuild -version | shasum | cut -c1-12)" >> "$GITHUB_OUTPUT"
+          echo "maplibre=$(git rev-parse HEAD:DevDependencies/maplibre-native)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore MapLibre build cache
+        id: bazel-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ~/.cache/bazel-disk
+          key: bazel-disk-${{ steps.keys.outputs.xcode }}-${{ steps.keys.outputs.maplibre }}-${{ hashFiles('bin/build-maplibre-native') }}
+          restore-keys: bazel-disk-${{ steps.keys.outputs.xcode }}-
+
+      # Only dependencies are cached, and only those the current Cargo.lock
+      # uses, which keeps each cache to about one build's worth.
+      - name: Restore ferrostar build cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: DevDependencies/ferrostar/common
+          key: ferrostar
+          cache-on-failure: true
+      - name: Restore headway build cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: DevDependencies/headway/common
+          key: headway
+          cache-on-failure: true
+
       - name: Build and Test
         run: ./bin/build-and-test
+
+      # Bazel refreshes an entry's mtime whenever a build uses it, so dropping
+      # the oldest first keeps what the current MapLibre needs.
+      - name: Trim MapLibre build cache
+        if: ${{ !cancelled() && steps.bazel-cache.outputs.cache-hit != 'true' }}
+        env:
+          MAX_BYTES: 3221225472 # 3 GiB
+        run: |
+          cd ~/.cache/bazel-disk
+          find ac cas -type f -exec stat -f '%m %z %N' {} + \
+            | sort -rn \
+            | awk -v max="$MAX_BYTES" '{ total += $2 } total > max { print $3 }' \
+            | xargs rm -f
+          du -sh .
+      - name: Save MapLibre build cache
+        if: ${{ !cancelled() && steps.bazel-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6
+        with:
+          path: ~/.cache/bazel-disk
+          key: ${{ steps.bazel-cache.outputs.cache-primary-key }}
