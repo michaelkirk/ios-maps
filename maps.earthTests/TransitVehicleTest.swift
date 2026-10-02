@@ -70,27 +70,12 @@ final class TransitVehicleTest: XCTestCase {
     XCTAssertEqual(location.lng, -122.5, accuracy: 10e-6)
   }
 
-  func testIsEstimated() {
-    let tracked = self.vehicle(withTrack: true)
-    XCTAssertFalse(tracked.isEstimated(at: reportedAt.addingTimeInterval(-1)))
-    XCTAssertFalse(tracked.isEstimated(at: reportedAt))
-    XCTAssertTrue(tracked.isEstimated(at: reportedAt.addingTimeInterval(1)))
-
-    // Without a track the dot never leaves the position the vehicle reported.
-    let untracked = self.vehicle(withTrack: false)
-    XCTAssertFalse(untracked.isEstimated(at: reportedAt.addingTimeInterval(600)))
-  }
-
   func testFreshnessFormatted() {
-    let untracked = self.vehicle(withTrack: false)
+    let vehicle = self.vehicle(withTrack: true)
     XCTAssertEqual(
-      untracked.freshnessFormatted(at: reportedAt.addingTimeInterval(40)),
-      "as of 40s ago")
-
-    let tracked = self.vehicle(withTrack: true)
+      vehicle.freshnessFormatted(at: reportedAt.addingTimeInterval(40)), "Confirmed 40s ago")
     XCTAssertEqual(
-      tracked.freshnessFormatted(at: reportedAt.addingTimeInterval(120)),
-      "Estimated · confirmed 2m ago")
+      vehicle.freshnessFormatted(at: reportedAt.addingTimeInterval(120)), "Confirmed 2m ago")
   }
 
   /// A vehicle due at the rider's stop `seconds` from `reportedAt`, on the given side of it.

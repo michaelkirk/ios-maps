@@ -59,6 +59,7 @@ class TransitVehicleMarkerView: MLNAnnotationView {
 /// A live transit vehicle: the emoji for its kind on a white chip ringed in the route's color,
 /// badged with the route it runs.
 struct TransitVehicleMarker: View {
+  /// The chip's diameter at a `scale` of 1.
   static let chipSize: CGFloat = 22
   private static let badgeHeight: CGFloat = 13
   /// Where the badge hangs off the chip, relative to the chip's own origin.
@@ -70,14 +71,16 @@ struct TransitVehicleMarker: View {
   let vehicle: TransitVehicle
   let isFaded: Bool
   let isSelected: Bool
+  /// 1 is the size it's drawn on the map.
+  var scale: CGFloat = 1
 
   var body: some View {
     ZStack(alignment: .topLeading) {
       chip
       if let badge = vehicle.badge {
         badgeView(badge)
-          .padding(.leading, Self.badgeOrigin.x)
-          .padding(.top, Self.badgeOrigin.y)
+          .padding(.leading, Self.badgeOrigin.x * scale)
+          .padding(.top, Self.badgeOrigin.y * scale)
       }
     }
     .compositingGroup()
@@ -87,16 +90,18 @@ struct TransitVehicleMarker: View {
   /// White so the emoji stays legible over any basemap, ringed in the route's color. The ring
   /// thickens outwards when selected, so the emoji inside keeps its size.
   private var chip: some View {
-    let growth = isSelected ? Self.selectedRingGrowth : 0
+    let growth = (isSelected ? Self.selectedRingGrowth : 0) * scale
     return Text(vehicle.emoji)
-      .font(.system(size: 12))
-      .frame(width: Self.chipSize, height: Self.chipSize)
+      .font(.system(size: 12 * scale))
+      .frame(width: Self.chipSize * scale, height: Self.chipSize * scale)
       .background {
         Circle()
           .fill(.white)
-          .overlay(Circle().strokeBorder(vehicle.color, lineWidth: Self.ringWidth + growth))
+          .overlay(
+            Circle().strokeBorder(vehicle.color, lineWidth: Self.ringWidth * scale + growth)
+          )
           .padding(-growth)
-          .shadow(color: .black.opacity(0.4), radius: 2)
+          .shadow(color: .black.opacity(0.4), radius: 2 * scale)
       }
   }
 
@@ -104,15 +109,15 @@ struct TransitVehicleMarker: View {
   /// (King County Metro's is yellow), so white-on-color can't be relied on to stay readable.
   private func badgeView(_ text: String) -> some View {
     Text(text)
-      .font(.system(size: 9, weight: .bold))
+      .font(.system(size: 9 * scale, weight: .bold))
       .foregroundStyle(Color(white: 0.07))
-      .padding(.horizontal, 4)
-      .frame(height: Self.badgeHeight)
+      .padding(.horizontal, 4 * scale)
+      .frame(height: Self.badgeHeight * scale)
       .background {
         Capsule()
           .fill(.white)
-          .overlay(Capsule().strokeBorder(vehicle.color, lineWidth: 1))
-          .shadow(color: .black.opacity(0.35), radius: 1.5)
+          .overlay(Capsule().strokeBorder(vehicle.color, lineWidth: scale))
+          .shadow(color: .black.opacity(0.35), radius: 1.5 * scale)
       }
       .fixedSize()
   }
@@ -234,39 +239,35 @@ struct TickingTransitVehicleCallout: View {
 /// What a tapped vehicle says: the route it runs, the number painted on it, when it reaches the
 /// rider's stop, and how much of the position on screen is reported rather than guessed.
 struct TransitVehicleCallout: View {
-  /// The narrowest gap between the two sides of a row before they read as one phrase.
-  private static let columnGap: CGFloat = 16
-
   let vehicle: TransitVehicle
   let now: Date
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 2) {
-      HStack(alignment: .bottom, spacing: 0) {
-        // The route is what's being named, so it keeps its width and the vehicle number yields.
-        TransitVehicleMarker(vehicle: vehicle, isFaded: false, isSelected: false)
-        Spacer(minLength: Self.columnGap)
+    HStack(alignment: .bottom, spacing: 16) {
+      VStack(alignment: .leading, spacing: 2) {
+        TransitVehicleMarker(vehicle: vehicle, isFaded: false, isSelected: false, scale: 1.5)
         if let label = vehicle.labelFormatted {
           Text(label)
-            .font(.system(size: 12))
-            .foregroundStyle(.white.opacity(0.75))
+            .font(.system(size: 10))
+            .foregroundStyle(.gray)
         }
       }
-      if let row = vehicle.boardingStopRow(at: now) {
-        HStack(alignment: .lastTextBaseline, spacing: 0) {
+
+      // The wait is the thing a rider is reading for, so it's the vehicle number that yields.
+      VStack(alignment: .trailing, spacing: 2) {
+        if let row = vehicle.boardingStopRow(at: now) {
           if let text = row.text {
             Text(text).font(.system(size: 13, weight: .semibold))
           }
-          Spacer(minLength: Self.columnGap)
-          // The wait is the thing a rider is reading for, so it's the phrase beside it that yields.
           if let countdown = row.countdown {
-            Self.countdownView(countdown).layoutPriority(1)
+            Self.countdownView(countdown)
           }
         }
+        Text(vehicle.freshnessFormatted(at: now))
+          .font(.system(size: 10))
+          .foregroundStyle(.gray)
       }
-      Text(vehicle.freshnessFormatted(at: now))
-        .font(.system(size: 12))
-        .foregroundStyle(.white.opacity(0.8))
+      .layoutPriority(1)
     }
     .lineLimit(1)
     .foregroundStyle(.white)
@@ -291,23 +292,24 @@ struct TransitVehicleCallout: View {
 
 #Preview("Vehicle callouts") {
   let now = Date.now
-  let reported = now.addingTimeInterval(-20)
+  let reported = now.addingTimeInterval(-200)
   let vehicles: [TransitVehicle] = [
     .fixture(
       lastUpdated: reported,
       boardingStop: .approaching(
         arrival: now + 5 * 60, stopArrivals: [now + 60, now + 3 * 60, now + 5 * 60])),
     .fixture(
-      lastUpdated: reported.addingTimeInterval(-200), boardingStop: .approaching(arrival: now + 90, stopArrivals: [now + 90])
+      lastUpdated: reported.addingTimeInterval(200),
+      boardingStop: .approaching(arrival: now + 90, stopArrivals: [now + 90])
     ),
     .fixture(
       lastUpdated: reported, boardingStop: .approaching(arrival: now + 75 * 60, stopArrivals: [])),
     .fixture(
       lastUpdated: reported, boardingStop: .approaching(arrival: now + 10, stopArrivals: [])),
-    .fixture(lastUpdated: reported, boardingStop: .departed(arrival: now - 90)),
-    .fixture(lastUpdated: reported, isEstimated: true, boardingStop: nil),
+    .fixture(mode: .subway, lastUpdated: reported, boardingStop: .departed(arrival: now - 90)),
+    .fixture(lastUpdated: reported, boardingStop: nil),
     .fixture(
-      route: TransitRoute(shortName: nil, longName: "1 Line", color: "28813F"), mode: .subway,
+      route: TransitRoute(shortName: nil, longName: "1 Line", color: "28813F"),
       label: nil, lastUpdated: reported, boardingStop: nil),
   ]
   VStack(spacing: 12) {

@@ -146,13 +146,9 @@ extension TransitVehicle {
     mode: TransitVehicleMode = .bus,
     label: String? = "8293",
     lastUpdated: Date,
-    isEstimated: Bool = false,
     boardingStop: BoardingStop?
   ) -> TransitVehicle {
-    let position = LngLat(lng: -122.35, lat: 47.65)
-    let track = VehicleTrack(
-      stepSeconds: 10, points: [position, LngLat(lng: -122.35, lat: 47.66)])
-    return TransitVehicle(
+    TransitVehicle(
       id: "vehicle-1",
       patternCode: "pattern-1",
       route: route,
@@ -160,9 +156,9 @@ extension TransitVehicle {
       headsign: "Shoreline Greenwood",
       vehicleId: "f-c23-metrokingcounty:8293",
       label: label,
-      position: LonLatPair(position),
+      position: LonLatPair(LngLat(lng: -122.35, lat: 47.65)),
       lastUpdated: lastUpdated,
-      track: isEstimated ? track : nil,
+      track: nil,
       boardingStop: boardingStop)
   }
 }

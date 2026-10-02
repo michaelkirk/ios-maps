@@ -176,11 +176,6 @@ extension TransitVehicle {
       lat: from.lat + into * (to.lat - from.lat))
   }
 
-  /// Whether the dot has moved past the last thing the vehicle actually told us.
-  func isEstimated(at date: Date) -> Bool {
-    track != nil && date > lastUpdated
-  }
-
   /// Whether the report this dot is drawn from is too old to keep drawing without a fresh one.
   func hasExpired(at date: Date) -> Bool {
     date.timeIntervalSince(lastUpdated) > Self.coastingInterval
@@ -253,17 +248,8 @@ extension TransitVehicle {
     }
   }
 
-  /// How much of this dot is reported and how much is guesswork, phrased for the traveler.
-  ///
-  /// Once the dot has left the reported position it says so: the position on screen is one nobody
-  /// reported, and the honest thing is to name the last moment we actually knew.
+  /// When the vehicle last actually reported its position, phrased for the traveler.
   func freshnessFormatted(at date: Date = .now) -> String {
-    let ageText = max(0, date.timeIntervalSince(lastUpdated)).durationFormatted
-
-    if isEstimated(at: date) {
-      return "Estimated · confirmed \(ageText) ago"
-    } else {
-      return "as of \(ageText) ago"
-    }
+    "Confirmed \(max(0, date.timeIntervalSince(lastUpdated)).durationFormatted) ago"
   }
 }
