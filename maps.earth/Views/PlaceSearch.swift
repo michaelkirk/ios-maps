@@ -15,11 +15,13 @@ struct PlaceSearch<Content: View>: View {
   var canPickCurrentLocation: Bool = false
   var didDismissSearch: () -> Void = {}
   var didSubmitSearch: () -> Void = {}
+  var didFocusSearch: () -> Void = {}
   var didSelectPlace: (Place) -> Void = { _ in }
 
   let slotContent: Content
 
   @State private var scrollViewOffset: CGFloat = 0
+  @FocusState private var isSearchFocused: Bool
   @EnvironmentObject var userLocationManager: UserLocationManager
   @EnvironmentObject var preferences: Preferences
 
@@ -31,6 +33,7 @@ struct PlaceSearch<Content: View>: View {
     canPickCurrentLocation: Bool = false,
     didDismissSearch: @escaping () -> Void = {},
     didSubmitSearch: @escaping () -> Void = {},
+    didFocusSearch: @escaping () -> Void = {},
     didSelectPlace: @escaping (Place) -> Void = { _ in },
     @ViewBuilder slotContent: () -> Content = { EmptyView() }
   ) {
@@ -42,6 +45,7 @@ struct PlaceSearch<Content: View>: View {
     self.canPickCurrentLocation = canPickCurrentLocation
     self.didDismissSearch = didDismissSearch
     self.didSubmitSearch = didSubmitSearch
+    self.didFocusSearch = didFocusSearch
     self.didSelectPlace = didSelectPlace
     self.slotContent = slotContent()
   }
@@ -52,6 +56,10 @@ struct PlaceSearch<Content: View>: View {
           Image(systemName: "magnifyingglass").foregroundColor(
             .hw_searchFieldPlaceholderForeground)
           TextField(placeholder, text: $queryText)
+            .focused($isSearchFocused)
+            .onChange(of: isSearchFocused) { isFocused in
+              if isFocused { didFocusSearch() }
+            }
             .submitLabel(.search)
             .dynamicTypeSize(.xxLarge)
             .onSubmit {

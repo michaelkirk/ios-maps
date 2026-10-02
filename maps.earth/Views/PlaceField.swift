@@ -13,21 +13,22 @@ private let logger = FileLogger()
 struct PlaceField: View {
   var header: String
   @Binding var place: Place?
+  var trailingInset: CGFloat = 16
   @State var searchIsPresented: Bool = false
   @State var queryText: String = ""
   @StateObject var searchQueue: SearchQueue = SearchQueue()
+  @ScaledMetric var headerWidth: CGFloat = 48
 
   var body: some View {
     Button(action: { searchIsPresented = true }) {
       HStack(spacing: 16) {
         Text("\(header):").foregroundColor(.hw_darkGray)
-          // this minWidth is intended to approximately align the To/From heafer
-          // but it's brittle to dynamic type and locale specific
-          .frame(minWidth: 40, alignment: .trailing)
+          .frame(width: headerWidth, alignment: .trailing)
         Text(place?.name ?? "None").foregroundColor(.black)
           .frame(maxWidth: .infinity, alignment: .leading)
-        Text("Edit")
-      }.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+      }
+      .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: trailingInset))
+      .contentShape(Rectangle())
     }.onChange(of: queryText) { newValue in
       searchQueue.textDidChange(newValue: newValue)
     }
