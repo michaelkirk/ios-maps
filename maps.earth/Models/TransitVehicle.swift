@@ -263,7 +263,7 @@ extension TransitVehicle {
     if isEstimated(at: date) {
       return "Estimated · confirmed \(ageText) ago"
     } else {
-      return "Location as of \(ageText) ago"
+      return "as of \(ageText) ago"
     }
   }
 }

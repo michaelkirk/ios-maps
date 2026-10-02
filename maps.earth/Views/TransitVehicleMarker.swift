@@ -10,127 +10,139 @@ import MapLibre
 import SwiftUI
 import UIKit
 
-/// A live transit vehicle: the emoji for its kind on a white chip ringed in the route's color,
-/// badged with the route it runs.
+/// Hosts `TransitVehicleMarker` as the annotation view MapLibre draws for a vehicle.
 class TransitVehicleMarkerView: MLNAnnotationView {
-  private static let chipSize: CGFloat = 22
-  private static let badgeHeight: CGFloat = 13
-  /// Where the badge hangs off the chip, relative to the chip's own origin.
-  private static let badgeOrigin = CGPoint(x: 14, y: 13)
-
-  private static let ringWidth: CGFloat = 2
-  /// How much thicker the chip's ring is drawn on the vehicle whose callout is being read.
-  private static let selectedRingGrowth: CGFloat = 2
+  private let vehicle: TransitVehicle
+  private let host: UIHostingController<TransitVehicleMarker>
 
   var isFaded: Bool {
-    didSet {
-      self.alpha = isFaded ? 0.35 : 1
-    }
+    didSet { host.rootView = marker }
   }
 
-  private let chip: UIView
+  private var marker: TransitVehicleMarker {
+    TransitVehicleMarker(vehicle: vehicle, isFaded: isFaded, isSelected: isSelected)
+  }
 
   init(vehicle: TransitVehicle, isFaded: Bool) {
+    self.vehicle = vehicle
     self.isFaded = isFaded
-    let chip = Self.chipView(vehicle: vehicle)
-    self.chip = chip
+    self.host = UIHostingController(
+      rootView: TransitVehicleMarker(vehicle: vehicle, isFaded: isFaded, isSelected: false))
     super.init(reuseIdentifier: nil)
-    self.alpha = isFaded ? 0.35 : 1
-    let badge = vehicle.badge.map { Self.badgeView($0, color: vehicle.color.uiColor) }
+
+    host.sizingOptions = .intrinsicContentSize
+    host.view.backgroundColor = .clear
+    let content = host.view.intrinsicContentSize
 
     // MapLibre puts the view's center on the coordinate, and it's the chip - not the badge hanging
     // off it - that marks where the vehicle is. So the view is padded to keep the chip concentric
     // with it, which is what lets `centerOffset` stay zero.
-    let radius: CGFloat = Self.chipSize / 2
-    let badgeCorner: CGPoint =
-      badge.map {
-        CGPoint(x: Self.badgeOrigin.x + $0.frame.width, y: Self.badgeOrigin.y + $0.frame.height)
-      } ?? .zero
-    let halfWidth: CGFloat = max(radius, badgeCorner.x - radius)
-    let halfHeight: CGFloat = max(radius, badgeCorner.y - radius)
+    let radius = TransitVehicleMarker.chipSize / 2
+    let halfWidth = max(radius, content.width - radius)
+    let halfHeight = max(radius, content.height - radius)
     self.frame = CGRect(x: 0, y: 0, width: halfWidth * 2, height: halfHeight * 2)
-
-    chip.frame.origin = CGPoint(x: halfWidth - radius, y: halfHeight - radius)
-    self.addSubview(chip)
-
-    if let badge {
-      badge.frame.origin = CGPoint(
-        x: chip.frame.minX + Self.badgeOrigin.x, y: chip.frame.minY + Self.badgeOrigin.y)
-      self.addSubview(badge)
-    }
-  }
-
-  /// Thickens the ring outwards, so the emoji inside keeps its size.
-  override func setSelected(_ selected: Bool, animated: Bool) {
-    super.setSelected(selected, animated: animated)
-    let growth = selected ? Self.selectedRingGrowth : 0
-    let size = Self.chipSize + growth * 2
-    chip.frame = CGRect(
-      x: bounds.midX - size / 2, y: bounds.midY - size / 2, width: size, height: size)
-    chip.layer.cornerRadius = size / 2
-    chip.layer.borderWidth = Self.ringWidth + growth
-  }
-
-  /// White so the emoji stays legible over any basemap, ringed in the route's color.
-  private static func chipView(vehicle: TransitVehicle) -> UIView {
-    let chip = roundedView(
-      frame: CGRect(x: 0, y: 0, width: chipSize, height: chipSize),
-      borderColor: vehicle.color.uiColor, borderWidth: ringWidth, shadowRadius: 2,
-      shadowOpacity: 0.4)
-
-    let emoji = UILabel(frame: chip.bounds)
-    emoji.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    emoji.text = vehicle.emoji
-    emoji.font = .systemFont(ofSize: 12)
-    emoji.textAlignment = .center
-    chip.addSubview(emoji)
-
-    return chip
-  }
-
-  /// White with a colored border rather than colored with white text: GTFS route colors run light
-  /// (King County Metro's is yellow), so white-on-color can't be relied on to stay readable.
-  private static func badgeView(_ text: String, color: UIColor) -> UIView {
-    let label = UILabel()
-    label.text = text
-    label.font = .systemFont(ofSize: 9, weight: .bold)
-    label.textAlignment = .center
-    label.textColor = UIColor(white: 0.07, alpha: 1)
-
-    let frame = CGRect(
-      x: 0, y: 0, width: ceil(label.intrinsicContentSize.width) + 8, height: badgeHeight)
-    let badge = roundedView(
-      frame: frame, borderColor: color, borderWidth: 1, shadowRadius: 1.5, shadowOpacity: 0.35)
-
-    label.frame = badge.bounds
-    badge.addSubview(label)
-
-    return badge
-  }
-
-  /// A white pill carrying its own shadow.
-  ///
-  /// The fill lives on a bare view rather than on the label itself: a label paints its background
-  /// into its contents, which `cornerRadius` alone doesn't clip, and clipping the label's layer
-  /// would take the shadow with it.
-  private static func roundedView(
-    frame: CGRect, borderColor: UIColor, borderWidth: CGFloat, shadowRadius: CGFloat,
-    shadowOpacity: Float
-  ) -> UIView {
-    let view = UIView(frame: frame)
-    view.backgroundColor = .white
-    view.layer.cornerRadius = frame.height / 2
-    view.layer.borderColor = borderColor.cgColor
-    view.layer.borderWidth = borderWidth
-    view.layer.shadowRadius = shadowRadius
-    view.layer.shadowOpacity = shadowOpacity
-    view.layer.shadowOffset = .zero
-    return view
+    host.view.frame = CGRect(
+      origin: CGPoint(x: halfWidth - radius, y: halfHeight - radius), size: content)
+    addSubview(host.view)
   }
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
+    host.rootView = marker
+  }
+}
+
+/// A live transit vehicle: the emoji for its kind on a white chip ringed in the route's color,
+/// badged with the route it runs.
+struct TransitVehicleMarker: View {
+  static let chipSize: CGFloat = 22
+  private static let badgeHeight: CGFloat = 13
+  /// Where the badge hangs off the chip, relative to the chip's own origin.
+  private static let badgeOrigin = CGPoint(x: 14, y: 13)
+  private static let ringWidth: CGFloat = 2
+  /// How much thicker the ring is drawn on the vehicle whose callout is being read.
+  private static let selectedRingGrowth: CGFloat = 2
+
+  let vehicle: TransitVehicle
+  let isFaded: Bool
+  let isSelected: Bool
+
+  var body: some View {
+    ZStack(alignment: .topLeading) {
+      chip
+      if let badge = vehicle.badge {
+        badgeView(badge)
+          .padding(.leading, Self.badgeOrigin.x)
+          .padding(.top, Self.badgeOrigin.y)
+      }
+    }
+    .compositingGroup()
+    .opacity(isFaded ? 0.35 : 1)
+  }
+
+  /// White so the emoji stays legible over any basemap, ringed in the route's color. The ring
+  /// thickens outwards when selected, so the emoji inside keeps its size.
+  private var chip: some View {
+    let growth = isSelected ? Self.selectedRingGrowth : 0
+    return Text(vehicle.emoji)
+      .font(.system(size: 12))
+      .frame(width: Self.chipSize, height: Self.chipSize)
+      .background {
+        Circle()
+          .fill(.white)
+          .overlay(Circle().strokeBorder(vehicle.color, lineWidth: Self.ringWidth + growth))
+          .padding(-growth)
+          .shadow(color: .black.opacity(0.4), radius: 2)
+      }
+  }
+
+  /// White with a colored border rather than colored with white text: GTFS route colors run light
+  /// (King County Metro's is yellow), so white-on-color can't be relied on to stay readable.
+  private func badgeView(_ text: String) -> some View {
+    Text(text)
+      .font(.system(size: 9, weight: .bold))
+      .foregroundStyle(Color(white: 0.07))
+      .padding(.horizontal, 4)
+      .frame(height: Self.badgeHeight)
+      .background {
+        Capsule()
+          .fill(.white)
+          .overlay(Capsule().strokeBorder(vehicle.color, lineWidth: 1))
+          .shadow(color: .black.opacity(0.35), radius: 1.5)
+      }
+      .fixedSize()
+  }
+}
+
+#Preview("Vehicle markers") {
+  let reported = Date.now
+  HStack(spacing: 24) {
+    TransitVehicleMarker(
+      vehicle: .fixture(lastUpdated: reported, boardingStop: nil), isFaded: false,
+      isSelected: false)
+    TransitVehicleMarker(
+      vehicle: .fixture(lastUpdated: reported, boardingStop: nil), isFaded: false,
+      isSelected: true)
+    TransitVehicleMarker(
+      vehicle: .fixture(lastUpdated: reported, boardingStop: nil), isFaded: true,
+      isSelected: false)
+    TransitVehicleMarker(
+      vehicle: .fixture(
+        route: TransitRoute(shortName: "RapidRide E", longName: nil, color: "B6111B"),
+        lastUpdated: reported, boardingStop: nil),
+      isFaded: false, isSelected: false)
+    TransitVehicleMarker(
+      vehicle: .fixture(
+        route: TransitRoute(shortName: nil, longName: "1 Line", color: "28813F"), mode: .subway,
+        label: nil, lastUpdated: reported, boardingStop: nil),
+      isFaded: false, isSelected: false)
+  }
+  .frame(maxWidth: .infinity, maxHeight: .infinity)
+  .background(Color(white: 0.9))
 }
 
 /// Hosts `TransitVehicleCallout` as the callout MapLibre shows over a tapped vehicle.
@@ -230,11 +242,9 @@ struct TransitVehicleCallout: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 2) {
-      HStack(alignment: .firstTextBaseline, spacing: 0) {
+      HStack(alignment: .bottom, spacing: 0) {
         // The route is what's being named, so it keeps its width and the vehicle number yields.
-        Text("\(vehicle.emoji) \(vehicle.routeName)")
-          .font(.system(size: 13, weight: .semibold))
-          .layoutPriority(1)
+        TransitVehicleMarker(vehicle: vehicle, isFaded: false, isSelected: false)
         Spacer(minLength: Self.columnGap)
         if let label = vehicle.labelFormatted {
           Text(label)
@@ -243,7 +253,7 @@ struct TransitVehicleCallout: View {
         }
       }
       if let row = vehicle.boardingStopRow(at: now) {
-        HStack(alignment: .firstTextBaseline, spacing: 0) {
+        HStack(alignment: .lastTextBaseline, spacing: 0) {
           if let text = row.text {
             Text(text).font(.system(size: 13, weight: .semibold))
           }
@@ -268,11 +278,11 @@ struct TransitVehicleCallout: View {
   /// The countdown, with its unit set small enough to read as an aside to the number, badged with
   /// the glyph the trip list uses to mark a realtime departure.
   private static func countdownView(_ countdown: Countdown) -> some View {
-    HStack(alignment: .firstTextBaseline, spacing: 2) {
-      Text(countdown.value).font(.system(size: 13, weight: .semibold))
-      Group {
+    HStack(alignment: .lastTextBaseline, spacing: 1) {
+      Text(countdown.value).font(.system(size: 17, weight: .semibold))
+      VStack(alignment: .leading, spacing: -2) {
+        Image(systemName: "dot.radiowaves.up.forward").font(.system(size: 6, weight: .semibold))
         Text(countdown.unit).font(.system(size: 9))
-        Image(systemName: "dot.radiowaves.up.forward").font(.system(size: 10, weight: .semibold))
       }
       .foregroundStyle(.white.opacity(0.75))
     }
@@ -288,7 +298,7 @@ struct TransitVehicleCallout: View {
       boardingStop: .approaching(
         arrival: now + 5 * 60, stopArrivals: [now + 60, now + 3 * 60, now + 5 * 60])),
     .fixture(
-      lastUpdated: reported, boardingStop: .approaching(arrival: now + 90, stopArrivals: [now + 90])
+      lastUpdated: reported.addingTimeInterval(-200), boardingStop: .approaching(arrival: now + 90, stopArrivals: [now + 90])
     ),
     .fixture(
       lastUpdated: reported, boardingStop: .approaching(arrival: now + 75 * 60, stopArrivals: [])),

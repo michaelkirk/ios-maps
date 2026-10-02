@@ -85,7 +85,7 @@ final class TransitVehicleTest: XCTestCase {
     let untracked = self.vehicle(withTrack: false)
     XCTAssertEqual(
       untracked.freshnessFormatted(at: reportedAt.addingTimeInterval(40)),
-      "Location as of 40s ago")
+      "as of 40s ago")
 
     let tracked = self.vehicle(withTrack: true)
     XCTAssertEqual(
