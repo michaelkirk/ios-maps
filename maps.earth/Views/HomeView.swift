@@ -91,6 +91,11 @@ struct HomeView: View {
             }
             self.pendingMapFocus = .searchResults(mostRecentResults)
           },
+          didFocusSearch: {
+            if searchDetent == minDetentHeight {
+              searchDetent = .medium
+            }
+          },
           placeDetailsDetent: $placeDetailsDetent
         )
         .presentationDetents([.large, .medium, minDetentHeight], selection: $searchDetent)
