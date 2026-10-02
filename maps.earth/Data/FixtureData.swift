@@ -139,3 +139,30 @@ extension FixtureData.Places {
     self.all[position.rawValue]
   }
 }
+
+extension TransitVehicle {
+  static func fixture(
+    route: TransitRoute = TransitRoute(shortName: "5", longName: nil, color: "FDB71A"),
+    mode: TransitVehicleMode = .bus,
+    label: String? = "8293",
+    lastUpdated: Date,
+    isEstimated: Bool = false,
+    boardingStop: BoardingStop?
+  ) -> TransitVehicle {
+    let position = LngLat(lng: -122.35, lat: 47.65)
+    let track = VehicleTrack(
+      stepSeconds: 10, points: [position, LngLat(lng: -122.35, lat: 47.66)])
+    return TransitVehicle(
+      id: "vehicle-1",
+      patternCode: "pattern-1",
+      route: route,
+      vehicleMode: mode,
+      headsign: "Shoreline Greenwood",
+      vehicleId: "f-c23-metrokingcounty:8293",
+      label: label,
+      position: LonLatPair(position),
+      lastUpdated: lastUpdated,
+      track: isEstimated ? track : nil,
+      boardingStop: boardingStop)
+  }
+}

@@ -79,6 +79,7 @@
 		45992B4F2B9A9D1B00A64AEE /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B4E2B9A9D1B00A64AEE /* AppConfig.swift */; };
 		45992B512B9B5B4300A64AEE /* TripPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B502B9B5B4300A64AEE /* TripPlan.swift */; };
 		45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45992B552B9BC3BC00A64AEE /* MarkerViews.swift */; };
+		45AA00092E7A00010000BBBB /* TransitVehicleMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA000A2E7A00010000BBBB /* TransitVehicleMarker.swift */; };
 		45A33C792C8919E9007FB635 /* MLNBounds+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */; };
 		45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BC2C0FC005007145CE /* UniversalLink.swift */; };
 		45BB39BF2C0FC0DC007145CE /* UniversalLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */; };
@@ -188,6 +189,7 @@
 		45992B502B9B5B4300A64AEE /* TripPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlan.swift; sourceTree = "<group>"; };
 		45992B542B9B651900A64AEE /* maps-earth-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "maps-earth-Info.plist"; sourceTree = SOURCE_ROOT; };
 		45992B552B9BC3BC00A64AEE /* MarkerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerViews.swift; sourceTree = "<group>"; };
+		45AA000A2E7A00010000BBBB /* TransitVehicleMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitVehicleMarker.swift; sourceTree = "<group>"; };
 		45A33C782C8919E9007FB635 /* MLNBounds+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MLNBounds+Extensions.swift"; sourceTree = "<group>"; };
 		45BB39BB2C0F8C6D007145CE /* maps.earth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = maps.earth.entitlements; sourceTree = "<group>"; };
 		45BB39BC2C0FC005007145CE /* UniversalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLink.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 				4545AA762BA3B88D00958306 /* ManeuverList.swift */,
 				455363EF2B687EF0006DF291 /* MapView.swift */,
 				45992B552B9BC3BC00A64AEE /* MarkerViews.swift */,
+				45AA000A2E7A00010000BBBB /* TransitVehicleMarker.swift */,
 				456A19E02C825C9900E7E7EA /* MENavigationView.swift */,
 				45D0C53C2BC47FC4004D245F /* MultiModalTripDetails.swift */,
 				45520EEB2E8C937A0001779A /* OfflineMapsView.swift */,
@@ -644,6 +647,7 @@
 				455363F02B687EF0006DF291 /* MapView.swift in Sources */,
 				4586A33B2C2F55E100AC7825 /* UserLocationManager.swift in Sources */,
 				45992B562B9BC3BC00A64AEE /* MarkerViews.swift in Sources */,
+				45AA00092E7A00010000BBBB /* TransitVehicleMarker.swift in Sources */,
 				45971AC52B71A6FF0050BECE /* PlaceRow.swift in Sources */,
 				45992B4D2B9A71D100A64AEE /* Style.swift in Sources */,
 				456C6CEC2B71B15100AAFBE6 /* PlaceList.swift in Sources */,
