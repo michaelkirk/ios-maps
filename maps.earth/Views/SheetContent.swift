@@ -51,6 +51,7 @@ where Content: View, NavigationAccessoryContent: View {
       content()
     }.presentationBackground(Color.hw_sheetBackground)
       .presentationDetents(presentationDetents, selection: $currentDetent)
+      .tappableDragIndicator($currentDetent)
       .ignoresSafeArea()
       .presentationBackgroundInteraction(
         .enabled(upThrough: .medium)
@@ -75,5 +76,40 @@ struct SheetContentsWithoutTitle<Content>: View where Content: View {
     .presentationBackgroundInteraction(
       .enabled(upThrough: .medium)
     )
+  }
+}
+
+extension PresentationDetent {
+  /// Where tapping the sheet's handle goes. Only a swipe minimizes the sheet.
+  var toggled: PresentationDetent {
+    self == .medium ? .large : .medium
+  }
+}
+
+/// A drag indicator that can also be tapped to resize the sheet.
+struct TappableDragIndicator: ViewModifier {
+  @Binding var detent: PresentationDetent
+
+  func body(content: Content) -> some View {
+    content
+      .presentationDragIndicator(.hidden)
+      .overlay(alignment: .top) {
+        Capsule()
+          .fill(Color(uiColor: .tertiaryLabel))
+          .frame(width: 36, height: 5)
+          .padding(.top, 5)
+          .frame(width: 120, height: 24, alignment: .top)
+          .contentShape(Rectangle())
+          .onTapGesture { detent = detent.toggled }
+          .accessibilityElement()
+          .accessibilityLabel("Resize sheet")
+          .accessibilityAddTraits(.isButton)
+      }
+  }
+}
+
+extension View {
+  func tappableDragIndicator(_ detent: Binding<PresentationDetent>) -> some View {
+    modifier(TappableDragIndicator(detent: detent))
   }
 }
