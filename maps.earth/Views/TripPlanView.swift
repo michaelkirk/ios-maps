@@ -55,11 +55,17 @@ struct SwapButton: View {
   var diameter: CGFloat
   var action: () -> Void
 
+  @State private var rotation: Double = 0
+
   var body: some View {
-    Button(action: action) {
+    Button {
+      withAnimation(.easeOut(duration: 0.3)) { rotation += 180 }
+      action()
+    } label: {
       Image(systemName: "arrow.up.arrow.down")
         .font(.system(size: diameter * 0.45, weight: .semibold))
         .foregroundColor(.hw_darkGray)
+        .rotationEffect(.degrees(rotation))
         .frame(width: diameter, height: diameter)
         .background(Circle().fill(Color.hw_lightGray))
     }
