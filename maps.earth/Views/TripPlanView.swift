@@ -143,7 +143,7 @@ struct ModeButton: View {
   }
 }
 
-var searcher = TripSearchManager()
+@MainActor let searcher = TripSearchManager()
 
 struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
@@ -267,9 +267,9 @@ struct TripPlanView: View {
 }
 
 typealias QueryID = UInt64
-struct TripSearchManager {
+@MainActor
+final class TripSearchManager {
 
-  @MainActor
   var tripPlanClient: TripPlanClient {
     Env.current.tripPlanClient
   }
@@ -286,7 +286,7 @@ struct TripSearchManager {
   var mostRecentlyCompletedQuery: (id: QueryID, trips: [Trip])? = nil
   var nextQueryID: QueryID = 1
 
-  mutating func query(
+  func query(
     from: Place, to: Place, mode: TravelMode, tripDate: TripDateMode, transitWithBike: Bool
   ) async throws
     -> Result<[Trip], TripPlanError>
@@ -314,7 +314,7 @@ struct TripSearchManager {
       return result
     }
 
-    let client = await tripPlanClient
+    let client = tripPlanClient
     let withElevation = await withTaskGroup(of: (Int, ElevationProfile?).self) { group in
       for (idx, trip) in trips.enumerated() {
         let polyline = trip.raw.legs[0].geometry
