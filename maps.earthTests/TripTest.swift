@@ -107,7 +107,7 @@ final class TripTest: XCTestCase {
       measurementSystem: .imperial,
       tripDate: .departAt(date))
 
-    let dateParam = params.asQueryItems.first { $0.name == "date" }?.value
-    XCTAssertEqual(dateParam, "2024-12-30")
+    let dateTime = params.asQueryItems.first { $0.name == "dateTime" }?.value
+    XCTAssertEqual(dateTime, "2024-12-30T12:00")
   }
 }

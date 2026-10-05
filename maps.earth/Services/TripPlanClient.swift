@@ -394,16 +394,12 @@ struct TripPlanNetworkClient: TripPlanClient {
   let config = AppConfig()
 
   struct QueryParams {
-    static var timeFormatter: DateFormatter = {
-      let timeFormatter = DateFormatter()
-      timeFormatter.dateFormat = "HH:mm"
-      return timeFormatter
-    }()
-
-    static var dateFormatter: DateFormatter = {
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "yyyy-MM-dd"
-      return dateFormatter
+    /// A wall clock time, which travelmux resolves in the timezone of the trip.
+    static var dateTimeFormatter: DateFormatter = {
+      let formatter = DateFormatter()
+      formatter.locale = Locale(identifier: "en_US_POSIX")
+      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+      return formatter
     }()
 
     var from: LngLat
@@ -434,20 +430,13 @@ struct TripPlanNetworkClient: TripPlanClient {
         case .departNow:
           break
         case .departAt(let date):
-          // time=16%3A50&date=2024-04-24
-          let time = Self.timeFormatter.string(from: date)
-          queryItems.append(URLQueryItem(name: "time", value: time))
-
-          let date = Self.dateFormatter.string(from: date)
-          queryItems.append(URLQueryItem(name: "date", value: date))
+          // dateTime=2024-04-24T16%3A50
+          queryItems.append(
+            URLQueryItem(name: "dateTime", value: Self.dateTimeFormatter.string(from: date)))
         case .arriveBy(let date):
-          // time=16%3A50&date=2024-04-24&arriveBy=true
-          let time = Self.timeFormatter.string(from: date)
-          queryItems.append(URLQueryItem(name: "time", value: time))
-
-          let date = Self.dateFormatter.string(from: date)
-          queryItems.append(URLQueryItem(name: "date", value: date))
-
+          // dateTime=2024-04-24T16%3A50&arriveBy=true
+          queryItems.append(
+            URLQueryItem(name: "dateTime", value: Self.dateTimeFormatter.string(from: date)))
           queryItems.append(URLQueryItem(name: "arriveBy", value: "true"))
         }
       }
