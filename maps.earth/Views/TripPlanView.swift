@@ -26,16 +26,50 @@ struct ModePicker: View {
 struct OriginDestinationFieldSet: View {
   @Binding var navigateFrom: Place?
   @Binding var navigateTo: Place?
+  var swapEndpoints: () -> Void
+
+  @ScaledMetric var swapButtonDiameter: CGFloat = 32
+  let swapButtonInset: CGFloat = 12
+
   var body: some View {
-    VStack {
-      PlaceField(header: "From", place: $navigateFrom)
-      Divider().padding(.bottom, 4)
-      PlaceField(header: "To", place: $navigateTo)
+    let placeTrailingInset = swapButtonDiameter + swapButtonInset + 8
+    VStack(spacing: 0) {
+      PlaceField(header: "From", place: $navigateFrom, trailingInset: placeTrailingInset)
+      Divider()
+        .padding(.trailing, placeTrailingInset)
+        .overlay(alignment: .trailing) {
+          SwapButton(diameter: swapButtonDiameter, action: swapEndpoints)
+            .padding(.trailing, swapButtonInset)
+        }
+        // keep the button above the To row so it gets the taps
+        .zIndex(1)
+      PlaceField(header: "To", place: $navigateTo, trailingInset: placeTrailingInset)
     }
-    .padding(.top, 10)
-    .padding(.bottom, 10)
     .background(Color.hw_lightGray)
     .cornerRadius(8)
+  }
+}
+
+/// Exchanges a trip's start and end.
+struct SwapButton: View {
+  var diameter: CGFloat
+  var action: () -> Void
+
+  @State private var rotation: Double = 0
+
+  var body: some View {
+    Button {
+      withAnimation(.easeOut(duration: 0.3)) { rotation += 180 }
+      action()
+    } label: {
+      Image(systemName: "arrow.up.arrow.down")
+        .font(.system(size: diameter * 0.45, weight: .semibold))
+        .foregroundColor(.hw_darkGray)
+        .rotationEffect(.degrees(rotation))
+        .frame(width: diameter, height: diameter)
+        .background(Circle().fill(Color.hw_lightGray))
+    }
+    .accessibilityLabel("Swap start and end")
   }
 }
 
@@ -115,7 +149,7 @@ struct ModeButton: View {
   }
 }
 
-var searcher = TripSearchManager()
+@MainActor let searcher = TripSearchManager()
 
 struct TripPlanView: View {
   @ObservedObject var tripPlan: TripPlan
@@ -147,7 +181,8 @@ struct TripPlanView: View {
       }
 
       OriginDestinationFieldSet(
-        navigateFrom: $tripPlan.navigateFrom, navigateTo: $tripPlan.navigateTo)
+        navigateFrom: $tripPlan.navigateFrom, navigateTo: $tripPlan.navigateTo,
+        swapEndpoints: { tripPlan.swapEndpoints() })
 
       if tripPlan.mode == .transit {
         TransitFilters(tripDate: $tripDate, transitWithBike: $tripPlan.transitWithBike)
@@ -238,9 +273,9 @@ struct TripPlanView: View {
 }
 
 typealias QueryID = UInt64
-struct TripSearchManager {
+@MainActor
+final class TripSearchManager {
 
-  @MainActor
   var tripPlanClient: TripPlanClient {
     Env.current.tripPlanClient
   }
@@ -257,7 +292,7 @@ struct TripSearchManager {
   var mostRecentlyCompletedQuery: (id: QueryID, trips: [Trip])? = nil
   var nextQueryID: QueryID = 1
 
-  mutating func query(
+  func query(
     from: Place, to: Place, mode: TravelMode, tripDate: TripDateMode, transitWithBike: Bool
   ) async throws
     -> Result<[Trip], TripPlanError>
@@ -285,7 +320,7 @@ struct TripSearchManager {
       return result
     }
 
-    let client = await tripPlanClient
+    let client = tripPlanClient
     let withElevation = await withTaskGroup(of: (Int, ElevationProfile?).self) { group in
       for (idx, trip) in trips.enumerated() {
         let polyline = trip.raw.legs[0].geometry
@@ -310,10 +345,11 @@ struct TripSearchManager {
 struct TripPlanSheetContents: View {
   @ObservedObject var tripPlan: TripPlan
   var didCompleteTrip: () -> Void
+  @State private var detent: PresentationDetent = .medium
 
   var body: some View {
     SheetContents(
-      title: "Directions", onClose: { tripPlan.clear() }, currentDetent: .constant(.medium)
+      title: "Directions", onClose: { tripPlan.clear() }, currentDetent: $detent
     ) {
       GeometryReader { geometry in
         ScrollView {

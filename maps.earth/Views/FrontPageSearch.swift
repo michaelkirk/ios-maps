@@ -15,6 +15,7 @@ struct FrontPageSearch: View {
   @ObservedObject var tripPlan: TripPlan
   var didDismissSearch: () -> Void = {}
   var didSubmitSearch: () -> Void = {}
+  var didFocusSearch: () -> Void = {}
   @Binding var placeDetailsDetent: PresentationDetent
 
   @EnvironmentObject var userLocationManager: UserLocationManager
@@ -31,6 +32,7 @@ struct FrontPageSearch: View {
         canPickCurrentLocation: false,
         didDismissSearch: didDismissSearch,
         didSubmitSearch: didSubmitSearch,
+        didFocusSearch: didFocusSearch,
         didSelectPlace: { place in
           selectedPlace = place
           selectedPlaceFromFavorite = false
