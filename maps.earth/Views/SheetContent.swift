@@ -49,13 +49,16 @@ where Content: View, NavigationAccessoryContent: View {
         }
       }.padding(16)
       content()
-    }.presentationBackground(Color.hw_sheetBackground)
-      .presentationDetents(presentationDetents, selection: $currentDetent)
-      .tappableDragIndicator($currentDetent)
-      .ignoresSafeArea()
-      .presentationBackgroundInteraction(
-        .enabled(upThrough: .medium)
-      )
+    }
+    // When the sheet is too short for its content, keep the title in place and clip the bottom.
+    .frame(minHeight: 0, maxHeight: .infinity, alignment: .top)
+    .presentationBackground(Color.hw_sheetBackground)
+    .presentationDetents(presentationDetents, selection: $currentDetent)
+    .tappableDragIndicator($currentDetent)
+    .ignoresSafeArea()
+    .presentationBackgroundInteraction(
+      .enabled(upThrough: .medium)
+    )
   }
 }
 
