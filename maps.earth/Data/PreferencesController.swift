@@ -85,10 +85,6 @@ class Preferences: ObservableObject {
   var devMode: Bool = false
 
   @MainActor
-  @Published
-  var loaded: Bool = false
-
-  @MainActor
   var tileserverStyleUrl: URL {
     if offlineMode {
       return AppConfig().offlineTileserverStyleUrl
@@ -115,7 +111,6 @@ class Preferences: ObservableObject {
     self.offlineMode = record.offlineMode
     self.offlineMapFeatureEnabled = record.offlineMapFeatureEnabled
     self.devMode = record.devMode
-    self.loaded = true
   }
 
   @MainActor
