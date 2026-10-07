@@ -1,0 +1,2 @@
+# Screenshots sit beside the language folders, in metadata/screenshots/<version>.
+ignore_language_directory_validation(true)

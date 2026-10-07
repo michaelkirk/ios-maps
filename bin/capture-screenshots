@@ -1,0 +1,97 @@
+#!/bin/bash
+#
+# Capture the App Store screenshots into fastlane/metadata/screenshots/<version>/en-US.
+#
+# Runs ScreenshotTests on a dedicated, freshly erased 6.9" simulator, seeded
+# with fastlane/screenshot-fixtures/preferences.json. Upload them with `fastlane upload_screenshots`.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+SCHEME="maps.earth"
+PROJECT_PATH="maps.earth.xcodeproj"
+DEVICE_TYPE="com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max"
+DEVICE_NAME="maps.earth screenshots"
+# App Store Connect's 6.9" display size, which it scales down for smaller iPhones.
+EXPECTED_SIZE="1320x2868"
+# By Suzzallo Library, where the transit trip starts.
+LOCATION="47.6563,-122.3093"
+DERIVED_DATA="$ROOT/build/screenshots"
+
+"$ROOT/bin/build-frameworks"
+
+VERSION=$(xcodebuild -showBuildSettings -json -project "$PROJECT_PATH" -target "$SCHEME" 2>/dev/null |
+    jq -r '.[0].buildSettings.MARKETING_VERSION')
+OUTPUT_DIR="$ROOT/fastlane/metadata/screenshots/$VERSION/en-US"
+echo "📸 Capturing screenshots for v$VERSION"
+
+RUNTIME=$(xcrun simctl list runtimes --json |
+    jq -r '[.runtimes[] | select(.platform == "iOS" and .isAvailable)] | sort_by(.version | split(".") | map(tonumber)) | last | .identifier')
+UDID=$(xcrun simctl list devices --json |
+    jq -r --arg runtime "$RUNTIME" --arg name "$DEVICE_NAME" \
+        'first(.devices[$runtime][]? | select(.name == $name and .isAvailable) | .udid) // empty')
+if [ -z "$UDID" ]; then
+    echo "📱 Creating '$DEVICE_NAME' simulator on $RUNTIME"
+    UDID=$(xcrun simctl create "$DEVICE_NAME" "$DEVICE_TYPE" "$RUNTIME")
+fi
+DESTINATION="platform=iOS Simulator,id=$UDID"
+
+APP_PATH="$DERIVED_DATA/Build/Products/Debug-iphonesimulator/$SCHEME.app"
+# Testing leaves the app in a state that breaks the next incremental build.
+rm -rf "$APP_PATH"
+
+echo "🔨 Building for testing..."
+xcodebuild build-for-testing \
+    -project "$PROJECT_PATH" \
+    -scheme "$SCHEME" \
+    -testPlan maps.earth-screenshots \
+    -skipMacroValidation \
+    -derivedDataPath "$DERIVED_DATA" \
+    -destination "$DESTINATION" \
+    -quiet
+
+BUNDLE_ID=$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PATH/Info.plist")
+
+echo "🧹 Resetting simulator..."
+xcrun simctl shutdown "$UDID" 2>/dev/null || true
+xcrun simctl erase "$UDID"
+xcrun simctl boot "$UDID"
+xcrun simctl bootstatus "$UDID" >/dev/null
+
+xcrun simctl status_bar "$UDID" override \
+    --time "9:41" \
+    --dataNetwork wifi --wifiMode active --wifiBars 3 \
+    --cellularMode active --cellularBars 4 \
+    --batteryState discharging --batteryLevel 100
+xcrun simctl location "$UDID" set "$LOCATION"
+
+xcrun simctl install "$UDID" "$APP_PATH"
+xcrun simctl privacy "$UDID" grant location "$BUNDLE_ID"
+APP_DATA=$(xcrun simctl get_app_container "$UDID" "$BUNDLE_ID" data)
+mkdir -p "$APP_DATA/Documents/AppStorage"
+cp "$ROOT/fastlane/screenshot-fixtures/preferences.json" "$APP_DATA/Documents/AppStorage/preferences.dat"
+
+rm -rf "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
+
+echo "🧪 Driving the app..."
+TEST_RUNNER_SCREENSHOT_DIR="$OUTPUT_DIR" xcodebuild test-without-building \
+    -project "$PROJECT_PATH" \
+    -scheme "$SCHEME" \
+    -testPlan maps.earth-screenshots \
+    -skipMacroValidation \
+    -derivedDataPath "$DERIVED_DATA" \
+    -destination "$DESTINATION" \
+    -quiet
+
+for png in "$OUTPUT_DIR"/*.png; do
+    size=$(sips -g pixelWidth -g pixelHeight "$png" | awk '/pixel/ {print $2}' | paste -sd x -)
+    if [ "$size" != "$EXPECTED_SIZE" ]; then
+        echo "❌ $png is $size, expected $EXPECTED_SIZE" >&2
+        exit 1
+    fi
+done
+
+echo "✅ Screenshots in ${OUTPUT_DIR#"$ROOT/"}"
+ls -1 "$OUTPUT_DIR"

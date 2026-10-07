@@ -33,6 +33,9 @@
             reference = "container:maps.earth-unit-tests.xctestplan"
             default = "YES">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:maps.earth-screenshots.xctestplan">
+         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference

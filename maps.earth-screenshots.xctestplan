@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "6E0F3B52-8C2D-4E37-9A51-2F4C7D1B9E60",
+      "name" : "Screenshots",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:maps.earth.xcodeproj",
+      "identifier" : "4563B9EE2B687AA4005A677A",
+      "name" : "maps.earth"
+    }
+  },
+  "testTargets" : [
+    {
+      "selectedTests" : [
+        "ScreenshotTests\/testCaptureScreenshots()"
+      ],
+      "target" : {
+        "containerPath" : "container:maps.earth.xcodeproj",
+        "identifier" : "4563BA082B687AA5005A677A",
+        "name" : "maps.earthUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

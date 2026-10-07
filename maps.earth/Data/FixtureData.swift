@@ -5,6 +5,7 @@
 //  Created by Michael Kirk on 2/5/24.
 //
 
+import CoreLocation
 import Foundation
 
 struct FixtureData {
@@ -160,5 +161,56 @@ extension TransitVehicle {
       lastUpdated: lastUpdated,
       track: nil,
       boardingStop: boardingStop)
+  }
+}
+
+extension VehiclePositionsResponse {
+  /// A made-up train one stop short of the trip's first boarding stop, for App Store screenshots.
+  static func screenshotTrain(approaching trip: Trip, now: Date = .now) -> Self? {
+    guard let leg = trip.legs.first(where: { $0.transitLeg != nil }),
+      let transitLeg = leg.transitLeg, let patternCode = transitLeg.patternCode,
+      let route = transitLeg.route, let pattern = leg.patternGeometry,
+      let contextStops = leg.contextStops
+    else {
+      return nil
+    }
+
+    let boardingIdx = pattern.nearestIndex(to: leg.fromPlace.location.asCoordinate)
+    guard
+      let previousStop =
+        contextStops
+        .map({ (stop: $0, idx: pattern.nearestIndex(to: $0)) })
+        .filter({ $0.idx < boardingIdx })
+        .max(by: { $0.idx < $1.idx })?.stop
+    else {
+      return nil
+    }
+
+    let arrival = now.addingTimeInterval(5 * 60)
+    let train = TransitVehicle(
+      id: "screenshot-train-\(patternCode)",
+      patternCode: patternCode,
+      route: route,
+      vehicleMode: transitLeg.vehicleMode,
+      headsign: transitLeg.headsign,
+      vehicleId: nil,
+      label: nil,
+      position: LonLatPair(LngLat(lng: previousStop.longitude, lat: previousStop.latitude)),
+      lastUpdated: now,
+      track: nil,
+      boardingStop: .approaching(arrival: arrival, stopArrivals: [arrival]))
+    return Self(vehicles: [train], serverTime: now, unknownPatterns: nil)
+  }
+}
+
+extension [CLLocationCoordinate2D] {
+  /// The index of the point closest to `coordinate`.
+  fileprivate func nearestIndex(to coordinate: CLLocationCoordinate2D) -> Int {
+    let target = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+    return indices.min {
+      CLLocation(latitude: self[$0].latitude, longitude: self[$0].longitude).distance(from: target)
+        < CLLocation(latitude: self[$1].latitude, longitude: self[$1].longitude).distance(
+          from: target)
+    } ?? 0
   }
 }
