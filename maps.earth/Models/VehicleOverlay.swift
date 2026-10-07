@@ -89,6 +89,8 @@ class VehicleOverlay: NSObject {
   private let client = VehiclePositionsClient()
   private weak var mapView: MLNMapView?
   private var query: Query?
+  /// Only needed to place the made-up train in App Store screenshots.
+  private var selectedTrip: Trip?
   private var pollTask: Task<Void, Never>?
   private var displayLink: CADisplayLink?
   private var annotations: [String: TransitVehicleAnnotation] = [:]
@@ -125,6 +127,7 @@ class VehicleOverlay: NSObject {
       return
     }
 
+    self.selectedTrip = selectedTrip
     self.selectedPatternCodes = Set(selectedTrip.patternCodes)
 
     if self.query != query {
@@ -205,8 +208,18 @@ class VehicleOverlay: NSObject {
 
     let response: VehiclePositionsResponse
     do {
-      response = try await client.query(
-        from: query.from, to: query.to, patterns: query.patterns)
+      // For App Store screenshots (bin/capture-screenshots): a made-up train stands in for the live
+      // feed, which rarely has one on screen when the screenshot is taken.
+      if UserDefaults.standard.bool(forKey: "screenshotTrain"), let selectedTrip,
+        let screenshotTrain = VehiclePositionsResponse.screenshotTrain(approaching: selectedTrip)
+      {
+        response = screenshotTrain
+        // Only the selected trip's train, not one left behind by a trip selected earlier.
+        removeVehicles(offPatterns: Set(screenshotTrain.vehicles.map(\.patternCode)))
+      } else {
+        response = try await client.query(
+          from: query.from, to: query.to, patterns: query.patterns)
+      }
     } catch {
       logger.warning("failed to fetch vehicle positions: \(error)")
       return

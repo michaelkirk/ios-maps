@@ -39,6 +39,8 @@ Archive the app, without touching versions or git
 
 Bump build (or minor version with bump_version:true), archive, and tag an alpha
 
+With upload:true, also upload it to App Store Connect
+
 ### ios tag_alpha
 
 ```sh
@@ -54,6 +56,30 @@ Tag current version as alpha (e.g. v1.14.alpha2)
 ```
 
 Tag current version as beta (e.g. v1.14.beta2)
+
+### ios app_store_screenshots
+
+```sh
+[bundle exec] fastlane ios app_store_screenshots
+```
+
+Capture the App Store screenshots into fastlane/screenshots
+
+### ios upload_screenshots
+
+```sh
+[bundle exec] fastlane ios upload_screenshots
+```
+
+Replace this version's App Store screenshots with fastlane/screenshots
+
+### ios upload_metadata
+
+```sh
+[bundle exec] fastlane ios upload_metadata
+```
+
+Upload this version's text metadata, like release notes, from fastlane/metadata
 
 ### ios upload
 

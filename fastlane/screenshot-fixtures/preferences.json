@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 3,
+  "preferredTravelMode": "BICYCLE",
+  "favoritePlaces": [
+    {
+      "placeType": { "home": {} },
+      "placeId": "47.624761,-122.31496",
+      "longitude": -122.31496,
+      "latitude": 47.624761
+    },
+    {
+      "placeType": { "work": {} },
+      "placeId": "47.618872,-122.334499",
+      "longitude": -122.334499,
+      "latitude": 47.618872
+    },
+    {
+      "placeType": { "other": { "_0": "Library" } },
+      "placeId": "openstreetmap:venue:way/37056442",
+      "longitude": -122.333113,
+      "latitude": 47.606531
+    },
+    {
+      "placeType": { "other": { "_0": "Coffee" } },
+      "placeId": "openstreetmap:venue:way/206623301",
+      "longitude": -122.3273,
+      "latitude": 47.61433
+    }
+  ],
+  "recentSearches": [
+    "Space Needle",
+    "Pike Place Market",
+    "Seattle Central Library",
+    "Vivace",
+    "University of Washington",
+    "Fremont Troll"
+  ],
+  "offlineRegions": [],
+  "offlineMode": false,
+  "offlineMapFeatureEnabled": false,
+  "devMode": false
+}
