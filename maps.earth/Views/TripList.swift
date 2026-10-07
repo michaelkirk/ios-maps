@@ -65,9 +65,7 @@ struct TripList: View {
             scrollView.scrollTo(newValue.id, anchor: .top)
           }
         }
-    }.sheet(isPresented: $tripPlan.isShowingSteps, onDismiss: { stepsDetent = initialDetentHeight })
-    {
-      let trip = tripPlan.selectedTrip!
+    }.sheet(item: stepsTrip, onDismiss: { stepsDetent = initialDetentHeight }) { trip in
       let _ = assert(trip.legs.count > 0)
       if trip.legs.count == 1, case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg {
         ManeuverListSheetContents(
@@ -78,6 +76,13 @@ struct TripList: View {
           trip: trip, currentDetent: $stepsDetent, onClose: { tripPlan.isShowingSteps = false })
       }
     }
+  }
+
+  /// The trip whose steps are showing, if any.
+  var stepsTrip: Binding<Trip?> {
+    Binding(
+      get: { tripPlan.isShowingSteps ? tripPlan.selectedTrip : nil },
+      set: { tripPlan.isShowingSteps = $0 != nil })
   }
 }
 

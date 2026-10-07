@@ -26,7 +26,13 @@ class TripPlan: ObservableObject {
   var bringsBike: Bool { mode == .transit && transitWithBike }
   @Published var bounds: Bounds?
   @Published var trips: Result<[Trip], Error>
-  @Published var selectedTrip: Trip?
+  @Published var selectedTrip: Trip? {
+    didSet {
+      if selectedTrip == nil {
+        isShowingSteps = false
+      }
+    }
+  }
   @Published var selectedRoute: Result<Route, Error>?
 
   /// Whether the rider has opened the selected trip's details.
@@ -81,6 +87,5 @@ class TripPlan: ObservableObject {
     self.bounds = nil
     self.trips = .success([])
     self.selectedTrip = nil
-    self.isShowingSteps = false
   }
 }
