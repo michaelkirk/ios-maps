@@ -24,8 +24,9 @@ struct AppWithEnv: View {
   @State
   var error: Swift.Error? = nil
 
+  /// Created once preferences have loaded, so it starts in the rider's preferred mode.
   @State
-  var isLoaded: Bool = false
+  var tripPlan: TripPlan? = nil
 
   func load() async throws {
     // Enable logging for the headway lib
@@ -63,15 +64,15 @@ struct AppWithEnv: View {
     HStack {
       if let error {
         Text("Error: \(error.localizedDescription)")
-      } else if isLoaded {
-        HomeView().environmentObject(Env.current.preferences)
+      } else if let tripPlan {
+        HomeView(tripPlan: tripPlan).environmentObject(Env.current.preferences)
       } else {
         Text("Loading...")
       }
     }.task {
       do {
         try await self.load()
-        isLoaded = true
+        tripPlan = TripPlan(mode: Env.current.preferences.preferredTravelMode)
       } catch {
         self.error = error
       }

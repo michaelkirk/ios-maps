@@ -19,7 +19,7 @@ let initialDetentHeight = PresentationDetent.medium
 struct HomeView: View {
   @State var selectedPlace: Place?
 
-  @ObservedObject @MainActor var tripPlan: TripPlan = TripPlan()
+  @ObservedObject @MainActor var tripPlan: TripPlan
   @EnvironmentObject var preferences: Preferences
 
   @StateObject var searchQueue: SearchQueue = SearchQueue()
@@ -158,9 +158,6 @@ struct HomeView: View {
           self.pendingMapFocus = .searchResults(mostRecentResults)
         }
       }
-    }.onChange(of: preferences.loaded) { newValue in
-      assert(newValue, "preference loading should never be undone (and should only happen once)")
-      self.tripPlan.mode = preferences.preferredTravelMode
     }.onOpenURL { url in
       self.handleUniversalLink(url: url)
     }
@@ -235,7 +232,7 @@ struct HomeView: View {
 #Preview("Search") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   return HomeView(
-    searchQueue: searchQueue, queryText: "coffee", searchDetent: .large
+    tripPlan: TripPlan(), searchQueue: searchQueue, queryText: "coffee", searchDetent: .large
   )
   .environmentObject(Preferences.forTesting())
 }
@@ -243,7 +240,8 @@ struct HomeView: View {
 #Preview("Place") {
   let searchQueue = SearchQueue(mostRecentResults: FixtureData.places.all)
   return HomeView(
-    selectedPlace: FixtureData.places[.santaLucia], searchQueue: searchQueue, queryText: "coffee"
+    selectedPlace: FixtureData.places[.santaLucia], tripPlan: TripPlan(), searchQueue: searchQueue,
+    queryText: "coffee"
   )
   .environmentObject(Preferences.forTesting())
 }
@@ -259,6 +257,6 @@ struct HomeView: View {
 }
 
 #Preview("Init") {
-  HomeView()
+  HomeView(tripPlan: TripPlan())
     .environmentObject(Preferences.forTesting())
 }
