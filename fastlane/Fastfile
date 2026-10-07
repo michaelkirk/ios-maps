@@ -54,11 +54,13 @@ platform :ios do
   end
 
   desc "Bump build (or minor version with bump_version:true), archive, and tag an alpha"
+  desc "With upload:true, also upload it to App Store Connect"
   lane :cut_alpha do |options|
     sh(File.join(ROOT, "bin/build-frameworks"))
     options[:bump_version] ? bump_version : bump_build
     archive
     tag_alpha
+    upload if options[:upload]
   end
 
   desc "Tag current version as alpha (e.g. v1.14.alpha2)"

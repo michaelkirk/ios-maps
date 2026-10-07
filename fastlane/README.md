@@ -39,6 +39,8 @@ Archive the app, without touching versions or git
 
 Bump build (or minor version with bump_version:true), archive, and tag an alpha
 
+With upload:true, also upload it to App Store Connect
+
 ### ios tag_alpha
 
 ```sh
