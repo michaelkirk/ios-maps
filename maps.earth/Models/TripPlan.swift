@@ -22,6 +22,8 @@ class TripPlan: ObservableObject {
   var mode: TravelMode
 
   @Published var transitWithBike: Bool = false
+  /// The rider only brings a bike on transit, though the option outlives a switch to another mode.
+  var bringsBike: Bool { mode == .transit && transitWithBike }
   @Published var bounds: Bounds?
   @Published var trips: Result<[Trip], Error>
   @Published var selectedTrip: Trip?

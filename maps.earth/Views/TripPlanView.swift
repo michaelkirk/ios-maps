@@ -253,7 +253,7 @@ struct TripPlanView: View {
       do {
         let trips = try await searcher.query(
           from: from, to: to, mode: tripPlan.mode, tripDate: tripDate,
-          transitWithBike: tripPlan.transitWithBike)
+          transitWithBike: tripPlan.bringsBike)
 
         await MainActor.run {
           self.tripPlan.trips = trips.mapError { $0 as any Error }
@@ -298,7 +298,7 @@ final class TripSearchManager {
     -> Result<[Trip], TripPlanError>
   {
     var modes = [mode]
-    if mode == .transit && transitWithBike {
+    if transitWithBike {
       modes.append(.bike)
     }
     let queryID = nextQueryID
