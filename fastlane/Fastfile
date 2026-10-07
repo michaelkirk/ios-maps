@@ -77,18 +77,17 @@ platform :ios do
     add_git_tag(tag: "v#{version}.beta#{build}")
   end
 
-  desc "Capture this version's App Store screenshots into fastlane/metadata/screenshots/<version>"
+  desc "Capture the App Store screenshots into fastlane/screenshots"
   lane :app_store_screenshots do
     sh(File.join(ROOT, "bin/capture-screenshots"))
   end
 
-  desc "Replace this version's App Store screenshots with fastlane/metadata/screenshots/<version>"
+  desc "Replace this version's App Store screenshots with fastlane/screenshots"
   lane :upload_screenshots do
     version = get_version_number(xcodeproj: "maps.earth.xcodeproj", target: "maps.earth")
     upload_to_app_store(
       api_key: asc_api_key,
       app_version: version,
-      screenshots_path: File.join(ROOT, "fastlane/metadata/screenshots", version),
       overwrite_screenshots: true,
       skip_binary_upload: true,
       skip_metadata: true,
@@ -103,7 +102,6 @@ platform :ios do
     upload_to_app_store(
       api_key: asc_api_key,
       app_version: version,
-      metadata_path: File.join(ROOT, "fastlane/metadata"),
       skip_binary_upload: true,
       skip_screenshots: true,
       run_precheck_before_submit: false,

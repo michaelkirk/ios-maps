@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Capture the App Store screenshots into fastlane/metadata/screenshots/<version>/en-US.
+# Capture the App Store screenshots into fastlane/screenshots/en-US.
 #
 # Runs ScreenshotTests on a dedicated, freshly erased 6.9" simulator, seeded
 # with fastlane/screenshot-fixtures/preferences.json. Upload them with `fastlane upload_screenshots`.
@@ -21,10 +21,7 @@ DERIVED_DATA="$ROOT/build/screenshots"
 
 "$ROOT/bin/build-frameworks"
 
-VERSION=$(xcodebuild -showBuildSettings -json -project "$PROJECT_PATH" -target "$SCHEME" 2>/dev/null |
-    jq -r '.[0].buildSettings.MARKETING_VERSION')
-OUTPUT_DIR="$ROOT/fastlane/metadata/screenshots/$VERSION/en-US"
-echo "📸 Capturing screenshots for v$VERSION"
+OUTPUT_DIR="$ROOT/fastlane/screenshots/en-US"
 
 RUNTIME=$(xcrun simctl list runtimes --json |
     jq -r '[.runtimes[] | select(.platform == "iOS" and .isAvailable)] | sort_by(.version | split(".") | map(tonumber)) | last | .identifier')

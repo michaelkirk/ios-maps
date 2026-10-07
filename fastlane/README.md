@@ -63,7 +63,7 @@ Tag current version as beta (e.g. v1.14.beta2)
 [bundle exec] fastlane ios app_store_screenshots
 ```
 
-Capture this version's App Store screenshots into fastlane/metadata/screenshots/<version>
+Capture the App Store screenshots into fastlane/screenshots
 
 ### ios upload_screenshots
 
@@ -71,7 +71,7 @@ Capture this version's App Store screenshots into fastlane/metadata/screenshots/
 [bundle exec] fastlane ios upload_screenshots
 ```
 
-Replace this version's App Store screenshots with fastlane/metadata/screenshots/<version>
+Replace this version's App Store screenshots with fastlane/screenshots
 
 ### ios upload_metadata
 
