@@ -55,9 +55,15 @@ xcrun simctl shutdown "$UDID" 2>/dev/null || true
 xcrun simctl erase "$UDID"
 xcrun simctl boot "$UDID"
 xcrun simctl bootstatus "$UDID" >/dev/null
+# A 24-hour clock, in the status bar and the app. Booting resets it, so it's set on a running
+# simulator, then rebooted to take effect.
+xcrun simctl spawn "$UDID" defaults write -g AppleICUForce24HourTime -bool true
+xcrun simctl shutdown "$UDID"
+xcrun simctl boot "$UDID"
+xcrun simctl bootstatus "$UDID" >/dev/null
 
 xcrun simctl status_bar "$UDID" override \
-    --time "9:41" \
+    --time "13:37" \
     --dataNetwork wifi --wifiMode active --wifiBars 3 \
     --cellularMode active --cellularBars 4 \
     --batteryState discharging --batteryLevel 100
