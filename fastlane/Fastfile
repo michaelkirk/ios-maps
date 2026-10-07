@@ -109,6 +109,29 @@ platform :ios do
     )
   end
 
+  desc "Send this build to the Public Beta group. What to Test is fastlane/beta_changes.txt,"
+  desc "then this version's release notes from fastlane/metadata/en-US/release_notes.txt"
+  lane :public_beta do
+    version = get_version_number(xcodeproj: "maps.earth.xcodeproj", target: "maps.earth")
+    changelog = <<~CHANGELOG
+      What's changed since the last beta:
+      #{File.read(File.join(ROOT, "fastlane/beta_changes.txt")).strip}
+
+      What's new in #{version}:
+      #{File.read(File.join(ROOT, "fastlane/metadata/en-US/release_notes.txt")).strip}
+    CHANGELOG
+    upload_to_testflight(
+      api_key: asc_api_key,
+      distribute_only: true,
+      app_platform: "ios",
+      app_version: version,
+      build_number: get_build_number(xcodeproj: "maps.earth.xcodeproj"),
+      distribute_external: true,
+      groups: ["Public Beta"],
+      changelog: changelog
+    )
+  end
+
   desc "Upload most recent build to App Store Connect"
   lane :upload do
     upload_to_app_store(

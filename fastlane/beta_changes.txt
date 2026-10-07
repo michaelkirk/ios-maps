@@ -1,0 +1,3 @@
+- Trip planning now starts in your preferred travel mode right after launch.
+- Fixed a crash when tapping GO on a bike, walk, or drive trip after checking "Bring a bike" for transit.
+- Fixed a crash when a trip's steps were open and the trip changed.

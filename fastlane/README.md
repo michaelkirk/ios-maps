@@ -81,6 +81,16 @@ Replace this version's App Store screenshots with fastlane/screenshots
 
 Upload this version's text metadata, like release notes, from fastlane/metadata
 
+### ios public_beta
+
+```sh
+[bundle exec] fastlane ios public_beta
+```
+
+Send this build to the Public Beta group. What to Test is fastlane/beta_changes.txt,
+
+then this version's release notes from fastlane/metadata/en-US/release_notes.txt
+
 ### ios upload
 
 ```sh
