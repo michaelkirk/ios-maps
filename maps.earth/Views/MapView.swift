@@ -347,7 +347,7 @@ extension MapViewWrapper: UIViewRepresentable {
             return
           }
           self.pendingMapFocus = nil
-          mapView.setCenter(location.coordinate, zoomLevel: 7, animated: true)
+          mapView.setCenter(location.coordinate, zoomLevel: 14, animated: true)
         }
       }
     }
