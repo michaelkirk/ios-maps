@@ -1,0 +1,2521 @@
+{
+  "itineraries": [
+    {
+      "bounds": {
+        "max": [
+          -122.30005,
+          47.62336
+        ],
+        "min": [
+          -122.31276,
+          47.61113
+        ]
+      },
+      "distanceMeters": 2307.98,
+      "durationSeconds": 1088.0,
+      "endTime": "2026-10-07T17:30:36-07:00",
+      "legs": [
+        {
+          "distanceMeters": 2307.98,
+          "durationSeconds": 1088.0,
+          "endTime": "2026-10-07T17:30:36-07:00",
+          "fromPlace": {
+            "location": [
+              -122.3000346,
+              47.6111377
+            ],
+            "name": "Origin"
+          },
+          "geometry": "sn}xyAvhrghFoU?S?SS{@?{@??fE?fESjdA?nA??S?SRSf@SR?RoA?chASS?oA?wB?kC??fERf^Sf@?z@SnASz@?~C?vB?nF?R?f@RR?f@Rf@?f@Rf@?vBSzE?jHRzO?fE?~R?zEoA?wVSgE?cmAoAw[S{@??S?g@SSSg@S?S?S?SRSRSf@?f@g@?_hBcBkC?{@jCcBnFgJ?oK?_ISoARoAf@{JnPoAbBwBrDg@nA{@bBcL~RcGnKwB?scBg@cB?sD?oi@g@gTSwB?_D?_XS_{@SsSSg@??R?RSf@SRS????f@?zc@?rD?j\\SfE?rD?zc@?jCSrX?z@SfESnF?R?nd@Snd@?R??g@R?RSf@?f@?f@RRRRRR???R?z^RjCSja@RnARnAf@f@f@f@f@??bB?~CSRoA?{@??b[?jC?ja@?vBS?g@RSR?f@Sf@?f@Rf@RRRRf@R?bBSv[?jC?jC?rXRf@?RRz@Rf@Rz@f@f@f@f@kHS?fE?z@{@?",
+          "mode": "BICYCLE",
+          "nonTransitLeg": {
+            "elevation": {
+              "profile": [
+                [
+                  0.0,
+                  87.0
+                ],
+                [
+                  10.0,
+                  87.0
+                ],
+                [
+                  20.0,
+                  86.9
+                ],
+                [
+                  30.0,
+                  86.8
+                ],
+                [
+                  40.0,
+                  86.8
+                ],
+                [
+                  50.0,
+                  86.7
+                ],
+                [
+                  60.0,
+                  86.7
+                ],
+                [
+                  70.0,
+                  86.7
+                ],
+                [
+                  80.0,
+                  87.4
+                ],
+                [
+                  90.0,
+                  88.7
+                ],
+                [
+                  100.0,
+                  90.5
+                ],
+                [
+                  110.0,
+                  92.0
+                ],
+                [
+                  120.0,
+                  93.2
+                ],
+                [
+                  130.0,
+                  94.3
+                ],
+                [
+                  140.0,
+                  95.0
+                ],
+                [
+                  150.0,
+                  95.3
+                ],
+                [
+                  160.0,
+                  95.2
+                ],
+                [
+                  170.0,
+                  95.1
+                ],
+                [
+                  180.0,
+                  95.3
+                ],
+                [
+                  190.0,
+                  95.6
+                ],
+                [
+                  200.0,
+                  95.9
+                ],
+                [
+                  210.0,
+                  96.2
+                ],
+                [
+                  220.0,
+                  96.3
+                ],
+                [
+                  230.0,
+                  96.3
+                ],
+                [
+                  240.0,
+                  96.3
+                ],
+                [
+                  250.0,
+                  96.2
+                ],
+                [
+                  260.0,
+                  96.1
+                ],
+                [
+                  270.0,
+                  96.0
+                ],
+                [
+                  280.0,
+                  96.0
+                ],
+                [
+                  290.0,
+                  96.0
+                ],
+                [
+                  300.0,
+                  96.0
+                ],
+                [
+                  310.0,
+                  96.0
+                ],
+                [
+                  320.0,
+                  96.2
+                ],
+                [
+                  330.0,
+                  96.6
+                ],
+                [
+                  340.0,
+                  96.9
+                ],
+                [
+                  350.0,
+                  97.0
+                ],
+                [
+                  360.0,
+                  97.0
+                ],
+                [
+                  370.0,
+                  97.0
+                ],
+                [
+                  380.0,
+                  97.0
+                ],
+                [
+                  390.0,
+                  97.0
+                ],
+                [
+                  400.0,
+                  97.0
+                ],
+                [
+                  410.0,
+                  97.0
+                ],
+                [
+                  420.0,
+                  97.0
+                ],
+                [
+                  430.0,
+                  97.0
+                ],
+                [
+                  440.0,
+                  97.0
+                ],
+                [
+                  450.0,
+                  97.0
+                ],
+                [
+                  460.0,
+                  97.0
+                ],
+                [
+                  470.0,
+                  97.0
+                ],
+                [
+                  480.0,
+                  97.0
+                ],
+                [
+                  490.0,
+                  97.0
+                ],
+                [
+                  500.0,
+                  97.1
+                ],
+                [
+                  510.0,
+                  97.4
+                ],
+                [
+                  520.0,
+                  97.6
+                ],
+                [
+                  530.0,
+                  97.9
+                ],
+                [
+                  540.0,
+                  98.0
+                ],
+                [
+                  550.0,
+                  98.0
+                ],
+                [
+                  560.0,
+                  98.0
+                ],
+                [
+                  570.0,
+                  98.0
+                ],
+                [
+                  580.0,
+                  98.0
+                ],
+                [
+                  590.0,
+                  98.0
+                ],
+                [
+                  600.0,
+                  98.1
+                ],
+                [
+                  610.0,
+                  98.3
+                ],
+                [
+                  620.0,
+                  98.4
+                ],
+                [
+                  630.0,
+                  98.6
+                ],
+                [
+                  640.0,
+                  98.8
+                ],
+                [
+                  650.0,
+                  98.9
+                ],
+                [
+                  660.0,
+                  99.0
+                ],
+                [
+                  670.0,
+                  99.0
+                ],
+                [
+                  680.0,
+                  99.0
+                ],
+                [
+                  690.0,
+                  99.1
+                ],
+                [
+                  700.0,
+                  99.3
+                ],
+                [
+                  710.0,
+                  99.4
+                ],
+                [
+                  720.0,
+                  99.6
+                ],
+                [
+                  730.0,
+                  99.8
+                ],
+                [
+                  740.0,
+                  99.9
+                ],
+                [
+                  750.0,
+                  100.0
+                ],
+                [
+                  760.0,
+                  100.2
+                ],
+                [
+                  770.0,
+                  100.4
+                ],
+                [
+                  780.0,
+                  100.6
+                ],
+                [
+                  790.0,
+                  100.8
+                ],
+                [
+                  800.0,
+                  101.0
+                ],
+                [
+                  810.0,
+                  101.2
+                ],
+                [
+                  820.0,
+                  101.3
+                ],
+                [
+                  830.0,
+                  101.5
+                ],
+                [
+                  840.0,
+                  101.6
+                ],
+                [
+                  850.0,
+                  101.8
+                ],
+                [
+                  860.0,
+                  102.0
+                ],
+                [
+                  870.0,
+                  102.2
+                ],
+                [
+                  880.0,
+                  102.2
+                ],
+                [
+                  890.0,
+                  102.2
+                ],
+                [
+                  900.0,
+                  102.1
+                ],
+                [
+                  910.0,
+                  102.2
+                ],
+                [
+                  920.0,
+                  102.3
+                ],
+                [
+                  930.0,
+                  102.5
+                ],
+                [
+                  940.0,
+                  102.6
+                ],
+                [
+                  950.0,
+                  102.7
+                ],
+                [
+                  960.0,
+                  102.7
+                ],
+                [
+                  970.0,
+                  102.7
+                ],
+                [
+                  980.0,
+                  102.7
+                ],
+                [
+                  990.0,
+                  102.7
+                ],
+                [
+                  1000.0,
+                  102.8
+                ],
+                [
+                  1010.0,
+                  102.9
+                ],
+                [
+                  1020.0,
+                  103.0
+                ],
+                [
+                  1030.0,
+                  103.2
+                ],
+                [
+                  1040.0,
+                  103.4
+                ],
+                [
+                  1050.0,
+                  103.7
+                ],
+                [
+                  1060.0,
+                  103.9
+                ],
+                [
+                  1070.0,
+                  104.0
+                ],
+                [
+                  1080.0,
+                  104.0
+                ],
+                [
+                  1090.0,
+                  104.1
+                ],
+                [
+                  1100.0,
+                  104.1
+                ],
+                [
+                  1110.0,
+                  104.1
+                ],
+                [
+                  1120.0,
+                  104.0
+                ],
+                [
+                  1130.0,
+                  104.0
+                ],
+                [
+                  1140.0,
+                  104.1
+                ],
+                [
+                  1150.0,
+                  104.2
+                ],
+                [
+                  1160.0,
+                  104.2
+                ],
+                [
+                  1170.0,
+                  104.3
+                ],
+                [
+                  1180.0,
+                  104.3
+                ],
+                [
+                  1190.0,
+                  104.3
+                ],
+                [
+                  1200.0,
+                  104.5
+                ],
+                [
+                  1210.0,
+                  104.7
+                ],
+                [
+                  1220.0,
+                  104.8
+                ],
+                [
+                  1230.0,
+                  105.0
+                ],
+                [
+                  1240.0,
+                  105.0
+                ],
+                [
+                  1250.0,
+                  105.0
+                ],
+                [
+                  1260.0,
+                  105.1
+                ],
+                [
+                  1270.0,
+                  105.2
+                ],
+                [
+                  1280.0,
+                  105.2
+                ],
+                [
+                  1290.0,
+                  105.3
+                ],
+                [
+                  1300.0,
+                  105.3
+                ],
+                [
+                  1310.0,
+                  105.3
+                ],
+                [
+                  1320.0,
+                  105.3
+                ],
+                [
+                  1330.0,
+                  105.3
+                ],
+                [
+                  1340.0,
+                  105.4
+                ],
+                [
+                  1350.0,
+                  105.6
+                ],
+                [
+                  1360.0,
+                  106.1
+                ],
+                [
+                  1370.0,
+                  106.6
+                ],
+                [
+                  1380.0,
+                  107.1
+                ],
+                [
+                  1390.0,
+                  107.4
+                ],
+                [
+                  1400.0,
+                  107.6
+                ],
+                [
+                  1410.0,
+                  107.8
+                ],
+                [
+                  1420.0,
+                  108.0
+                ],
+                [
+                  1430.0,
+                  108.2
+                ],
+                [
+                  1440.0,
+                  108.4
+                ],
+                [
+                  1450.0,
+                  108.6
+                ],
+                [
+                  1460.0,
+                  108.8
+                ],
+                [
+                  1470.0,
+                  109.2
+                ],
+                [
+                  1480.0,
+                  109.7
+                ],
+                [
+                  1490.0,
+                  110.4
+                ],
+                [
+                  1500.0,
+                  111.0
+                ],
+                [
+                  1510.0,
+                  111.5
+                ],
+                [
+                  1520.0,
+                  111.7
+                ],
+                [
+                  1530.0,
+                  111.9
+                ],
+                [
+                  1540.0,
+                  112.0
+                ],
+                [
+                  1550.0,
+                  112.0
+                ],
+                [
+                  1560.0,
+                  112.1
+                ],
+                [
+                  1570.0,
+                  112.2
+                ],
+                [
+                  1580.0,
+                  112.3
+                ],
+                [
+                  1590.0,
+                  112.5
+                ],
+                [
+                  1600.0,
+                  112.6
+                ],
+                [
+                  1610.0,
+                  112.6
+                ],
+                [
+                  1620.0,
+                  112.6
+                ],
+                [
+                  1630.0,
+                  112.5
+                ],
+                [
+                  1640.0,
+                  112.4
+                ],
+                [
+                  1650.0,
+                  112.2
+                ],
+                [
+                  1660.0,
+                  111.8
+                ],
+                [
+                  1670.0,
+                  111.4
+                ],
+                [
+                  1680.0,
+                  111.1
+                ],
+                [
+                  1690.0,
+                  110.9
+                ],
+                [
+                  1700.0,
+                  110.6
+                ],
+                [
+                  1710.0,
+                  110.3
+                ],
+                [
+                  1720.0,
+                  110.1
+                ],
+                [
+                  1730.0,
+                  109.9
+                ],
+                [
+                  1740.0,
+                  109.6
+                ],
+                [
+                  1750.0,
+                  109.3
+                ],
+                [
+                  1760.0,
+                  109.1
+                ],
+                [
+                  1770.0,
+                  109.1
+                ],
+                [
+                  1780.0,
+                  109.3
+                ],
+                [
+                  1790.0,
+                  109.7
+                ],
+                [
+                  1800.0,
+                  110.2
+                ],
+                [
+                  1810.0,
+                  110.8
+                ],
+                [
+                  1820.0,
+                  111.5
+                ],
+                [
+                  1830.0,
+                  112.3
+                ],
+                [
+                  1840.0,
+                  113.0
+                ],
+                [
+                  1850.0,
+                  113.6
+                ],
+                [
+                  1860.0,
+                  114.1
+                ],
+                [
+                  1870.0,
+                  114.7
+                ],
+                [
+                  1880.0,
+                  115.5
+                ],
+                [
+                  1890.0,
+                  116.5
+                ],
+                [
+                  1900.0,
+                  117.7
+                ],
+                [
+                  1910.0,
+                  118.8
+                ],
+                [
+                  1920.0,
+                  119.9
+                ],
+                [
+                  1930.0,
+                  121.1
+                ],
+                [
+                  1940.0,
+                  122.1
+                ],
+                [
+                  1950.0,
+                  122.7
+                ],
+                [
+                  1960.0,
+                  123.1
+                ],
+                [
+                  1970.0,
+                  123.6
+                ],
+                [
+                  1980.0,
+                  124.2
+                ],
+                [
+                  1990.0,
+                  124.9
+                ],
+                [
+                  2000.0,
+                  125.5
+                ],
+                [
+                  2010.0,
+                  125.9
+                ],
+                [
+                  2020.0,
+                  126.3
+                ],
+                [
+                  2030.0,
+                  126.6
+                ],
+                [
+                  2040.0,
+                  126.8
+                ],
+                [
+                  2050.0,
+                  126.7
+                ],
+                [
+                  2060.0,
+                  126.5
+                ],
+                [
+                  2070.0,
+                  126.3
+                ],
+                [
+                  2080.0,
+                  126.3
+                ],
+                [
+                  2090.0,
+                  126.5
+                ],
+                [
+                  2100.0,
+                  127.0
+                ],
+                [
+                  2110.0,
+                  127.5
+                ],
+                [
+                  2120.0,
+                  127.9
+                ],
+                [
+                  2130.0,
+                  128.2
+                ],
+                [
+                  2140.0,
+                  128.6
+                ],
+                [
+                  2150.0,
+                  128.8
+                ],
+                [
+                  2160.0,
+                  128.9
+                ],
+                [
+                  2170.0,
+                  128.8
+                ],
+                [
+                  2180.0,
+                  128.6
+                ],
+                [
+                  2190.0,
+                  128.5
+                ],
+                [
+                  2200.0,
+                  128.6
+                ],
+                [
+                  2210.0,
+                  128.8
+                ],
+                [
+                  2220.0,
+                  129.0
+                ],
+                [
+                  2230.0,
+                  129.0
+                ],
+                [
+                  2240.0,
+                  129.0
+                ],
+                [
+                  2250.0,
+                  129.1
+                ],
+                [
+                  2260.0,
+                  129.3
+                ],
+                [
+                  2270.0,
+                  129.6
+                ],
+                [
+                  2280.0,
+                  129.9
+                ],
+                [
+                  2290.0,
+                  130.0
+                ],
+                [
+                  2300.0,
+                  130.0
+                ],
+                [
+                  2310.0,
+                  130.0
+                ]
+              ],
+              "steepSections": [
+                {
+                  "averageGrade": 0.11868272870611593,
+                  "endMeters": 140.0,
+                  "geometry": "ej~xyAnyrghFOjy@",
+                  "maxGrade": 0.17407802741702483,
+                  "startMeters": 70.0,
+                  "streetName": "East Spring Street"
+                },
+                {
+                  "averageGrade": 0.06224107873919896,
+                  "endMeters": 1500.0,
+                  "geometry": "suqyyAdm{ghF{OK",
+                  "maxGrade": 0.06892733333333467,
+                  "startMeters": 1470.0,
+                  "streetName": "21st Avenue East"
+                },
+                {
+                  "averageGrade": 0.07488937600061107,
+                  "endMeters": 2000.0,
+                  "geometry": "sauyyA|w~ghF?lO?jCSrX?z@SfESnF?R?nd@Snd@?R??g@R?RSf@?f@?f@RRRRRR???R?~X",
+                  "maxGrade": 0.11827100000000143,
+                  "startMeters": 1790.0,
+                  "streetName": "East Republican Street"
+                }
+              ],
+              "totalClimbMeters": 48.29628078218887,
+              "totalFallMeters": 5.298590137027574
+            },
+            "maneuvers": [
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 0,
+                "distanceMeters": 48.74,
+                "instruction": "Bike north on sidewalk.",
+                "startPoint": [
+                  -122.3000565,
+                  47.6111378
+                ],
+                "streetNames": null,
+                "type": 1,
+                "verbalPostTransitionInstruction": "Continue for 160 feet."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 0,
+                "distanceMeters": 100.91,
+                "instruction": "Turn left onto East Spring Street.",
+                "startPoint": [
+                  -122.300047,
+                  47.6115748
+                ],
+                "streetNames": [
+                  "East Spring Street"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 300 feet."
+              },
+              {
+                "bearingAfter": 269,
+                "bearingBefore": 270,
+                "distanceMeters": 6.59,
+                "instruction": "Enter the roundabout.",
+                "startPoint": [
+                  -122.3013932,
+                  47.611583
+                ],
+                "streetNames": null,
+                "type": 26,
+                "verbalPostTransitionInstruction": "Continue for 20 feet."
+              },
+              {
+                "bearingAfter": 270,
+                "bearingBefore": 317,
+                "distanceMeters": 154.64,
+                "instruction": "Turn right onto 24th Avenue.",
+                "startPoint": [
+                  -122.3014492,
+                  47.6116205
+                ],
+                "streetNames": [
+                  "24th Avenue"
+                ],
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for 500 feet."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 359,
+                "distanceMeters": 166.87,
+                "instruction": "Turn left onto bike path.",
+                "startPoint": [
+                  -122.3014374,
+                  47.6130112
+                ],
+                "streetNames": null,
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 600 feet."
+              },
+              {
+                "bearingAfter": 269,
+                "bearingBefore": 270,
+                "distanceMeters": 594.0,
+                "instruction": "Turn right onto 22nd Avenue.",
+                "startPoint": [
+                  -122.303652,
+                  47.6130021
+                ],
+                "streetNames": [
+                  "22nd Avenue"
+                ],
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
+              },
+              {
+                "bearingAfter": 314,
+                "bearingBefore": 314,
+                "distanceMeters": 62.96,
+                "instruction": "Continue onto East Denny Way.",
+                "startPoint": [
+                  -122.3041758,
+                  47.6181052
+                ],
+                "streetNames": [
+                  "East Denny Way"
+                ],
+                "type": 8,
+                "verbalPostTransitionInstruction": "Continue for 200 feet."
+              },
+              {
+                "bearingAfter": 313,
+                "bearingBefore": 313,
+                "distanceMeters": 520.38,
+                "instruction": "Turn right onto 21st Avenue East.",
+                "startPoint": [
+                  -122.304784,
+                  47.6184954
+                ],
+                "streetNames": [
+                  "21st Avenue East"
+                ],
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
+              },
+              {
+                "bearingAfter": 1,
+                "bearingBefore": 1,
+                "distanceMeters": 5.71,
+                "instruction": "Enter the roundabout.",
+                "startPoint": [
+                  -122.304707,
+                  47.623175
+                ],
+                "streetNames": null,
+                "type": 26,
+                "verbalPostTransitionInstruction": "Continue for 20 feet."
+              },
+              {
+                "bearingAfter": 306,
+                "bearingBefore": 306,
+                "distanceMeters": 397.42,
+                "instruction": "Turn left onto East Republican Street.",
+                "startPoint": [
+                  -122.3047551,
+                  47.6232073
+                ],
+                "streetNames": [
+                  "East Republican Street"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
+              },
+              {
+                "bearingAfter": 249,
+                "bearingBefore": 249,
+                "distanceMeters": 6.77,
+                "instruction": "Turn left onto 17th Avenue East.",
+                "startPoint": [
+                  -122.3099895,
+                  47.6232326
+                ],
+                "streetNames": [
+                  "17th Avenue East"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 20 feet."
+              },
+              {
+                "bearingAfter": 213,
+                "bearingBefore": 213,
+                "distanceMeters": 18.74,
+                "instruction": "Turn right onto path.",
+                "startPoint": [
+                  -122.3100263,
+                  47.6231794
+                ],
+                "streetNames": null,
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for 60 feet."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 0,
+                "distanceMeters": 194.46,
+                "instruction": "Turn left onto East Republican Street.",
+                "startPoint": [
+                  -122.3101602,
+                  47.6232587
+                ],
+                "streetNames": [
+                  "East Republican Street"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 600 feet."
+              },
+              {
+                "bearingAfter": 213,
+                "bearingBefore": 213,
+                "distanceMeters": 17.13,
+                "instruction": "Turn sharp right onto 15th Avenue East.",
+                "startPoint": [
+                  -122.3126364,
+                  47.623182
+                ],
+                "streetNames": [
+                  "15th Avenue East"
+                ],
+                "type": 11,
+                "verbalPostTransitionInstruction": "Continue for 60 feet."
+              },
+              {
+                "bearingAfter": 2,
+                "bearingBefore": 2,
+                "distanceMeters": 12.7,
+                "instruction": "Turn left onto path.",
+                "startPoint": [
+                  -122.3126287,
+                  47.623336
+                ],
+                "streetNames": null,
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 40 feet."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 270,
+                "distanceMeters": 0.0,
+                "instruction": "Arrive at your destination.",
+                "startPoint": [
+                  -122.312828,
+                  47.623369
+                ],
+                "streetNames": null,
+                "type": 4,
+                "verbalPostTransitionInstruction": null
+              }
+            ],
+            "substantialStreetNames": [
+              "22nd Avenue",
+              "East Republican Street",
+              "21st Avenue East"
+            ]
+          },
+          "startTime": "2026-10-07T17:12:28-07:00",
+          "toPlace": {
+            "location": [
+              -122.312828,
+              47.623369
+            ],
+            "name": "Destination"
+          }
+        }
+      ],
+      "mode": "BICYCLE",
+      "routePreferences": [
+        "quieter"
+      ],
+      "startTime": "2026-10-07T17:12:28-07:00"
+    },
+    {
+      "bounds": {
+        "max": [
+          -122.30005,
+          47.62336
+        ],
+        "min": [
+          -122.31276,
+          47.61113
+        ]
+      },
+      "distanceMeters": 2278.4,
+      "durationSeconds": 1022.0,
+      "endTime": "2026-10-07T17:29:30-07:00",
+      "legs": [
+        {
+          "distanceMeters": 2278.4,
+          "durationSeconds": 1022.0,
+          "endTime": "2026-10-07T17:29:30-07:00",
+          "fromPlace": {
+            "location": [
+              -122.3000346,
+              47.6111377
+            ],
+            "name": "Origin"
+          },
+          "geometry": "sn}xyAvhrghFoU?S?SS{@?{@??fE?fESjdA?nA??S?SRSf@SR?RoA?chASS?oA?wB?kC??fERf^Sf@?z@SnASz@?~C?vBg@?_N??vQ?fEgE?cL?gJSsI?wB?_D?kC?cBSod@g@wQSwGScB??~H?jk@?z@S?SRSRSf@?f@g@?_hBcBkC?{@jCcBnFgJ?oK?_ISoARoAf@{JnPoAbBwBrDg@nA{@bBcL~RcGnK?nF?v`@Sja@?zEkC?w~@g@_D?kC?sXSwB?{J?_D??vG?~z@?~CRzESnF?fE?zTSjk@?zE?rD?ja@?~a@?nF?zE?v`@?rN?jR?zE?zE?bL?~R_D?sX?{E?oKSoA?oi@?_D?kC?{JScG?kk@SkC??jC?rXRf@?RRz@Rf@Rz@f@f@f@f@kHS?fE?z@{@?",
+          "mode": "BICYCLE",
+          "nonTransitLeg": {
+            "elevation": {
+              "profile": [
+                [
+                  0.0,
+                  87.0
+                ],
+                [
+                  10.0,
+                  87.0
+                ],
+                [
+                  20.0,
+                  86.9
+                ],
+                [
+                  30.0,
+                  86.8
+                ],
+                [
+                  40.0,
+                  86.8
+                ],
+                [
+                  50.0,
+                  86.7
+                ],
+                [
+                  60.0,
+                  86.7
+                ],
+                [
+                  70.0,
+                  86.7
+                ],
+                [
+                  80.0,
+                  87.4
+                ],
+                [
+                  90.0,
+                  88.7
+                ],
+                [
+                  100.0,
+                  90.5
+                ],
+                [
+                  110.0,
+                  92.0
+                ],
+                [
+                  120.0,
+                  93.2
+                ],
+                [
+                  130.0,
+                  94.3
+                ],
+                [
+                  140.0,
+                  95.0
+                ],
+                [
+                  150.0,
+                  95.3
+                ],
+                [
+                  160.0,
+                  95.2
+                ],
+                [
+                  170.0,
+                  95.1
+                ],
+                [
+                  180.0,
+                  95.3
+                ],
+                [
+                  190.0,
+                  95.6
+                ],
+                [
+                  200.0,
+                  95.9
+                ],
+                [
+                  210.0,
+                  96.2
+                ],
+                [
+                  220.0,
+                  96.3
+                ],
+                [
+                  230.0,
+                  96.3
+                ],
+                [
+                  240.0,
+                  96.3
+                ],
+                [
+                  250.0,
+                  96.2
+                ],
+                [
+                  260.0,
+                  96.1
+                ],
+                [
+                  270.0,
+                  96.0
+                ],
+                [
+                  280.0,
+                  96.0
+                ],
+                [
+                  290.0,
+                  96.0
+                ],
+                [
+                  300.0,
+                  96.0
+                ],
+                [
+                  310.0,
+                  96.0
+                ],
+                [
+                  320.0,
+                  96.2
+                ],
+                [
+                  330.0,
+                  96.6
+                ],
+                [
+                  340.0,
+                  96.9
+                ],
+                [
+                  350.0,
+                  97.0
+                ],
+                [
+                  360.0,
+                  97.0
+                ],
+                [
+                  370.0,
+                  97.0
+                ],
+                [
+                  380.0,
+                  97.0
+                ],
+                [
+                  390.0,
+                  97.1
+                ],
+                [
+                  400.0,
+                  97.2
+                ],
+                [
+                  410.0,
+                  97.3
+                ],
+                [
+                  420.0,
+                  97.3
+                ],
+                [
+                  430.0,
+                  97.4
+                ],
+                [
+                  440.0,
+                  97.5
+                ],
+                [
+                  450.0,
+                  97.6
+                ],
+                [
+                  460.0,
+                  97.8
+                ],
+                [
+                  470.0,
+                  97.9
+                ],
+                [
+                  480.0,
+                  98.0
+                ],
+                [
+                  490.0,
+                  98.2
+                ],
+                [
+                  500.0,
+                  98.4
+                ],
+                [
+                  510.0,
+                  98.6
+                ],
+                [
+                  520.0,
+                  98.8
+                ],
+                [
+                  530.0,
+                  98.9
+                ],
+                [
+                  540.0,
+                  99.0
+                ],
+                [
+                  550.0,
+                  99.1
+                ],
+                [
+                  560.0,
+                  99.4
+                ],
+                [
+                  570.0,
+                  99.6
+                ],
+                [
+                  580.0,
+                  99.8
+                ],
+                [
+                  590.0,
+                  99.9
+                ],
+                [
+                  600.0,
+                  100.0
+                ],
+                [
+                  610.0,
+                  100.1
+                ],
+                [
+                  620.0,
+                  100.3
+                ],
+                [
+                  630.0,
+                  100.6
+                ],
+                [
+                  640.0,
+                  100.7
+                ],
+                [
+                  650.0,
+                  100.6
+                ],
+                [
+                  660.0,
+                  100.4
+                ],
+                [
+                  670.0,
+                  100.2
+                ],
+                [
+                  680.0,
+                  100.1
+                ],
+                [
+                  690.0,
+                  100.0
+                ],
+                [
+                  700.0,
+                  100.0
+                ],
+                [
+                  710.0,
+                  100.0
+                ],
+                [
+                  720.0,
+                  100.0
+                ],
+                [
+                  730.0,
+                  100.0
+                ],
+                [
+                  740.0,
+                  100.0
+                ],
+                [
+                  750.0,
+                  100.2
+                ],
+                [
+                  760.0,
+                  100.4
+                ],
+                [
+                  770.0,
+                  100.6
+                ],
+                [
+                  780.0,
+                  100.8
+                ],
+                [
+                  790.0,
+                  101.0
+                ],
+                [
+                  800.0,
+                  101.2
+                ],
+                [
+                  810.0,
+                  101.3
+                ],
+                [
+                  820.0,
+                  101.5
+                ],
+                [
+                  830.0,
+                  101.6
+                ],
+                [
+                  840.0,
+                  101.8
+                ],
+                [
+                  850.0,
+                  102.0
+                ],
+                [
+                  860.0,
+                  102.2
+                ],
+                [
+                  870.0,
+                  102.2
+                ],
+                [
+                  880.0,
+                  102.2
+                ],
+                [
+                  890.0,
+                  102.1
+                ],
+                [
+                  900.0,
+                  102.2
+                ],
+                [
+                  910.0,
+                  102.3
+                ],
+                [
+                  920.0,
+                  102.5
+                ],
+                [
+                  930.0,
+                  102.6
+                ],
+                [
+                  940.0,
+                  102.7
+                ],
+                [
+                  950.0,
+                  102.7
+                ],
+                [
+                  960.0,
+                  102.7
+                ],
+                [
+                  970.0,
+                  102.7
+                ],
+                [
+                  980.0,
+                  102.7
+                ],
+                [
+                  990.0,
+                  102.8
+                ],
+                [
+                  1000.0,
+                  102.9
+                ],
+                [
+                  1010.0,
+                  103.0
+                ],
+                [
+                  1020.0,
+                  103.2
+                ],
+                [
+                  1030.0,
+                  103.5
+                ],
+                [
+                  1040.0,
+                  103.7
+                ],
+                [
+                  1050.0,
+                  103.9
+                ],
+                [
+                  1060.0,
+                  104.0
+                ],
+                [
+                  1070.0,
+                  104.0
+                ],
+                [
+                  1080.0,
+                  104.1
+                ],
+                [
+                  1090.0,
+                  104.1
+                ],
+                [
+                  1100.0,
+                  104.1
+                ],
+                [
+                  1110.0,
+                  104.0
+                ],
+                [
+                  1120.0,
+                  104.0
+                ],
+                [
+                  1130.0,
+                  104.0
+                ],
+                [
+                  1140.0,
+                  104.0
+                ],
+                [
+                  1150.0,
+                  104.2
+                ],
+                [
+                  1160.0,
+                  104.4
+                ],
+                [
+                  1170.0,
+                  104.7
+                ],
+                [
+                  1180.0,
+                  104.9
+                ],
+                [
+                  1190.0,
+                  105.1
+                ],
+                [
+                  1200.0,
+                  105.4
+                ],
+                [
+                  1210.0,
+                  105.7
+                ],
+                [
+                  1220.0,
+                  105.9
+                ],
+                [
+                  1230.0,
+                  106.0
+                ],
+                [
+                  1240.0,
+                  106.0
+                ],
+                [
+                  1250.0,
+                  106.0
+                ],
+                [
+                  1260.0,
+                  106.0
+                ],
+                [
+                  1270.0,
+                  106.0
+                ],
+                [
+                  1280.0,
+                  106.0
+                ],
+                [
+                  1290.0,
+                  106.0
+                ],
+                [
+                  1300.0,
+                  106.0
+                ],
+                [
+                  1310.0,
+                  106.0
+                ],
+                [
+                  1320.0,
+                  106.0
+                ],
+                [
+                  1330.0,
+                  106.0
+                ],
+                [
+                  1340.0,
+                  106.0
+                ],
+                [
+                  1350.0,
+                  106.0
+                ],
+                [
+                  1360.0,
+                  106.0
+                ],
+                [
+                  1370.0,
+                  106.1
+                ],
+                [
+                  1380.0,
+                  106.2
+                ],
+                [
+                  1390.0,
+                  106.5
+                ],
+                [
+                  1400.0,
+                  106.8
+                ],
+                [
+                  1410.0,
+                  106.9
+                ],
+                [
+                  1420.0,
+                  107.0
+                ],
+                [
+                  1430.0,
+                  107.0
+                ],
+                [
+                  1440.0,
+                  107.1
+                ],
+                [
+                  1450.0,
+                  107.3
+                ],
+                [
+                  1460.0,
+                  107.4
+                ],
+                [
+                  1470.0,
+                  107.9
+                ],
+                [
+                  1480.0,
+                  108.6
+                ],
+                [
+                  1490.0,
+                  109.7
+                ],
+                [
+                  1500.0,
+                  111.0
+                ],
+                [
+                  1510.0,
+                  112.4
+                ],
+                [
+                  1520.0,
+                  113.4
+                ],
+                [
+                  1530.0,
+                  114.2
+                ],
+                [
+                  1540.0,
+                  114.6
+                ],
+                [
+                  1550.0,
+                  114.9
+                ],
+                [
+                  1560.0,
+                  115.4
+                ],
+                [
+                  1570.0,
+                  116.2
+                ],
+                [
+                  1580.0,
+                  117.4
+                ],
+                [
+                  1590.0,
+                  118.5
+                ],
+                [
+                  1600.0,
+                  119.4
+                ],
+                [
+                  1610.0,
+                  120.1
+                ],
+                [
+                  1620.0,
+                  120.6
+                ],
+                [
+                  1630.0,
+                  121.1
+                ],
+                [
+                  1640.0,
+                  121.5
+                ],
+                [
+                  1650.0,
+                  121.8
+                ],
+                [
+                  1660.0,
+                  122.1
+                ],
+                [
+                  1670.0,
+                  122.5
+                ],
+                [
+                  1680.0,
+                  123.2
+                ],
+                [
+                  1690.0,
+                  123.9
+                ],
+                [
+                  1700.0,
+                  124.4
+                ],
+                [
+                  1710.0,
+                  124.9
+                ],
+                [
+                  1720.0,
+                  125.3
+                ],
+                [
+                  1730.0,
+                  125.6
+                ],
+                [
+                  1740.0,
+                  125.7
+                ],
+                [
+                  1750.0,
+                  126.0
+                ],
+                [
+                  1760.0,
+                  126.3
+                ],
+                [
+                  1770.0,
+                  126.6
+                ],
+                [
+                  1780.0,
+                  126.7
+                ],
+                [
+                  1790.0,
+                  126.8
+                ],
+                [
+                  1800.0,
+                  126.9
+                ],
+                [
+                  1810.0,
+                  126.9
+                ],
+                [
+                  1820.0,
+                  127.0
+                ],
+                [
+                  1830.0,
+                  126.8
+                ],
+                [
+                  1840.0,
+                  126.5
+                ],
+                [
+                  1850.0,
+                  126.4
+                ],
+                [
+                  1860.0,
+                  126.5
+                ],
+                [
+                  1870.0,
+                  126.7
+                ],
+                [
+                  1880.0,
+                  126.9
+                ],
+                [
+                  1890.0,
+                  127.0
+                ],
+                [
+                  1900.0,
+                  127.0
+                ],
+                [
+                  1910.0,
+                  127.1
+                ],
+                [
+                  1920.0,
+                  127.2
+                ],
+                [
+                  1930.0,
+                  127.5
+                ],
+                [
+                  1940.0,
+                  127.6
+                ],
+                [
+                  1950.0,
+                  127.6
+                ],
+                [
+                  1960.0,
+                  127.4
+                ],
+                [
+                  1970.0,
+                  127.2
+                ],
+                [
+                  1980.0,
+                  127.2
+                ],
+                [
+                  1990.0,
+                  127.4
+                ],
+                [
+                  2000.0,
+                  127.6
+                ],
+                [
+                  2010.0,
+                  127.6
+                ],
+                [
+                  2020.0,
+                  127.4
+                ],
+                [
+                  2030.0,
+                  127.2
+                ],
+                [
+                  2040.0,
+                  127.2
+                ],
+                [
+                  2050.0,
+                  127.4
+                ],
+                [
+                  2060.0,
+                  127.6
+                ],
+                [
+                  2070.0,
+                  127.6
+                ],
+                [
+                  2080.0,
+                  127.4
+                ],
+                [
+                  2090.0,
+                  127.3
+                ],
+                [
+                  2100.0,
+                  127.2
+                ],
+                [
+                  2110.0,
+                  127.4
+                ],
+                [
+                  2120.0,
+                  127.7
+                ],
+                [
+                  2130.0,
+                  127.9
+                ],
+                [
+                  2140.0,
+                  128.0
+                ],
+                [
+                  2150.0,
+                  128.0
+                ],
+                [
+                  2160.0,
+                  128.1
+                ],
+                [
+                  2170.0,
+                  128.4
+                ],
+                [
+                  2180.0,
+                  128.7
+                ],
+                [
+                  2190.0,
+                  128.9
+                ],
+                [
+                  2200.0,
+                  129.0
+                ],
+                [
+                  2210.0,
+                  129.0
+                ],
+                [
+                  2220.0,
+                  129.1
+                ],
+                [
+                  2230.0,
+                  129.3
+                ],
+                [
+                  2240.0,
+                  129.6
+                ],
+                [
+                  2250.0,
+                  129.9
+                ],
+                [
+                  2260.0,
+                  130.0
+                ],
+                [
+                  2270.0,
+                  130.0
+                ],
+                [
+                  2280.0,
+                  130.0
+                ]
+              ],
+              "steepSections": [
+                {
+                  "averageGrade": 0.11868272870611593,
+                  "endMeters": 140.0,
+                  "geometry": "ej~xyAnyrghFOjy@",
+                  "maxGrade": 0.17407802741702483,
+                  "startMeters": 70.0,
+                  "streetName": "East Spring Street"
+                },
+                {
+                  "averageGrade": 0.10602594760701507,
+                  "endMeters": 1530.0,
+                  "geometry": "_woyyAvv~ghF?~m@?~A",
+                  "maxGrade": 0.1326046666666656,
+                  "startMeters": 1470.0,
+                  "streetName": "East Thomas Street"
+                },
+                {
+                  "averageGrade": 0.08673658063916724,
+                  "endMeters": 1620.0,
+                  "geometry": "_woyyAraahhF?rRMl]",
+                  "maxGrade": 0.11656133333333116,
+                  "startMeters": 1560.0,
+                  "streetName": "East Thomas Street"
+                },
+                {
+                  "averageGrade": 0.06164594360194305,
+                  "endMeters": 1700.0,
+                  "geometry": "swoyyAj}chhF?bR?zD",
+                  "maxGrade": 0.06530983080582616,
+                  "startMeters": 1670.0,
+                  "streetName": "East Thomas Street"
+                }
+              ],
+              "totalClimbMeters": 46.38415834941088,
+              "totalFallMeters": 3.387489209625926
+            },
+            "maneuvers": [
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 0,
+                "distanceMeters": 48.74,
+                "instruction": "Bike north on sidewalk.",
+                "startPoint": [
+                  -122.3000565,
+                  47.6111378
+                ],
+                "streetNames": null,
+                "type": 1,
+                "verbalPostTransitionInstruction": "Continue for 160 feet."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 0,
+                "distanceMeters": 100.91,
+                "instruction": "Turn left onto East Spring Street.",
+                "startPoint": [
+                  -122.300047,
+                  47.6115748
+                ],
+                "streetNames": [
+                  "East Spring Street"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 300 feet."
+              },
+              {
+                "bearingAfter": 269,
+                "bearingBefore": 270,
+                "distanceMeters": 6.59,
+                "instruction": "Enter the roundabout.",
+                "startPoint": [
+                  -122.3013932,
+                  47.611583
+                ],
+                "streetNames": null,
+                "type": 26,
+                "verbalPostTransitionInstruction": "Continue for 20 feet."
+              },
+              {
+                "bearingAfter": 270,
+                "bearingBefore": 317,
+                "distanceMeters": 154.64,
+                "instruction": "Turn right onto 24th Avenue.",
+                "startPoint": [
+                  -122.3014492,
+                  47.6116205
+                ],
+                "streetNames": [
+                  "24th Avenue"
+                ],
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for 500 feet."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 359,
+                "distanceMeters": 64.48,
+                "instruction": "Turn left onto bike path.",
+                "startPoint": [
+                  -122.3014374,
+                  47.6130112
+                ],
+                "streetNames": null,
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 200 feet."
+              },
+              {
+                "bearingAfter": 269,
+                "bearingBefore": 270,
+                "distanceMeters": 59.65,
+                "instruction": "Turn right onto service road.",
+                "startPoint": [
+                  -122.302292,
+                  47.61303
+                ],
+                "streetNames": null,
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for 200 feet."
+              },
+              {
+                "bearingAfter": 269,
+                "bearingBefore": 270,
+                "distanceMeters": 223.78,
+                "instruction": "Turn right onto 23rd Avenue.",
+                "startPoint": [
+                  -122.3026981,
+                  47.6132972
+                ],
+                "streetNames": [
+                  "23rd Avenue"
+                ],
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 0,
+                "distanceMeters": 67.35,
+                "instruction": "Turn left onto East Pine Street.",
+                "startPoint": [
+                  -122.3026355,
+                  47.6153092
+                ],
+                "streetNames": [
+                  "East Pine Street"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 200 feet."
+              },
+              {
+                "bearingAfter": 269,
+                "bearingBefore": 270,
+                "distanceMeters": 6.75,
+                "instruction": "Enter the roundabout.",
+                "startPoint": [
+                  -122.303534,
+                  47.6153054
+                ],
+                "streetNames": null,
+                "type": 26,
+                "verbalPostTransitionInstruction": "Continue for 20 feet."
+              },
+              {
+                "bearingAfter": 270,
+                "bearingBefore": 306,
+                "distanceMeters": 328.37,
+                "instruction": "Turn right onto 22nd Avenue.",
+                "startPoint": [
+                  -122.3035923,
+                  47.6153435
+                ],
+                "streetNames": [
+                  "22nd Avenue"
+                ],
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
+              },
+              {
+                "bearingAfter": 314,
+                "bearingBefore": 314,
+                "distanceMeters": 62.96,
+                "instruction": "Continue onto East Denny Way.",
+                "startPoint": [
+                  -122.3041758,
+                  47.6181052
+                ],
+                "streetNames": [
+                  "East Denny Way"
+                ],
+                "type": 8,
+                "verbalPostTransitionInstruction": "Continue for 200 feet."
+              },
+              {
+                "bearingAfter": 313,
+                "bearingBefore": 313,
+                "distanceMeters": 99.14,
+                "instruction": "Turn left onto East Denny Way.",
+                "startPoint": [
+                  -122.304784,
+                  47.6184954
+                ],
+                "streetNames": [
+                  "East Denny Way"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 300 feet."
+              },
+              {
+                "bearingAfter": 269,
+                "bearingBefore": 270,
+                "distanceMeters": 220.02,
+                "instruction": "Turn right onto 20th Avenue East.",
+                "startPoint": [
+                  -122.3061068,
+                  47.6185034
+                ],
+                "streetNames": [
+                  "20th Avenue East"
+                ],
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 359,
+                "distanceMeters": 447.33,
+                "instruction": "Turn left onto East Thomas Street.",
+                "startPoint": [
+                  -122.3060716,
+                  47.6204819
+                ],
+                "streetNames": [
+                  "East Thomas Street"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
+              },
+              {
+                "bearingAfter": 269,
+                "bearingBefore": 270,
+                "distanceMeters": 307.01,
+                "instruction": "Turn right onto alley.",
+                "startPoint": [
+                  -122.31204,
+                  47.6204998
+                ],
+                "streetNames": null,
+                "type": 10,
+                "verbalPostTransitionInstruction": "Continue for a quarter mile."
+              },
+              {
+                "bearingAfter": 359,
+                "bearingBefore": 0,
+                "distanceMeters": 50.85,
+                "instruction": "Turn left onto East Republican Street.",
+                "startPoint": [
+                  -122.3120034,
+                  47.6232607
+                ],
+                "streetNames": [
+                  "East Republican Street"
+                ],
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 170 feet."
+              },
+              {
+                "bearingAfter": 213,
+                "bearingBefore": 213,
+                "distanceMeters": 17.13,
+                "instruction": "Turn sharp right onto 15th Avenue East.",
+                "startPoint": [
+                  -122.3126364,
+                  47.623182
+                ],
+                "streetNames": [
+                  "15th Avenue East"
+                ],
+                "type": 11,
+                "verbalPostTransitionInstruction": "Continue for 60 feet."
+              },
+              {
+                "bearingAfter": 2,
+                "bearingBefore": 2,
+                "distanceMeters": 12.7,
+                "instruction": "Turn left onto path.",
+                "startPoint": [
+                  -122.3126287,
+                  47.623336
+                ],
+                "streetNames": null,
+                "type": 15,
+                "verbalPostTransitionInstruction": "Continue for 40 feet."
+              },
+              {
+                "bearingAfter": 0,
+                "bearingBefore": 359,
+                "distanceMeters": 0.0,
+                "instruction": "Arrive at your destination.",
+                "startPoint": [
+                  -122.312828,
+                  47.623369
+                ],
+                "streetNames": null,
+                "type": 4,
+                "verbalPostTransitionInstruction": null
+              }
+            ],
+            "substantialStreetNames": [
+              "East Thomas Street",
+              "22nd Avenue",
+              "23rd Avenue"
+            ]
+          },
+          "startTime": "2026-10-07T17:12:28-07:00",
+          "toPlace": {
+            "location": [
+              -122.312828,
+              47.623369
+            ],
+            "name": "Destination"
+          }
+        }
+      ],
+      "mode": "BICYCLE",
+      "routePreferences": [
+        "faster"
+      ],
+      "startTime": "2026-10-07T17:12:28-07:00"
+    }
+  ]
+}

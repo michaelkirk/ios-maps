@@ -156,13 +156,17 @@ struct MapTrip: MapContent {
     let isSelected: Bool
     let legLayers: [LegLayer]
     let markers: [PlaceMarker]
+    /// Where the selected trip's steepest climbs begin.
+    let climbAnnotations: [SteepClimbAnnotation]
 
     init(trip: Trip, isSelected: Bool) {
       self.trip = trip
       self.isSelected = isSelected
       self.legLayers = trip.legs.enumerated().flatMap { idx, leg -> [LegLayer] in
         let identifier = TripLegId(tripId: trip.id, legIdx: idx, isSelected: isSelected)
-        let polyline = polylineFeature(coordinates: leg.geometry, identifier: identifier.asString)
+        let polyline = multiPolylineFeature(
+          lines: isSelected ? leg.selectedGeometry : [leg.geometry],
+          identifier: identifier.asString)
 
         // We want to style each leg independently, so we can style the dashed line for walking.
         // It's also sufficient for styling routeColor (once we support that)
@@ -181,15 +185,23 @@ struct MapTrip: MapContent {
           return [legLayer]
         }
         let prefix = "trip-route-\(trip.id)-leg-\(idx)"
-        // In draw order: the rest of the route under the ridden portion, the stops over both.
-        return [
-          contextLayer(tripId: trip.id, legIdx: idx, leg: leg),
-          legLayer,
-          leg.contextStopsLayer(identifier: "\(prefix)-context-stops"),
-          leg.riddenStopsLayer(identifier: "\(prefix)-ridden-stops"),
-          leg.onOffStopsLayer(identifier: "\(prefix)-on-off-stops"),
-        ].compactMap { $0 }
+        // In draw order: the rest of the route under the ridden portion, steep stretches over the
+        // line, the stops over all of it.
+        let lineLayers: [LegLayer] =
+          [contextLayer(tripId: trip.id, legIdx: idx, leg: leg)].compactMap { $0 } + [legLayer]
+        return lineLayers
+          + leg.steepLayers(identifierPrefix: "\(prefix)-steep")
+          + [
+            leg.contextStopsLayer(identifier: "\(prefix)-context-stops"),
+            leg.riddenStopsLayer(identifier: "\(prefix)-ridden-stops"),
+            leg.onOffStopsLayer(identifier: "\(prefix)-on-off-stops"),
+          ].compactMap { $0 }
       }
+      self.climbAnnotations =
+        isSelected
+        ? trip.legs.flatMap { leg in
+          (leg.elevation?.annotatedClimbs ?? []).map { SteepClimbAnnotation(climb: $0) }
+        } : []
       var markers = trip.transferPlaces.map { transfer in
         let style =
           isSelected
@@ -242,6 +254,7 @@ struct MapTrip: MapContent {
     for marker in tripLayers.markers {
       marker.add(to: mapView)
     }
+    mapView.addAnnotations(tripLayers.climbAnnotations)
   }
 
   func remove(from mapView: MLNMapView) {
@@ -259,6 +272,7 @@ struct MapTrip: MapContent {
     for marker in tripLayers.markers {
       marker.remove(from: mapView)
     }
+    mapView.removeAnnotations(tripLayers.climbAnnotations)
   }
 }
 
@@ -397,22 +411,58 @@ func lineStyleLayer(
 {
   let styleLayer = MLNLineStyleLayer(identifier: identifier, source: source)
   styleLayer.lineJoin = NSExpression(forConstantValue: "round")
-  styleLayer.lineColor = NSExpression(
-    forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
-  switch leg.mode {
-  case .walk, .bike:
+  if leg.isGraded {
+    styleLayer.lineColor = NSExpression(forConstantValue: UIColor(Color.hw_flatGrade))
+    if !isSelected {
+      styleLayer.lineOpacity = NSExpression(forConstantValue: NSNumber(value: 0.5))
+    }
     styleLayer.lineWidth = NSExpression(
       forConstantValue: NSNumber(value: isSelected ? LineWidth.walking : LineWidth.inactive))
-    // A zero-length dash under a round cap is a dot, which reads as a path on foot where a run of
-    // little rectangles reads as a road marking.
-    styleLayer.lineCap = NSExpression(forConstantValue: "round")
-    styleLayer.lineDashPattern = NSExpression(forConstantValue: NSArray(array: [0, 1.5]))
-  default:
+    styleGradedLine(styleLayer, leg: leg)
+  } else {
+    styleLayer.lineColor = NSExpression(
+      forConstantValue: UIColor(isSelected ? leg.activeLineColor : Color.hw_inactiveRoute))
     styleLayer.lineWidth = NSExpression(
       forConstantValue: NSNumber(value: isSelected ? LineWidth.active : LineWidth.inactive))
   }
   return styleLayer
+}
 
+/// Round-capped, and dotted when walking or cycling to and from transit.
+func styleGradedLine(_ styleLayer: MLNLineStyleLayer, leg: TripLeg) {
+  styleLayer.lineCap = NSExpression(forConstantValue: "round")
+  if leg.isDotted {
+    // A zero-length dash under a round cap is a dot, which reads as a path on foot where a run of
+    // little rectangles reads as a road marking.
+    styleLayer.lineDashPattern = NSExpression(forConstantValue: NSArray(array: [0, 1.5]))
+  }
+}
+
+extension TripLeg {
+  /// Steep stretches drawn over the selected leg, one layer per shade.
+  func steepLayers(identifierPrefix: String) -> [MapTrip.TripLayers.LegLayer] {
+    steepSectionsByShade.map { shade, lines in
+      let identifier = "\(identifierPrefix)-\(shade.rawValue)"
+      let source = MLNShapeSource(
+        identifier: identifier,
+        features: [multiPolylineFeature(lines: lines, identifier: identifier)], options: nil)
+      let styleLayer = MLNLineStyleLayer(identifier: identifier, source: source)
+      styleLayer.lineJoin = NSExpression(forConstantValue: "round")
+      styleLayer.lineColor = NSExpression(forConstantValue: UIColor(shade.color))
+      styleLayer.lineWidth = NSExpression(forConstantValue: NSNumber(value: LineWidth.walking))
+      styleGradedLine(styleLayer, leg: self)
+      return MapTrip.TripLayers.LegLayer(source: source, styleLayer: styleLayer)
+    }
+  }
+}
+
+func multiPolylineFeature(lines: [[CLLocationCoordinate2D]], identifier: String)
+  -> MLNMultiPolylineFeature
+{
+  let polylines = lines.map { MLNPolyline(coordinates: $0, count: UInt($0.count)) }
+  let feature = MLNMultiPolylineFeature(polylines: polylines)
+  feature.identifier = identifier
+  return feature
 }
 
 func polylineFeature(coordinates: [CLLocationCoordinate2D], identifier: String)

@@ -119,7 +119,9 @@ func imageName(maneuverType: ManeuverType) -> String? {
 
 struct ManeuverList: View {
   var trip: Trip
+  @ObservedObject var tripPlan: TripPlan
   var maneuvers: [Maneuver]
+  @State private var isShowingClimbs = false
 
   var body: some View {
     let maneuversElements = maneuvers.enumerated().map {
@@ -128,34 +130,92 @@ struct ManeuverList: View {
 
     VStack(alignment: .leading) {
       Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").scenePadding(.leading).bold()
-      List(maneuversElements) { el in
-        let maneuver = el.maneuver
-        HStack(spacing: 16) {
-          image(maneuverType: maneuver.type).imageScale(.large)
-          VStack(alignment: .leading) {
-            if let instruction = maneuver.instruction {
-              Text(instruction)
+      List {
+        if let elevation = trip.elevation {
+          ElevationChart(
+            elevation: elevation, scrubFraction: $tripPlan.scrubFraction,
+            onSelectClimb: { tripPlan.select(climb: $0, of: elevation) }
+          ).frame(height: 100)
+          climbs(elevation)
+        }
+        ForEach(maneuversElements) { el in
+          let maneuver = el.maneuver
+          HStack(spacing: 16) {
+            image(maneuverType: maneuver.type).imageScale(.large)
+            VStack(alignment: .leading) {
+              if let instruction = maneuver.instruction {
+                Text(instruction)
+              }
+              if let verbalPostTransitionInstruction = maneuver.verbalPostTransitionInstruction {
+                Text(verbalPostTransitionInstruction).foregroundColor(.secondary)
+              }
             }
-            if let verbalPostTransitionInstruction = maneuver.verbalPostTransitionInstruction {
-              Text(verbalPostTransitionInstruction).foregroundColor(.secondary)
-            }
+            Spacer()
           }
-          Spacer()
         }
       }.hwListStyle()
+    }
+  }
+
+  /// The leg's climbs, collapsed under how far it climbs and descends in all.
+  @ViewBuilder
+  private func climbs(_ elevation: LegElevation) -> some View {
+    let header = HStack(spacing: 4) {
+      Text("Climbs:")
+      ElevationTotals(trip: trip, elevation: elevation, fontSize: 13)
+    }.font(.system(size: 13))
+    if elevation.climbs.isEmpty {
+      header
+    } else {
+      DisclosureGroup(isExpanded: $isShowingClimbs) {
+        ForEach(elevation.climbs, id: \.self) { climb in
+          Button {
+            tripPlan.select(climb: climb, of: elevation)
+          } label: {
+            ClimbRow(trip: trip, climb: climb)
+          }.buttonStyle(.plain)
+        }
+      } label: {
+        header
+      }
+    }
+  }
+}
+
+/// e.g. "↗ 9%  200 ft on E Thomas St, steepest 12%"
+struct ClimbRow: View {
+  let trip: Trip
+  let climb: SteepSection
+
+  var body: some View {
+    HStack(spacing: 12) {
+      Text("↗ \(climb.percent)%").bold().foregroundStyle(climb.shade.color)
+      Text(description)
+      Spacer()
+    }.contentShape(Rectangle())
+  }
+
+  private var description: String {
+    let length = trip.formatFeetOrMeters(meters: climb.endMeters - climb.startMeters)
+    let steepest = "\(Int((abs(climb.maxGrade) * 100).rounded()))%"
+    if let streetName = climb.streetName {
+      return "\(length) on \(streetName), steepest \(steepest)"
+    } else {
+      return "\(length), steepest \(steepest)"
     }
   }
 }
 
 struct ManeuverListSheetContents: View {
   var trip: Trip
+  @ObservedObject var tripPlan: TripPlan
   var maneuvers: [Maneuver]
   @Binding var currentDetent: PresentationDetent
   var onClose: () -> Void
 
   var body: some View {
     SheetContents(title: "Steps", onClose: onClose, currentDetent: $currentDetent) {
-      ManeuverList(trip: trip, maneuvers: maneuvers)
+      ManeuverList(trip: trip, tripPlan: tripPlan, maneuvers: maneuvers)
     }
   }
 }
@@ -168,7 +228,7 @@ struct ManeuverListSheetContents: View {
 
   return Text("").sheet(isPresented: .constant(true)) {
     ManeuverListSheetContents(
-      trip: trip, maneuvers: nonTransitLeg.maneuvers,
+      trip: trip, tripPlan: FixtureData.walkTripPlan, maneuvers: nonTransitLeg.maneuvers,
       currentDetent: .constant(initialDetentHeight), onClose: {})
   }
 }
@@ -183,6 +243,21 @@ struct ManeuverListSheetContents: View {
 
   return Text("").sheet(isPresented: .constant(true)) {
     ManeuverListSheetContents(
-      trip: trip, maneuvers: maneuvers, currentDetent: .constant(initialDetentHeight), onClose: {})
+      trip: trip, tripPlan: FixtureData.walkTripPlan, maneuvers: maneuvers,
+      currentDetent: .constant(initialDetentHeight), onClose: {})
+  }
+}
+
+#Preview("Biking, with grades") {
+  let tripPlan = FixtureData.bikeGradeTripPlan
+  let trip = tripPlan.selectedTrip!
+  guard case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg else {
+    fatalError("unexpected legs for trip")
+  }
+
+  return Text("").sheet(isPresented: .constant(true)) {
+    ManeuverListSheetContents(
+      trip: trip, tripPlan: tripPlan, maneuvers: nonTransitLeg.maneuvers,
+      currentDetent: .constant(initialDetentHeight), onClose: {})
   }
 }

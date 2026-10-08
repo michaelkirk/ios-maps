@@ -30,6 +30,8 @@ struct TripLeg {
   var endTime: Date
   var mode: TravelMode
   var modeLeg: ModeLeg
+  /// The mode of the whole trip this leg is part of.
+  var tripMode: TravelMode
 
   var duration: Duration {
     Duration.seconds(endTime.timeIntervalSince(startTime))
@@ -40,6 +42,132 @@ struct TripLeg {
       return nil
     }
     return transitLeg
+  }
+
+  var elevation: LegElevation? {
+    guard case .nonTransit(let nonTransitLeg) = self.modeLeg else {
+      return nil
+    }
+    return nonTransitLeg.elevation
+  }
+
+  /// Walking and cycling are drawn in the color of their grade.
+  var isGraded: Bool {
+    mode == .walk || mode == .bike
+  }
+
+  /// Walking or cycling to and from transit is dotted, so it doesn't read as the ride itself.
+  var isDotted: Bool {
+    isGraded && tripMode == .transit
+  }
+
+  /// Each straight piece of the leg, with how far along the leg it starts.
+  private var segments:
+    [(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, start: Double, length: Double)]
+  {
+    var start = 0.0
+    return zip(geometry, geometry.dropFirst()).map { from, to in
+      let length = CLLocation(latitude: from.latitude, longitude: from.longitude).distance(
+        from: CLLocation(latitude: to.latitude, longitude: to.longitude))
+      defer { start += length }
+      return (from, to, start, length)
+    }
+  }
+
+  private static func between(
+    _ from: CLLocationCoordinate2D, _ to: CLLocationCoordinate2D, _ t: Double
+  ) -> CLLocationCoordinate2D {
+    CLLocationCoordinate2D(
+      latitude: from.latitude + t * (to.latitude - from.latitude),
+      longitude: from.longitude + t * (to.longitude - from.longitude))
+  }
+
+  /// The point `fraction` of the way along the leg, by distance.
+  func pointAlong(fraction: Double) -> CLLocationCoordinate2D {
+    let segments = self.segments
+    guard let last = segments.last else {
+      return geometry[0]
+    }
+    let target = fraction * (last.start + last.length)
+    let segment = segments.first { target <= $0.start + $0.length } ?? last
+    let t = segment.length == 0 ? 0 : min((target - segment.start) / segment.length, 1)
+    return Self.between(segment.from, segment.to, t)
+  }
+
+  /// How far along the leg, as a fraction, its nearest point to `target` is.
+  func fractionNearest(_ target: CLLocationCoordinate2D) -> Double {
+    // Flat enough at the scale of a leg to project in degrees, once longitude is squeezed to match.
+    let lngScale = cos(target.latitude * .pi / 180)
+    let targetLocation = CLLocation(latitude: target.latitude, longitude: target.longitude)
+    var total = 0.0
+    var nearest = (meters: 0.0, distance: Double.infinity)
+    for (from, to, start, length) in segments {
+      let dx = (to.longitude - from.longitude) * lngScale
+      let dy = to.latitude - from.latitude
+      let lengthSquared = dx * dx + dy * dy
+      let t =
+        lengthSquared == 0
+        ? 0
+        : min(
+          max(
+            ((target.longitude - from.longitude) * lngScale * dx
+              + (target.latitude - from.latitude) * dy) / lengthSquared, 0), 1)
+      let projected = Self.between(from, to, t)
+      let distance = CLLocation(latitude: projected.latitude, longitude: projected.longitude)
+        .distance(from: targetLocation)
+      if distance < nearest.distance {
+        nearest = (start + t * length, distance)
+      }
+      total = start + length
+    }
+    return total == 0 ? 0 : nearest.meters / total
+  }
+
+  /// The stretch of the leg from `startMeters` to `endMeters` along it.
+  private func slice(startMeters: Double, endMeters: Double) -> [CLLocationCoordinate2D] {
+    var piece: [CLLocationCoordinate2D] = []
+    for (from, to, start, length) in segments {
+      let end = start + length
+      if end < startMeters {
+        continue
+      }
+      if start > endMeters {
+        break
+      }
+      let at = { (meters: Double) in
+        Self.between(from, to, length == 0 ? 0 : (meters - start) / length)
+      }
+      if piece.isEmpty {
+        piece.append(at(max(startMeters, start)))
+      }
+      piece.append(at(min(endMeters, end)))
+    }
+    return piece
+  }
+
+  /// The selected line, leaving room for the steep stretches when dotted, since dots drawn over
+  /// dots don't line up.
+  var selectedGeometry: [[CLLocationCoordinate2D]] {
+    guard isDotted, let elevation else {
+      return [geometry]
+    }
+    var pieces: [[CLLocationCoordinate2D]] = []
+    var from = 0.0
+    for section in elevation.steepSections.sorted(by: { $0.startMeters < $1.startMeters }) {
+      pieces.append(slice(startMeters: from, endMeters: section.startMeters))
+      from = section.endMeters
+    }
+    pieces.append(slice(startMeters: from, endMeters: .infinity))
+    return pieces.filter { $0.count >= 2 }
+  }
+
+  /// Steep stretches of a walking or cycling leg, grouped by how they're drawn.
+  var steepSectionsByShade: [(shade: GradeShade, lines: [[CLLocationCoordinate2D]])] {
+    let sections = elevation?.steepSections ?? []
+    return GradeShade.allCases.compactMap { shade in
+      let lines = sections.filter { $0.shade == shade }.map { $0.coordinates }
+      return lines.isEmpty ? nil : (shade, lines)
+    }
   }
 
   var activeLineColor: Color {
@@ -54,19 +182,43 @@ struct TripLeg {
   }
 }
 
-struct FormattedElevationProfile {
-  let raw: ElevationProfile
-  let formatLocale: Locale
+/// Elevations sampled along a path, for legs travelmux didn't plan with OTP.
+struct ElevationProfile: Codable {
+  let totalClimbMeters: Float64
+  let totalFallMeters: Float64
+  let elevation: [Float64]
 
-  var formattedTotalClimb: String {
-    format(meters: raw.totalClimbMeters)
+  /// Only the shape matters to the chart, not the true distance between samples, and there are no
+  /// steep sections to mark.
+  var legElevation: LegElevation {
+    LegElevation(
+      profile: elevation.enumerated().map {
+        LegElevation.ProfilePoint(distance: Double($0.offset), elevation: $0.element)
+      },
+      totalClimbMeters: totalClimbMeters,
+      totalFallMeters: totalFallMeters,
+      steepSections: [])
+  }
+}
+
+struct Trip: Identifiable {
+  let raw: Itinerary
+  /// For a walking or cycling trip: from the plan, or looked up for one OTP didn't plan.
+  private(set) var elevation: LegElevation?
+  mutating func setElevationProfile(_ profile: ElevationProfile) {
+    self.elevation = Self.drawable(profile.legElevation)
   }
 
-  var formattedTotalFall: String {
-    format(meters: raw.totalFallMeters)
+  /// Only a profile the chart can draw, from a start to an end.
+  private static func drawable(_ elevation: LegElevation?) -> LegElevation? {
+    guard let elevation, elevation.profile.count >= 2 else {
+      return nil
+    }
+    return elevation
   }
 
-  func format(meters: Double) -> String {
+  /// e.g. "120 ft": short spans, like a climb or the total climbed
+  func formatFeetOrMeters(meters: Double) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = self.formatLocale
     formatter.unitStyle = .medium
@@ -77,20 +229,6 @@ struct FormattedElevationProfile {
       self.formatLocale.measurementSystem == .metric ? UnitLength.meters : UnitLength.feet
     let measurement = Measurement(value: meters, unit: .meters).converted(to: outputUnit)
     return formatter.string(from: measurement)
-  }
-}
-
-struct ElevationProfile: Codable {
-  let totalClimbMeters: Float64
-  let totalFallMeters: Float64
-  let elevation: [Float64]
-}
-
-struct Trip: Identifiable {
-  let raw: Itinerary
-  private(set) var elevationProfile: FormattedElevationProfile?
-  mutating func setElevationProfile(_ profile: ElevationProfile) {
-    self.elevationProfile = FormattedElevationProfile(raw: profile, formatLocale: self.formatLocale)
   }
 
   let id: UUID
@@ -208,11 +346,15 @@ struct Trip: Identifiable {
         startTime: itineraryLeg.startTime,
         endTime: itineraryLeg.endTime,
         mode: itineraryLeg.mode,
-        modeLeg: itineraryLeg.modeLeg
+        modeLeg: itineraryLeg.modeLeg,
+        tripMode: itinerary.mode
       )
     }
     self.from = from
     self.to = to
+    if self.legs.count == 1, case .nonTransit(let nonTransitLeg) = self.legs[0].modeLeg {
+      self.elevation = Self.drawable(nonTransitLeg.elevation)
+    }
   }
 }
 

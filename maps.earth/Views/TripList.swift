@@ -37,7 +37,7 @@ struct TripList: View {
                     tripPlan.isShowingSteps = true
                   }
                 } else {
-                  NonTransitPlanItem(trip: trip) {
+                  NonTransitPlanItem(trip: trip, tripPlan: tripPlan) {
                     tripPlan.selectedTrip = trip
                     Task {
                       do {
@@ -69,7 +69,8 @@ struct TripList: View {
       let _ = assert(trip.legs.count > 0)
       if trip.legs.count == 1, case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg {
         ManeuverListSheetContents(
-          trip: trip, maneuvers: nonTransitLeg.maneuvers, currentDetent: $stepsDetent,
+          trip: trip, tripPlan: tripPlan, maneuvers: nonTransitLeg.maneuvers,
+          currentDetent: $stepsDetent,
           onClose: { tripPlan.isShowingSteps = false })
       } else {
         MultiModalTripDetailsSheetContents(

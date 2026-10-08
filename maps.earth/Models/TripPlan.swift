@@ -31,7 +31,22 @@ class TripPlan: ObservableObject {
       if selectedTrip == nil {
         isShowingSteps = false
       }
+      if selectedTrip != oldValue {
+        scrubFraction = nil
+        focusedClimb = nil
+      }
     }
+  }
+
+  /// How far along the selected trip the elevation scrubber is, shared by its chart and the map.
+  @Published var scrubFraction: Double?
+  /// The climb the rider picked, which the map zooms to and highlights.
+  @Published var focusedClimb: SteepSection?
+
+  /// Scrubs to the middle of `climb` and shows it on the map.
+  func select(climb: SteepSection, of elevation: LegElevation) {
+    scrubFraction = elevation.midpointFraction(of: climb)
+    focusedClimb = climb
   }
   @Published var selectedRoute: Result<Route, Error>?
 

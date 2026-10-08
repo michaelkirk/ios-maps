@@ -60,12 +60,15 @@ extension TransitLeg {
 struct NonTransitLeg {
   let maneuvers: [Maneuver]
   let substantialStreetNames: [String]
+  /// Only for legs OTP planned.
+  let elevation: LegElevation?
 }
 
 extension NonTransitLeg: Decodable {
   private enum CodingKeys: String, CodingKey {
     case maneuvers
     case substantialStreetNames
+    case elevation
   }
 }
 

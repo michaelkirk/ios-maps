@@ -322,7 +322,8 @@ final class TripSearchManager {
 
     let client = tripPlanClient
     let withElevation = await withTaskGroup(of: (Int, ElevationProfile?).self) { group in
-      for (idx, trip) in trips.enumerated() {
+      // OTP sends a leg's elevation along with it; the rest are looked up.
+      for (idx, trip) in trips.enumerated() where trip.elevation == nil {
         let polyline = trip.raw.legs[0].geometry
         group.addTask {
           (idx, try? await client.elevation(polyline: polyline).get())

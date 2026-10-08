@@ -375,6 +375,8 @@ extension MapViewWrapper: UIViewRepresentable {
       mapContents = .empty
     }
     context.coordinator.reconcile(newContents: mapContents, mapView: mapView)
+    context.coordinator.updateElevationScrubber(mapView: mapView)
+    context.coordinator.focus(climb: self.tripPlan.focusedClimb, mapView: mapView)
 
     switch userLocationManager.state {
     case .initial:
@@ -460,6 +462,75 @@ extension MapViewWrapper: UIViewRepresentable {
 
       mapView.setVisibleCoordinateBounds(
         bufferedBounds, edgePadding: padding, animated: true, completionHandler: nil)
+    }
+
+    /// The leg the elevation scrubber runs along: the selected trip's, when it's a single walking or
+    /// cycling leg with an elevation chart.
+    @MainActor
+    var scrubbedLeg: TripLeg? {
+      guard let trip = self.mapView.tripPlan.selectedTrip, trip.elevation != nil,
+        trip.legs.count == 1
+      else {
+        return nil
+      }
+      return trip.legs[0]
+    }
+    var elevationScrubber: ElevationScrubberAnnotation?
+
+    @MainActor
+    func updateElevationScrubber(mapView: MLNMapView) {
+      guard let leg = scrubbedLeg, let fraction = self.mapView.tripPlan.scrubFraction else {
+        if let elevationScrubber {
+          mapView.removeAnnotation(elevationScrubber)
+          self.elevationScrubber = nil
+        }
+        return
+      }
+      let coordinate = leg.pointAlong(fraction: fraction)
+      if let elevationScrubber {
+        elevationScrubber.coordinate = coordinate
+      } else {
+        let elevationScrubber = ElevationScrubberAnnotation()
+        elevationScrubber.coordinate = coordinate
+        mapView.addAnnotation(elevationScrubber)
+        self.elevationScrubber = elevationScrubber
+      }
+    }
+
+    /// Slides the scrubber along the route to its nearest point to `coordinate`.
+    @MainActor
+    func dragElevationScrubber(to coordinate: CLLocationCoordinate2D) {
+      guard let leg = scrubbedLeg else {
+        return
+      }
+      self.mapView.tripPlan.scrubFraction = leg.fractionNearest(coordinate)
+    }
+
+    var focusedClimb: SteepSection?
+
+    /// Zooms to `climb`, highlighting its marker over the others.
+    @MainActor
+    func focus(climb: SteepSection?, mapView: MLNMapView) {
+      guard climb != focusedClimb else {
+        return
+      }
+      focusedClimb = climb
+      for case let annotation as SteepClimbAnnotation in mapView.annotations ?? [] {
+        (mapView.view(for: annotation) as? SteepClimbMarkerView)?.isEmphasized =
+          annotation.climb == climb
+      }
+      guard let climb else {
+        return
+      }
+      let coordinates = climb.coordinates
+      let bounds = MLNCoordinateBounds(
+        sw: CLLocationCoordinate2D(
+          latitude: coordinates.map(\.latitude).min()!,
+          longitude: coordinates.map(\.longitude).min()!),
+        ne: CLLocationCoordinate2D(
+          latitude: coordinates.map(\.latitude).max()!,
+          longitude: coordinates.map(\.longitude).max()!))
+      zoom(mapView: mapView, bounds: bounds, bufferMeters: 50, animated: true)
     }
 
     @MainActor
@@ -705,7 +776,7 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
 
   @MainActor
   func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
-    annotation is TransitVehicleAnnotation
+    annotation is TransitVehicleAnnotation || annotation is SteepClimbAnnotation
   }
 
   @MainActor
@@ -725,6 +796,18 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     if let vehicleAnnotation = annotation as? TransitVehicleAnnotation {
       return TransitVehicleMarkerView(
         vehicle: vehicleAnnotation.vehicle, isFaded: vehicleAnnotation.isFaded)
+    }
+    if let climbAnnotation = annotation as? SteepClimbAnnotation {
+      let view = SteepClimbMarkerView(climb: climbAnnotation.climb)
+      view.isEmphasized = climbAnnotation.climb == focusedClimb
+      return view
+    }
+    if annotation is ElevationScrubberAnnotation {
+      let view = ElevationScrubberView()
+      view.onDrag = { [weak self] coordinate in
+        self?.dragElevationScrubber(to: coordinate)
+      }
+      return view
     }
 
     guard let pointAnnotation = annotation as? MLNPointAnnotation,

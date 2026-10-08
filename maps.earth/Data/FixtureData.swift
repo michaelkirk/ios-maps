@@ -46,6 +46,11 @@ struct FixtureData {
     return trips
   }
 
+  /// Capitol Hill by bike, with steep sections from travelmux.
+  static var bikeGradeTrips: [Trip] {
+    loadTrips(filename: "bicycle_grades_plan.json")
+  }
+
   static var driveTrips: [Trip] {
     loadTrips(filename: "car_plan.json")
   }
@@ -69,6 +74,11 @@ struct FixtureData {
   @MainActor
   static var bikeTripPlan: TripPlan = TripPlan(
     from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.bikeTrips))
+
+  @MainActor
+  static var bikeGradeTripPlan: TripPlan = TripPlan(
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike,
+    trips: .success(Self.bikeGradeTrips))
 
   @MainActor
   static var driveTripPlan: TripPlan = TripPlan(

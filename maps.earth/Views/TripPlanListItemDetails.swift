@@ -9,7 +9,12 @@ import SwiftUI
 
 struct NonTransitPlanItem: View {
   var trip: Trip
+  @ObservedObject var tripPlan: TripPlan
   var onShowSteps: (() -> Void)
+
+  private var isSelected: Bool {
+    tripPlan.selectedTrip == trip
+  }
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -18,17 +23,17 @@ struct NonTransitPlanItem: View {
       }
       Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
       Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
-      if let elevationProfile = trip.elevationProfile {
-        VStack(alignment: .leading, spacing: 0) {
-          HStack {
-            Text("↑ \(elevationProfile.formattedTotalClimb)").font(.caption).foregroundStyle(.red)
-            Text("↓ \(elevationProfile.formattedTotalFall)").font(.caption).foregroundStyle(.green)
-          }
-          GeometryReader { reader in
-            ElevationChart(
-              elevations: elevationProfile.raw.elevation, width: reader.size.width - 20)
-          }.frame(idealWidth: .infinity, idealHeight: 26)
-        }
+      if let elevation = trip.elevation {
+        VStack(alignment: .leading, spacing: 2) {
+          // Only the selected trip's chart responds, so tapping another's selects it.
+          ElevationChart(
+            elevation: elevation,
+            scrubFraction: isSelected ? $tripPlan.scrubFraction : .constant(nil),
+            isInteractive: isSelected,
+            onSelectClimb: { tripPlan.select(climb: $0, of: elevation) }
+          ).frame(height: 60)
+          ElevationTotals(trip: trip, elevation: elevation)
+        }.padding(.vertical, 4)
       }
     }
     Spacer()
@@ -156,8 +161,15 @@ func formattedDepatureName(tripPlace: TripPlace, boldFont: Font) -> AttributedSt
 }
 
 #Preview("walking") {
-  let trip = FixtureData.walkTripPlan.selectedTrip!
-  return NonTransitPlanItem(trip: trip) {
+  let tripPlan = FixtureData.walkTripPlan
+  return NonTransitPlanItem(trip: tripPlan.selectedTrip!, tripPlan: tripPlan) {
+    let _ = print("tapped")
+  }
+}
+
+#Preview("biking, with grades") {
+  let tripPlan = FixtureData.bikeGradeTripPlan
+  return NonTransitPlanItem(trip: tripPlan.selectedTrip!, tripPlan: tripPlan) {
     let _ = print("tapped")
   }
 }
