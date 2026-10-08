@@ -37,20 +37,7 @@ struct TripList: View {
                     tripPlan.isShowingSteps = true
                   }
                 } else {
-                  NonTransitPlanItem(trip: trip) {
-                    tripPlan.selectedTrip = trip
-                    Task {
-                      do {
-                        self.tripPlan.selectedRoute = .success(
-                          try await DirectionsService().route(
-                            from: trip.from, to: trip.to, mode: tripPlan.mode,
-                            transitWithBike: tripPlan.bringsBike, tripIdx: tripIdx))
-                      } catch {
-                        self.tripPlan.selectedRoute = .failure(error)
-                        print("error when getting directions: \(error)")
-                      }
-                    }
-                  }
+                  NonTransitPlanItem(trip: trip) { navigate(trip: trip, tripIdx: tripIdx) }
                 }
               }
             }
@@ -69,11 +56,36 @@ struct TripList: View {
       let _ = assert(trip.legs.count > 0)
       if trip.legs.count == 1, case .nonTransit(let nonTransitLeg) = trip.legs[0].modeLeg {
         ManeuverListSheetContents(
-          trip: trip, maneuvers: nonTransitLeg.maneuvers, currentDetent: $stepsDetent,
+          trip: trip, tripPlan: tripPlan, maneuvers: nonTransitLeg.maneuvers,
+          currentDetent: $stepsDetent,
+          // Like the trip list, a transit search has no GO, even for a trip that's all walking.
+          onGo: tripPlan.mode == .transit
+            ? nil
+            : {
+              // Navigation covers the whole screen, which it can't do over the steps sheet.
+              tripPlan.isShowingSteps = false
+              navigate(trip: trip, tripIdx: trips.firstIndex(of: trip)!)
+            },
           onClose: { tripPlan.isShowingSteps = false })
       } else {
         MultiModalTripDetailsSheetContents(
           trip: trip, currentDetent: $stepsDetent, onClose: { tripPlan.isShowingSteps = false })
+      }
+    }
+  }
+
+  /// Starts turn-by-turn navigation along `trip`.
+  private func navigate(trip: Trip, tripIdx: Int) {
+    tripPlan.selectedTrip = trip
+    Task {
+      do {
+        self.tripPlan.selectedRoute = .success(
+          try await DirectionsService().route(
+            from: trip.from, to: trip.to, mode: tripPlan.mode,
+            transitWithBike: tripPlan.bringsBike, tripIdx: tripIdx))
+      } catch {
+        self.tripPlan.selectedRoute = .failure(error)
+        print("error when getting directions: \(error)")
       }
     }
   }

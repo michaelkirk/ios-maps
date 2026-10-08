@@ -9,6 +9,7 @@ import Foundation
 import MapLibre
 import MapboxDirections
 import SwiftUI
+import Turf
 
 private let logger = FileLogger()
 
@@ -375,6 +376,12 @@ extension MapViewWrapper: UIViewRepresentable {
       mapContents = .empty
     }
     context.coordinator.reconcile(newContents: mapContents, mapView: mapView)
+    // A picked climb zooms to fit; otherwise the scrubber only pans the map to stay in view.
+    let didFocusClimb = context.coordinator.focus(
+      climb: self.tripPlan.focusedClimb, mapView: mapView)
+    let didFocusStep = context.coordinator.focus(step: self.tripPlan.focusedStep, mapView: mapView)
+    let didFocus = didFocusClimb || didFocusStep
+    context.coordinator.updateElevationScrubber(mapView: mapView, keepInView: !didFocus)
 
     switch userLocationManager.state {
     case .initial:
@@ -460,6 +467,121 @@ extension MapViewWrapper: UIViewRepresentable {
 
       mapView.setVisibleCoordinateBounds(
         bufferedBounds, edgePadding: padding, animated: true, completionHandler: nil)
+    }
+
+    /// The leg the elevation scrubber runs along: the selected trip's, when it's a single walking or
+    /// cycling leg with an elevation chart.
+    @MainActor
+    var scrubbedLeg: TripLeg? {
+      guard let trip = self.mapView.tripPlan.selectedTrip, trip.elevation != nil,
+        trip.legs.count == 1
+      else {
+        return nil
+      }
+      return trip.legs[0]
+    }
+    var elevationScrubber: ElevationScrubberAnnotation?
+
+    @MainActor
+    func updateElevationScrubber(mapView: MLNMapView, keepInView: Bool) {
+      guard let leg = scrubbedLeg, let fraction = self.mapView.tripPlan.scrubFraction else {
+        if let elevationScrubber {
+          mapView.removeAnnotation(elevationScrubber)
+          self.elevationScrubber = nil
+        }
+        return
+      }
+      let coordinate = leg.pointAlong(fraction: fraction)
+      let previous = elevationScrubber?.coordinate
+      if let elevationScrubber {
+        guard elevationScrubber.coordinate != coordinate else {
+          return
+        }
+        elevationScrubber.coordinate = coordinate
+      } else {
+        let elevationScrubber = ElevationScrubberAnnotation()
+        elevationScrubber.coordinate = coordinate
+        mapView.addAnnotation(elevationScrubber)
+        self.elevationScrubber = elevationScrubber
+      }
+      // Dragged on the map, the dot is already under the rider's finger.
+      if keepInView && !isDraggingElevationScrubber {
+        slideMap(mapView: mapView, under: coordinate, from: previous)
+      }
+      isDraggingElevationScrubber = false
+    }
+
+    var isDraggingElevationScrubber = false
+
+    /// Moves the map, without zooming, so that `coordinate` lands where the scrubber's dot was at
+    /// `previous`: the dot holds still while the map slides under it. A dot out of view is first
+    /// brought just into it.
+    @MainActor
+    func slideMap(
+      mapView: MLNMapView, under coordinate: CLLocationCoordinate2D,
+      from previous: CLLocationCoordinate2D?
+    ) {
+      // The content inset already leaves out the controls up top and the sheet below.
+      let margin: CGFloat = 24
+      let visible = mapView.bounds.inset(by: mapView.contentInset).insetBy(dx: margin, dy: margin)
+      let dot = mapView.convert(previous ?? coordinate, toPointTo: mapView)
+      let anchor = CGPoint(
+        x: min(max(dot.x, visible.minX), visible.maxX),
+        y: min(max(dot.y, visible.minY), visible.maxY))
+      let point = mapView.convert(coordinate, toPointTo: mapView)
+      // The map centers within its content inset, not its bounds, so shift from where its center
+      // actually is.
+      let center = mapView.convert(mapView.centerCoordinate, toPointTo: mapView)
+      let newCenter = CGPoint(x: center.x + point.x - anchor.x, y: center.y + point.y - anchor.y)
+      mapView.setCenter(mapView.convert(newCenter, toCoordinateFrom: mapView), animated: false)
+    }
+
+    /// Slides the scrubber along the route to its nearest point to `coordinate`.
+    @MainActor
+    func dragElevationScrubber(to coordinate: CLLocationCoordinate2D) {
+      guard let leg = scrubbedLeg else {
+        return
+      }
+      isDraggingElevationScrubber = true
+      self.mapView.tripPlan.scrubFraction = leg.fractionNearest(coordinate)
+    }
+
+    var focusedClimb: SteepSection?
+    var focusedStep: TripPlan.FocusedStep?
+
+    /// Zooms to where `step` happens. Says whether it zoomed.
+    @MainActor
+    func focus(step: TripPlan.FocusedStep?, mapView: MLNMapView) -> Bool {
+      guard step != focusedStep else {
+        return false
+      }
+      focusedStep = step
+      guard let step else {
+        return false
+      }
+      zoom(mapView: mapView, center: step.location, bufferMeters: 100, animated: true)
+      return true
+    }
+
+    /// Zooms to `climb`, highlighting its marker over the others. Says whether it zoomed.
+    @MainActor
+    @discardableResult
+    func focus(climb: SteepSection?, mapView: MLNMapView) -> Bool {
+      guard climb != focusedClimb else {
+        return false
+      }
+      focusedClimb = climb
+      for case let annotation as SteepClimbAnnotation in mapView.annotations ?? [] {
+        (mapView.view(for: annotation) as? SteepClimbMarkerView)?.isEmphasized =
+          annotation.climb == climb
+      }
+      guard let climb else {
+        return false
+      }
+      let box = BoundingBox(from: climb.geometry.coordinates)!
+      let bounds = MLNCoordinateBounds(sw: box.southWest, ne: box.northEast)
+      zoom(mapView: mapView, bounds: bounds, bufferMeters: 50, animated: true)
+      return true
     }
 
     @MainActor
@@ -705,7 +827,7 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
 
   @MainActor
   func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
-    annotation is TransitVehicleAnnotation
+    annotation is TransitVehicleAnnotation || annotation is SteepClimbAnnotation
   }
 
   @MainActor
@@ -725,6 +847,18 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
     if let vehicleAnnotation = annotation as? TransitVehicleAnnotation {
       return TransitVehicleMarkerView(
         vehicle: vehicleAnnotation.vehicle, isFaded: vehicleAnnotation.isFaded)
+    }
+    if let climbAnnotation = annotation as? SteepClimbAnnotation {
+      let view = SteepClimbMarkerView(climb: climbAnnotation.climb)
+      view.isEmphasized = climbAnnotation.climb == focusedClimb
+      return view
+    }
+    if annotation is ElevationScrubberAnnotation {
+      let view = ElevationScrubberView()
+      view.onDrag = { [weak self] coordinate in
+        self?.dragElevationScrubber(to: coordinate)
+      }
+      return view
     }
 
     guard let pointAnnotation = annotation as? MLNPointAnnotation,

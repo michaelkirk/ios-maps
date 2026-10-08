@@ -8,6 +8,7 @@
 import CoreLocation
 import Foundation
 import SwiftUI
+import Turf
 
 struct TripPlace: Hashable, Equatable {
   var location: LngLat
@@ -15,9 +16,9 @@ struct TripPlace: Hashable, Equatable {
 }
 
 struct TripLeg {
-  var geometry: [CLLocationCoordinate2D]
+  var geometry: LineString
   /// The whole route this leg rides part of, for transit legs the server has a shape for.
-  var patternGeometry: [CLLocationCoordinate2D]?
+  var patternGeometry: LineString?
   /// Every ordinary stop on the portion of the route the rider travels, in order.
   var riddenStops: [CLLocationCoordinate2D]?
   /// The stops beyond the part the rider is aboard for.
@@ -30,6 +31,8 @@ struct TripLeg {
   var endTime: Date
   var mode: TravelMode
   var modeLeg: ModeLeg
+  /// The mode of the whole trip this leg is part of.
+  var tripMode: TravelMode
 
   var duration: Duration {
     Duration.seconds(endTime.timeIntervalSince(startTime))
@@ -40,6 +43,60 @@ struct TripLeg {
       return nil
     }
     return transitLeg
+  }
+
+  var elevation: LegElevation? {
+    guard case .nonTransit(let nonTransitLeg) = self.modeLeg else {
+      return nil
+    }
+    return nonTransitLeg.elevation
+  }
+
+  /// Walking and cycling are drawn in the color of their grade.
+  var isGraded: Bool {
+    mode == .walk || mode == .bike
+  }
+
+  /// Walking or cycling to and from transit is dotted, so it doesn't read as the ride itself.
+  var isDotted: Bool {
+    isGraded && tripMode == .transit
+  }
+
+  /// The point `fraction` of the way along the leg, by distance.
+  func pointAlong(fraction: Double) -> CLLocationCoordinate2D {
+    geometry.coordinateFromStart(distance: fraction * geometry.distance()!)!
+  }
+
+  /// How far along the leg, as a fraction, its nearest point to `target` is.
+  func fractionNearest(_ target: CLLocationCoordinate2D) -> Double {
+    let nearest = geometry.closestCoordinate(to: target)!.coordinate
+    // Not the closest coordinate's own `distance`, which is as the crow flies from the start.
+    return geometry.distance(to: nearest)! / geometry.distance()!
+  }
+
+  /// The selected line, leaving room for the steep stretches when dotted, since dots drawn over
+  /// dots don't line up.
+  var selectedGeometry: MultiLineString {
+    guard isDotted, let elevation else {
+      return MultiLineString([geometry.coordinates])
+    }
+    var pieces: [LineString?] = []
+    var from = 0.0
+    for section in elevation.steepSections.sorted(by: { $0.startMeters < $1.startMeters }) {
+      pieces.append(geometry.trimmed(from: from, to: section.startMeters))
+      from = section.endMeters
+    }
+    pieces.append(geometry.trimmed(from: from, to: .infinity))
+    return MultiLineString(pieces.compactMap { $0?.coordinates }.filter { $0.count >= 2 })
+  }
+
+  /// Steep stretches of a walking or cycling leg, grouped by how they're drawn.
+  var steepSectionsByShade: [(shade: GradeShade, lines: MultiLineString)] {
+    let sections = elevation?.steepSections ?? []
+    return GradeShade.allCases.compactMap { shade in
+      let lines = sections.filter { $0.shade == shade }.map { $0.geometry.coordinates }
+      return lines.isEmpty ? nil : (shade, MultiLineString(lines))
+    }
   }
 
   var activeLineColor: Color {
@@ -54,19 +111,43 @@ struct TripLeg {
   }
 }
 
-struct FormattedElevationProfile {
-  let raw: ElevationProfile
-  let formatLocale: Locale
+/// Elevations sampled along a path, for legs travelmux didn't plan with OTP.
+struct ElevationProfile: Codable {
+  let totalClimbMeters: Float64
+  let totalFallMeters: Float64
+  let elevation: [Float64]
 
-  var formattedTotalClimb: String {
-    format(meters: raw.totalClimbMeters)
+  /// Only the shape matters to the chart, not the true distance between samples, and there are no
+  /// steep sections to mark.
+  var legElevation: LegElevation {
+    LegElevation(
+      profile: elevation.enumerated().map {
+        LegElevation.ProfilePoint(distance: Double($0.offset), elevation: $0.element)
+      },
+      totalClimbMeters: totalClimbMeters,
+      totalFallMeters: totalFallMeters,
+      steepSections: [])
+  }
+}
+
+struct Trip: Identifiable {
+  let raw: Itinerary
+  /// For a walking or cycling trip: from the plan, or looked up for one OTP didn't plan.
+  private(set) var elevation: LegElevation?
+  mutating func setElevationProfile(_ profile: ElevationProfile) {
+    self.elevation = Self.drawable(profile.legElevation)
   }
 
-  var formattedTotalFall: String {
-    format(meters: raw.totalFallMeters)
+  /// Only a profile the chart can draw, from a start to an end.
+  private static func drawable(_ elevation: LegElevation?) -> LegElevation? {
+    guard let elevation, elevation.profile.count >= 2 else {
+      return nil
+    }
+    return elevation
   }
 
-  func format(meters: Double) -> String {
+  /// e.g. "120 ft": short spans, like a climb or the total climbed
+  func formatFeetOrMeters(meters: Double) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = self.formatLocale
     formatter.unitStyle = .medium
@@ -77,20 +158,6 @@ struct FormattedElevationProfile {
       self.formatLocale.measurementSystem == .metric ? UnitLength.meters : UnitLength.feet
     let measurement = Measurement(value: meters, unit: .meters).converted(to: outputUnit)
     return formatter.string(from: measurement)
-  }
-}
-
-struct ElevationProfile: Codable {
-  let totalClimbMeters: Float64
-  let totalFallMeters: Float64
-  let elevation: [Float64]
-}
-
-struct Trip: Identifiable {
-  let raw: Itinerary
-  private(set) var elevationProfile: FormattedElevationProfile?
-  mutating func setElevationProfile(_ profile: ElevationProfile) {
-    self.elevationProfile = FormattedElevationProfile(raw: profile, formatLocale: self.formatLocale)
   }
 
   let id: UUID
@@ -190,9 +257,9 @@ struct Trip: Identifiable {
     self.raw = itinerary
     self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(
-        geometry: decodePolyline(itineraryLeg.geometry, precision: 6),
+        geometry: LineString(decodePolyline(itineraryLeg.geometry, precision: 6)),
         patternGeometry: itineraryLeg.transitLeg?.patternGeometry.map {
-          decodePolyline($0, precision: 6)
+          LineString(decodePolyline($0, precision: 6))
         },
         riddenStops: itineraryLeg.transitLeg?.riddenStops.map {
           decodePolyline($0, precision: 6)
@@ -208,11 +275,15 @@ struct Trip: Identifiable {
         startTime: itineraryLeg.startTime,
         endTime: itineraryLeg.endTime,
         mode: itineraryLeg.mode,
-        modeLeg: itineraryLeg.modeLeg
+        modeLeg: itineraryLeg.modeLeg,
+        tripMode: itinerary.mode
       )
     }
     self.from = from
     self.to = to
+    if self.legs.count == 1, case .nonTransit(let nonTransitLeg) = self.legs[0].modeLeg {
+      self.elevation = Self.drawable(nonTransitLeg.elevation)
+    }
   }
 }
 
