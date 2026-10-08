@@ -29,7 +29,7 @@ final class MapContentsTest: XCTestCase {
       let diff = oldContents.diff(newContents: newContents)
       XCTAssertEqual(diff.adds.count, 1)
       XCTAssertEqual(diff.removes.count, 0)
-      XCTAssertEqual(diff.adds[0] as! PlaceMarker, dubsea)
+      XCTAssertEqual(diff.adds[0], .marker(dubsea))
       XCTAssert(diff.removes.isEmpty)
     }
     do {
@@ -38,7 +38,7 @@ final class MapContentsTest: XCTestCase {
       let diff = oldContents.diff(newContents: newContents)
       XCTAssertEqual(diff.adds.count, 1)
       XCTAssertEqual(diff.removes.count, 0)
-      XCTAssertEqual(diff.adds[0] as! PlaceMarker, zeitgeist)
+      XCTAssertEqual(diff.adds[0], .marker(zeitgeist))
       XCTAssert(diff.removes.isEmpty)
     }
   }
@@ -50,7 +50,7 @@ final class MapContentsTest: XCTestCase {
       let diff = oldContents.diff(newContents: newContents)
       XCTAssertEqual(diff.adds.count, 0)
       XCTAssertEqual(diff.removes.count, 1)
-      XCTAssertEqual(diff.removes[0] as! PlaceMarker, zeitgeist)
+      XCTAssertEqual(diff.removes[0], .marker(zeitgeist))
     }
     do {
       let oldContents = MapContents.pins(selected: nil, unselected: [dubsea, zeitgeist])
@@ -58,8 +58,8 @@ final class MapContentsTest: XCTestCase {
       let diff = oldContents.diff(newContents: newContents)
       XCTAssertEqual(diff.adds.count, 0)
       XCTAssertEqual(diff.removes.count, 2)
-      XCTAssertEqual(diff.removes[0] as! PlaceMarker, dubsea)
-      XCTAssertEqual(diff.removes[1] as! PlaceMarker, zeitgeist)
+      XCTAssertEqual(diff.removes[0], .marker(dubsea))
+      XCTAssertEqual(diff.removes[1], .marker(zeitgeist))
     }
   }
 
