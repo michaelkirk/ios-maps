@@ -15,13 +15,13 @@ struct TripDiagram {
 
   enum Node {
     case origin(from: Place, departureTime: Date)
-    case stop(place: TripPlace, departureTime: Date)
+    case stop(departingLeg: TripLeg)
     case destination(to: Place, arrivalTime: Date)
 
     var lngLat: LngLat {
       switch self {
       case .origin(from: let place, departureTime: _): place.location
-      case .stop(let place, departureTime: _): place.location
+      case .stop(let leg): leg.fromPlace.location
       case .destination(to: let place, arrivalTime: _): place.location
       }
     }
@@ -39,7 +39,7 @@ struct TripDiagram {
     var first = true
     for leg in trip.legs {
       if !first {
-        elements.append(.node(.stop(place: leg.fromPlace, departureTime: leg.startTime)))
+        elements.append(.node(.stop(departingLeg: leg)))
       }
       first = false
       elements.append(.edge(leg))
@@ -89,17 +89,17 @@ struct MultiModalTripDetails: View {
                   Spacer()
                 }
                 .padding(.vertical, 4)
-              case .node(.stop(place: let place, departureTime: let departureTime)):
-                Text(departureTime.formatted(date: .omitted, time: .shortened))
+              case .node(.stop(let leg)):
+                Text(leg.startTime.formatted(date: .omitted, time: .shortened))
                   .padding(.vertical, 4)
                 VStack {
                   NodeGlyph(systemName: "circle").foregroundColor(.secondary)
                   Spacer().frame(minWidth: 4, maxWidth: 4, maxHeight: .infinity)
-                    .background(.red)
+                    .background(leg.activeLineColor)
                     .frame(width: timelineWidth)
                 }
                 HStack {
-                  Text(place.name ?? "")
+                  Text(leg.fromPlace.name ?? "")
                   Spacer()
                 }.padding(.top, 4)
               case .node(.destination(to: let place, arrivalTime: let arrivalTime)):
@@ -121,7 +121,7 @@ struct MultiModalTripDetails: View {
                 }
                 Spacer().frame(minWidth: 4, maxWidth: 4, maxHeight: .infinity)
                   .padding(.vertical, 30)
-                  .background(.red)
+                  .background(leg.activeLineColor)
                   .frame(width: timelineWidth)
                 HStack {
                   Text(formatDuration(from: leg.startTime, to: leg.endTime)).padding(.top, 4)
