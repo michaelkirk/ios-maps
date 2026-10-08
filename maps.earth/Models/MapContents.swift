@@ -16,83 +16,51 @@ enum MapContents {
   case empty
 
   struct Diff {
-    let adds: [any MapContent]
-    let removes: [any MapContent]
+    let adds: [MapRenderable]
+    let removes: [MapRenderable]
+  }
+
+  private var renderables: [MapRenderable] {
+    switch self {
+    case .trips(let selected, let unselected):
+      // The selected route must be last so it is drawn on top of alternates.
+      return unselected.map(MapRenderable.trip) + [.trip(selected)]
+    case .pins(let selected?, _):
+      return [.marker(selected)]
+    case .pins(selected: nil, let unselected):
+      return unselected.map(MapRenderable.marker)
+    case .empty:
+      return []
+    }
   }
 
   func diff(newContents: MapContents) -> Diff {
-    var adds: [any MapContent]
-    var removes: [any MapContent]
+    let oldRenderables = renderables
+    let newRenderables = newContents.renderables
+    let oldSet = Set(oldRenderables)
+    let newSet = Set(newRenderables)
+    return Diff(
+      adds: newRenderables.filter { !oldSet.contains($0) },
+      removes: oldRenderables.filter { !newSet.contains($0) })
+  }
+}
 
+enum MapRenderable: Hashable {
+  case trip(MapTrip)
+  case marker(PlaceMarker)
+
+  func add(to mapView: MLNMapView) {
     switch self {
-    case .trips(let oldSelected, let oldUnselected):
-      switch newContents {
-      case .trips(let newSelected, let newUnselected):
-        adds = Array(Set(newUnselected).subtracting(oldUnselected))
-        removes = Array(Set(oldUnselected).subtracting(newUnselected))
-        // `newSelected` needs to be last to be on top
-        if oldSelected != newSelected {
-          adds.append(newSelected)
-          removes.append(oldSelected)
-        }
-      case .pins(let newSelected, let newUnselected):
-        let newPins: [PlaceMarker]
-        if let newSelected = newSelected {
-          newPins = [newSelected]
-        } else {
-          newPins = newUnselected
-        }
-        adds = newPins
-        removes = [oldSelected] + oldUnselected
-      case .empty:
-        adds = []
-        removes = [oldSelected] + oldUnselected
-      }
-    case .pins(let oldSelected, let oldUnselected):
-      let oldPins: [PlaceMarker]
-      if let oldSelected = oldSelected {
-        oldPins = [oldSelected]
-      } else {
-        oldPins = oldUnselected
-      }
-      switch newContents {
-      case .trips(let newSelected, let newUnselected):
-        removes = oldPins
-        // `selected` needs to be last to be on top
-        adds = newUnselected + [newSelected]
-      case .pins(let newSelected, let newUnselected):
-        let newPins: [PlaceMarker]
-        if let newSelected = newSelected {
-          newPins = [newSelected]
-        } else {
-          newPins = newUnselected
-        }
-        adds = Array(Set(newPins).subtracting(oldPins))
-        removes = Array(Set(oldPins).subtracting(newPins))
-      case .empty:
-        removes = oldUnselected
-        if let oldSelected = oldSelected {
-          removes.append(oldSelected)
-        }
-        adds = []
-      }
-    case .empty:
-      removes = []
-      switch newContents {
-      case .trips(let newSelected, let newUnselected):
-        // `selected` needs to be last to be on top
-        adds = newUnselected + [newSelected]
-      case .pins(let newSelected, let newUnselected):
-        if let newSelected = newSelected {
-          adds = [newSelected]
-        } else {
-          adds = newUnselected
-        }
-      case .empty:
-        adds = []
-      }
+    case .trip(let trip): trip.add(to: mapView)
+    case .marker(let marker): marker.add(to: mapView)
     }
-    return Diff(adds: adds, removes: removes)
+  }
+
+  func remove(from mapView: MLNMapView) {
+    switch self {
+    case .trip(let trip): trip.remove(from: mapView)
+    case .marker(let marker): marker.remove(from: mapView)
+    }
   }
 }
 
