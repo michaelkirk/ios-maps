@@ -375,8 +375,9 @@ extension MapViewWrapper: UIViewRepresentable {
       mapContents = .empty
     }
     context.coordinator.reconcile(newContents: mapContents, mapView: mapView)
-    context.coordinator.updateElevationScrubber(mapView: mapView)
-    context.coordinator.focus(climb: self.tripPlan.focusedClimb, mapView: mapView)
+    // A picked climb zooms to fit; otherwise the scrubber only pans the map to stay in view.
+    let didFocus = context.coordinator.focus(climb: self.tripPlan.focusedClimb, mapView: mapView)
+    context.coordinator.updateElevationScrubber(mapView: mapView, keepInView: !didFocus)
 
     switch userLocationManager.state {
     case .initial:
@@ -478,7 +479,7 @@ extension MapViewWrapper: UIViewRepresentable {
     var elevationScrubber: ElevationScrubberAnnotation?
 
     @MainActor
-    func updateElevationScrubber(mapView: MLNMapView) {
+    func updateElevationScrubber(mapView: MLNMapView, keepInView: Bool) {
       guard let leg = scrubbedLeg, let fraction = self.mapView.tripPlan.scrubFraction else {
         if let elevationScrubber {
           mapView.removeAnnotation(elevationScrubber)
@@ -488,6 +489,9 @@ extension MapViewWrapper: UIViewRepresentable {
       }
       let coordinate = leg.pointAlong(fraction: fraction)
       if let elevationScrubber {
+        guard elevationScrubber.coordinate != coordinate else {
+          return
+        }
         elevationScrubber.coordinate = coordinate
       } else {
         let elevationScrubber = ElevationScrubberAnnotation()
@@ -495,6 +499,34 @@ extension MapViewWrapper: UIViewRepresentable {
         mapView.addAnnotation(elevationScrubber)
         self.elevationScrubber = elevationScrubber
       }
+      if keepInView {
+        pan(mapView: mapView, toKeepInView: coordinate)
+      }
+    }
+
+    /// Pans, without zooming, just enough to bring `coordinate` back into the part of the map the
+    /// sheet doesn't cover, when it's strayed out of it.
+    @MainActor
+    func pan(mapView: MLNMapView, toKeepInView coordinate: CLLocationCoordinate2D) {
+      // Below the notch and status bar, and above the steps sheet, which opens at its medium
+      // detent, covering about the bottom half of the map.
+      let size = mapView.bounds.size
+      let safeArea = mapView.safeAreaInsets
+      let margin: CGFloat = 40
+      let visible = CGRect(
+        x: safeArea.left, y: safeArea.top,
+        width: size.width - safeArea.left - safeArea.right,
+        height: size.height / 2 - safeArea.top
+      ).insetBy(dx: margin, dy: margin)
+      let point = mapView.convert(coordinate, toPointTo: mapView)
+      guard !visible.contains(point) else {
+        return
+      }
+      let newCenter = CGPoint(
+        x: size.width / 2 + point.x - visible.midX,
+        y: size.height / 2 + point.y - visible.midY)
+      mapView.setCenter(
+        mapView.convert(newCenter, toCoordinateFrom: mapView), animated: true)
     }
 
     /// Slides the scrubber along the route to its nearest point to `coordinate`.
@@ -508,11 +540,12 @@ extension MapViewWrapper: UIViewRepresentable {
 
     var focusedClimb: SteepSection?
 
-    /// Zooms to `climb`, highlighting its marker over the others.
+    /// Zooms to `climb`, highlighting its marker over the others. Says whether it zoomed.
     @MainActor
-    func focus(climb: SteepSection?, mapView: MLNMapView) {
+    @discardableResult
+    func focus(climb: SteepSection?, mapView: MLNMapView) -> Bool {
       guard climb != focusedClimb else {
-        return
+        return false
       }
       focusedClimb = climb
       for case let annotation as SteepClimbAnnotation in mapView.annotations ?? [] {
@@ -520,7 +553,7 @@ extension MapViewWrapper: UIViewRepresentable {
           annotation.climb == climb
       }
       guard let climb else {
-        return
+        return false
       }
       let coordinates = climb.coordinates
       let bounds = MLNCoordinateBounds(
@@ -531,6 +564,7 @@ extension MapViewWrapper: UIViewRepresentable {
           latitude: coordinates.map(\.latitude).max()!,
           longitude: coordinates.map(\.longitude).max()!))
       zoom(mapView: mapView, bounds: bounds, bufferMeters: 50, animated: true)
+      return true
     }
 
     @MainActor

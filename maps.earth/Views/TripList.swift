@@ -18,9 +18,13 @@ struct TripList: View {
         tripIdx, trip in
         VStack(alignment: .leading) {
           Button(action: {
-            if tripPlan.selectedTrip == trip {
+            if tripPlan.mode != .transit {
+              // The trip's chart is only a glance; its steps are where it can be explored.
+              tripPlan.selectedTrip = trip
+              tripPlan.isShowingSteps = true
+            } else if tripPlan.selectedTrip == trip {
               // single-mode steps from OTP aren't supported yet
-              if trip.legs.count > 1 || tripPlan.mode != .transit {
+              if trip.legs.count > 1 {
                 tripPlan.isShowingSteps = true
               }
             } else {
@@ -37,20 +41,7 @@ struct TripList: View {
                     tripPlan.isShowingSteps = true
                   }
                 } else {
-                  NonTransitPlanItem(trip: trip, tripPlan: tripPlan) {
-                    tripPlan.selectedTrip = trip
-                    Task {
-                      do {
-                        self.tripPlan.selectedRoute = .success(
-                          try await DirectionsService().route(
-                            from: trip.from, to: trip.to, mode: tripPlan.mode,
-                            transitWithBike: tripPlan.bringsBike, tripIdx: tripIdx))
-                      } catch {
-                        self.tripPlan.selectedRoute = .failure(error)
-                        print("error when getting directions: \(error)")
-                      }
-                    }
-                  }
+                  NonTransitPlanItem(trip: trip) { navigate(trip: trip, tripIdx: tripIdx) }
                 }
               }
             }
@@ -71,10 +62,34 @@ struct TripList: View {
         ManeuverListSheetContents(
           trip: trip, tripPlan: tripPlan, maneuvers: nonTransitLeg.maneuvers,
           currentDetent: $stepsDetent,
+          // Like the trip list, a transit search has no GO, even for a trip that's all walking.
+          onGo: tripPlan.mode == .transit
+            ? nil
+            : {
+              // Navigation covers the whole screen, which it can't do over the steps sheet.
+              tripPlan.isShowingSteps = false
+              navigate(trip: trip, tripIdx: trips.firstIndex(of: trip)!)
+            },
           onClose: { tripPlan.isShowingSteps = false })
       } else {
         MultiModalTripDetailsSheetContents(
           trip: trip, currentDetent: $stepsDetent, onClose: { tripPlan.isShowingSteps = false })
+      }
+    }
+  }
+
+  /// Starts turn-by-turn navigation along `trip`.
+  private func navigate(trip: Trip, tripIdx: Int) {
+    tripPlan.selectedTrip = trip
+    Task {
+      do {
+        self.tripPlan.selectedRoute = .success(
+          try await DirectionsService().route(
+            from: trip.from, to: trip.to, mode: tripPlan.mode,
+            transitWithBike: tripPlan.bringsBike, tripIdx: tripIdx))
+      } catch {
+        self.tripPlan.selectedRoute = .failure(error)
+        print("error when getting directions: \(error)")
       }
     }
   }

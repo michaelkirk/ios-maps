@@ -121,6 +121,7 @@ struct ManeuverList: View {
   var trip: Trip
   @ObservedObject var tripPlan: TripPlan
   var maneuvers: [Maneuver]
+  var onGo: (() -> Void)?
   @State private var isShowingClimbs = false
 
   var body: some View {
@@ -129,7 +130,13 @@ struct ManeuverList: View {
     }
 
     VStack(alignment: .leading) {
-      Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").scenePadding(.leading).bold()
+      HStack {
+        Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").bold()
+        Spacer()
+        if let onGo {
+          GoButton(action: onGo)
+        }
+      }.scenePadding(.leading)
       List {
         if let elevation = trip.elevation {
           ElevationChart(
@@ -211,11 +218,12 @@ struct ManeuverListSheetContents: View {
   @ObservedObject var tripPlan: TripPlan
   var maneuvers: [Maneuver]
   @Binding var currentDetent: PresentationDetent
+  var onGo: (() -> Void)?
   var onClose: () -> Void
 
   var body: some View {
     SheetContents(title: "Steps", onClose: onClose, currentDetent: $currentDetent) {
-      ManeuverList(trip: trip, tripPlan: tripPlan, maneuvers: maneuvers)
+      ManeuverList(trip: trip, tripPlan: tripPlan, maneuvers: maneuvers, onGo: onGo)
     }
   }
 }
@@ -229,7 +237,7 @@ struct ManeuverListSheetContents: View {
   return Text("").sheet(isPresented: .constant(true)) {
     ManeuverListSheetContents(
       trip: trip, tripPlan: FixtureData.walkTripPlan, maneuvers: nonTransitLeg.maneuvers,
-      currentDetent: .constant(initialDetentHeight), onClose: {})
+      currentDetent: .constant(initialDetentHeight), onGo: {}, onClose: {})
   }
 }
 
@@ -244,7 +252,7 @@ struct ManeuverListSheetContents: View {
   return Text("").sheet(isPresented: .constant(true)) {
     ManeuverListSheetContents(
       trip: trip, tripPlan: FixtureData.walkTripPlan, maneuvers: maneuvers,
-      currentDetent: .constant(initialDetentHeight), onClose: {})
+      currentDetent: .constant(initialDetentHeight), onGo: {}, onClose: {})
   }
 }
 
@@ -258,6 +266,6 @@ struct ManeuverListSheetContents: View {
   return Text("").sheet(isPresented: .constant(true)) {
     ManeuverListSheetContents(
       trip: trip, tripPlan: tripPlan, maneuvers: nonTransitLeg.maneuvers,
-      currentDetent: .constant(initialDetentHeight), onClose: {})
+      currentDetent: .constant(initialDetentHeight), onGo: {}, onClose: {})
   }
 }

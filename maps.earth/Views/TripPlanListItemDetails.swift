@@ -9,11 +9,14 @@ import SwiftUI
 
 struct NonTransitPlanItem: View {
   var trip: Trip
-  @ObservedObject var tripPlan: TripPlan
-  var onShowSteps: (() -> Void)
+  var onGo: (() -> Void)
 
-  private var isSelected: Bool {
-    tripPlan.selectedTrip == trip
+  /// e.g. "1.6 miles, 163 ft climb". Descent waits for the steps.
+  private var distanceAndClimb: String {
+    guard let climbMeters = trip.elevation?.totalClimbMeters, climbMeters > 0 else {
+      return trip.distanceFormatted
+    }
+    return "\(trip.distanceFormatted), \(trip.formatFeetOrMeters(meters: climbMeters)) climb"
   }
 
   var body: some View {
@@ -22,22 +25,16 @@ struct NonTransitPlanItem: View {
         Text(substantialRoadNames)
       }
       Text(trip.durationFormatted).font(.headline).dynamicTypeSize(.xxxLarge)
-      Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
+      Text(distanceAndClimb).font(.subheadline).foregroundColor(.secondary)
       if let elevation = trip.elevation {
-        VStack(alignment: .leading, spacing: 2) {
-          // Only the selected trip's chart responds, so tapping another's selects it.
-          ElevationChart(
-            elevation: elevation,
-            scrubFraction: isSelected ? $tripPlan.scrubFraction : .constant(nil),
-            isInteractive: isSelected,
-            onSelectClimb: { tripPlan.select(climb: $0, of: elevation) }
-          ).frame(height: 60)
-          ElevationTotals(trip: trip, elevation: elevation)
-        }.padding(.vertical, 4)
+        // Only a glance here: tapping the trip opens its steps, where the chart can be scrubbed.
+        ElevationChart(
+          elevation: elevation, scrubFraction: .constant(nil), isInteractive: false
+        ).frame(height: 40).padding(.vertical, 4)
       }
     }
     Spacer()
-    TripButton("GO", action: onShowSteps)
+    GoButton(action: onGo)
   }
 }
 
@@ -68,6 +65,22 @@ struct TransitPlanItem: View {
         Text(trip.distanceFormatted).font(.subheadline).foregroundColor(.secondary)
       }
     }.padding(.bottom, 8).padding(.trailing, 8)
+  }
+}
+
+/// Starts navigation. Square, for a bigger target than a button sized to its title.
+struct GoButton: View {
+  var action: (() -> Void)
+
+  var body: some View {
+    Button(action: action) {
+      Text("GO").frame(width: 56, height: 56)
+    }
+    .font(.system(size: 20, weight: .bold))
+    .foregroundColor(.white)
+    .background(.green)
+    .cornerRadius(8)
+    .scenePadding(.trailing)
   }
 }
 
@@ -162,16 +175,12 @@ func formattedDepatureName(tripPlace: TripPlace, boldFont: Font) -> AttributedSt
 
 #Preview("walking") {
   let tripPlan = FixtureData.walkTripPlan
-  return NonTransitPlanItem(trip: tripPlan.selectedTrip!, tripPlan: tripPlan) {
-    let _ = print("tapped")
-  }
+  return NonTransitPlanItem(trip: tripPlan.selectedTrip!, onGo: {})
 }
 
 #Preview("biking, with grades") {
   let tripPlan = FixtureData.bikeGradeTripPlan
-  return NonTransitPlanItem(trip: tripPlan.selectedTrip!, tripPlan: tripPlan) {
-    let _ = print("tapped")
-  }
+  return NonTransitPlanItem(trip: tripPlan.selectedTrip!, onGo: {})
 }
 
 #Preview("transit") {
