@@ -1,0 +1,3 @@
+Explore the world and get low stress directions powered by OpenStreetMap.
+
+maps.earth is built on open source. We never show you ads or sell your data. We just want a nice map.

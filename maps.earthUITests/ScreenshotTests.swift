@@ -35,11 +35,11 @@ final class ScreenshotTests: XCTestCase {
       userLocation.doubleTap()
       sleep(1)
     }
-    try snapshot("05-home")
+    try snapshot("01-home")
 
     XCUIDevice.shared.system.open(URL(string: "mapsearth:///place/\(Self.spaceNeedle)")!)
     XCTAssert(app.buttons["Directions"].waitForExistence(timeout: 30))
-    try snapshot("04-place-details")
+    try snapshot("02-place-details")
 
     XCUIDevice.shared.system.open(
       URL(string: "mapsearth:///directions/transit/\(Self.spaceNeedle)/\(Self.suzzalloLibrary)")!)
@@ -65,11 +65,11 @@ final class ScreenshotTests: XCTestCase {
       thenHoldForDuration: 0.5)
     sleep(1)
     train.tap()
-    try snapshot("01-transit-bike-directions")
+    try snapshot("03-transit-bike-directions")
 
     app.buttons["Steps"].firstMatch.tap()
     XCTAssert(app.staticTexts["Steps"].waitForExistence(timeout: 10))
-    try snapshot("02-transit-bike-steps")
+    try snapshot("04-transit-bike-steps")
 
     XCUIDevice.shared.system.open(
       URL(
@@ -84,7 +84,7 @@ final class ScreenshotTests: XCTestCase {
     wait(for: [covered], timeout: 10)
     // Let the simulated ride get underway, and the 3D buildings load in.
     sleep(15)
-    try snapshot("03-navigation")
+    try snapshot("05-navigation")
   }
 
   func snapshot(_ name: String) throws {
