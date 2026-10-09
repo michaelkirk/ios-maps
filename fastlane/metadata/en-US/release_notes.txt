@@ -1,5 +1,9 @@
-- See live train and bus positions while planning a transit trip, with a countdown to when your ride reaches your stop.
-- Swap your trip's start and destination with one tap.
-- Tap the sheet's handle to expand or shrink it, and the search sheet now expands as soon as you start typing.
-- Trip options load faster.
-- Fixes for transit trips planned for dates around New Year, a crash when switching travel modes with "Bring a bike" checked, and other stability fixes.
+Taking transit? When you're planning a trip, you can now see where your train or bus actually is, live on the map, along with a countdown to when it reaches your stop. No more staring down the street wondering.
+
+You can now swap your trip's start and destination with one tap — handy for getting back home.
+
+Tap the handle on top of the sheet to make it bigger or smaller. And the search sheet now pops open as soon as you start typing, so you can see what you're doing.
+
+Trip options load faster.
+
+Plus some fixes: transit trips planned for dates around New Year's were broken (calendars are hard), switching travel modes with "Bring a bike" checked could crash, and a handful of other stability fixes.
