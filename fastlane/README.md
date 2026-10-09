@@ -79,7 +79,7 @@ Replace this version's App Store screenshots with fastlane/screenshots
 [bundle exec] fastlane ios upload_metadata
 ```
 
-Upload this version's text metadata, like release notes, from fastlane/metadata
+Upload this version's description, promotional text, and release notes from fastlane/metadata
 
 ### ios public_beta
 
