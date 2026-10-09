@@ -115,8 +115,10 @@ extension TravelMode {
 }
 
 class ValhallaRouteOptions: RouteOptions {
+  // A whole URL, not just a path: `Directions` only takes a host, so it would otherwise send
+  // requests over https to the default port, wherever the server actually is.
   override var path: String {
-    AppConfig().valhallaEndpoint.path()
+    AppConfig().valhallaEndpoint.absoluteString
   }
 
   open override var params: [URLQueryItem] {
@@ -183,8 +185,10 @@ class ValhallaRouteOptions: RouteOptions {
 }
 
 class TravelmuxRouteOptions: RouteOptions {
+  // A whole URL, not just a path: `Directions` only takes a host, so it would otherwise send
+  // requests over https to the default port, wherever the server actually is.
   override var path: String {
-    AppConfig().travelmuxEndpoint.appending(path: "directions").path()
+    AppConfig().travelmuxEndpoint.appending(path: "directions").absoluteString
   }
 
   var modes: [TravelMode] = []
