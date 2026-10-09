@@ -297,6 +297,9 @@ struct Maneuver: Decodable {
 
   // "Walk south.
   //  var verbal_succinct_transition_instruction: String
+
+  /// Where the maneuver happens.
+  var startPoint: LonLatPair
 }
 
 struct TripPlanErrorResponse: Decodable, Error {

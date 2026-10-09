@@ -147,21 +147,29 @@ struct ManeuverList: View {
         }
         ForEach(maneuversElements) { el in
           let maneuver = el.maneuver
-          HStack(spacing: 16) {
-            image(maneuverType: maneuver.type).imageScale(.large)
-            VStack(alignment: .leading) {
-              if let instruction = maneuver.instruction {
-                Text(instruction)
-              }
-              if let verbalPostTransitionInstruction = maneuver.verbalPostTransitionInstruction {
-                Text(verbalPostTransitionInstruction).foregroundColor(.secondary)
-              }
-            }
-            Spacer()
-          }
+          Button {
+            tripPlan.focusedStep = TripPlan.FocusedStep(location: maneuver.startPoint.lngLat)
+          } label: {
+            maneuverRow(maneuver)
+          }.buttonStyle(.plain)
         }
       }.hwListStyle()
     }
+  }
+
+  private func maneuverRow(_ maneuver: Maneuver) -> some View {
+    HStack(spacing: 16) {
+      image(maneuverType: maneuver.type).imageScale(.large)
+      VStack(alignment: .leading) {
+        if let instruction = maneuver.instruction {
+          Text(instruction)
+        }
+        if let verbalPostTransitionInstruction = maneuver.verbalPostTransitionInstruction {
+          Text(verbalPostTransitionInstruction).foregroundColor(.secondary)
+        }
+      }
+      Spacer()
+    }.contentShape(Rectangle())
   }
 
   /// The leg's climbs, collapsed under how far it climbs and descends in all.
@@ -222,7 +230,11 @@ struct ManeuverListSheetContents: View {
   var onClose: () -> Void
 
   var body: some View {
-    SheetContents(title: "Steps", onClose: onClose, currentDetent: $currentDetent) {
+    // No taller than medium, so the map stays in view while scrolling through the steps.
+    SheetContents(
+      title: "Steps", onClose: onClose, presentationDetents: [.medium, minDetentHeight],
+      currentDetent: $currentDetent
+    ) {
       ManeuverList(trip: trip, tripPlan: tripPlan, maneuvers: maneuvers, onGo: onGo)
     }
   }
@@ -246,7 +258,8 @@ struct ManeuverListSheetContents: View {
   let maneuvers = ManeuverType.allCases.map { maneuver in
     Maneuver(
       instruction: "maneuver: \(maneuver)", type: maneuver,
-      verbalPostTransitionInstruction: "Go 123 miles.")
+      verbalPostTransitionInstruction: "Go 123 miles.",
+      startPoint: LonLatPair(LngLat(lng: -122.3, lat: 47.6)))
   }
 
   return Text("").sheet(isPresented: .constant(true)) {

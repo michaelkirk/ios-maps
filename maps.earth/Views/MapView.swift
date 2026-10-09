@@ -376,7 +376,10 @@ extension MapViewWrapper: UIViewRepresentable {
     }
     context.coordinator.reconcile(newContents: mapContents, mapView: mapView)
     // A picked climb zooms to fit; otherwise the scrubber only pans the map to stay in view.
-    let didFocus = context.coordinator.focus(climb: self.tripPlan.focusedClimb, mapView: mapView)
+    let didFocusClimb = context.coordinator.focus(
+      climb: self.tripPlan.focusedClimb, mapView: mapView)
+    let didFocusStep = context.coordinator.focus(step: self.tripPlan.focusedStep, mapView: mapView)
+    let didFocus = didFocusClimb || didFocusStep
     context.coordinator.updateElevationScrubber(mapView: mapView, keepInView: !didFocus)
 
     switch userLocationManager.state {
@@ -488,6 +491,7 @@ extension MapViewWrapper: UIViewRepresentable {
         return
       }
       let coordinate = leg.pointAlong(fraction: fraction)
+      let previous = elevationScrubber?.coordinate
       if let elevationScrubber {
         guard elevationScrubber.coordinate != coordinate else {
           return
@@ -499,34 +503,36 @@ extension MapViewWrapper: UIViewRepresentable {
         mapView.addAnnotation(elevationScrubber)
         self.elevationScrubber = elevationScrubber
       }
-      if keepInView {
-        pan(mapView: mapView, toKeepInView: coordinate)
+      // Dragged on the map, the dot is already under the rider's finger.
+      if keepInView && !isDraggingElevationScrubber {
+        slideMap(mapView: mapView, under: coordinate, from: previous)
       }
+      isDraggingElevationScrubber = false
     }
 
-    /// Pans, without zooming, just enough to bring `coordinate` back into the part of the map the
-    /// sheet doesn't cover, when it's strayed out of it.
+    var isDraggingElevationScrubber = false
+
+    /// Moves the map, without zooming, so that `coordinate` lands where the scrubber's dot was at
+    /// `previous`: the dot holds still while the map slides under it. A dot out of view is first
+    /// brought just into it.
     @MainActor
-    func pan(mapView: MLNMapView, toKeepInView coordinate: CLLocationCoordinate2D) {
-      // Below the notch and status bar, and above the steps sheet, which opens at its medium
-      // detent, covering about the bottom half of the map.
-      let size = mapView.bounds.size
-      let safeArea = mapView.safeAreaInsets
-      let margin: CGFloat = 40
-      let visible = CGRect(
-        x: safeArea.left, y: safeArea.top,
-        width: size.width - safeArea.left - safeArea.right,
-        height: size.height / 2 - safeArea.top
-      ).insetBy(dx: margin, dy: margin)
+    func slideMap(
+      mapView: MLNMapView, under coordinate: CLLocationCoordinate2D,
+      from previous: CLLocationCoordinate2D?
+    ) {
+      // The content inset already leaves out the controls up top and the sheet below.
+      let margin: CGFloat = 24
+      let visible = mapView.bounds.inset(by: mapView.contentInset).insetBy(dx: margin, dy: margin)
+      let dot = mapView.convert(previous ?? coordinate, toPointTo: mapView)
+      let anchor = CGPoint(
+        x: min(max(dot.x, visible.minX), visible.maxX),
+        y: min(max(dot.y, visible.minY), visible.maxY))
       let point = mapView.convert(coordinate, toPointTo: mapView)
-      guard !visible.contains(point) else {
-        return
-      }
-      let newCenter = CGPoint(
-        x: size.width / 2 + point.x - visible.midX,
-        y: size.height / 2 + point.y - visible.midY)
-      mapView.setCenter(
-        mapView.convert(newCenter, toCoordinateFrom: mapView), animated: true)
+      // The map centers within its content inset, not its bounds, so shift from where its center
+      // actually is.
+      let center = mapView.convert(mapView.centerCoordinate, toPointTo: mapView)
+      let newCenter = CGPoint(x: center.x + point.x - anchor.x, y: center.y + point.y - anchor.y)
+      mapView.setCenter(mapView.convert(newCenter, toCoordinateFrom: mapView), animated: false)
     }
 
     /// Slides the scrubber along the route to its nearest point to `coordinate`.
@@ -535,10 +541,26 @@ extension MapViewWrapper: UIViewRepresentable {
       guard let leg = scrubbedLeg else {
         return
       }
+      isDraggingElevationScrubber = true
       self.mapView.tripPlan.scrubFraction = leg.fractionNearest(coordinate)
     }
 
     var focusedClimb: SteepSection?
+    var focusedStep: TripPlan.FocusedStep?
+
+    /// Zooms to where `step` happens. Says whether it zoomed.
+    @MainActor
+    func focus(step: TripPlan.FocusedStep?, mapView: MLNMapView) -> Bool {
+      guard step != focusedStep else {
+        return false
+      }
+      focusedStep = step
+      guard let step else {
+        return false
+      }
+      zoom(mapView: mapView, center: step.location, bufferMeters: 100, animated: true)
+      return true
+    }
 
     /// Zooms to `climb`, highlighting its marker over the others. Says whether it zoomed.
     @MainActor

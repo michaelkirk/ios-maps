@@ -34,6 +34,7 @@ class TripPlan: ObservableObject {
       if selectedTrip != oldValue {
         scrubFraction = nil
         focusedClimb = nil
+        focusedStep = nil
       }
     }
   }
@@ -42,6 +43,14 @@ class TripPlan: ObservableObject {
   @Published var scrubFraction: Double?
   /// The climb the rider picked, which the map zooms to and highlights.
   @Published var focusedClimb: SteepSection?
+  /// The step the rider picked, which the map zooms to. New for each pick, so picking the same
+  /// step again zooms back to it.
+  @Published var focusedStep: FocusedStep?
+
+  struct FocusedStep: Equatable {
+    let location: LngLat
+    let id = UUID()
+  }
 
   /// Scrubs to the middle of `climb` and shows it on the map.
   func select(climb: SteepSection, of elevation: LegElevation) {
