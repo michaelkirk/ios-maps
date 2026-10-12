@@ -90,6 +90,7 @@
 		45BB39BD2C0FC005007145CE /* UniversalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BC2C0FC005007145CE /* UniversalLink.swift */; };
 		45BB39BF2C0FC0DC007145CE /* UniversalLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB39BE2C0FC0DC007145CE /* UniversalLinkTest.swift */; };
 		45BFF55E2DD5533800810E0D /* Turf in Frameworks */ = {isa = PBXBuildFile; productRef = 45BFF55D2DD5533800810E0D /* Turf */; };
+		45F0A1C12E9B000100AA0003 /* Polyline in Frameworks */ = {isa = PBXBuildFile; productRef = 45F0A1C12E9B000100AA0002 /* Polyline */; };
 		45BFF5602DD5585E00810E0D /* TripCompleteBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BFF55F2DD5585E00810E0D /* TripCompleteBanner.swift */; };
 		45CA4C6E2B7ECB6400DB08BF /* TripPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6D2B7ECB6400DB08BF /* TripPlanView.swift */; };
 		45CA4C702B7EE69800DB08BF /* PlaceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA4C6F2B7EE69800DB08BF /* PlaceField.swift */; };
@@ -231,6 +232,7 @@
 			files = (
 				455363EE2B687D90006DF291 /* MapLibre in Frameworks */,
 				45BFF55E2DD5533800810E0D /* Turf in Frameworks */,
+				45F0A1C12E9B000100AA0003 /* Polyline in Frameworks */,
 				45520EF52E8F13C20001779A /* Headway in Frameworks */,
 				4587A4632DD54F9700C2822F /* MapboxDirections in Frameworks */,
 				456A19DF2C825AA300E7E7EA /* FerrostarSwiftUI in Frameworks */,
@@ -514,6 +516,7 @@
 				4587A4622DD54F9700C2822F /* MapboxDirections */,
 				45BFF55D2DD5533800810E0D /* Turf */,
 				45520EF42E8F13C20001779A /* Headway */,
+				45F0A1C12E9B000100AA0002 /* Polyline */,
 			);
 			productName = maps.earth;
 			productReference = 4563B9EF2B687AA4005A677A /* maps.earth.app */;
@@ -592,6 +595,7 @@
 				456A19D92C825AA300E7E7EA /* XCRemoteSwiftPackageReference "ferrostar" */,
 				4587A4612DD54F9700C2822F /* XCRemoteSwiftPackageReference "mapbox-directions-swift" */,
 				45BFF55C2DD5533800810E0D /* XCRemoteSwiftPackageReference "turf-swift" */,
+				45F0A1C12E9B000100AA0001 /* XCRemoteSwiftPackageReference "Polyline" */,
 				45520EF32E8F13C20001779A /* XCLocalSwiftPackageReference "headway" */,
 				45B10C052D01A00100AA0005 /* XCLocalSwiftPackageReference "maplibre-gl-native-distribution" */,
 			);
@@ -1105,6 +1109,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		45F0A1C12E9B000100AA0001 /* XCRemoteSwiftPackageReference "Polyline" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/raphaelmor/Polyline";
+			requirement = {
+				kind = exactVersion;
+				version = 5.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1145,6 +1157,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 45BFF55C2DD5533800810E0D /* XCRemoteSwiftPackageReference "turf-swift" */;
 			productName = Turf;
+		};
+		45F0A1C12E9B000100AA0002 /* Polyline */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45F0A1C12E9B000100AA0001 /* XCRemoteSwiftPackageReference "Polyline" */;
+			productName = Polyline;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
