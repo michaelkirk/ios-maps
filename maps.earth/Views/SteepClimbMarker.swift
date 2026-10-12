@@ -7,15 +7,19 @@ import MapLibre
 import SwiftUI
 import UIKit
 
-/// Where one of a trip's steepest climbs begins. Tapping it says how steep the climb is.
+/// Where one of a trip's steepest climbs begins. Tapping it opens the trip's steps, scrubbed to the
+/// climb.
 class SteepClimbAnnotation: MLNPointAnnotation {
   let climb: SteepSection
+  /// The leg the climb is on.
+  let elevation: LegElevation
 
-  init(climb: SteepSection) {
+  init(climb: SteepSection, elevation: LegElevation) {
     self.climb = climb
+    self.elevation = elevation
     super.init()
     self.coordinate = climb.geometry.coordinates[0]
-    // The callout shows this.
+    // VoiceOver reads this.
     self.title = climb.gradeDescription
   }
 
