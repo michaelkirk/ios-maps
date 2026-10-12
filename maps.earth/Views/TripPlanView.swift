@@ -213,19 +213,11 @@ struct TripPlanView: View {
         TransitFilters(tripDate: $tripDate, transitWithBike: $tripPlan.transitWithBike)
       }
 
-      switch tripPlan.trips {
-      case .failure(let error):
-        switch error {
-        case let tripPlanError as TripPlanError:
-          Text(tripPlanError.localizedDescription)
-        case let decodingError as DecodingError:
-          let _ = print("Decoding error while fetching trip plan: \(decodingError)")
-          Text("Unable to get directions - there was a problem with the servers response.")
-        default:
-          Text("Unable to get directions — \(error.localizedDescription)")
-        }
-      case .success(let trips):
-        TripList(tripPlan: tripPlan, trips: .constant(trips))
+      if tripPlan.isLoadingTrips {
+        ProgressView().frame(maxWidth: .infinity).padding(.top, 24)
+        Spacer()
+      } else {
+        tripResults
       }
     }.onAppear {
       // don't blow away mocked values in Preview
@@ -265,6 +257,25 @@ struct TripPlanView: View {
       }
     }
   }
+
+  @ViewBuilder
+  private var tripResults: some View {
+    switch tripPlan.trips {
+    case .failure(let error):
+      switch error {
+      case let tripPlanError as TripPlanError:
+        Text(tripPlanError.localizedDescription)
+      case let decodingError as DecodingError:
+        let _ = print("Decoding error while fetching trip plan: \(decodingError)")
+        Text("Unable to get directions - there was a problem with the servers response.")
+      default:
+        Text("Unable to get directions — \(error.localizedDescription)")
+      }
+    case .success(let trips):
+      TripList(tripPlan: tripPlan, trips: .constant(trips))
+    }
+  }
+
   func queryIfReady() {
     guard let from = tripPlan.navigateFrom else {
       return
@@ -274,7 +285,9 @@ struct TripPlanView: View {
     }
 
     // TODO: track request_id, discard stale results
+    tripPlan.pendingTripQueries += 1
     Task {
+      defer { tripPlan.pendingTripQueries -= 1 }
       do {
         let trips = try await searcher.query(
           from: from, to: to, mode: tripPlan.mode, tripDate: tripDate,
