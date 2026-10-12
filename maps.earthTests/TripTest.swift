@@ -13,7 +13,7 @@ import XCTest
 final class TripTest: XCTestCase {
   func testGeometry() {
     let trip = FixtureData.bikeTrips[0]
-    let geometry = trip.legs[0].geometry
+    let geometry = trip.legs[0].geometry.coordinates
 
     XCTAssertEqual(geometry.count, 291)
 

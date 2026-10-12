@@ -7,6 +7,7 @@
 
 import CoreLocation
 import Foundation
+import Turf
 
 struct FixtureData {
   struct Places {
@@ -46,6 +47,11 @@ struct FixtureData {
     return trips
   }
 
+  /// Capitol Hill by bike, with steep sections from travelmux.
+  static var bikeGradeTrips: [Trip] {
+    loadTrips(filename: "bicycle_grades_plan.json")
+  }
+
   static var driveTrips: [Trip] {
     loadTrips(filename: "car_plan.json")
   }
@@ -69,6 +75,11 @@ struct FixtureData {
   @MainActor
   static var bikeTripPlan: TripPlan = TripPlan(
     from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.bikeTrips))
+
+  @MainActor
+  static var bikeGradeTripPlan: TripPlan = TripPlan(
+    from: Self.places[.realfine], to: Self.places[.zeitgeist], mode: .bike,
+    trips: .success(Self.bikeGradeTrips))
 
   @MainActor
   static var driveTripPlan: TripPlan = TripPlan(
@@ -175,13 +186,13 @@ extension VehiclePositionsResponse {
       return nil
     }
 
-    let boardingIdx = pattern.nearestIndex(to: leg.fromPlace.location.asCoordinate)
+    let boardingMeters = pattern.distance(to: leg.fromPlace.location.asCoordinate)!
     guard
       let previousStop =
         contextStops
-        .map({ (stop: $0, idx: pattern.nearestIndex(to: $0)) })
-        .filter({ $0.idx < boardingIdx })
-        .max(by: { $0.idx < $1.idx })?.stop
+        .map({ (stop: $0, meters: pattern.distance(to: $0)!) })
+        .filter({ $0.meters < boardingMeters })
+        .max(by: { $0.meters < $1.meters })?.stop
     else {
       return nil
     }
@@ -200,17 +211,5 @@ extension VehiclePositionsResponse {
       track: nil,
       boardingStop: .approaching(arrival: arrival, stopArrivals: [arrival]))
     return Self(vehicles: [train], serverTime: now, unknownPatterns: nil)
-  }
-}
-
-extension [CLLocationCoordinate2D] {
-  /// The index of the point closest to `coordinate`.
-  fileprivate func nearestIndex(to coordinate: CLLocationCoordinate2D) -> Int {
-    let target = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-    return indices.min {
-      CLLocation(latitude: self[$0].latitude, longitude: self[$0].longitude).distance(from: target)
-        < CLLocation(latitude: self[$1].latitude, longitude: self[$1].longitude).distance(
-          from: target)
-    } ?? 0
   }
 }

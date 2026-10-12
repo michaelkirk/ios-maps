@@ -10,7 +10,7 @@ import Foundation
 struct AppConfig {
   let onlineServerBase = URL(string: "https://maps.earth")!
   // let onlineServerBase = URL(string: "http://localhost:8080")!
-  // let onlineserverBase = URL(string: "https://dev.maps.earth")!
+  // let onlineServerBase = URL(string: "https://dev.maps.earth")!
   let offlineServerHost = "localhost:8090"
   var offlineServerBase: URL {
     URL(string: "http://\(offlineServerHost)")!

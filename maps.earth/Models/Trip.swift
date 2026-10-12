@@ -7,7 +7,9 @@
 
 import CoreLocation
 import Foundation
+import Polyline
 import SwiftUI
+import Turf
 
 struct TripPlace: Hashable, Equatable {
   var location: LngLat
@@ -15,9 +17,9 @@ struct TripPlace: Hashable, Equatable {
 }
 
 struct TripLeg {
-  var geometry: [CLLocationCoordinate2D]
+  var geometry: LineString
   /// The whole route this leg rides part of, for transit legs the server has a shape for.
-  var patternGeometry: [CLLocationCoordinate2D]?
+  var patternGeometry: LineString?
   /// Every ordinary stop on the portion of the route the rider travels, in order.
   var riddenStops: [CLLocationCoordinate2D]?
   /// The stops beyond the part the rider is aboard for.
@@ -30,6 +32,8 @@ struct TripLeg {
   var endTime: Date
   var mode: TravelMode
   var modeLeg: ModeLeg
+  /// The mode of the whole trip this leg is part of.
+  var tripMode: TravelMode
 
   var duration: Duration {
     Duration.seconds(endTime.timeIntervalSince(startTime))
@@ -40,6 +44,60 @@ struct TripLeg {
       return nil
     }
     return transitLeg
+  }
+
+  var elevation: LegElevation? {
+    guard case .nonTransit(let nonTransitLeg) = self.modeLeg else {
+      return nil
+    }
+    return nonTransitLeg.elevation
+  }
+
+  /// Walking and cycling are drawn in the color of their grade.
+  var isGraded: Bool {
+    mode == .walk || mode == .bike
+  }
+
+  /// Walking or cycling to and from transit is dotted, so it doesn't read as the ride itself.
+  var isDotted: Bool {
+    isGraded && tripMode == .transit
+  }
+
+  /// The point `fraction` of the way along the leg, by distance.
+  func pointAlong(fraction: Double) -> CLLocationCoordinate2D {
+    geometry.coordinateFromStart(distance: fraction * geometry.distance()!)!
+  }
+
+  /// How far along the leg, as a fraction, its nearest point to `target` is.
+  func fractionNearest(_ target: CLLocationCoordinate2D) -> Double {
+    let nearest = geometry.closestCoordinate(to: target)!.coordinate
+    // Not the closest coordinate's own `distance`, which is as the crow flies from the start.
+    return geometry.distance(to: nearest)! / geometry.distance()!
+  }
+
+  /// The selected line, leaving room for the steep stretches when dotted, since dots drawn over
+  /// dots don't line up.
+  var selectedGeometry: MultiLineString {
+    guard isDotted, let elevation else {
+      return MultiLineString([geometry.coordinates])
+    }
+    var pieces: [LineString?] = []
+    var from = 0.0
+    for section in elevation.steepSections.sorted(by: { $0.startMeters < $1.startMeters }) {
+      pieces.append(geometry.trimmed(from: from, to: section.startMeters))
+      from = section.endMeters
+    }
+    pieces.append(geometry.trimmed(from: from, to: .infinity))
+    return MultiLineString(pieces.compactMap { $0?.coordinates }.filter { $0.count >= 2 })
+  }
+
+  /// Steep stretches of a walking or cycling leg, grouped by how they're drawn.
+  var steepSectionsByShade: [(shade: GradeShade, lines: MultiLineString)] {
+    let sections = elevation?.steepSections ?? []
+    return GradeShade.allCases.compactMap { shade in
+      let lines = sections.filter { $0.shade == shade }.map { $0.geometry.coordinates }
+      return lines.isEmpty ? nil : (shade, MultiLineString(lines))
+    }
   }
 
   var activeLineColor: Color {
@@ -54,19 +112,43 @@ struct TripLeg {
   }
 }
 
-struct FormattedElevationProfile {
-  let raw: ElevationProfile
-  let formatLocale: Locale
+/// Elevations sampled along a path, for legs travelmux didn't plan with OTP.
+struct ElevationProfile: Codable {
+  let totalClimbMeters: Float64
+  let totalFallMeters: Float64
+  let elevation: [Float64]
 
-  var formattedTotalClimb: String {
-    format(meters: raw.totalClimbMeters)
+  /// Only the shape matters to the chart, not the true distance between samples, and there are no
+  /// steep sections to mark.
+  var legElevation: LegElevation {
+    LegElevation(
+      profile: elevation.enumerated().map {
+        LegElevation.ProfilePoint(distance: Double($0.offset), elevation: $0.element)
+      },
+      totalClimbMeters: totalClimbMeters,
+      totalFallMeters: totalFallMeters,
+      steepSections: [])
+  }
+}
+
+struct Trip: Identifiable {
+  let raw: Itinerary
+  /// For a walking or cycling trip: from the plan, or looked up for one OTP didn't plan.
+  private(set) var elevation: LegElevation?
+  mutating func setElevationProfile(_ profile: ElevationProfile) {
+    self.elevation = Self.drawable(profile.legElevation)
   }
 
-  var formattedTotalFall: String {
-    format(meters: raw.totalFallMeters)
+  /// Only a profile the chart can draw, from a start to an end.
+  private static func drawable(_ elevation: LegElevation?) -> LegElevation? {
+    guard let elevation, elevation.profile.count >= 2 else {
+      return nil
+    }
+    return elevation
   }
 
-  func format(meters: Double) -> String {
+  /// e.g. "120 ft": short spans, like a climb or the total climbed
+  func formatFeetOrMeters(meters: Double) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = self.formatLocale
     formatter.unitStyle = .medium
@@ -77,20 +159,6 @@ struct FormattedElevationProfile {
       self.formatLocale.measurementSystem == .metric ? UnitLength.meters : UnitLength.feet
     let measurement = Measurement(value: meters, unit: .meters).converted(to: outputUnit)
     return formatter.string(from: measurement)
-  }
-}
-
-struct ElevationProfile: Codable {
-  let totalClimbMeters: Float64
-  let totalFallMeters: Float64
-  let elevation: [Float64]
-}
-
-struct Trip: Identifiable {
-  let raw: Itinerary
-  private(set) var elevationProfile: FormattedElevationProfile?
-  mutating func setElevationProfile(_ profile: ElevationProfile) {
-    self.elevationProfile = FormattedElevationProfile(raw: profile, formatLocale: self.formatLocale)
   }
 
   let id: UUID
@@ -190,29 +258,33 @@ struct Trip: Identifiable {
     self.raw = itinerary
     self.legs = itinerary.legs.map { itineraryLeg in
       TripLeg(
-        geometry: decodePolyline(itineraryLeg.geometry, precision: 6),
+        geometry: LineString(encodedPolyline: itineraryLeg.geometry),
         patternGeometry: itineraryLeg.transitLeg?.patternGeometry.map {
-          decodePolyline($0, precision: 6)
+          LineString(encodedPolyline: $0)
         },
         riddenStops: itineraryLeg.transitLeg?.riddenStops.map {
-          decodePolyline($0, precision: 6)
+          decodePolyline($0)
         },
         contextStops: itineraryLeg.transitLeg?.contextStops.map {
-          decodePolyline($0, precision: 6)
+          decodePolyline($0)
         },
         onOffStops: itineraryLeg.transitLeg?.onOffStops.map {
-          decodePolyline($0, precision: 6)
+          decodePolyline($0)
         },
         fromPlace: itineraryLeg.fromPlace,
         toPlace: itineraryLeg.toPlace,
         startTime: itineraryLeg.startTime,
         endTime: itineraryLeg.endTime,
         mode: itineraryLeg.mode,
-        modeLeg: itineraryLeg.modeLeg
+        modeLeg: itineraryLeg.modeLeg,
+        tripMode: itinerary.mode
       )
     }
     self.from = from
     self.to = to
+    if self.legs.count == 1, case .nonTransit(let nonTransitLeg) = self.legs[0].modeLeg {
+      self.elevation = Self.drawable(nonTransitLeg.elevation)
+    }
   }
 }
 
@@ -231,57 +303,14 @@ extension Trip: Hashable {
   }
 }
 
-func decodePolyline(_ str: String, precision: Int) -> [CLLocationCoordinate2D] {
-  var lat = 0
-  var lng = 0
+/// From one of travelmux's encoded polylines, 1e-6 scale.
+func decodePolyline(_ encodedPolyline: String) -> [LocationCoordinate2D] {
+  Polyline(encodedPolyline: encodedPolyline, precision: 1e6).coordinates!
+}
 
-  var coordinates: [CLLocationCoordinate2D] = []
-  let factor = pow(10, Double(precision))
-
-  // Coordinates have variable length when encoded, so just keep
-  // track of whether we've hit the end of the string. In each
-  // loop iteration, a single coordinate is decoded.
-  var strIter = str.utf8.map { Int(Int8(bitPattern: $0)) - 63 }.makeIterator()
-
-  repeat {
-
-    let nextDelta = { () -> Int? in
-      var shift = 0
-      var result = 0
-
-      repeat {
-        guard let byte = strIter.next() else {
-          return nil
-        }
-        result |= (byte & 0x1f) << shift
-        shift += 5
-        guard byte >= 0x20 else {
-          break
-        }
-      } while true
-
-      if result & 1 == 1 {
-        return ~(result >> 1)
-      } else {
-        return result >> 1
-      }
-    }
-
-    guard let latitudeChange = nextDelta() else {
-      break
-    }
-
-    guard let longitudeChange = nextDelta() else {
-      assertionFailure("latitude without matching longitude in polyline")
-      break
-    }
-
-    lat += latitudeChange
-    lng += longitudeChange
-
-    let coord = CLLocationCoordinate2D(
-      latitude: Double(lat) / factor, longitude: Double(lng) / factor)
-    coordinates.append(coord)
-  } while true
-  return coordinates
+extension Turf.LineString {
+  /// From one of travelmux's encoded polylines, 1e-6 scale.
+  init(encodedPolyline: String) {
+    self.init(decodePolyline(encodedPolyline))
+  }
 }
