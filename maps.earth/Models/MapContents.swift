@@ -168,7 +168,9 @@ struct MapTrip: MapContent {
       self.climbAnnotations =
         isSelected
         ? trip.legs.flatMap { leg in
-          (leg.elevation?.annotatedClimbs ?? []).map { SteepClimbAnnotation(climb: $0) }
+          leg.elevation.map { elevation in
+            elevation.annotatedClimbs.map { SteepClimbAnnotation(climb: $0, elevation: elevation) }
+          } ?? []
         } : []
       var markers = trip.transferPlaces.map { transfer in
         let style =
