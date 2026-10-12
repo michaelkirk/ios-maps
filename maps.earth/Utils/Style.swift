@@ -48,6 +48,14 @@ extension Color {
   static let hw_activeRoute = Color(rgb: 0x1296FF)
   static let hw_inactiveRoute = Color(rgb: 0x6FC1EE)
 
+  // Route preference badges. They label a route rather than acting on it, so
+  // they're tinted chips: dark ink on a pale wash, well clear of the blue that
+  // means "selected" and the green that means "go".
+  static let hw_quieterBadgeTint = Color(rgb: 0xC5EDEA)
+  static let hw_quieterBadgeInk = Color(rgb: 0x156660)
+  static let hw_fasterBadgeTint = Color(rgb: 0xF5DAB2)
+  static let hw_fasterBadgeInk = Color(rgb: 0x794D0C)
+
   // Favorite place colors
   static let hw_green = Color(rgb: 0x2ECC40)  // Fresh, vibrant green for Home
   static let hw_red = Color(rgb: 0xE74C3C)  // Warm red for Work
