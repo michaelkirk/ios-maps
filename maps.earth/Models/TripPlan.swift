@@ -26,6 +26,9 @@ class TripPlan: ObservableObject {
   var bringsBike: Bool { mode == .transit && transitWithBike }
   @Published var bounds: Bounds?
   @Published var trips: Result<[Trip], Error>
+  /// Route queries sent but not yet answered.
+  @Published var pendingTripQueries = 0
+  var isLoadingTrips: Bool { pendingTripQueries > 0 }
   @Published var selectedTrip: Trip? {
     didSet {
       if selectedTrip == nil {
