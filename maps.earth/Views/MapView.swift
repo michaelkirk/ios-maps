@@ -777,6 +777,13 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
       self.selectTrip(runningPattern: vehicle.vehicle.patternCode)
       return
     }
+    if let climbAnnotation = annotation as? SteepClimbAnnotation {
+      // so tapping the same climb again picks it again
+      mapView.deselectAnnotation(annotation, animated: false)
+      self.mapView.tripPlan.isShowingSteps = true
+      self.mapView.tripPlan.select(climb: climbAnnotation.climb, of: climbAnnotation.elevation)
+      return
+    }
     switch self.mapContents {
     case .trips, .empty:
       break
@@ -827,7 +834,7 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
 
   @MainActor
   func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
-    annotation is TransitVehicleAnnotation || annotation is SteepClimbAnnotation
+    annotation is TransitVehicleAnnotation
   }
 
   @MainActor
