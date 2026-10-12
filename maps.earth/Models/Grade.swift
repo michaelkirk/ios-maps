@@ -32,10 +32,6 @@ struct LegElevation: Decodable, Equatable {
     }
   }
 
-  var climbs: [SteepSection] {
-    steepSections.filter { $0.isClimb }
-  }
-
   /// The steepest few climbs, spread out enough that their labels don't crowd each other.
   var annotatedClimbs: [SteepSection] {
     steepSections.filter { $0.annotated }
@@ -135,18 +131,18 @@ enum GradeTier {
   }
 }
 
-/// How a steep stretch is drawn: climbs in amber and descents in teal, darker the steeper.
+/// How a steep stretch is drawn: climbs in amber, darker the steeper, and descents in teal. travelmux
+/// only sends descents that are very steep.
 enum GradeShade: String, CaseIterable {
   case moderateClimb
   case steepClimb
   case verySteepClimb
-  case moderateDescent
-  case steepDescent
+  case verySteepDescent
 
   init(grade: Double) {
     let tier = GradeTier(grade: grade)
     if grade < 0 {
-      self = tier == .moderate ? .moderateDescent : .steepDescent
+      self = .verySteepDescent
       return
     }
     switch tier {
@@ -161,8 +157,7 @@ enum GradeShade: String, CaseIterable {
     case .moderateClimb: .hw_amber500
     case .steepClimb: .hw_amber600
     case .verySteepClimb: .hw_amber700
-    case .moderateDescent: .hw_teal500
-    case .steepDescent: .hw_teal700
+    case .verySteepDescent: .hw_teal700
     }
   }
 }

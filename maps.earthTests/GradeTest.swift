@@ -26,17 +26,16 @@ final class GradeTest: XCTestCase {
   func testDecodesTheLegsElevation() throws {
     let elevation = try XCTUnwrap(FixtureData.bikeGradeTrips[0].elevation)
     XCTAssertFalse(elevation.profile.isEmpty)
-    XCTAssertEqual(elevation.steepSections.count, 5)
+    XCTAssertEqual(elevation.steepSections.count, 3)
     XCTAssertEqual(elevation.annotatedClimbs.map(\.percent), [7, 9])
     XCTAssertEqual(elevation.annotatedClimbs[1].streetName, "East Thomas Street")
-    XCTAssertNil(elevation.steepSections[0].streetName)
+    XCTAssertEqual(elevation.steepSections[0].streetName, "East Jefferson Street")
   }
 
   func testShadesClimbsAndDescentsBySteepness() {
     XCTAssertEqual(GradeShade(grade: 0.06), .moderateClimb)
     XCTAssertEqual(GradeShade(grade: 0.14), .verySteepClimb)
-    XCTAssertEqual(GradeShade(grade: -0.06), .moderateDescent)
-    XCTAssertEqual(GradeShade(grade: -0.1), .steepDescent)
+    XCTAssertEqual(GradeShade(grade: -0.14), .verySteepDescent)
   }
 
   func testDescribesTheGrade() {
