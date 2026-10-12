@@ -1170,24 +1170,6 @@
               ],
               "steepSections": [
                 {
-                  "annotated": false,
-                  "averageGrade": -0.07146834884945222,
-                  "endMeters": 140.00095873308257,
-                  "geometry": "kwrxyAtcwghFgGQoFoAgEoA{E?wB??~M?rA",
-                  "maxGrade": -0.10113014627092269,
-                  "startMeters": 60.00041088560682,
-                  "streetName": null
-                },
-                {
-                  "annotated": false,
-                  "averageGrade": -0.06726402280415016,
-                  "endMeters": 220.00150658055833,
-                  "geometry": "_xsxyAbqxghF?bA?v[?lA",
-                  "maxGrade": -0.07556657461313705,
-                  "startMeters": 180.00123265682046,
-                  "streetName": "East Jefferson Street"
-                },
-                {
                   "annotated": true,
                   "averageGrade": 0.07318874079327543,
                   "endMeters": 490.00335556578904,

@@ -143,7 +143,7 @@ struct ManeuverList: View {
             elevation: elevation, scrubFraction: $tripPlan.scrubFraction,
             onSelectClimb: { tripPlan.select(climb: $0, of: elevation) }
           ).frame(height: 100)
-          climbs(elevation)
+          steepSections(elevation)
         }
         ForEach(maneuversElements) { el in
           let maneuver = el.maneuver
@@ -172,22 +172,22 @@ struct ManeuverList: View {
     }.contentShape(Rectangle())
   }
 
-  /// The leg's climbs, collapsed under how far it climbs and descends in all.
+  /// The leg's steep stretches, collapsed under how far it climbs and descends in all.
   @ViewBuilder
-  private func climbs(_ elevation: LegElevation) -> some View {
+  private func steepSections(_ elevation: LegElevation) -> some View {
     let header = HStack(spacing: 4) {
-      Text("Climbs:")
+      Text("Hills:")
       ElevationTotals(trip: trip, elevation: elevation)
     }.hwText(.secondary)
-    if elevation.climbs.isEmpty {
+    if elevation.steepSections.isEmpty {
       header
     } else {
       DisclosureGroup(isExpanded: $isShowingClimbs) {
-        ForEach(elevation.climbs, id: \.self) { climb in
+        ForEach(elevation.steepSections, id: \.self) { section in
           Button {
-            tripPlan.select(climb: climb, of: elevation)
+            tripPlan.select(climb: section, of: elevation)
           } label: {
-            ClimbRow(trip: trip, climb: climb)
+            SteepSectionRow(trip: trip, section: section)
           }.buttonStyle(.plain)
         }
       } label: {
@@ -198,22 +198,23 @@ struct ManeuverList: View {
 }
 
 /// e.g. "↗ 9%  200 ft on E Thomas St, steepest 12%"
-struct ClimbRow: View {
+struct SteepSectionRow: View {
   let trip: Trip
-  let climb: SteepSection
+  let section: SteepSection
 
   var body: some View {
     HStack(spacing: Space.m) {
-      Text("↗ \(climb.percent)%").bold().foregroundStyle(Color.hw_amber700)
+      Text("\(section.isClimb ? "↗" : "↘") \(section.percent)%").bold()
+        .foregroundStyle(section.isClimb ? Color.hw_amber700 : Color.hw_teal700)
       Text(description)
       Spacer()
     }.contentShape(Rectangle())
   }
 
   private var description: String {
-    let length = trip.formatFeetOrMeters(meters: climb.endMeters - climb.startMeters)
-    let steepest = "\(Int((abs(climb.maxGrade) * 100).rounded()))%"
-    if let streetName = climb.streetName {
+    let length = trip.formatFeetOrMeters(meters: section.endMeters - section.startMeters)
+    let steepest = "\(Int((abs(section.maxGrade) * 100).rounded()))%"
+    if let streetName = section.streetName {
       return "\(length) on \(streetName), steepest \(steepest)"
     } else {
       return "\(length), steepest \(steepest)"
