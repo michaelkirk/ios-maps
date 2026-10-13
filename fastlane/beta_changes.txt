@@ -1,3 +1,16 @@
-- Trip planning now starts in your preferred travel mode right after launch.
-- Fixed a crash when tapping GO on a bike, walk, or drive trip after checking "Bring a bike" for transit.
-- Fixed a crash when a trip's steps were open and the trip changed.
+Hills! Bike and walking routes now point out their steep climbs, and descents steep enough to make you squeeze the brakes, on the map and on the elevation chart.
+
+Different strokes for different folks - walking and biking now show faster vs. comfier (lower traffic, typically safer) routes.
+
+I gave the app a fresh coat of paint — new colors and type, a travel mode picker with icons, and a GO button you can actually read. Let me know if anything looks off, especially on a smaller phone.
+
+Also new and worth testing if you're feeling virtuous:
+
+- Transit lines show in their own colors.
+- Locate Me zooms in closer.
+- A spinner while routes load.
+- An Attributions screen in Settings, to thank the open data and open source projects this app is built on.
+
+Fixes:
+- The trip controls no longer jump down the screen when directions can't be found.
+- The last trip in a long list was hard to scroll to.

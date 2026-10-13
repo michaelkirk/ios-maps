@@ -1,9 +1,11 @@
-Taking transit? When you're planning a trip, you can now see where your train or bus actually is, live on the map, along with a countdown to when it reaches your stop. No more staring down the street wondering.
+Know your hills before you hit them. Bike and walking routes now point out their steep climbs, plus any descents steep enough to make you squeeze the brakes, right on the map and on the elevation chart.
 
-You can now swap your trip's start and destination with one tap — handy for getting back home.
+Different strokes for different folks - walking and biking now show faster vs. comfier (lower traffic, typically safer) routes.
 
-Tap the handle on top of the sheet to make it bigger or smaller. And the search sheet now pops open as soon as you start typing, so you can see what you're doing.
+A fresh coat of paint: new colors and type throughout, a travel mode picker with icons, and a GO button you can actually read.
 
-Trip options load faster.
+Transit trips now show each line in its own color, and Locate Me zooms in a little closer.
 
-Plus some fixes: transit trips planned for dates around New Year's were broken (calendars are hard), switching travel modes with "Bring a bike" checked could crash, and a handful of other stability fixes.
+There's also a new Attributions screen in Settings. This app stands on the shoulders of a lot of open data and open source projects, and they deserve a thank you.
+
+Plus some little U.I. zhuzh: a spinner while your routes load, and the trip controls no longer jump down the screen when directions can't be found.
