@@ -45,6 +45,7 @@ platform :ios do
 
   desc "Archive the app, without touching versions or git"
   lane :archive do
+    ensure_git_status_clean(show_uncommitted_changes: true)
     sh(File.join(ROOT, "bin/check-frameworks"))
     build_app(
       project: "maps.earth.xcodeproj",
