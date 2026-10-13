@@ -3,6 +3,12 @@ default_platform(:ios)
 ROOT = File.expand_path("..", __dir__)
 XCODEPROJ = File.join(ROOT, "maps.earth.xcodeproj")
 
+# fastlane/.env is gitignored, so a worktree falls back to the main checkout's.
+# Dotenv.load doesn't override vars already set by the worktree's own .env.
+require "dotenv"
+MAIN_CHECKOUT = File.dirname(File.expand_path(`git -C "#{ROOT}" rev-parse --git-common-dir`.strip, ROOT))
+Dotenv.load(File.join(MAIN_CHECKOUT, "fastlane/.env"))
+
 platform :ios do
   private_lane :bump_build do
     increment_build_number(
