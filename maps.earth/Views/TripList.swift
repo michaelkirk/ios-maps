@@ -45,6 +45,7 @@ struct TripList: View {
         }
         .clipShape(rowShape(tripIdx))
         .listRowBackground(rowShape(tripIdx).fill(.white))
+        .listRowSeparator(tripIdx == trips.count - 1 ? .hidden : .automatic, edges: .bottom)
         .listRowInsets(EdgeInsets()).id(trip.id)
       }.listStyle(.plain)
         .onChange(of: tripPlan.selectedTrip) { newValue in
