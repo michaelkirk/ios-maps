@@ -215,11 +215,12 @@ struct TripPlanView: View {
 
       if tripPlan.isLoadingTrips {
         ProgressView().frame(maxWidth: .infinity).padding(.top, 24)
-        Spacer()
       } else {
         tripResults
       }
-    }.onAppear {
+    }
+    .frame(maxHeight: .infinity, alignment: .top)
+    .onAppear {
       // don't blow away mocked values in Preview
       if !Env.current.isMock {
         queryIfReady()
