@@ -408,6 +408,11 @@ struct TripPlanSheetContents: View {
         }
       }
     }
+    .onChange(of: tripPlan.isShowingSteps) { isShowingSteps in
+      if isShowingSteps && detent == .large {
+        detent = .medium
+      }
+    }
   }
 }
 
