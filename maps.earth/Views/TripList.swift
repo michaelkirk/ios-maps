@@ -48,6 +48,7 @@ struct TripList: View {
         .listRowSeparator(tripIdx == trips.count - 1 ? .hidden : .automatic, edges: .bottom)
         .listRowInsets(EdgeInsets()).id(trip.id)
       }.listStyle(.plain)
+        .safeAreaInset(edge: .bottom) { Color.clear.frame(height: Space.xl) }
         .onChange(of: tripPlan.selectedTrip) { newValue in
           guard let newValue = newValue else {
             return
