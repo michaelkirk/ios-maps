@@ -68,8 +68,8 @@ extension Color {
   static let hw_red = Color(rgb: 0xE74C3C)  // Warm red for Work
   static let hw_blue = Color(rgb: 0x3498DB)  // Complementary blue for Other
 
-  /// GO's fill: system green's increased-contrast shade.
-  static let hw_go = Color(rgb: 0x248A3D)
+  /// The fill of a trip's GO and Steps buttons.
+  static let hw_go = Color(rgb: 0x2CA84B)
 
   var uiColor: UIColor {
     UIColor(self)

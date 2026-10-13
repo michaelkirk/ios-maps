@@ -150,7 +150,7 @@ struct TripButton: View {
       .fontWeight(.medium)
       .foregroundColor(.white)
       .padding(8)
-      .background(.green)
+      .background(Color.hw_go)
       .cornerRadius(8)
       .scenePadding(.trailing)
   }

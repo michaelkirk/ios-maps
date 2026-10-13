@@ -23,7 +23,7 @@
     --hw-light-gray: #e5e5e5;
     --hw-dark-gray: #808080;
     --hw-off-white: #f2f2f2;
-    --hw-go: #248a3d;
+    --hw-go: #2ca84b;
 
     --teal-50: #e7f9f8;
     --teal-100: #c5edea;
@@ -238,12 +238,12 @@ work around them.</p>
     <tr><td><span class="swatch" style="background: var(--hw-light-gray)"></span></td><td><code>hw_lightGray</code></td><td class="num">#E5E5E5</td><td>Unselected segment backgrounds</td></tr>
     <tr><td><span class="swatch" style="background: var(--hw-dark-gray)"></span></td><td><code>hw_darkGray</code></td><td class="num">#808080</td><td>Secondary text, unchecked checkboxes</td></tr>
     <tr><td><span class="swatch" style="background: var(--hw-off-white)"></span></td><td><code>hw_offWhite</code></td><td class="num">#F2F2F2</td><td>Type on coloured fills</td></tr>
-    <tr><td><span class="swatch" style="background: var(--hw-go)"></span></td><td><code>hw_go</code></td><td class="num">#248A3D</td><td>GO. White type on it is 4.40:1</td></tr>
+    <tr><td><span class="swatch" style="background: var(--hw-go)"></span></td><td><code>hw_go</code></td><td class="num">#2CA84B</td><td>GO and Steps. White type on it is 3.08:1, enough for bold type</td></tr>
   </tbody>
 </table>
 
-<p>Green is GO and system red is End Navigation: go and stop, never a quality. <code>hw_go</code> is system
-green at the shade iOS uses for Increase Contrast; the default system green is only 2.22:1 under white type. The neutrals are slightly
+<p>Green is GO and system red is End Navigation: go and stop, never a quality. <code>hw_go</code> sits between
+system green and its Increase Contrast shade: deep enough for white bold type, bright enough to still read as go. The neutrals are slightly
 blue (hue 200–208), so warm greys look dirty beside them.</p>
 
 <h2 id="accents">Accents: teal and amber</h2>
@@ -280,7 +280,7 @@ comfier or faster, or how steep a hill is. Neither hue is taken, and they are 14
 <table>
   <thead><tr><th>Element</th><th>Treatment</th></tr></thead>
   <tbody>
-    <tr><td>Acts when tapped</td><td>Solid fill, white type: <code>hw_blue</code>, <code>hw_go</code> for GO, system red for End Navigation</td></tr>
+    <tr><td>Acts when tapped</td><td>Solid fill, white type: <code>hw_blue</code>, <code>hw_go</code> for GO and Steps, system red for End Navigation</td></tr>
     <tr><td>A lesser action beside a primary one, like Save beside Directions</td><td>White fill, ink type, <code>hw_blue</code> icon</td></tr>
     <tr><td>Describes what it sits on</td><td>Chip: 100 wash, 700 ink, capsule, 10pt × 5pt padding</td></tr>
     <tr><td>Currently selected</td><td><code>hw_blue</code>, and nothing else in the row at that weight</td></tr>
@@ -444,8 +444,6 @@ it's drawn.</p>
 <ul class="rules">
   <li><strong>Secondary text is below AA.</strong> <code>hw_darkGray</code> is 3.95:1 on white and about 3.4:1 on
   the sheet. #6B7177 would be 4.9:1 on white and keep the palette's cool tint.</li>
-  <li><strong>Transit's Steps button is green.</strong> Green means GO, and Steps opens a trip's details, so by the
-  usage rules it should be <code>hw_blue</code>.</li>
   <li><strong>No dark mode.</strong> Every token is a fixed RGB. In a dark theme the accent steps should swap roles
   instead of inverting: 700 becomes the wash and 100 becomes the type.</li>
   <li><strong>The web has no spacing scale yet.</strong> Its gaps are set per component.</li>
