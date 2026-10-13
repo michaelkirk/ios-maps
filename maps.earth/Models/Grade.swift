@@ -95,7 +95,7 @@ extension SteepSection: Decodable {
       averageGrade: try container.decode(Double.self, forKey: .averageGrade),
       maxGrade: try container.decode(Double.self, forKey: .maxGrade),
       streetName: try container.decodeIfPresent(String.self, forKey: .streetName),
-      geometry:  LineString(encodedPolyline: try container.decode(String.self, forKey: .geometry)),
+      geometry: LineString(encodedPolyline: try container.decode(String.self, forKey: .geometry)),
       annotated: try container.decode(Bool.self, forKey: .annotated))
   }
 
@@ -161,4 +161,3 @@ enum GradeShade: String, CaseIterable {
     }
   }
 }
-
