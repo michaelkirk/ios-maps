@@ -42,7 +42,10 @@ struct TripList: View {
               }
             }
           }
-        }.listRowInsets(EdgeInsets()).id(trip.id)
+        }
+        .clipShape(rowShape(tripIdx))
+        .listRowBackground(rowShape(tripIdx).fill(.white))
+        .listRowInsets(EdgeInsets()).id(trip.id)
       }.listStyle(.plain)
         .onChange(of: tripPlan.selectedTrip) { newValue in
           guard let newValue = newValue else {
@@ -72,6 +75,16 @@ struct TripList: View {
           trip: trip, currentDetent: $stepsDetent, onClose: { tripPlan.isShowingSteps = false })
       }
     }
+  }
+
+  /// Rounds the list's outer corners, like the From/To field above it.
+  private func rowShape(_ tripIdx: Int) -> UnevenRoundedRectangle {
+    let radius: CGFloat = 8
+    let top = tripIdx == 0 ? radius : 0
+    let bottom = tripIdx == trips.count - 1 ? radius : 0
+    return UnevenRoundedRectangle(
+      topLeadingRadius: top, bottomLeadingRadius: bottom, bottomTrailingRadius: bottom,
+      topTrailingRadius: top)
   }
 
   /// Starts turn-by-turn navigation along `trip`.
