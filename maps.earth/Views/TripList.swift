@@ -39,7 +39,7 @@ struct TripList: View {
                 } else {
                   NonTransitPlanItem(trip: trip) { navigate(trip: trip, tripIdx: tripIdx) }
                 }
-              }
+              }.padding(.top, Space.s)
             }
           }
         }
