@@ -41,31 +41,40 @@ struct ModePicker: View {
         Button {
           withAnimation(.snappy(duration: 0.25)) { selectedMode = option.mode }
         } label: {
-          layout {
+          let label = layout {
             Image(systemName: option.systemImage)
             Text(option.title)
           }
-          .font(.subheadline.weight(isSelected ? .semibold : .regular))
-          .foregroundStyle(isSelected ? Color.primary : .hw_fieldLabel)
-          .lineLimit(1)
-          .fixedSize()
-          .padding(.horizontal, Space.s)
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 7)
-          .background {
-            if isSelected {
-              RoundedRectangle(cornerRadius: 7)
-                .fill(.white)
-                .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
-                .matchedGeometryEffect(id: "thumb", in: thumb)
+          // Sized as if selected, so the segments don't shift when the selection moves.
+          label
+            .font(.subheadline.weight(.semibold))
+            .hidden()
+            .overlay {
+              label
+                .font(.subheadline.weight(isSelected ? .semibold : .regular))
+                .foregroundStyle(isSelected ? Color.primary : .hw_fieldLabel)
             }
-          }
-          .contentShape(Rectangle())
+            .lineLimit(1)
+            .fixedSize()
+            .padding(.horizontal, Space.s)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.vertical, 7)
+            .background {
+              if isSelected {
+                RoundedRectangle(cornerRadius: 7)
+                  .fill(.white)
+                  .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
+                  .matchedGeometryEffect(id: "thumb", in: thumb)
+              }
+            }
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
       }
     }
+    // Every segment as tall as the tallest icon, so the thumb is the same height on each.
+    .fixedSize(horizontal: false, vertical: true)
   }
 }
 
