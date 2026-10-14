@@ -182,9 +182,11 @@ struct HomeView: View {
 
     logger.debug("received universalLink: \(String(describing: universalLink))")
     switch universalLink {
-    case .home:
-      // do nothing, probably best not to destroy any current state.
-      break
+    case .home(let viewport):
+      // Otherwise do nothing, probably best not to destroy any current state.
+      if let viewport {
+        self.pendingMapFocus = .viewport(viewport)
+      }
     case .place(let placeID):
       Task {
         do {
