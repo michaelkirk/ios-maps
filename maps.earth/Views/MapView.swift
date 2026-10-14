@@ -48,6 +48,7 @@ enum MapFocus: Equatable {
   case pendingSearchResults(SearchQueue.Query)
   case searchResults([Place])
   case userLocation
+  case viewport(MapViewport)
 }
 
 extension MapFocus: CustomStringConvertible {
@@ -63,6 +64,8 @@ extension MapFocus: CustomStringConvertible {
       "MapFocus.searchResults([\(places.count) Places])"
     case .userLocation:
       "MapFocus.userLocation"
+    case .viewport(let viewport):
+      "MapFocus.viewport(\(viewport.urlFragment))"
     }
   }
 }
@@ -348,6 +351,17 @@ extension MapViewWrapper: UIViewRepresentable {
           }
           self.pendingMapFocus = nil
           mapView.setCenter(location.coordinate, zoomLevel: 14, animated: true)
+        case .viewport(let viewport):
+          self.pendingMapFocus = nil
+          if self.userLocationManager.state == .following {
+            self.userLocationManager.state = .showing
+          }
+          mapView.setCenter(
+            viewport.center.asCoordinate, zoomLevel: viewport.zoom, direction: viewport.bearing,
+            animated: false)
+          let camera = mapView.camera
+          camera.pitch = viewport.pitch
+          mapView.setCamera(camera, animated: false)
         }
       }
     }

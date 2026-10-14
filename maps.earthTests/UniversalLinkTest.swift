@@ -13,13 +13,35 @@ final class UniversalLinkTest: XCTestCase {
   func testRoot() throws {
     do {
       let url = URL(string: "https://maps.earth")!
-      XCTAssertEqual(UniversalLink(url: url)!, .home)
+      XCTAssertEqual(UniversalLink(url: url)!, .home(viewport: nil))
     }
 
     do {
       let url = URL(string: "https://maps.earth/")!
-      XCTAssertEqual(UniversalLink(url: url)!, .home)
+      XCTAssertEqual(UniversalLink(url: url)!, .home(viewport: nil))
     }
+  }
+
+  func testRootWithViewport() throws {
+    let url = URL(string: "https://maps.earth/#map=12.5/47.6/-122.3")!
+    let expected = UniversalLink.home(
+      viewport: MapViewport(center: LngLat(lng: -122.3, lat: 47.6), zoom: 12.5))
+    XCTAssertEqual(UniversalLink(url: url)!, expected)
+    XCTAssertEqual(url, expected.url)
+  }
+
+  func testRootWithRotatedViewport() throws {
+    let url = URL(string: "https://maps.earth/#map=12.5/47.6/-122.3/45/30")!
+    let expected = UniversalLink.home(
+      viewport: MapViewport(
+        center: LngLat(lng: -122.3, lat: 47.6), zoom: 12.5, bearing: 45, pitch: 30))
+    XCTAssertEqual(UniversalLink(url: url)!, expected)
+    XCTAssertEqual(url, expected.url)
+  }
+
+  func testRootWithMalformedViewport() throws {
+    let url = URL(string: "https://maps.earth/#map=12.5/47.6")!
+    XCTAssertEqual(UniversalLink(url: url)!, .home(viewport: nil))
   }
 
   func testPlaceWithVenueID() throws {
