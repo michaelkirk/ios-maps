@@ -4,7 +4,7 @@ Different strokes for different folks - walking and biking now show faster vs. c
 
 A fresh coat of paint: new colors and type throughout, a travel mode picker with icons, and a GO button you can actually read.
 
-Transit trips now show each line in its own color, and Locate Me zooms in a little closer.
+Transit trips now show each line in its own color, and Locate Me zooms in a little closer. Links to a spot on maps.earth now open the app right there.
 
 There's also a new Attributions screen in Settings. This app stands on the shoulders of a lot of open data and open source projects, and they deserve a thank you.
 

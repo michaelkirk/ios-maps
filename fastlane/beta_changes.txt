@@ -10,6 +10,7 @@ Also new and worth testing if you're feeling virtuous:
 - Locate Me zooms in closer.
 - A spinner while routes load.
 - An Attributions screen in Settings, to thank the open data and open source projects this app is built on.
+- A maps.earth link to a spot on the map opens the app to that same spot.
 
 Fixes:
 - The trip controls no longer jump down the screen when directions can't be found.
