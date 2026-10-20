@@ -29,12 +29,8 @@ final class ScreenshotTests: XCTestCase {
     XCTAssert(app.staticTexts["Favorites"].waitForExistence(timeout: 30))
     app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'location'")).firstMatch.tap()
     sleep(4)
-    // Locating centers the user above the sheet at a regional zoom; zoom into the neighborhood.
-    let userLocation = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.281))
-    for _ in 0..<8 {
-      userLocation.doubleTap()
-      sleep(1)
-    }
+    // Locating centers the user above the sheet; zoom in a level to show the campus.
+    app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.281)).doubleTap()
     try snapshot("01-home")
 
     XCUIDevice.shared.system.open(URL(string: "mapsearth:///place/\(Self.spaceNeedle)")!)
