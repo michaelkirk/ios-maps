@@ -156,6 +156,12 @@ struct AttributionsView: View {
           thanks:
             "A catalog of transit feeds, and the transit agencies who publish their schedules and realtime data openly."
         ),
+        Credit(
+          name: "Bus Open Data Service",
+          url: URL(string: "https://www.bus-data.dft.gov.uk")!,
+          thanks:
+            "London transit schedules. Contains public sector information licensed under the Open Government Licence v3.0. Powered by TfL Open Data."
+        ),
       ]),
     Group(
       title: "Building and serving the map",
