@@ -16,6 +16,19 @@ final class PlaceTest: XCTestCase {
     XCTAssertEqual(place.location, LngLat(lng: -122.331856, lat: 47.599091))
   }
 
+  func testArea() {
+    var place = FixtureData.places[.zeitgeist]
+    place.properties.locality = "Boise"
+    place.properties.region = "Idaho"
+    XCTAssertEqual(place.area, "Boise, Idaho")
+
+    place.properties.locality = nil
+    XCTAssertEqual(place.area, "Idaho")
+
+    place.properties.region = nil
+    XCTAssertNil(place.area)
+  }
+
   func testVariousRectangles() {
     let bbox = BBox(top: 89, right: 179, bottom: -90, left: -179)
     let bounds = Bounds(bbox: bbox)

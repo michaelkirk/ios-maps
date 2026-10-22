@@ -183,6 +183,58 @@ struct TransitFilters: View {
   }
 }
 
+/// Shown in place of trips when transit directions aren't available for the trip's area.
+struct TransitUnsupportedView: View {
+  @ObservedObject var tripPlan: TripPlan
+  var error: TripPlanError
+
+  /// The area people would want transit added for: an end of the trip that has none.
+  var area: String? {
+    error.uncoveredPlaces.lazy.compactMap { end in
+      switch end {
+      case .from: tripPlan.navigateFrom?.area
+      case .to: tripPlan.navigateTo?.area
+      }
+    }.first
+  }
+
+  var notifyURL: URL {
+    let subject = area.map { "Transit directions in \($0)" } ?? "Transit directions in my area"
+    var components = URLComponents(string: "mailto:info@maps.earth")!
+    components.queryItems = [URLQueryItem(name: "subject", value: subject)]
+    return components.url!
+  }
+
+  var body: some View {
+    VStack(spacing: Space.s) {
+      Image(systemName: "tram.fill")
+        .font(.system(size: 36))
+        .foregroundStyle(.secondary)
+      Text("No transit directions here yet").font(.headline)
+      if !error.transitAreas.isEmpty {
+        let areas = ListFormatter.localizedString(byJoining: error.transitAreas.map(\.name))
+        Text("Transit directions are currently available in \(areas).")
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+      }
+
+      Divider().padding(.vertical, Space.s)
+
+      Text(
+        area.map { "Want transit directions in \($0)?" } ?? "Want transit directions in your area?"
+      )
+      Link(destination: notifyURL) {
+        Label("Let us know", systemImage: "envelope.fill")
+      }
+      .buttonStyle(.borderedProminent)
+      .buttonBorderShape(.capsule)
+    }
+    .multilineTextAlignment(.center)
+    .frame(maxWidth: .infinity)
+    .padding(.top, Space.m)
+  }
+}
+
 @MainActor let searcher = TripSearchManager()
 
 struct TripPlanView: View {
@@ -273,6 +325,9 @@ struct TripPlanView: View {
     switch tripPlan.trips {
     case .failure(let error):
       switch error {
+      case let tripPlanError as TripPlanError
+      where tripPlanError.errorCode == .transitUnsupportedArea:
+        TransitUnsupportedView(tripPlan: tripPlan, error: tripPlanError)
       case let tripPlanError as TripPlanError:
         Text(tripPlanError.localizedDescription)
       case let decodingError as DecodingError:
@@ -436,6 +491,17 @@ struct TripPlanSheetContents: View {
   Env.current = Env(offlineWithMockData: ())
   let tripPlan = FixtureData.tripPlan
   tripPlan.trips = .failure(FixtureData.bikeTripError)
+  return Text("").sheet(isPresented: .constant(true)) {
+    TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
+  }
+  .environmentObject(Preferences.forTesting())
+}
+
+#Preview("Transit unsupported") {
+  Env.current = Env(offlineWithMockData: ())
+  let tripPlan = FixtureData.tripPlan
+  tripPlan.mode = .transit
+  tripPlan.trips = .failure(FixtureData.transitUnsupportedError)
   return Text("").sheet(isPresented: .constant(true)) {
     TripPlanSheetContents(tripPlan: tripPlan, didCompleteTrip: {})
   }

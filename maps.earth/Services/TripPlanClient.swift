@@ -318,13 +318,43 @@ struct TripPlanError: Decodable, Error {
   var message: String
   var errorCode: TripPlanErrorCode
   var statusCode: UInt16
+  /// For `.transitUnsupportedArea`: the areas that do have transit.
+  var transitAreas: [TransitArea]
+  /// For `.transitUnsupportedArea`: the ends of the trip outside every transit area.
+  var uncoveredPlaces: [TripEnd]
+
+  enum CodingKeys: CodingKey {
+    case message, errorCode, statusCode, transitAreas, uncoveredPlaces
+  }
+
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    message = try container.decode(String.self, forKey: .message)
+    errorCode = try container.decode(TripPlanErrorCode.self, forKey: .errorCode)
+    statusCode = try container.decode(UInt16.self, forKey: .statusCode)
+    transitAreas = try container.decodeIfPresent([TransitArea].self, forKey: .transitAreas) ?? []
+    uncoveredPlaces =
+      try container.decodeIfPresent([TripEnd].self, forKey: .uncoveredPlaces) ?? []
+  }
+}
+
+struct TransitArea: Decodable, Equatable {
+  var name: String
+}
+
+enum TripEnd: String, Decodable, Equatable {
+  case from
+  case to
 }
 
 enum TripPlanErrorCode: Equatable {
+  case transitUnsupportedArea
   case tooFarForDirections
   case other(UInt32)
   init(rawValue: UInt32) {
     switch rawValue {
+    case 1701:
+      self = .transitUnsupportedArea
     case 2154:
       self = .tooFarForDirections
     default:
