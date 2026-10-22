@@ -169,7 +169,9 @@ struct MapViewWrapper {
   @Binding var showOfflineDownloadPrompt: Bool
 }
 
+/// The online style draws its own 3D buildings; the bundled offline style doesn't yet.
 func add3DBuildingsLayer(style: MLNStyle) {
+  if style.layer(withIdentifier: "building_3d") != nil { return }
   assert(style.layers.first { $0.identifier == "subtle_3d_buildings" } == nil)
 
   guard let source = style.openMapTilesSource else {
