@@ -38,6 +38,22 @@ final class TripPlanResponseTest: XCTestCase {
     }
   }
 
+  func testTransitUnsupportedAreaListsTheAreasThatHaveTransit() throws {
+    let body = #"""
+      {"error": {"statusCode": 400, "errorCode": 1701, "message": "no coverage",
+                 "transitAreas": [{"name": "Portland"}, {"name": "Seattle"}],
+                 "uncoveredPlaces": ["to"]}}
+      """#
+    let result = try decode(body, statusCode: 400)
+
+    guard case .failure(let response) = result else {
+      return XCTFail("expected a failure")
+    }
+    XCTAssertEqual(response.error.errorCode, .transitUnsupportedArea)
+    XCTAssertEqual(response.error.transitAreas.map(\.name), ["Portland", "Seattle"])
+    XCTAssertEqual(response.error.uncoveredPlaces, [.to])
+  }
+
   /// When the service is down, nginx answers for it with an HTML error page. Decoding that as
   /// travelmux's error type reported a corrupt payload, which reads as a bug in the app rather
   /// than the outage it is.

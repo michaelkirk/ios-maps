@@ -116,6 +116,11 @@ extension Place {
   var street: String? { self.properties.street }
   var locality: String? { self.properties.locality }
   var region: String? { self.properties.region }
+  /// The city or region containing this place, e.g. "Boise, Idaho".
+  var area: String? {
+    let parts = [locality, region].compactMap { $0 }
+    return parts.isEmpty ? nil : parts.joined(separator: ", ")
+  }
   // matches weird spelling in api response
   var postalcode: String? { self.properties.postalcode }
   // This might be broken due to camelCase vs snake_case

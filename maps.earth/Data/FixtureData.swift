@@ -64,6 +64,15 @@ struct FixtureData {
     loadTripError(filename: "bicycle_plan_error.json")
   }
 
+  static var transitUnsupportedError: TripPlanError {
+    let body = #"""
+      {"statusCode": 400, "errorCode": 1701, "message": "Transit directions not available for this area.",
+       "transitAreas": [{"name": "Los Angeles"}, {"name": "Portland"}, {"name": "Seattle"}],
+       "uncoveredPlaces": ["to"]}
+      """#
+    return try! JSONDecoder().decode(TripPlanError.self, from: Data(body.utf8))
+  }
+
   @MainActor
   static var tripPlan: TripPlan = TripPlan(
     from: Self.places[.realfine], to: Self.places[.zeitgeist], trips: .success(Self.walkTrips))
