@@ -169,32 +169,6 @@ struct MapViewWrapper {
   @Binding var showOfflineDownloadPrompt: Bool
 }
 
-/// The online style draws its own 3D buildings; the bundled offline style doesn't yet.
-func add3DBuildingsLayer(style: MLNStyle) {
-  if style.layer(withIdentifier: "building_3d") != nil { return }
-  assert(style.layers.first { $0.identifier == "subtle_3d_buildings" } == nil)
-
-  guard let source = style.openMapTilesSource else {
-    assertionFailure("openmaptiles source was unexpectedly missing")
-    return
-  }
-
-  let buildingsLayer = MLNFillExtrusionStyleLayer(identifier: "subtle_3d_buildings", source: source)
-  buildingsLayer.sourceLayerIdentifier = "building"
-
-  // Set the fill extrusion color, height, and base.
-  buildingsLayer.fillExtrusionColor = NSExpression(forConstantValue: UIColor.lightGray)
-  buildingsLayer.fillExtrusionHeight = NSExpression(forKeyPath: "render_height")
-  buildingsLayer.fillExtrusionBase = NSExpression(forKeyPath: "render_min_height")
-  buildingsLayer.fillExtrusionOpacity = NSExpression(forConstantValue: 0.6)
-
-  guard let firstSymbolLayer = style.firstSymbolLayer else {
-    assertionFailure("symbolLayer was unexpectedly nil")
-    return
-  }
-  style.insertLayer(buildingsLayer, below: firstSymbolLayer)
-}
-
 extension MapViewWrapper: UIViewRepresentable {
   func makeCoordinator() -> Coordinator {
     return Coordinator(self)
@@ -752,11 +726,6 @@ extension MapViewWrapper: UIViewRepresentable {
 
 extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
   @MainActor
-  func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
-    add3DBuildingsLayer(style: style)
-  }
-
-  @MainActor
   func mapView(_ mapView: MLNMapView, regionDidChangeAnimated animated: Bool) {
     updateOfflineDownloadPrompt(mapView: mapView)
   }
@@ -998,14 +967,6 @@ extension Bounds {
 }
 
 extension MLNStyle {
-  var openMapTilesSource: MLNSource? {
-    guard let source = (self.sources.first { $0.identifier.starts(with: "openmaptiles") }) else {
-      assertionFailure("openmaptiles source was unexpectedly missing")
-      return nil
-    }
-    return source
-  }
-
   var firstSymbolLayer: MLNSymbolStyleLayer? {
     self.layers.compactMap { $0 as? MLNSymbolStyleLayer }.first
   }

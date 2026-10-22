@@ -333,7 +333,7 @@ struct MENavigationView: View {
       return nil
     }()
 
-    var mapView = DynamicallyOrientingNavigationView(
+    let mapView = DynamicallyOrientingNavigationView(
       styleURL: styleURL,
       // I'm not sure why this is a binding exactly, since we soon override it in onStyleLoaded.
       // I guess so that we can transition to/from the navigation mode?
@@ -356,10 +356,6 @@ struct MENavigationView: View {
         .strokeWidth(1)
         .strokeColor(.white)
         .circleStrokeOpacity(0.5)
-    }
-
-    mapView.onStyleLoaded = { style in
-      add3DBuildingsLayer(style: style)
     }
 
     return mapView.navigationViewProgressView({
