@@ -29,7 +29,7 @@ struct AppConfig {
   }
 
   var onlineTileserverStyleUrl: URL {
-    self.onlineServerBase.appending(path: "/tileserver/style/basic-v3")
+    self.onlineServerBase.appending(path: "/tileserver/style/basic-v4")
   }
 
   var offlineTileserverStyleUrl: URL {
