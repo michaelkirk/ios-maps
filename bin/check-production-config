@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Verify AppConfig points at production, not a dev stack.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CONFIG="$ROOT/maps.earth/Utils/AppConfig.swift"
+
+EXPECTED=(
+    'let onlineServerBase = URL(string: "https://maps.earth")!'
+    'static let pmtilesRoot = "https://r2-data.maps.earth/pmtiles"'
+)
+
+failed=0
+for expected in "${EXPECTED[@]}"; do
+    if ! grep -qxF "  $expected" "$CONFIG"; then
+        echo "❌ $CONFIG must contain: $expected" >&2
+        failed=1
+    fi
+done
+exit $failed

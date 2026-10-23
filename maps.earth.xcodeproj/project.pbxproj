@@ -498,6 +498,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4563BA132B687AA5005A677A /* Build configuration list for PBXNativeTarget "maps.earth" */;
 			buildPhases = (
+				E803A8638EF46F08E0B62DE0 /* Check production config */,
 				4563B9EB2B687AA4005A677A /* Sources */,
 				4563B9EC2B687AA4005A677A /* Frameworks */,
 				4563B9ED2B687AA4005A677A /* Resources */,
@@ -644,6 +645,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E803A8638EF46F08E0B62DE0 /* Check production config */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/bin/check-production-config",
+				"$(SRCROOT)/maps.earth/Utils/AppConfig.swift",
+			);
+			name = "Check production config";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "[ \"$CONFIGURATION\" = Release ] || exit 0\n\"$SRCROOT/bin/check-production-config\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4563B9EB2B687AA4005A677A /* Sources */ = {
