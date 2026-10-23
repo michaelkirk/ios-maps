@@ -1,11 +1,3 @@
-Know your hills before you hit them. Bike and walking routes now point out their steep climbs, plus any descents steep enough to make you squeeze the brakes, right on the map and on the elevation chart.
+3D buildings got a glow-up: rounder shapes, better lighting and color. Tall stuff like the Space Needle should look a lot less like a pile of boxes.
 
-Different strokes for different folks - walking and biking now show faster vs. comfier (lower traffic, typically safer) routes.
-
-A fresh coat of paint: new colors and type throughout, a travel mode picker with icons, and a GO button you can actually read.
-
-Transit trips now show each line in its own color, and Locate Me zooms in a little closer. Links to a spot on maps.earth now open the app right there.
-
-There's also a new Attributions screen in Settings. This app stands on the shoulders of a lot of open data and open source projects, and they deserve a thank you.
-
-Plus some little U.I. zhuzh: a spinner while your routes load, and the trip controls no longer jump down the screen when directions can't be found.
+We're always expanding Transit coverage (hello London). I know it's a small concession, but now when you ask for directions in an area we don't yet cover, we'll at least give you a little nicer error text. 🤷
