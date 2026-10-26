@@ -27,14 +27,14 @@ final class ScreenshotTests: XCTestCase {
     app.launchArguments += ["-screenshotTrain", "YES"]
     app.launch()
     XCTAssert(app.staticTexts["Favorites"].waitForExistence(timeout: 30))
-    app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'location'")).firstMatch.tap()
-    sleep(4)
-    // Locating centers the user above the sheet; zoom in a level to show the campus.
-    app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.281)).doubleTap()
+    // Looking across campus at Suzzallo Library.
+    show(viewport: "17/47.6563/-122.3093/330/60")
     try snapshot("01-home")
 
     XCUIDevice.shared.system.open(URL(string: "mapsearth:///place/\(Self.spaceNeedle)")!)
     XCTAssert(app.buttons["Directions"].waitForExistence(timeout: 30))
+    // Looking past the Space Needle toward downtown.
+    show(viewport: "16.3/47.6196/-122.3488/160/60")
     try snapshot("02-place-details")
 
     XCUIDevice.shared.system.open(
@@ -49,17 +49,8 @@ final class ScreenshotTests: XCTestCase {
     // Vehicle markers are buttons labeled with their route, like "2 Line".
     let train = app.buttons.matching(NSPredicate(format: "label ENDSWITH ' Line'")).firstMatch
     XCTAssert(train.waitForExistence(timeout: 30))
-    // Move the train clear of the status bar and the map buttons, so its callout isn't covered.
-    let target = CGPoint(x: app.frame.width * 0.62, y: app.frame.height * 0.2)
-    let offset = CGVector(dx: target.x - train.frame.midX, dy: target.y - train.frame.midY)
-    let dragStart = app.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.2))
-    dragStart.press(
-      forDuration: 0.5,
-      thenDragTo: dragStart.withOffset(offset),
-      withVelocity: .slow,
-      // Holding before release keeps the map from flinging on past the drag.
-      thenHoldForDuration: 0.5)
-    sleep(1)
+    // The whole trip, with room above the train for its callout.
+    show(viewport: "10.4/47.6379/-122.327")
     train.tap()
     try snapshot("03-transit-bike-directions")
 
@@ -78,9 +69,20 @@ final class ScreenshotTests: XCTestCase {
     // Navigation covers the trip list rather than replacing it.
     let covered = expectation(for: NSPredicate(format: "isHittable == false"), evaluatedWith: go)
     wait(for: [covered], timeout: 10)
-    // Let the simulated ride get underway, and the 3D buildings load in.
-    sleep(15)
+    // Let the simulated ride get underway.
+    sleep(10)
+    app.pinch(withScale: 2, velocity: 1)
+    // Let the 3D buildings load in.
+    sleep(5)
     try snapshot("05-navigation")
+  }
+
+  /// Moves the map to a `#map=zoom/lat/lng[/bearing[/pitch]]` viewport, leaving the sheet as is.
+  func show(viewport: String) {
+    // Let any zoom to the sheet's content finish first, so it doesn't override the viewport.
+    sleep(2)
+    XCUIDevice.shared.system.open(URL(string: "mapsearth:///#map=\(viewport)")!)
+    sleep(1)
   }
 
   func snapshot(_ name: String) throws {
