@@ -100,6 +100,51 @@ struct TripLeg {
     }
   }
 
+  /// At least a minute, since a pill saying "0" would read as nothing to do.
+  var durationMinutes: Int {
+    max(1, Int((endTime.timeIntervalSince(startTime) / 60).rounded()))
+  }
+
+  /// How many stops a ride goes before the rider gets off, counting that one.
+  var stopsRidden: Int? {
+    transitLeg?.stopCount
+  }
+
+  var routeBadge: RouteBadge? {
+    transitLeg.map { RouteBadge(label: $0.routeSummaryName, route: $0.route) }
+  }
+
+  var isRealTime: Bool {
+    transitLeg?.realTime ?? false
+  }
+
+  /// What the rider does at the start of this leg: "3 minute walk", "Board the D Line at 3rd Ave
+  /// & Pine St".
+  var stepDescription: String {
+    guard let transitLeg else {
+      return mode == .bike
+        ? "\(durationMinutes) minute bike ride" : "\(durationMinutes) minute walk"
+    }
+    let route = transitLeg.routeSummaryName
+    guard let stop = fromPlace.name else {
+      return "Board the \(route)"
+    }
+    return "Board the \(route) at \(stop)"
+  }
+
+  /// Zooms the map to the start of this leg, labeled with what the rider does there.
+  var focusedStep: TripPlan.FocusedStep {
+    TripPlan.FocusedStep(location: fromPlace.location, description: stepDescription)
+  }
+
+  /// The kind of vehicle ridden, or the walker or cyclist.
+  var emoji: String {
+    guard let transitLeg else {
+      return mode.emoji
+    }
+    return (transitLeg.vehicleMode ?? .transit).emoji
+  }
+
   var activeLineColor: Color {
     if case .transit(let transitLeg) = self.modeLeg,
       let routeColor = transitLeg.route?.color,
@@ -159,6 +204,23 @@ struct Trip: Identifiable {
       self.formatLocale.measurementSystem == .metric ? UnitLength.meters : UnitLength.feet
     let measurement = Measurement(value: meters, unit: .meters).converted(to: outputUnit)
     return formatter.string(from: measurement)
+  }
+
+  /// e.g. "0.3 mi", or "206 ft" where a tenth of a mile would round to nothing.
+  func legDistanceFormatted(meters: Double) -> String {
+    guard meters >= 100 else {
+      return formatFeetOrMeters(meters: meters)
+    }
+    let formatter = MeasurementFormatter()
+    formatter.locale = self.formatLocale
+    formatter.unitStyle = .medium
+    formatter.unitOptions = .providedUnit
+    formatter.numberFormatter.minimumFractionDigits = 1
+    formatter.numberFormatter.maximumFractionDigits = 1
+    let outputUnit =
+      self.formatLocale.measurementSystem == .metric ? UnitLength.kilometers : UnitLength.miles
+    return formatter.string(
+      from: Measurement(value: meters, unit: .meters).converted(to: outputUnit))
   }
 
   let id: UUID
@@ -253,6 +315,15 @@ struct Trip: Identifiable {
     self.legs.first { $0.transitLeg != nil }
   }
 
+  /// When the first vehicle leaves - which is what tells apart repeats of one trip.
+  var departureTime: Date {
+    firstTransitLeg?.startTime ?? startTime
+  }
+
+  var departureTimeFormatted: String {
+    departureTime.formatted(Date.FormatStyle().hour().minute())
+  }
+
   /// The transit patterns this trip rides, which is what vehicle positions are keyed by.
   var patternCodes: [String] {
     self.legs.compactMap { $0.transitLeg?.patternCode }
@@ -306,6 +377,130 @@ extension Trip: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(self.id)
   }
+}
+
+/// Departures of what is, for the rider, the same trip: one row in the list of options.
+struct TripGroup: Identifiable {
+  /// In departure order.
+  let trips: [Trip]
+
+  var id: UUID { first.id }
+  var first: Trip { trips[0] }
+
+  /// Groups keep the order their first trip arrived in. A trip without a key, like an all-walking
+  /// one, is always its own group.
+  static func group(_ trips: [Trip]) -> [TripGroup] {
+    var keys: [String] = []
+    var byKey: [String: [Trip]] = [:]
+    for (idx, trip) in trips.enumerated() {
+      let key = trip.raw.tripKey ?? "\(idx)"
+      if byKey[key] == nil {
+        keys.append(key)
+      }
+      byKey[key, default: []].append(trip)
+    }
+    return keys.map { key in
+      TripGroup(trips: byKey[key]!.sorted { $0.departureTime < $1.departureTime })
+    }
+  }
+
+  func contains(_ trip: Trip) -> Bool {
+    trips.contains(trip)
+  }
+
+  /// The first departure yet to leave at `now`, or once they all have, the last.
+  func nextDeparture(at now: Date) -> Trip {
+    trips.first { $0.departureTime >= now } ?? trips[trips.count - 1]
+  }
+
+  /// One per leg. A ride lists every route the group's departures take between its stops, like
+  /// Seattle's 1 and 2 Lines; walking or cycling says how many minutes it takes.
+  var legBadges: [LegBadge] {
+    first.legs.indices.map { legIdx in
+      let leg = first.legs[legIdx]
+      guard leg.transitLeg != nil else {
+        return .selfPowered(emoji: leg.emoji, minutes: leg.durationMinutes)
+      }
+      var routes: [RouteBadge] = []
+      for trip in trips {
+        if let route = trip.legs[legIdx].routeBadge,
+          !routes.contains(where: { $0.label == route.label })
+        {
+          routes.append(route)
+        }
+      }
+      // By name rather than by which departs first, so 1 / 2 never flips to 2 / 1.
+      routes.sort { $0.label.localizedStandardCompare($1.label) == .orderedAscending }
+      return .ride(emoji: leg.emoji, routes: routes)
+    }
+  }
+
+  /// The legs worth a pill in the list: a short walk is too small to be worth the room, and one
+  /// at either end of the trip more so.
+  var listedLegs: [(legIdx: Int, badge: LegBadge)] {
+    let badges = legBadges
+    return badges.indices.compactMap { legIdx in
+      guard case .selfPowered(_, let minutes) = badges[legIdx] else {
+        return (legIdx, badges[legIdx])
+      }
+      let atEnd = legIdx == 0 || legIdx == badges.count - 1
+      return minutes <= (atEnd ? 2 : 1) ? nil : (legIdx, badges[legIdx])
+    }
+  }
+}
+
+/// A leg of a trip at a glance.
+enum LegBadge: Equatable {
+  /// The routes ridden, each in its own colors, and the kind of vehicle.
+  case ride(emoji: String, routes: [RouteBadge])
+  /// How long the walker or cyclist takes getting themselves there.
+  case selfPowered(emoji: String, minutes: Int)
+}
+
+/// A route as it's badged on a trip or a vehicle.
+struct RouteBadge: Equatable {
+  let label: String
+  let color: RGBColor
+  /// Legible on `color`.
+  let textColor: RGBColor
+
+  /// In the agency's colors, else those of an active trip line.
+  init(label: String, route: TransitRoute?) {
+    self.label = label
+    if let color = route?.color.flatMap(RGBColor.init(hexString:)),
+      let textColor = route?.textColor.flatMap(RGBColor.init(hexString:))
+    {
+      self.color = color
+      self.textColor = textColor
+    } else {
+      color = .activeRoute
+      textColor = .black
+    }
+  }
+}
+
+/// A color as GTFS writes it: "RRGGBB" hex.
+struct RGBColor: Equatable {
+  let rgb: UInt64
+
+  static let black = RGBColor(rgb: 0x000000)
+  static let white = RGBColor(rgb: 0xFFFFFF)
+  /// For a route that doesn't name its color, matching an active trip line.
+  static let activeRoute = RGBColor(rgb: 0x1296FF)
+
+  init(rgb: UInt64) {
+    self.rgb = rgb
+  }
+
+  /// Nil for anything but six hex digits.
+  init?(hexString: String) {
+    guard hexString.count == 6, let rgb = UInt64(hexString, radix: 16) else {
+      return nil
+    }
+    self.rgb = rgb
+  }
+
+  var color: Color { Color(rgb: rgb) }
 }
 
 /// From one of travelmux's encoded polylines, 1e-6 scale.

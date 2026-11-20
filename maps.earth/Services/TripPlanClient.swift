@@ -33,6 +33,9 @@ struct TransitLeg: Decodable {
   /// Every ordinary stop on the portion of the pattern the rider travels, in order.
   var riddenStops: String?
 
+  /// How many stops the ride goes before the rider gets off, counting that one.
+  var stopCount: Int?
+
   /// The stops beyond the ridden portion, packed the same way.
   var contextStops: String?
 
@@ -45,15 +48,16 @@ struct TransitRoute: Decodable {
   var longName: String?
   /// An RRGGBB hex color, without a leading "#"
   var color: String?
+  /// An RRGGBB hex color, without a leading "#", legible on `color`. Present whenever `color` is.
+  var textColor: String? = nil
+  /// The short name where there's little room: "D" for "Metro D Line". Present whenever
+  /// `shortName` is.
+  var compactName: String? = nil
 }
 
 extension TransitLeg {
   var routeSummaryName: String {
     route?.shortName ?? route?.longName ?? ""
-  }
-
-  var emojiRouteLabel: String {
-    "\(vehicleMode?.emoji ?? TransitVehicleMode.transit.emoji) \(routeSummaryName)"
   }
 }
 
@@ -191,6 +195,9 @@ struct Itinerary: Decodable {
   var legs: [ItineraryLeg]
   /// Which cycling objectives this route is the best answer to. Absent for every other mode.
   var routePreferences: [BikeRoutePreference]?
+  /// Equal for itineraries riding transit between the same stops in the same order. Opaque.
+  /// Absent from an itinerary with no transit leg, like an all-walking one.
+  var tripKey: String?
 }
 
 /// A cycling objective travelmux asked OTP to optimize for.
@@ -464,7 +471,9 @@ struct TripPlanNetworkClient: TripPlanClient {
       var queryItems = [
         URLQueryItem(name: "fromPlace", value: "\(from.lng),\(from.lat)"),
         URLQueryItem(name: "toPlace", value: "\(to.lng),\(to.lat)"),
-        URLQueryItem(name: "numItineraries", value: "5"),
+        // Repeat departures of the same trip are collapsed into one row, so ask for enough that
+        // several genuinely different trips survive.
+        URLQueryItem(name: "numItineraries", value: modes[0] == .transit ? "10" : "5"),
         URLQueryItem(name: "mode", value: modes.map { $0.rawValue }.joined(separator: ",")),
         URLQueryItem(name: "preferredDistanceUnits", value: preferredDistanceUnits),
       ]

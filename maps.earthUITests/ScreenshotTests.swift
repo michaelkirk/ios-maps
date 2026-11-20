@@ -43,7 +43,8 @@ final class ScreenshotTests: XCTestCase {
       .firstMatch
     XCTAssert(bringABike.waitForExistence(timeout: 30))
     bringABike.tap()
-    let bikeTrip = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH '🚲'"))
+    // Each leg's pill is a button labeled with its emoji.
+    let bikeTrip = app.buttons.matching(NSPredicate(format: "label BEGINSWITH '🚲'"))
       .firstMatch
     XCTAssert(bikeTrip.waitForExistence(timeout: 30))
     // Vehicle markers are buttons labeled with their route, like "2 Line".

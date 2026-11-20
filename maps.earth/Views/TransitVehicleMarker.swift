@@ -105,18 +105,18 @@ struct TransitVehicleMarker: View {
       }
   }
 
-  /// White with a colored border rather than colored with white text: GTFS route colors run light
-  /// (King County Metro's is yellow), so white-on-color can't be relied on to stay readable.
-  private func badgeView(_ text: String) -> some View {
-    Text(text)
+  /// In the route's colors like the trip list's pills, edged in white to stand off a route line of
+  /// the same color.
+  private func badgeView(_ badge: RouteBadge) -> some View {
+    Text(badge.label)
       .font(.system(size: 9 * scale, weight: .bold))
-      .foregroundStyle(Color(white: 0.07))
+      .foregroundStyle(badge.textColor.color)
       .padding(.horizontal, 4 * scale)
       .frame(height: Self.badgeHeight * scale)
       .background {
         Capsule()
-          .fill(.white)
-          .overlay(Capsule().strokeBorder(vehicle.color, lineWidth: scale))
+          .fill(badge.color.color)
+          .overlay(Capsule().strokeBorder(.white, lineWidth: scale))
           .shadow(color: .black.opacity(0.35), radius: 1.5 * scale)
       }
       .fixedSize()

@@ -91,7 +91,9 @@
             "route": {
               "shortName": "C Line",
               "longName": null,
-              "color": "9C182F"
+              "color": "9C182F",
+              "compactName": "C",
+              "textColor": "FFFFFF"
             },
             "agencyName": "Metro Transit",
             "headsign": "South Lake Union Downtown Seattle",
@@ -191,7 +193,8 @@
           "distanceMeters": 334.99,
           "durationSeconds": 321.0
         }
-      ]
+      ],
+      "tripKey": "Walk|-122.376099,47.5635681>-122.335556,47.5997009|Walk"
     },
     {
       "mode": "TRANSIT",
@@ -284,7 +287,9 @@
             "route": {
               "shortName": "C Line",
               "longName": null,
-              "color": "9C182F"
+              "color": "9C182F",
+              "compactName": "C",
+              "textColor": "FFFFFF"
             },
             "agencyName": "Metro Transit",
             "headsign": "South Lake Union Downtown Seattle",
@@ -384,7 +389,8 @@
           "distanceMeters": 334.99,
           "durationSeconds": 321.0
         }
-      ]
+      ],
+      "tripKey": "Walk|-122.376099,47.5635681>-122.335556,47.5997009|Walk"
     },
     {
       "mode": "TRANSIT",
@@ -477,7 +483,9 @@
             "route": {
               "shortName": "C Line",
               "longName": null,
-              "color": "9C182F"
+              "color": "9C182F",
+              "compactName": "C",
+              "textColor": "FFFFFF"
             },
             "agencyName": "Metro Transit",
             "headsign": "South Lake Union Downtown Seattle",
@@ -577,7 +585,8 @@
           "distanceMeters": 334.99,
           "durationSeconds": 321.0
         }
-      ]
+      ],
+      "tripKey": "Walk|-122.376099,47.5635681>-122.335556,47.5997009|Walk"
     },
     {
       "mode": "TRANSIT",
@@ -670,7 +679,9 @@
             "route": {
               "shortName": "C Line",
               "longName": null,
-              "color": "9C182F"
+              "color": "9C182F",
+              "compactName": "C",
+              "textColor": "FFFFFF"
             },
             "agencyName": "Metro Transit",
             "headsign": "South Lake Union Downtown Seattle",
@@ -770,7 +781,8 @@
           "distanceMeters": 334.99,
           "durationSeconds": 321.0
         }
-      ]
+      ],
+      "tripKey": "Walk|-122.376099,47.5635681>-122.335556,47.5997009|Walk"
     },
     {
       "mode": "TRANSIT",
@@ -863,7 +875,9 @@
             "route": {
               "shortName": "C Line",
               "longName": null,
-              "color": "9C182F"
+              "color": "9C182F",
+              "compactName": "C",
+              "textColor": "FFFFFF"
             },
             "agencyName": "Metro Transit",
             "headsign": "South Lake Union Downtown Seattle",
@@ -963,7 +977,8 @@
           "distanceMeters": 334.99,
           "durationSeconds": 321.0
         }
-      ]
+      ],
+      "tripKey": "Walk|-122.376099,47.5635681>-122.335556,47.5997009|Walk"
     }
   ]
 }

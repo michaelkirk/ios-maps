@@ -52,6 +52,8 @@ class TripPlan: ObservableObject {
 
   struct FocusedStep: Equatable {
     let location: LngLat
+    /// What the rider does there, labeled on the map: "Board the D Line at 3rd Ave & Pine St".
+    let description: String
     let id = UUID()
   }
 
