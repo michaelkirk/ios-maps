@@ -100,10 +100,17 @@ final class TripTest: XCTestCase {
     let trips = FixtureData.transitTrips
     XCTAssertEqual(trips.count, 5)
 
-    let groups = TripGroup.group(trips)
+    let sorted = trips.sorted { $0.departureTime < $1.departureTime }
+    let groups = TripGroup.group(trips, at: sorted[0].departureTime)
     XCTAssertEqual(groups.count, 1)
-    XCTAssertEqual(groups[0].trips, trips.sorted { $0.departureTime < $1.departureTime })
+    XCTAssertEqual(groups[0].trips, Array(sorted.prefix(4)))
     XCTAssertEqual(Self.rideLabels(groups[0]), [["C Line"]])
+  }
+
+  func testOnlyTheNextFewDeparturesAreKept() {
+    let sorted = FixtureData.transitTrips.sorted { $0.departureTime < $1.departureTime }
+    let groups = TripGroup.group(sorted, at: sorted[0].departureTime + 1)
+    XCTAssertEqual(groups[0].trips, Array(sorted[1...4]))
   }
 
   func testLinesServingTheSameStopsAreOneGroup() {
@@ -140,7 +147,7 @@ final class TripTest: XCTestCase {
   }
 
   func testNextDeparture() {
-    let group = TripGroup.group(FixtureData.transitTrips)[0]
+    let group = TripGroup.group(FixtureData.transitTrips, at: .distantPast)[0]
     let first = group.trips[0]
     let second = group.trips[1]
     XCTAssertEqual(group.nextDeparture(at: first.departureTime), first)

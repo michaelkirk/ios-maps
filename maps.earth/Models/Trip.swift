@@ -380,9 +380,11 @@ struct TripGroup: Identifiable {
   var id: UUID { first.id }
   var first: Trip { trips[0] }
 
+  static let maxDepartures = 4
+
   /// Groups keep the order their first trip arrived in. A trip without a key, like an all-walking
-  /// one, is always its own group.
-  static func group(_ trips: [Trip]) -> [TripGroup] {
+  /// one, is always its own group. Each keeps only its next few departures after `now`.
+  static func group(_ trips: [Trip], at now: Date = .now) -> [TripGroup] {
     var keys: [String] = []
     var byKey: [String: [Trip]] = [:]
     for (idx, trip) in trips.enumerated() {
@@ -393,7 +395,10 @@ struct TripGroup: Identifiable {
       byKey[key, default: []].append(trip)
     }
     return keys.map { key in
-      TripGroup(trips: byKey[key]!.sorted { $0.departureTime < $1.departureTime })
+      let sorted = byKey[key]!.sorted { $0.departureTime < $1.departureTime }
+      let start =
+        sorted.firstIndex { $0.departureTime >= now } ?? max(0, sorted.count - maxDepartures)
+      return TripGroup(trips: Array(sorted[start..<min(start + maxDepartures, sorted.count)]))
     }
   }
 
