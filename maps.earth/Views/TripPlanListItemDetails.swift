@@ -126,25 +126,25 @@ struct TransitPlanItem: View {
   var onShowNavigation: (() -> Void)
 
   var body: some View {
-    HStack(alignment: .top, spacing: Space.xs) {
-      VStack(alignment: .leading, spacing: Space.s) {
+    VStack(alignment: .leading, spacing: Space.s) {
+      HStack(alignment: .top, spacing: Space.xs) {
         TripRowFigures(trip: trip) {
           // Kept current, so "in 3 min" stays true and moves on as departures leave.
           TimelineView(.periodic(from: .now, by: 30)) { context in
             if let departureText = departureText(group: group, trip: trip, now: context.date) {
-              // One line, cut short, so a long stop name doesn't make the row taller.
-              Text(departureText).lineLimit(1)
+              Text(departureText).bold()
             }
           }
         }
-        LegPills(group: group, trip: trip, onFocusLeg: onFocusLeg)
-        if group.trips.count > 1 {
-          DepartureChips(group: group, selected: trip, onSelect: onSelect)
-        }
+        Spacer(minLength: 0)
+        GoButton(title: "Steps", action: onShowNavigation)
       }
-      Spacer(minLength: 0)
-      GoButton(title: "Steps", action: onShowNavigation).scenePadding(.trailing)
-    }.padding(.bottom, Space.s)
+      // Below the button rather than beside it, so they have the row's whole width.
+      LegPills(group: group, trip: trip, onFocusLeg: onFocusLeg)
+      if group.trips.count > 1 {
+        DepartureChips(group: group, selected: trip, onSelect: onSelect)
+      }
+    }.scenePadding(.trailing).padding(.bottom, Space.s)
   }
 }
 
@@ -363,23 +363,18 @@ struct GoButton: View {
   }
 }
 
-/// e.g. "**Departs in 3 & 23 min** · Symphony": the group's next two departures, or how long
-/// ago `trip` left once none are ahead.
-func departureText(group: TripGroup, trip: Trip, now: Date) -> AttributedString? {
+/// e.g. "Departs in 3 & 23 min": the group's next two departures, or how long ago `trip` left
+/// once none are ahead.
+func departureText(group: TripGroup, trip: Trip, now: Date) -> String? {
   guard let leg = trip.firstTransitLeg else {
     return nil
   }
   let upcoming = group.trips.compactMap { $0.firstTransitLeg?.startTime }
     .filter { $0 >= now }.prefix(2)
 
-  var output =
-    upcoming.isEmpty
-    ? bold("Departed \(shortDuration(from: leg.startTime, to: now)) ago")
-    : bold("Departs in \(departuresFormatted(Array(upcoming), now: now))")
-  if let name = leg.fromPlace.name {
-    output.append(AttributedString(" · \(name)"))
-  }
-  return output
+  return upcoming.isEmpty
+    ? "Departed \(shortDuration(from: leg.startTime, to: now)) ago"
+    : "Departs in \(departuresFormatted(Array(upcoming), now: now))"
 }
 
 /// "3 & 12 min", saying the unit once when both are in minutes, else e.g. "40 sec & 9 min".
@@ -389,12 +384,6 @@ func departuresFormatted(_ departures: [Date], now: Date) -> String {
     return "\(minutes[0]) & \(minutes[1]) min"
   }
   return departures.map { shortDuration(from: now, to: $0) }.joined(separator: " & ")
-}
-
-private func bold(_ text: String) -> AttributedString {
-  var output = AttributedString(text)
-  output.font = UIFont.boldSystemFont(ofSize: 16)
-  return output
 }
 
 /// e.g. "3 min", "1 hr 5 min", or "40 sec" under a minute rather than "0 min".
