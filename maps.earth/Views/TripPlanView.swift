@@ -468,6 +468,12 @@ struct TripPlanSheetContents: View {
         detent = .medium
       }
     }
+    // The map moves to show a tapped step, which is no use behind a full-height sheet.
+    .onChange(of: tripPlan.focusedStep) { focusedStep in
+      if focusedStep != nil && detent == .large {
+        detent = .medium
+      }
+    }
   }
 }
 
