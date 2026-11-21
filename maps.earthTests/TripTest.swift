@@ -178,6 +178,13 @@ final class TripTest: XCTestCase {
     XCTAssertEqual(shortDuration(from: now, to: now + 180), "3 min")
   }
 
+  func testDeparturesFormatted() {
+    let now = Date(timeIntervalSince1970: 0)
+    XCTAssertEqual(departuresFormatted([now + 180, now + 720], now: now), "3 & 12 min")
+    XCTAssertEqual(departuresFormatted([now + 180], now: now), "3 min")
+    XCTAssertEqual(departuresFormatted([now + 40, now + 540], now: now), "40 sec & 9 min")
+  }
+
   /// The route labels of each ride's pill.
   private static func rideLabels(_ group: TripGroup) -> [[String]] {
     group.legBadges.compactMap { badge in

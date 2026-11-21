@@ -246,13 +246,6 @@ struct Trip: Identifiable {
     self.raw.endTime
   }
 
-  var timeSpanFormatted: String {
-    let timeStyle = Date.FormatStyle()
-      .hour()
-      .minute()
-    return "\(startTime.formatted(timeStyle)) - \(endTime.formatted(timeStyle))"
-  }
-
   var distanceMeters: Float64 {
     self.raw.distanceMeters
   }

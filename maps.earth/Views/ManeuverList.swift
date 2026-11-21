@@ -134,7 +134,7 @@ struct ManeuverList: View {
         Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").hwText(.heading)
         Spacer()
         if let onGo {
-          GoButton(action: onGo)
+          GoButton(action: onGo).scenePadding(.trailing)
         }
       }.scenePadding(.leading)
       List {

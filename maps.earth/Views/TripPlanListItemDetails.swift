@@ -11,33 +11,59 @@ struct NonTransitPlanItem: View {
   var trip: Trip
   var onGo: (() -> Void)
 
-  /// e.g. "1.6 miles, 163 ft climb". Descent waits for the steps.
-  private var distanceAndClimb: String {
-    guard let climbMeters = trip.elevation?.totalClimbMeters, climbMeters > 0 else {
-      return trip.distanceFormatted
-    }
-    return "\(trip.distanceFormatted), \(trip.formatFeetOrMeters(meters: climbMeters)) climb"
+  var body: some View {
+    HStack(alignment: .top, spacing: Space.xs) {
+      VStack(alignment: .leading, spacing: 2) {
+        TripRowFigures(trip: trip)
+        if let elevation = trip.elevation {
+          HStack(spacing: Space.xs) {
+            // Only a glance here: its steps are where the chart can be scrubbed.
+            ElevationChart(
+              elevation: elevation, scrubFraction: .constant(nil), isInteractive: false
+            ).frame(height: 40)
+            ElevationTotals(trip: trip, elevation: elevation, isStacked: true)
+              .hwText(.caption).fontWeight(.medium)
+          }.padding(.vertical, 4)
+        }
+        if let substantialRoadNames = trip.substantialStreetNames {
+          Text(substantialRoadNames).hwText(.secondary)
+        }
+      }
+      Spacer(minLength: 0)
+      GoButton(action: onGo).scenePadding(.trailing)
+    }.padding(.bottom, Space.s)
   }
+}
+
+/// The top of a trip row: how long it takes, then when it arrives.
+struct TripRowFigures<Departure: View>: View {
+  var trip: Trip
+  /// When and where a transit trip sets off, between the two.
+  @ViewBuilder var departure: Departure
 
   var body: some View {
-    VStack(alignment: .leading) {
-      if let substantialRoadNames = trip.substantialStreetNames {
-        Text(substantialRoadNames)
+    VStack(alignment: .leading, spacing: 2) {
+      HStack(spacing: Space.xs) {
+        Text(trip.durationFormatted).hwText(.figure)
+        if !trip.routePreferences.isEmpty {
+          RoutePreferenceBadges(preferences: trip.routePreferences)
+        }
       }
-      Text(trip.durationFormatted).hwText(.figure)
-      Text(distanceAndClimb).hwText(.secondary)
-      if !trip.routePreferences.isEmpty {
-        RoutePreferenceBadges(preferences: trip.routePreferences)
-      }
-      if let elevation = trip.elevation {
-        // Only a glance here: its steps are where the chart can be scrubbed.
-        ElevationChart(
-          elevation: elevation, scrubFraction: .constant(nil), isInteractive: false
-        ).frame(height: 40).padding(.vertical, 4)
-      }
+      departure
+      Text(summaryFormatted).hwText(.secondary)
     }
-    Spacer()
-    GoButton(action: onGo)
+  }
+
+  /// "5:13 PM ETA · 3.1 miles". A transit trip's distance says little about it, so it goes without.
+  private var summaryFormatted: String {
+    let eta = "\(trip.endTime.formatted(date: .omitted, time: .shortened)) ETA"
+    return trip.raw.mode == .transit ? eta : "\(eta) · \(trip.distanceFormatted)"
+  }
+}
+
+extension TripRowFigures where Departure == EmptyView {
+  init(trip: Trip) {
+    self.init(trip: trip) { EmptyView() }
   }
 }
 
@@ -102,25 +128,23 @@ struct TransitPlanItem: View {
   var body: some View {
     HStack(alignment: .top, spacing: Space.xs) {
       VStack(alignment: .leading, spacing: Space.s) {
-        Text(trip.timeSpanFormatted).hwText(.figure)
-        LegPills(group: group, trip: trip, onFocusLeg: onFocusLeg)
-        // Kept current, so "in 3 min" stays true and moves on as departures leave.
-        TimelineView(.periodic(from: .now, by: 30)) { context in
-          if let departureText = departureText(group: group, trip: trip, now: context.date) {
-            Text(departureText)
+        TripRowFigures(trip: trip) {
+          // Kept current, so "in 3 min" stays true and moves on as departures leave.
+          TimelineView(.periodic(from: .now, by: 30)) { context in
+            if let departureText = departureText(group: group, trip: trip, now: context.date) {
+              // One line, cut short, so a long stop name doesn't make the row taller.
+              Text(departureText).lineLimit(1)
+            }
           }
         }
+        LegPills(group: group, trip: trip, onFocusLeg: onFocusLeg)
         if group.trips.count > 1 {
           DepartureChips(group: group, selected: trip, onSelect: onSelect)
         }
-        TripButton("Steps", action: onShowNavigation)
       }
-      Spacer()
-      VStack(alignment: .trailing) {
-        Text(trip.durationFormatted)
-        Text(trip.distanceFormatted).hwText(.secondary)
-      }
-    }.padding(.bottom, Space.s).padding(.trailing, Space.s)
+      Spacer(minLength: 0)
+      GoButton(title: "Steps", action: onShowNavigation).scenePadding(.trailing)
+    }.padding(.bottom, Space.s)
   }
 }
 
@@ -322,43 +346,24 @@ struct FlowLayout: Layout {
   }
 }
 
-/// Starts navigation. Square, for a bigger target than a button sized to its title.
+/// Starts navigation, or shows a trip's steps. At least square, for a bigger target than a button
+/// sized to its title.
 struct GoButton: View {
+  var title = "GO"
   var action: (() -> Void)
 
   var body: some View {
     Button(action: action) {
-      Text("GO").frame(width: 56, height: 56)
+      Text(title).padding(.horizontal, 8).frame(minWidth: 56, minHeight: 56)
     }
     .font(.system(size: 20, weight: .bold))
     .foregroundColor(.white)
     .background(Color.hw_go)
     .cornerRadius(8)
-    .scenePadding(.trailing)
   }
 }
 
-struct TripButton: View {
-  var title: String
-  var action: (() -> Void)
-
-  init(_ title: String, action: @escaping () -> Void) {
-    self.title = title
-    self.action = action
-  }
-
-  var body: some View {
-    Button(title, action: action)
-      .fontWeight(.medium)
-      .foregroundColor(.white)
-      .padding(8)
-      .background(Color.hw_go)
-      .cornerRadius(8)
-      .scenePadding(.trailing)
-  }
-}
-
-/// e.g. "in **3 min & 23 min** from **Symphony**": the group's next two departures, or how long
+/// e.g. "**Departs in 3 & 23 min** · Symphony": the group's next two departures, or how long
 /// ago `trip` left once none are ahead.
 func departureText(group: TripGroup, trip: Trip, now: Date) -> AttributedString? {
   guard let leg = trip.firstTransitLeg else {
@@ -366,21 +371,24 @@ func departureText(group: TripGroup, trip: Trip, now: Date) -> AttributedString?
   }
   let upcoming = group.trips.compactMap { $0.firstTransitLeg?.startTime }
     .filter { $0 >= now }.prefix(2)
-    .map { shortDuration(from: now, to: $0) }
 
-  var output = AttributedString()
-  if upcoming.isEmpty {
-    output.append(bold(shortDuration(from: leg.startTime, to: now)))
-    output.append(AttributedString(" ago"))
-  } else {
-    output.append(AttributedString("in "))
-    output.append(bold(upcoming.joined(separator: " & ")))
-  }
-  if let departFrom = formattedDepatureName(tripPlace: leg.fromPlace, boldFont: .body.bold()) {
-    output.append(AttributedString(" "))
-    output.append(departFrom)
+  var output =
+    upcoming.isEmpty
+    ? bold("Departed \(shortDuration(from: leg.startTime, to: now)) ago")
+    : bold("Departs in \(departuresFormatted(Array(upcoming), now: now))")
+  if let name = leg.fromPlace.name {
+    output.append(AttributedString(" · \(name)"))
   }
   return output
+}
+
+/// "3 & 12 min", saying the unit once when both are in minutes, else e.g. "40 sec & 9 min".
+func departuresFormatted(_ departures: [Date], now: Date) -> String {
+  let minutes = departures.map { Int($0.timeIntervalSince(now) / 60) }
+  if minutes.count == 2, minutes[0] >= 1, minutes[1] < 60 {
+    return "\(minutes[0]) & \(minutes[1]) min"
+  }
+  return departures.map { shortDuration(from: now, to: $0) }.joined(separator: " & ")
 }
 
 private func bold(_ text: String) -> AttributedString {
@@ -395,17 +403,6 @@ func shortDuration(from: Date, to: Date) -> String {
   formatter.unitsStyle = .short
   formatter.allowedUnits = to.timeIntervalSince(from) < 60 ? [.second] : [.hour, .minute]
   return formatter.string(from: from, to: to) ?? ""
-}
-
-func formattedDepatureName(tripPlace: TripPlace, boldFont: Font) -> AttributedString? {
-  guard let name = tripPlace.name else {
-    return nil
-  }
-  var output = AttributedString("from ")
-  var place = AttributedString(name)
-  place.font = boldFont
-  output.append(place)
-  return output
 }
 
 #Preview("walking") {
