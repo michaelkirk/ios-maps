@@ -64,7 +64,7 @@ extension TripDiagram.Element {
     case .node(.origin(from: _, departureTime: _)): trip.legs[0].focusedStep
     case .node(.stop(let leg)), .edge(let leg, badge: _): leg.focusedStep
     case .node(.destination(let place, arrivalTime: _)):
-      TripPlan.FocusedStep(location: place.location, description: "Arrive at your destination")
+      TripPlan.FocusedStep(location: place.location, label: .text("Arrive at your destination"))
     }
   }
 }

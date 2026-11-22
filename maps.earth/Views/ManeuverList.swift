@@ -149,7 +149,7 @@ struct ManeuverList: View {
           let maneuver = el.maneuver
           Button {
             tripPlan.focusedStep = TripPlan.FocusedStep(
-              location: maneuver.startPoint.lngLat, description: maneuver.instruction ?? "")
+              location: maneuver.startPoint.lngLat, label: .text(maneuver.instruction ?? ""))
           } label: {
             maneuverRow(maneuver)
           }.buttonStyle(.plain)

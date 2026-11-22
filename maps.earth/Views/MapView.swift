@@ -872,7 +872,7 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
       return view
     }
     if let callout = annotation as? StepCalloutAnnotation {
-      return StepCalloutView(text: callout.title ?? "")
+      return StepCalloutView(label: callout.label)
     }
     if annotation is ElevationScrubberAnnotation {
       let view = ElevationScrubberView()

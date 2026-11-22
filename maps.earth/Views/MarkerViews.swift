@@ -49,11 +49,14 @@ class TransferMarkerView: UIView {
 
 /// Labels a step the rider picked, where it happens.
 class StepCalloutAnnotation: MLNPointAnnotation {
+  let label: TripPlan.FocusedStep.Label
+
   init(step: TripPlan.FocusedStep) {
+    self.label = step.label
     super.init()
     self.coordinate = step.location.asCoordinate
     // VoiceOver reads this.
-    self.title = step.description
+    self.title = step.label.description
   }
 
   required init?(coder: NSCoder) {
@@ -65,8 +68,8 @@ class StepCalloutAnnotation: MLNPointAnnotation {
 class StepCalloutView: MLNAnnotationView {
   private let host: UIHostingController<StepCallout>
 
-  init(text: String) {
-    self.host = UIHostingController(rootView: StepCallout(text: text))
+  init(label: TripPlan.FocusedStep.Label) {
+    self.host = UIHostingController(rootView: StepCallout(label: label))
     super.init(reuseIdentifier: nil)
     host.sizingOptions = .intrinsicContentSize
     host.view.backgroundColor = .clear
@@ -82,14 +85,32 @@ class StepCalloutView: MLNAnnotationView {
   }
 }
 
-/// e.g. "Board the D Line at 3rd Ave & Pine St" in a bubble pointing down at where it happens.
+/// e.g. "Board the [D Line] at 3rd Ave & Pine St" in a bubble pointing down at where it happens.
 struct StepCallout: View {
-  let text: String
+  let label: TripPlan.FocusedStep.Label
+  @Environment(\.displayScale) private var displayScale
   private static let pointerSize: CGFloat = 8
+
+  @MainActor
+  private var text: Text {
+    switch label {
+    case .text(let text):
+      return Text(text)
+    case .board(let route, let emoji, let stop):
+      let renderer = ImageRenderer(content: RoutePill(badge: .ride(emoji: emoji, routes: [route])))
+      renderer.scale = displayScale
+      // Centered on the line, rather than sitting on its baseline.
+      let pill = Text(Image(uiImage: renderer.uiImage ?? UIImage())).baselineOffset(-7)
+      guard let stop else {
+        return Text("Board the \(pill)")
+      }
+      return Text("Board the \(pill) at \(stop)")
+    }
+  }
 
   var body: some View {
     VStack(spacing: 0) {
-      Text(text)
+      text
         .font(.system(size: 13, weight: .medium))
         .foregroundStyle(.black)
         .multilineTextAlignment(.center)

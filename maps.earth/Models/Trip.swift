@@ -118,23 +118,18 @@ struct TripLeg {
     transitLeg?.realTime ?? false
   }
 
-  /// What the rider does at the start of this leg: "3 minute walk", "Board the D Line at 3rd Ave
-  /// & Pine St".
-  var stepDescription: String {
-    guard let transitLeg else {
-      return mode == .bike
-        ? "\(durationMinutes) minute bike ride" : "\(durationMinutes) minute walk"
-    }
-    let route = transitLeg.routeSummaryName
-    guard let stop = fromPlace.name else {
-      return "Board the \(route)"
-    }
-    return "Board the \(route) at \(stop)"
-  }
-
-  /// Zooms the map to the start of this leg, labeled with what the rider does there.
+  /// Zooms the map to the start of this leg, labeled with what the rider does there: "3 minute
+  /// walk", "Board the D Line at 3rd Ave & Pine St".
   var focusedStep: TripPlan.FocusedStep {
-    TripPlan.FocusedStep(location: fromPlace.location, description: stepDescription)
+    let label: TripPlan.FocusedStep.Label =
+      if let routeBadge {
+        .board(routeBadge, emoji: emoji, stop: fromPlace.name)
+      } else if mode == .bike {
+        .text("\(durationMinutes) minute bike ride")
+      } else {
+        .text("\(durationMinutes) minute walk")
+      }
+    return TripPlan.FocusedStep(location: fromPlace.location, label: label)
   }
 
   /// The kind of vehicle ridden, or the walker or cyclist.
