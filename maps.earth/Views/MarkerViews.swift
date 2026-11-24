@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapLibre
 import SwiftUI
 import UIKit
 
@@ -43,5 +44,95 @@ class TransferMarkerView: UIView {
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+}
+
+/// Labels a step the rider picked, where it happens.
+class StepCalloutAnnotation: MLNPointAnnotation {
+  let label: TripPlan.FocusedStep.Label
+
+  init(step: TripPlan.FocusedStep) {
+    self.label = step.label
+    super.init()
+    self.coordinate = step.location.asCoordinate
+    // VoiceOver reads this.
+    self.title = step.label.description
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
+
+/// Hosts `StepCallout`, its point on the step.
+class StepCalloutView: MLNAnnotationView {
+  private let host: UIHostingController<StepCallout>
+
+  init(label: TripPlan.FocusedStep.Label) {
+    self.host = UIHostingController(rootView: StepCallout(label: label))
+    super.init(reuseIdentifier: nil)
+    host.sizingOptions = .intrinsicContentSize
+    host.view.backgroundColor = .clear
+    let size = host.view.intrinsicContentSize
+    self.frame = CGRect(origin: .zero, size: size)
+    host.view.frame = self.bounds
+    addSubview(host.view)
+    self.centerOffset = CGVector(dx: 0, dy: -size.height / 2)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
+
+/// e.g. "Board the [D Line] at 3rd Ave & Pine St" in a bubble pointing down at where it happens.
+struct StepCallout: View {
+  let label: TripPlan.FocusedStep.Label
+  @Environment(\.displayScale) private var displayScale
+  private static let pointerSize: CGFloat = 8
+
+  @MainActor
+  private var text: Text {
+    switch label {
+    case .text(let text):
+      return Text(text)
+    case .board(let route, let emoji, let stop):
+      let renderer = ImageRenderer(content: RoutePill(badge: .ride(emoji: emoji, routes: [route])))
+      renderer.scale = displayScale
+      // Centered on the line, rather than sitting on its baseline.
+      let pill = Text(Image(uiImage: renderer.uiImage ?? UIImage())).baselineOffset(-7)
+      guard let stop else {
+        return Text("Board the \(pill)")
+      }
+      return Text("Board the \(pill) at \(stop)")
+    }
+  }
+
+  var body: some View {
+    VStack(spacing: 0) {
+      text
+        .font(.system(size: 13, weight: .medium))
+        .foregroundStyle(.black)
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: 220)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, 10).padding(.vertical, 6)
+        .background(.white, in: RoundedRectangle(cornerRadius: 8))
+      Triangle().fill(.white)
+        .frame(width: Self.pointerSize * 2, height: Self.pointerSize)
+    }
+    .compositingGroup()
+    .shadow(color: .black.opacity(0.3), radius: 3, y: 1)
+  }
+
+  private struct Triangle: Shape {
+    func path(in rect: CGRect) -> Path {
+      Path { path in
+        path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+        path.closeSubpath()
+      }
+    }
   }
 }

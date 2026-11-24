@@ -1,3 +1,3 @@
-3D buildings got a glow-up: rounder shapes, better lighting and color. Tall stuff like the Space Needle should look a lot less like a pile of boxes.
+Transit directions have been streamlined. When the same bus or train leaves every few minutes, it's now one row with its departure times underneath, instead of a pile of near-identical rows.
 
-Asking for transit somewhere we don't cover yet used to get you a curt error. Now it tells you where transit *is* available, and gives you a button to email me and ask for your area. Try it, I'm curious where you'll ask for.
+We also reorganized the trip list so the most important stuff comes first: how long it takes, and when you'll get there.

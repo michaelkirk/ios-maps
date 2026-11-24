@@ -200,6 +200,27 @@ struct MapTrip: MapContent {
     }
   }
 
+  /// Takes over `old`'s layers when it's another departure of the same trip, redrawing its lines in
+  /// place: removing them and adding new ones leaves a frame with no line at all.
+  func adoptLayers(of old: MapTrip) -> Bool {
+    guard isSelected, old.isSelected, let tripKey = trip.raw.tripKey,
+      tripKey == old.trip.raw.tripKey
+    else {
+      return false
+    }
+    let oldLayers = old.tripLayers
+    let newLayers = TripLayers(trip: trip, isSelected: true)
+    guard oldLayers.legLayers.count == newLayers.legLayers.count else {
+      return false
+    }
+    for (oldLayer, newLayer) in zip(oldLayers.legLayers, newLayers.legLayers) {
+      oldLayer.source.shape = newLayer.source.shape
+    }
+    Self.allTripLayers[old] = nil
+    Self.allTripLayers[self] = oldLayers
+    return true
+  }
+
   func add(to mapView: MLNMapView) {
     //    print("adding to map: \(self)")
     let tripLayers = self.tripLayers

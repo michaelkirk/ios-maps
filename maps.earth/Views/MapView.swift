@@ -347,8 +347,11 @@ extension MapViewWrapper: UIViewRepresentable {
     {
       let selected = MapTrip(trip: selectedTrip, isSelected: true)
       // A rider reading a trip's details has chosen: the routes they passed over are no longer
-      // theirs to compare, and neither are the vehicles running them.
-      let alternates = self.tripPlan.isShowingSteps ? [] : trips.filter { $0 != selectedTrip }
+      // theirs to compare, and neither are the vehicles running them. Departures of one trip
+      // share a line, so each other row draws just one.
+      let alternates =
+        self.tripPlan.isShowingSteps
+        ? [] : TripGroup.group(trips).filter { !$0.trips.contains(selectedTrip) }.map(\.first)
       mapContents = .trips(
         selected: selected, unselected: alternates.map { MapTrip(trip: $0, isSelected: false) })
     } else if let places = self.searchResults {
@@ -538,17 +541,26 @@ extension MapViewWrapper: UIViewRepresentable {
 
     var focusedClimb: SteepSection?
     var focusedStep: TripPlan.FocusedStep?
+    private var stepCallout: StepCalloutAnnotation?
 
-    /// Zooms to where `step` happens. Says whether it zoomed.
+    /// Zooms to where `step` happens, labeled with what the rider does there. Says whether it
+    /// zoomed.
     @MainActor
     func focus(step: TripPlan.FocusedStep?, mapView: MLNMapView) -> Bool {
       guard step != focusedStep else {
         return false
       }
       focusedStep = step
+      if let stepCallout {
+        mapView.removeAnnotation(stepCallout)
+        self.stepCallout = nil
+      }
       guard let step else {
         return false
       }
+      let callout = StepCalloutAnnotation(step: step)
+      mapView.addAnnotation(callout)
+      stepCallout = callout
       zoom(mapView: mapView, center: step.location, bufferMeters: 100, animated: true)
       return true
     }
@@ -577,7 +589,15 @@ extension MapViewWrapper: UIViewRepresentable {
     @MainActor
     func reconcile(newContents: MapContents, mapView: MLNMapView) {
       AssertMainThread()
-      let diff = mapContents.diff(newContents: newContents)
+      var diff = mapContents.diff(newContents: newContents)
+      if case .trips(let oldSelected, _) = mapContents,
+        case .trips(let newSelected, _) = newContents,
+        newSelected.adoptLayers(of: oldSelected)
+      {
+        diff = MapContents.Diff(
+          adds: diff.adds.filter { $0 != .trip(newSelected) },
+          removes: diff.removes.filter { $0 != .trip(oldSelected) })
+      }
       for remove in diff.removes {
         remove.remove(from: mapView)
       }
@@ -603,11 +623,17 @@ extension MapViewWrapper: UIViewRepresentable {
         assertionFailure("no trips found")
         return
       }
-      guard let selectedTrip = trips.first(where: { $0.id == tripLegId.tripId }) else {
+      // The line is drawn once per group of departures, so it picks the group's next one, as
+      // the group's row shows.
+      guard
+        let group = TripGroup.group(trips).first(where: {
+          $0.trips.contains { $0.id == tripLegId.tripId }
+        })
+      else {
         assertionFailure("no trip found for tapped id: \(tripLegId)")
         return
       }
-      self.mapView.tripPlan.selectedTrip = selectedTrip
+      self.mapView.tripPlan.selectedTrip = group.nextDeparture(at: .now)
     }
 
     @MainActor
@@ -844,6 +870,9 @@ extension MapViewWrapper.Coordinator: @MainActor MLNMapViewDelegate {
       let view = SteepClimbMarkerView(climb: climbAnnotation.climb)
       view.isEmphasized = climbAnnotation.climb == focusedClimb
       return view
+    }
+    if let callout = annotation as? StepCalloutAnnotation {
+      return StepCalloutView(label: callout.label)
     }
     if annotation is ElevationScrubberAnnotation {
       let view = ElevationScrubberView()

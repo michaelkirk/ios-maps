@@ -52,7 +52,24 @@ class TripPlan: ObservableObject {
 
   struct FocusedStep: Equatable {
     let location: LngLat
+    let label: Label
     let id = UUID()
+
+    /// What the rider does there, labeled on the map.
+    enum Label: Equatable {
+      /// e.g. "3 minute walk"
+      case text(String)
+      /// "Board the [D Line] at 3rd Ave & Pine St", its route drawn as a pill.
+      case board(RouteBadge, emoji: String, stop: String?)
+
+      var description: String {
+        switch self {
+        case .text(let text): text
+        case .board(let route, _, stop: nil): "Board the \(route.label)"
+        case .board(let route, _, let stop?): "Board the \(route.label) at \(stop)"
+        }
+      }
+    }
   }
 
   /// Scrubs to the middle of `climb` and shows it on the map.

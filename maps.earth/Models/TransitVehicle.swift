@@ -192,8 +192,8 @@ extension TransitVehicle {
 
   /// Only the short name is badged: a long one ("Downtown - Ballard") doesn't fit beside the chip,
   /// so a route without one goes unbadged.
-  var badge: String? {
-    route.shortName
+  var badge: RouteBadge? {
+    route.compactName.map { RouteBadge(label: $0, route: route) }
   }
 
   /// The number painted on the vehicle, if it has one.

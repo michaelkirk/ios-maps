@@ -134,7 +134,7 @@ struct ManeuverList: View {
         Text("\(trip.durationFormatted) (\(trip.distanceFormatted))").hwText(.heading)
         Spacer()
         if let onGo {
-          GoButton(action: onGo)
+          GoButton(action: onGo).scenePadding(.trailing)
         }
       }.scenePadding(.leading)
       List {
@@ -148,7 +148,8 @@ struct ManeuverList: View {
         ForEach(maneuversElements) { el in
           let maneuver = el.maneuver
           Button {
-            tripPlan.focusedStep = TripPlan.FocusedStep(location: maneuver.startPoint.lngLat)
+            tripPlan.focusedStep = TripPlan.FocusedStep(
+              location: maneuver.startPoint.lngLat, label: .text(maneuver.instruction ?? ""))
           } label: {
             maneuverRow(maneuver)
           }.buttonStyle(.plain)

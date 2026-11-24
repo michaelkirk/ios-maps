@@ -159,9 +159,15 @@ struct ElevationChartLayout {
 struct ElevationTotals: View {
   let trip: Trip
   let elevation: LegElevation
+  /// One above the other, to sit beside a chart rather than under it.
+  var isStacked = false
 
   var body: some View {
-    HStack(spacing: Space.s) {
+    let layout =
+      isStacked
+      ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2))
+      : AnyLayout(HStackLayout(spacing: Space.s))
+    layout {
       if elevation.totalClimbMeters > 0 {
         Text("↗ \(trip.formatFeetOrMeters(meters: elevation.totalClimbMeters))")
           .foregroundStyle(Color.hw_amber700)
